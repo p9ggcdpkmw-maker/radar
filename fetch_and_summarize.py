@@ -34,13 +34,14 @@ SOURCE_NAMES = {
     "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe"
 }
 
+# 🚀 DÜZELTME: Bozuk 404 veren RSS'ler yerine genel ve stabil RSS'ler eklendi.
 CATEGORIES = [
     {"id": "oyun", "label": "Ücretsiz Oyun", "feeds": ["https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"], "keywords": ["ücretsiz", "bedava", "promosyon", "hediye", "oyun", "steam", "epic", "gog"]},
     {"id": "teknoloji", "label": "Teknoloji", "feeds": ["https://www.donanimhaber.com/rss/tum/", "https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"]},
-    {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/bilim.rss", "https://www.aa.com.tr/tr/rss/default?cat=bilim-teknoloji"]},
-    {"id": "sanat", "label": "Sanat", "feeds": ["https://www.hurriyet.com.tr/rss/kultur-sanat", "https://www.milliyet.com.tr/rss/rssNew/kultursanat.xml"]},
-    {"id": "doga", "label": "Doğa", "feeds": ["https://www.ntv.com.tr/doga.rss", "https://www.aa.com.tr/tr/rss/default?cat=cevre"]},
-    {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/dunya.rss", "https://www.trthaber.com/dunya.rss"]},
+    {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
+    {"id": "sanat", "label": "Sanat", "feeds": ["https://www.hurriyet.com.tr/rss/anasayfa", "https://www.milliyet.com.tr/rss/rssNew/anasayfa.xml"]},
+    {"id": "doga", "label": "Doğa", "feeds": ["https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.ntv.com.tr/son-dakika.rss"]},
+    {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss"]},
     {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.mhahaber.com/rss", "https://www.hurriyet.com.tr/rss/anasayfa"]},
 ]
 
@@ -103,7 +104,6 @@ def fetch_category(cat, cache):
     items = []
     for feed_url in cat["feeds"]:
         try:
-            # Timeout ve durum kontrolü için önce requests.get kullanıyoruz
             r = requests.get(feed_url, headers=HEADERS, timeout=15)
             r.raise_for_status()
             feed = feedparser.parse(r.content)
@@ -120,7 +120,6 @@ def fetch_category(cat, cache):
                 if hasattr(entry, "published_parsed") and entry.published_parsed:
                     pub_dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
                 
-                # 1 günden eski haberleri atla
                 if (datetime.now(timezone.utc) - pub_dt).total_seconds() > (MAX_AGE_DAYS * 86400): continue
                 
                 img = None
@@ -154,7 +153,6 @@ def fetch_text_and_image(url):
     try:
         r = requests.get(url, headers=HEADERS, timeout=12)
         r.raise_for_status()
-        # Karakter kodlaması sorunu için r.content kullanılıyor
         text = trafilatura.extract(r.content, include_comments=False) or ""
         soup = BeautifulSoup(r.content, "html.parser")
         og = soup.find("meta", property="og:image")
@@ -164,7 +162,8 @@ def fetch_text_and_image(url):
                 parsed = urlparse(url)
                 og_image = f"{parsed.scheme}://{parsed.netloc}{og_image}"
     except Exception as e:
-        print(f"  ! Metin çekilemedi ({url[:30]}): {e}", file=sys.stderr)
+        # Cloudflare/403 engelleri buraya düşer, sessizce geçilir
+        pass
     return text[:MAX_TEXT_LENGTH], og_image
 
 def summarize_batch(items):
@@ -215,15 +214,13 @@ def fetch_market(old_market=None):
         rates = r.json().get("rates", {})
         usdtry = rates.get("TRY")
         if usdtry and rates.get("EUR"): eurtry = usdtry / rates.get("EUR")
-    except Exception as e:
-        print(f"  ! Döviz hatası: {e}", file=sys.stderr)
+    except: 
         if old_market: return old_market
         
     try:
         r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
         gold_usd_oz = r.json().get("price")
-    except Exception as e:
-        print(f"  ! Altın hatası: {e}", file=sys.stderr)
+    except: 
         if old_market and not gold_usd_oz: return old_market
         
     gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else (old_market.get("gold_gram_try") if old_market else None)
@@ -238,8 +235,7 @@ def fetch_crypto(old_crypto=None):
         data = r.json()
         if "bitcoin" in data: cryptos.append({"label": "Bitcoin", "price": data["bitcoin"]["try"], "change_pct": data["bitcoin"].get("try_24h_change", 0)})
         if "ethereum" in data: cryptos.append({"label": "Ethereum", "price": data["ethereum"]["try"], "change_pct": data["ethereum"].get("try_24h_change", 0)})
-    except Exception as e:
-        print(f"  ! Kripto hatası: {e}", file=sys.stderr)
+    except: 
         if old_crypto: return old_crypto
     return cryptos
 
@@ -253,8 +249,7 @@ def fetch_stocks(old_stocks=None):
             price = meta.get("regularMarketPrice") or prev
             change_pct = round((price - prev) / prev * 100, 2) if (prev and price != prev) else 0.0
             results.append({"label": label, "price": round(price, 2), "change_pct": change_pct})
-        except Exception as e:
-            print(f"  ! Hisse hatası ({label}): {e}", file=sys.stderr)
+        except: pass
     return results if results else old_stocks
 
 def fetch_weather():
@@ -312,7 +307,6 @@ def main():
         if not it.get("image") and c: it["image"] = c.get("image")
         if not it.get("image"): need_image.append(it)
 
-    # Sözlükleri set'e atmadan tekilleştirme
     unique_items = {i["link"]: i for i in (need_summary + need_image)}
     to_fetch = list(unique_items.values())
 
@@ -348,7 +342,6 @@ def main():
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     
-    # Piyasa Alarmları
     for asset in (c_data + s_data):
         if abs(asset.get("change_pct", 0)) >= 2.0:
             asset_name = asset["label"]
@@ -357,7 +350,6 @@ def main():
                 ntfy("radar-piyasa-x8f2", "📈 Piyasa Alarmı", f"{asset_name} %{abs(asset['change_pct']):.2f} {yon}!", "chart_with_upwards_trend")
                 alerts_sent[asset_name] = today
 
-    # Kategori Bildirimleri
     new_by_cat = {}
     for it in need_summary:
         if it.get("summary") and "tam metnine ulaşılamadı" not in it["summary"]:
