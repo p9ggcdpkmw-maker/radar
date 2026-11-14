@@ -177,12 +177,12 @@ def summarize_batch(items):
     prompt = (
         "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
         "Ayrıca her habere 1 ile 10 arasında bir 'Önem Puanı' ver. "
-        "PUANLAMA KURALI: Puan verirken Türkiye'de yaşayan bir okuyucuyu baz al. "
-        "Türkiye'yi doğrudan etkileyen gelişmelere (ekonomi, siyaset, yerel olaylar, Türk şirketleri) daha yüksek puan ver. "
-        "Sadece yabancı ülkeleri ilgilendiren sıradan haberlere daha düşük puan ver. "
-        "(10 = Türkiye'yi veya dünyayı doğrudan etkileyen savaş, büyük kriz, dev teknoloji lansmanı. "
-        "5 = Normal günlük gelişmeler. "
-        "1 = Magazin, sıradan veya önemsiz haberler). "
+        "DİKKAT: TÜM HABERLERE AYNI PUANI VERME! Puanlarda mutlaka çeşitlilik olsun. "
+        "PUANLAMA KURALLARI: "
+        "- Türkiye'yi veya dünyayı doğrudan etkileyen çok önemli gelişmelere (savaş, büyük kriz, dev teknoloji lansmanı) 9 veya 10 ver. "
+        "- Türkiye'deki normal günlük ekonomik, siyasi gelişmelere 6-8 arası ver. "
+        "- Sıradan, rutin, magazin veya önemsiz haberlere 1, 2 veya 3 ver. "
+        "- Eğer bir haber diğerlerinden açıkça daha önemliyse puanını yüksek tut, çekinme. "
         "Çıktıyı KESİNLİKLE şu JSON formatında ver: "
         "{\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\", \"score\": 8}]}. "
         "Metin yoksa o haberi JSON'a ekleme.\n\n" + "\n".join(lines)
@@ -194,8 +194,12 @@ def summarize_batch(items):
         result = {}
         for item in arr:
             score = item.get("score", 5)
-            try: score = int(score)
-            except: score = 5
+            try: 
+                score = int(float(score))
+                if score < 1: score = 1
+                if score > 10: score = 10
+            except: 
+                score = 5
             result[item["id"]] = {"summary": item["summary"], "score": score}
         return result
     except: return {}
