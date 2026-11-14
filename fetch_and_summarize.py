@@ -78,7 +78,7 @@ def ask_ai(prompt):
                 resp = requests.post(
                     f"https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
                     headers={"Authorization": f"Bearer {GEMINI_KEY}", "Content-Type": "application/json"},
-                    json={"model": "gemini-2.0-flash", "max_tokens": 3000, "temperature": 0.2, "response_format": {"type": "json_object"}, "messages": [{"role": "user", "content": prompt}]},
+                    json={"model": "gemini-1.5-flash-latest", "max_tokens": 3000, "temperature": 0.2, "response_format": {"type": "json_object"}, "messages": [{"role": "user", "content": prompt}]},
                     timeout=45
                 )
                 if resp.status_code == 429:
