@@ -29,8 +29,8 @@ jobs:
       - name: Botu çalıştır
         run: python fetch_and_summarize.py
         env:
-          # 🚀 İŞTE EKSİK OLAN SATIR BURASIYDI:
-          FREELMAPI_KEY: ${{ secrets.FREELMAPI_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
 
       - name: news.json değiştiyse commit et
