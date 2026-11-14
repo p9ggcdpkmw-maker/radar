@@ -605,7 +605,7 @@ function renderNews() {
         <div class="card-footer">
           <div>${timeAgo(item.pubDate)}</div>
           <div class="card-actions">
-            <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" onclick="event.stopPropagation(); toggleSave('${esc(item.link)}', this)">
+            <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-link="${esc(item.link)}" onclick="event.stopPropagation(); toggleSave(this.dataset.link, this)">
               ${isSaved ? '📌 Kaydedildi' : '📌'}
             </button>
             <button class="action-btn like-btn ${isLiked ? 'liked' : ''}" onclick="event.stopPropagation(); toggleLike('${esc(item.link)}', this)">
