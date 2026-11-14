@@ -34,7 +34,6 @@ SOURCE_NAMES = {
     "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe"
 }
 
-# 🚀 DÜZELTME: Bozuk 404 veren RSS'ler yerine genel ve stabil RSS'ler eklendi.
 CATEGORIES = [
     {"id": "oyun", "label": "Ücretsiz Oyun", "feeds": ["https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"], "keywords": ["ücretsiz", "bedava", "promosyon", "hediye", "oyun", "steam", "epic", "gog"]},
     {"id": "teknoloji", "label": "Teknoloji", "feeds": ["https://www.donanimhaber.com/rss/tum/", "https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"]},
@@ -76,7 +75,7 @@ def ask_ai(prompt, is_json=True):
     if GROQ_KEY:
         for attempt in range(2):
             try:
-                body = {"model": "openai/gpt-oss-120b", "max_tokens": 3000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
+                body = {"model": "openai/gpt-oss-120b", "max_tokens": 4000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
                 if is_json: body["response_format"] = {"type": "json_object"}
                 resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers={"Authorization": f"Bearer {GROQ_KEY}"}, json=body, timeout=45)
                 if resp.status_code == 429: break
@@ -89,7 +88,7 @@ def ask_ai(prompt, is_json=True):
     if GEMINI_KEY:
         for attempt in range(3):
             try:
-                body = {"model": "gemini-3.8-flash", "max_tokens": 3000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}]}
+                body = {"model": "gemini-3.8-flash", "max_tokens": 4000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}]}
                 if is_json: body["response_format"] = {"type": "json_object"}
                 resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=45)
                 if resp.status_code == 429: time.sleep(15); continue
@@ -161,39 +160,49 @@ def fetch_text_and_image(url):
             if og_image.startswith("/"):
                 parsed = urlparse(url)
                 og_image = f"{parsed.scheme}://{parsed.netloc}{og_image}"
-    except Exception as e:
-        # Cloudflare/403 engelleri buraya düşer, sessizce geçilir
-        pass
+    except: pass
     return text[:MAX_TEXT_LENGTH], og_image
 
+# 🚀 YENİ: TÜRKİYE ODAKLI PUANLAMA
 def summarize_batch(items):
     if not items: return {}
     lines = []
     for it in items:
         content = it.get("text") or BeautifulSoup(it.get("rss_desc", ""), "html.parser").get_text()
         if not content:
-            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | Durum: METİN YOK, özet yazma.")
+            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | Durum: METİN YOK.")
         else:
             lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content}")
     
     prompt = (
         "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
-        "Çıktıyı KESİNLİKLE şu JSON formatında ver: {\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\"}]}. "
+        "Ayrıca her habere 1 ile 10 arasında bir 'Önem Puanı' ver. "
+        "PUANLAMA KURALI: Puan verirken Türkiye'de yaşayan bir okuyucuyu baz al. "
+        "Türkiye'yi doğrudan etkileyen gelişmelere (ekonomi, siyaset, yerel olaylar, Türk şirketleri) daha yüksek puan ver. "
+        "Sadece yabancı ülkeleri ilgilendiren sıradan haberlere daha düşük puan ver. "
+        "(10 = Türkiye'yi veya dünyayı doğrudan etkileyen savaş, büyük kriz, dev teknoloji lansmanı. "
+        "5 = Normal günlük gelişmeler. "
+        "1 = Magazin, sıradan veya önemsiz haberler). "
+        "Çıktıyı KESİNLİKLE şu JSON formatında ver: "
+        "{\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\", \"score\": 8}]}. "
         "Metin yoksa o haberi JSON'a ekleme.\n\n" + "\n".join(lines)
     )
     
     raw = ask_ai(prompt)
     try:
         arr = json.loads(clean_json_response(raw)).get("summaries", [])
-        return {item["id"]: item["summary"] for item in arr}
+        result = {}
+        for item in arr:
+            score = item.get("score", 5)
+            try: score = int(score)
+            except: score = 5
+            result[item["id"]] = {"summary": item["summary"], "score": score}
+        return result
     except: return {}
 
 def generate_daily_briefings(all_news):
     if not all_news: return {}
-    top_news = []
-    for cat_id in ["teknoloji", "gundem", "bilim", "oyun"]:
-        cat_items = [n for n in all_news if n["catId"] == cat_id][:3]
-        top_news.extend(cat_items)
+    top_news = sorted([n for n in all_news if n.get("summary")], key=lambda x: x.get("score", 0), reverse=True)[:10]
     
     haber_metni = "\n".join([f"- {h['cat']} | {h['title']}: {h.get('summary', '')}" for h in top_news])
     prompt = (
@@ -269,7 +278,7 @@ def load_cache():
                 if it.get("link"):
                     s = it.get("summary", "")
                     if s and "ulaşılamadı" not in s and "oluşturulamadı" not in s:
-                        cache[it["link"]] = {"summary": s, "image": it.get("image")}
+                        cache[it["link"]] = {"summary": s, "image": it.get("image"), "score": it.get("score", 5)}
             briefings = old.get("briefings", {})
             alerts = old.get("alerts_sent", {})
             old_market = old.get("market")
@@ -302,8 +311,11 @@ def main():
     need_image = []
     for it in all_items:
         c = cache.get(it["link"])
-        if c and c.get("summary"): it["summary"] = c["summary"]
-        else: need_summary.append(it)
+        if c and c.get("summary"): 
+            it["summary"] = c["summary"]
+            it["score"] = c.get("score", 5)
+        else: 
+            need_summary.append(it)
         if not it.get("image") and c: it["image"] = c.get("image")
         if not it.get("image"): need_image.append(it)
 
@@ -319,15 +331,19 @@ def main():
                 if img and not it.get("image"): it["image"] = img
 
     if need_summary:
-        print(f"Özetleniyor ({len(need_summary)} haber)...")
+        print(f"Özetleniyor ve Puanlanıyor ({len(need_summary)} haber)...")
         for i in range(0, len(need_summary), 3):
             chunk = need_summary[i:i+3]
             summaries = summarize_batch(chunk)
             for it in chunk:
-                it["summary"] = summaries.get(it["id"], "Bu haberin tam metnine ulaşılamadı.")
+                res = summaries.get(it["id"], {})
+                it["summary"] = res.get("summary", "Bu haberin tam metnine ulaşılamadı.")
+                it["score"] = res.get("score", 5)
             time.sleep(2)
 
     for it in all_items: it.pop("text", None); it.pop("rss_desc", None)
+
+    all_items.sort(key=lambda x: (x.get("score", 0), x.get("pubDate", "")), reverse=True)
 
     if old_briefings and not any("tam metnine ulaşılamadı" not in it.get("summary", "") for it in all_items):
         briefings = old_briefings
@@ -341,7 +357,6 @@ def main():
     w_data = fetch_weather()
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    
     for asset in (c_data + s_data):
         if abs(asset.get("change_pct", 0)) >= 2.0:
             asset_name = asset["label"]
