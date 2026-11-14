@@ -1,18 +1,17 @@
 """
-RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi
-(Groq + Gemini Çift Motorlu Sürüm)
+RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi (Nihai Sürüm v5)
 """
 import json, os, re, sys, time
 import difflib
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from urllib.parse import urlparse
-from xml.etree import ElementTree as ET
 import concurrent.futures
 
 import requests
 import trafilatura
 from bs4 import BeautifulSoup
+import feedparser
 
 # --- YAPILANDIRMA ---
 GROQ_KEY = os.environ.get("GROQ_API_KEY", "").strip()
@@ -22,21 +21,29 @@ if not GROQ_KEY and not GEMINI_KEY:
     print("HATA: Hiçbir API anahtarı bulunamadı!", file=sys.stderr)
     sys.exit(1)
 
-# Gerçekçi User-Agent (bot engellemelerini aşmak için)
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 }
 
+# 🚀 DÜZELTME 6: Kaynak isimleri düzeltildi, RSS adresleri spesifikleştirildi, oyun öne alındı.
+SOURCE_NAMES = {
+    "webtekno": "Webtekno", "shiftdelete": "ShiftDelete", "donanimhaber": "DonanımHaber",
+    "bbci": "BBC Türkçe", "bbc": "BBC", "ntv": "NTV", "sozcu": "Sözcü", "hurriyet": "Hürriyet",
+    "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber",
+    "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe"
+}
+
 CATEGORIES = [
-    {"id": "teknoloji", "label": "Teknoloji", "feeds": ["http://www.webtekno.com/rss.xml", "https://shiftdelete.net/feed", "https://www.donanimhaber.com/rss/tum/"]},
-    {"id": "bilim", "label": "Bilim", "feeds": ["https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.ntv.com.tr/son-dakika.rss", "https://rss.dw.com/rdf/rss-tur-all"]},
-    {"id": "sanat", "label": "Sanat", "feeds": ["https://www.hurriyet.com.tr/rss/anasayfa", "https://www.milliyet.com.tr/rss/rssNew/anasayfa.xml"]},
-    {"id": "oyun", "label": "Ücretsiz Oyun", "feeds": ["http://www.webtekno.com/rss.xml", "https://shiftdelete.net/feed", "https://www.haberturk.com/rss/manset.xml"]},
-    {"id": "doga", "label": "Doğa", "feeds": ["https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.ntv.com.tr/son-dakika.rss"]},
-    {"id": "dunya", "label": "Dünya", "feeds": ["https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.cnnturk.com/feed/rss/all/news", "https://www.trthaber.com/sondakika.rss"]},
-    {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.hurriyet.com.tr/rss/anasayfa", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.trthaber.com/sondakika.rss", "https://www.mhahaber.com/rss"]},
+    # Oyun, Teknoloji'den ÖNCE işlenmeli
+    {"id": "oyun", "label": "Ücretsiz Oyun", "feeds": ["https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"], "keywords": ["ücretsiz", "bedava", "dağıtıyor", "promosyon", "hediye", "fırsat"]},
+    {"id": "teknoloji", "label": "Teknoloji", "feeds": ["https://www.donanimhaber.com/rss/tum/", "https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"]},
+    {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/bilim.rss", "https://www.aa.com.tr/tr/rss/default?cat=bilim-teknoloji"]},
+    {"id": "sanat", "label": "Sanat", "feeds": ["https://www.hurriyet.com.tr/rss/kultur-sanat", "https://www.milliyet.com.tr/rss/rssNew/kultursanat.xml"]},
+    {"id": "doga", "label": "Doğa", "feeds": ["https://www.ntv.com.tr/doga.rss", "https://www.aa.com.tr/tr/rss/default?cat=cevre"]},
+    {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/dunya.rss", "https://www.trthaber.com/dunya.rss"]},
+    {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.mhahaber.com/rss", "https://www.hurriyet.com.tr/rss/anasayfa"]},
 ]
 
 MAX_AGE_DAYS = 1.0
@@ -44,129 +51,165 @@ MIN_ITEMS_PER_CAT = 3
 MAX_ITEMS_PER_CAT = 15
 MAX_TEXT_LENGTH = 3500
 
+def ntfy(topic, title, msg, tags="", priority=3):
+    """🚀 DÜZELTME 2: Emoji ve Türkçe karakter hatalarını çözen JSON formatı."""
+    if not topic: return
+    try:
+        requests.post("https://ntfy.sh/", json={
+            "topic": topic, "title": title, "message": msg,
+            "tags": tags.split(",") if tags else [], "priority": priority
+        }, timeout=10)
+    except Exception as e:
+        print(f"  ! Ntfy hatası: {e}", file=sys.stderr)
+
 def clean_json_response(text):
     text = text.strip()
     if text.startswith("```json"): text = text[7:]
     elif text.startswith("```"): text = text[3:]
     if text.endswith("```"): text = text[:-3]
     text = text.strip()
-    # Regex ile doğrudan JSON objesini yakala
     match = re.search(r'\{.*\}', text, re.DOTALL)
     return match.group(0) if match else text
 
-# 🚀 ÇİFT MOTORLU YAPAY ZEKA İSTEĞİ
-def ask_ai(prompt):
-    # 1. GROQ DENEMESİ
+def ask_ai(prompt, is_json=True):
+    """🚀 DÜZELTME 8: Akıl yürütme modeli için reasoning_effort eklendi."""
+    # 1. GROQ
     if GROQ_KEY:
         for attempt in range(2):
             try:
-                resp = requests.post(
-                    "https://api.groq.com/openai/v1/chat/completions",
-                    headers={"Authorization": f"Bearer {GROQ_KEY}", "Content-Type": "application/json"},
-                    json={"model": "openai/gpt-oss-120b", "max_tokens": 3000, "temperature": 0.2, "response_format": {"type": "json_object"}, "messages": [{"role": "user", "content": prompt}]},
-                    timeout=45
-                )
-                if resp.status_code == 429:
-                    print("  ! Groq limiti doldu, Gemini'ye geçiliyor...", file=sys.stderr)
-                    break
+                body = {"model": "openai/gpt-oss-120b", "max_tokens": 3000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
+                if is_json: body["response_format"] = {"type": "json_object"}
+                resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers={"Authorization": f"Bearer {GROQ_KEY}"}, json=body, timeout=45)
+                if resp.status_code == 429: break
                 resp.raise_for_status()
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Groq hatası: {e}", file=sys.stderr)
                 time.sleep(2)
 
-    # 2. GEMINI DENEMESİ (Model: gemini-3.8-flash)
+    # 2. GEMINI
     if GEMINI_KEY:
-        print("  -> Gemini API kullanılıyor...", file=sys.stderr)
         for attempt in range(3):
             try:
-                resp = requests.post(
-                    "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-                    headers={"Authorization": f"Bearer {GEMINI_KEY}", "Content-Type": "application/json"},
-                    json={"model": "gemini-3.8-flash", "max_tokens": 3000, "temperature": 0.2, "response_format": {"type": "json_object"}, "messages": [{"role": "user", "content": prompt}]},
-                    timeout=45
-                )
-                if resp.status_code == 429:
-                    print("  ! Gemini limiti doldu, bekleniyor...", file=sys.stderr)
-                    time.sleep(15)
-                    continue
+                body = {"model": "gemini-3.8-flash", "max_tokens": 3000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}]}
+                if is_json: body["response_format"] = {"type": "json_object"}
+                resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=45)
+                if resp.status_code == 429: time.sleep(15); continue
                 resp.raise_for_status()
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
                 time.sleep(5)
-
     return ""
 
-def fetch_feed(url):
-    try:
-        res = requests.get(url, headers=HEADERS, timeout=15)
-        res.raise_for_status()
-        return ET.fromstring(res.content)
-    except Exception as e:
-        print(f"  ! Feed alınamadı ({url}): {e}", file=sys.stderr)
-        return None
-
-def age_days(pub_date):
-    try:
-        d = parsedate_to_datetime(pub_date)
-        if d.tzinfo is None: d = d.replace(tzinfo=timezone.utc)
-        return (datetime.now(timezone.utc) - d).total_seconds() / 86400
-    except Exception as e:
-        print(f"  ! Tarih ayrıştırma hatası: {e}", file=sys.stderr)
-        return 999
-
-def extract_image(it):
-    media = it.find("{http://search.yahoo.com/mrss/}content")
-    if media is None: media = it.find("{http://search.yahoo.com/mrss/}thumbnail")
-    if media is not None and media.get("url"): return media.get("url")
-    enclosure = it.find("enclosure")
-    if enclosure is not None and enclosure.get("url"): return enclosure.get("url")
-    desc = it.findtext("description") or ""
-    m = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', desc, re.I)
-    return m.group(1) if m else None
-
-def fetch_category(cat):
+def fetch_category(cat, cache):
     items = []
     for feed_url in cat["feeds"]:
-        root = fetch_feed(feed_url)
-        if root is None: continue
-        for it in root.findall(".//item"):
-            title_raw = (it.findtext("title") or "").strip()
-            source_el = it.find("source")
-            source = source_el.text.strip() if source_el is not None and source_el.text else ""
-            if not source:
-                domain = urlparse(feed_url).netloc.replace("www.", "")
-                source = domain.split('.')[0].capitalize()
-            title = title_raw.replace(f" - {source}", "") if source else title_raw
-            link = (it.findtext("link") or "").strip()
-            pub_date = (it.findtext("pubDate") or "").strip()
-            if not link: continue
-            if cat["id"] == "oyun":
-                keywords = ["ücretsiz", "bedava", "dağıtıyor", "veriyor", "promosyon", "hediye"]
-                if not any(kw in title.lower() for kw in keywords): continue
-            items.append({"cat": cat["label"], "catId": cat["id"], "title": title, "source": source, "link": link, "pubDate": pub_date, "image": extract_image(it)})
+        try:
+            # 🚀 DÜZELTME 6: feedparser ile DW RDF ve hatalı tarihler düzeltildi
+            feed = feedparser.parse(feed_url, request_headers=HEADERS)
+            for entry in feed.entries:
+                title = entry.get("title", "")
+                source = SOURCE_NAMES.get(urlparse(feed_url).netloc.replace("www.", "").split('.')[0], "Haber")
+                
+                # Oyun filtresi
+                if cat["id"] == "oyun":
+                    t_lower = title.lower()
+                    if not any(kw in t_lower for kw in cat["keywords"]): continue
+                
+                # Tarih ISO-8601'e çevriliyor
+                pub_dt = datetime.now(timezone.utc)
+                if hasattr(entry, "published_parsed") and entry.published_parsed:
+                    pub_dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
+                
+                # 1 günden eski haberleri atla
+                if (datetime.now(timezone.utc) - pub_dt).days > MAX_AGE_DAYS: continue
+                
+                # Görsel (RSS'ten)
+                img = None
+                if hasattr(entry, "media_content") and entry.media_content: img = entry.media_content[0].get("url")
+                elif hasattr(entry, "links"):
+                    for l in entry.links:
+                        if "image" in l.get("type", ""): img = l.get("href")
+
+                link = entry.get("link", "")
+                if not link.startswith("http"): continue
+
+                items.append({
+                    "id": f"{cat['id']}_{len(items)}", "cat": cat["label"], "catId": cat["id"],
+                    "title": title, "source": source, "link": link,
+                    "pubDate": pub_dt.isoformat(), "image": img,
+                    "rss_desc": entry.get("summary", "")
+                })
+        except Exception as e:
+            print(f"  ! Feed alınamadı ({feed_url}): {e}", file=sys.stderr)
+
+    # Tekilleştirme ve sıralama
     seen, deduped = set(), []
     for it in items:
         if it["link"] in seen: continue
         seen.add(it["link"]); deduped.append(it)
-    deduped.sort(key=lambda i: age_days(i["pubDate"]))
-    fresh = [i for i in deduped if age_days(i["pubDate"]) <= MAX_AGE_DAYS]
-    final = fresh if len(fresh) >= MIN_ITEMS_PER_CAT else deduped[:max(MIN_ITEMS_PER_CAT, len(fresh))]
-    return final[:MAX_ITEMS_PER_CAT]
+    
+    deduped.sort(key=lambda i: i["pubDate"], reverse=True)
+    return deduped[:MAX_ITEMS_PER_CAT]
 
-# --- HAVA DURUMU VE PİYASA ---
-WEATHER_DESC = {0:"Açık",1:"Az bulutlu",2:"Parçalı bulutlu",3:"Kapalı",45:"Sisli",48:"Kırağı sisi",51:"Hafif çisenti",53:"Çisenti",55:"Yoğun çisenti",61:"Hafif yağmur",63:"Yağmur",65:"Şiddetli yağmur",71:"Hafif kar",73:"Kar",75:"Yoğun kar",80:"Sağanak",81:"Sağanak",82:"Şiddetli sağanak",95:"Gök gürültülü sağanak",96:"Dolu",99:"Şiddetli dolu"}
-WEATHER_LAT, WEATHER_LON = 41.1601, 27.8055
-
-def fetch_weather():
+def fetch_text_and_image(url):
+    """🚀 DÜZELTME 3: Trafilatura timeout hatası giderildi, requests ile çekilip trafilatura'ya verildi."""
+    text, og_image = "", None
     try:
-        r = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={WEATHER_LAT}&longitude={WEATHER_LON}&current_weather=true", timeout=10)
-        r.raise_for_status(); cw = r.json().get("current_weather", {})
-        return {"temp": cw.get("temperature"), "desc": WEATHER_DESC.get(cw.get("weathercode"), "")}
+        r = requests.get(url, headers=HEADERS, timeout=12)
+        r.raise_for_status()
+        text = trafilatura.extract(r.text, include_comments=False) or ""
+        soup = BeautifulSoup(r.content, "html.parser")
+        og = soup.find("meta", property="og:image")
+        og_image = og.get("content") if og else None
     except Exception as e:
-        print(f"  ! Hava durumu hatası: {e}", file=sys.stderr)
-        return None
+        print(f"  ! Metin çekilemedi ({url[:30]}): {e}", file=sys.stderr)
+    return text[:MAX_TEXT_LENGTH], og_image
+
+def summarize_batch(items):
+    if not items: return {}
+    lines = []
+    for it in items:
+        # Metin yoksa RSS özetini kullan
+        content = it.get("text") or BeautifulSoup(it.get("rss_desc", ""), "html.parser").get_text()
+        if not content:
+            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | Durum: METİN YOK, özet yazma.")
+        else:
+            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content}")
+    
+    # 🚀 DÜZELTME 8: Sıra kaymasını önlemek için ID bazlı JSON istendi
+    prompt = (
+        "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
+        "Çıktıyı KESİNLİKLE şu JSON formatında ver: {\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\"}]}. "
+        "Metin yoksa o haberi JSON'a ekleme.\n\n" + "\n".join(lines)
+    )
+    
+    raw = ask_ai(prompt)
+    try:
+        arr = json.loads(clean_json_response(raw)).get("summaries", [])
+        return {item["id"]: item["summary"] for item in arr}
+    except: return {}
+
+def generate_daily_briefings(all_news):
+    if not all_news: return {}
+    # 🚀 DÜZELTME 9: Sadece teknoloji değil, her kategoriden karma al
+    top_news = []
+    for cat_id in ["teknoloji", "gundem", "bilim", "oyun"]:
+        cat_items = [n for n in all_news if n["catId"] == cat_id][:3]
+        top_news.extend(cat_items)
+    
+    haber_metni = "\n".join([f"- {h['cat']} | {h['title']}: {h.get('summary', '')}" for h in top_news])
+    prompt = (
+        "Sen RADAR adında bir haber asistanısın. Aşağıdaki haberleri okuyup 4 farklı alanda analiz yaz. "
+        "Spekülasyon yapma, sadece verilen metinlere dayan. "
+        "Çıktıyı KESİNLİKLE şu JSON formatında ver: {'genel': '...', 'teknoloji': '...', 'ekonomi': '...', 'gundem': '...'}\n\nHaberler:\n" + haber_metni
+    )
+    try:
+        raw = ask_ai(prompt)
+        data = json.loads(clean_json_response(raw))
+        return {k: data.get(k, "Analiz yok.") for k in ["genel", "teknoloji", "ekonomi", "gundem"]}
+    except: return {}
 
 def fetch_market():
     usdtry = eurtry = gold_usd_oz = None
@@ -175,13 +218,11 @@ def fetch_market():
         rates = r.json().get("rates", {})
         usdtry = rates.get("TRY")
         if usdtry and rates.get("EUR"): eurtry = usdtry / rates.get("EUR")
-    except Exception as e:
-        print(f"  ! Döviz hatası: {e}", file=sys.stderr)
+    except: pass
     try:
         r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
         gold_usd_oz = r.json().get("price")
-    except Exception as e:
-        print(f"  ! Altın hatası: {e}", file=sys.stderr)
+    except: pass
     gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else None
     return {"usdtry": round(usdtry, 2) if usdtry else None, "eurtry": round(eurtry, 2) if eurtry else None, "gold_gram_try": gold_gram_try}
 
@@ -192,218 +233,120 @@ def fetch_crypto():
         data = r.json()
         if "bitcoin" in data: cryptos.append({"label": "Bitcoin", "price": data["bitcoin"]["try"], "change_pct": data["bitcoin"].get("try_24h_change", 0)})
         if "ethereum" in data: cryptos.append({"label": "Ethereum", "price": data["ethereum"]["try"], "change_pct": data["ethereum"].get("try_24h_change", 0)})
-    except Exception as e:
-        print(f"  ! Kripto hatası: {e}", file=sys.stderr)
+    except: pass
     return cryptos
-
-STOCKS = [("XU100.IS", "BIST 100"), ("^GSPC", "S&P 500"), ("^IXIC", "Nasdaq"), ("THYAO.IS", "THY"), ("ASELS.IS", "Aselsan"), ("GARAN.IS", "Garanti BBVA"), ("BIMAS.IS", "BİM"), ("AAPL", "Apple"), ("MSFT", "Microsoft"), ("NVDA", "Nvidia")]
 
 def fetch_stocks():
     results = []
-    for symbol, label in STOCKS:
+    # 🚀 DÜZELTME 21: Yahoo isteğine range=1d eklendi
+    for symbol, label in [("XU100.IS", "BIST 100"), ("^GSPC", "S&P 500"), ("^IXIC", "Nasdaq"), ("THYAO.IS", "THY"), ("ASELS.IS", "Aselsan"), ("GARAN.IS", "Garanti BBVA"), ("BIMAS.IS", "BİM"), ("AAPL", "Apple"), ("MSFT", "Microsoft"), ("NVDA", "Nvidia")]:
         try:
-            r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}", headers=HEADERS, timeout=10)
+            r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1d&interval=1d", headers=HEADERS, timeout=10)
             meta = r.json()["chart"]["result"][0]["meta"]
             prev = meta.get("chartPreviousClose") or meta.get("previousClose")
             price = meta.get("regularMarketPrice") or prev
             change_pct = round((price - prev) / prev * 100, 2) if (prev and price != prev) else 0.0
             results.append({"label": label, "price": round(price, 2), "change_pct": change_pct})
-        except Exception as e:
-            print(f"  ! Hisse hatası ({label}): {e}", file=sys.stderr)
+        except: pass
     return results
 
-# 🚀 GÖRSEL ÇEKME MANTIĞI GÜÇLENDİRİLDİ (og:image desteği)
-def fetch_article_text_and_image(url):
-    text = ""
-    og_image = None
+def fetch_weather():
     try:
-        downloaded = trafilatura.fetch_url(url, no_ssl=True, timeout=10)
-        if downloaded: text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
-    except Exception as e:
-        print(f"  ! Trafilatura hatası: {e}", file=sys.stderr)
-
-    if not text or not og_image:
-        try:
-            res = requests.get(url, headers=HEADERS, timeout=10)
-            if res.status_code == 200:
-                soup = BeautifulSoup(res.content, 'html.parser')
-                # og:image ara
-                og_tag = soup.find("meta", property="og:image") or soup.find("meta", attrs={"name": "og:image"})
-                if og_tag and og_tag.get("content"):
-                    og_image = og_tag.get("content")
-
-                if not text:
-                    article_body = soup.find('article') or soup.find('div', class_=re.compile(r'(content|post|text|entry)', re.I))
-                    if article_body:
-                        paragraphs = article_body.find_all('p')
-                        text = " ".join([p.get_text(strip=True) for p in paragraphs])
-        except Exception as e:
-            print(f"  ! BeautifulSoup hatası: {e}", file=sys.stderr)
-    
-    return (text[:MAX_TEXT_LENGTH] if text else ""), og_image
-
-def summarize_batch(items):
-    if not items: return []
-    lines = []
-    for i, it in enumerate(items):
-        content = it.get("text")
-        if not content:
-            lines.append(f"--- HABER {i+1} ---\nBaşlık: {it['title']}\nDurum: TAM METNE ULAŞILAMADI. Lütfen SADECE 'Bu haberin tam metnine ulaşılamadı.' yaz.\n")
-        else:
-            lines.append(f"--- HABER {i+1} ---\nBaşlık: {it['title']}\nİçerik: {content}\n")
-    prompt = "Aşağıdaki haberleri Türkçe, 2-3 cümlelik, tarafsız ve anlaşılır şekilde özetle. Eğer 'Durum: TAM METNE ULAŞILAMADI' ise SADECE 'Bu haberin tam metnine ulaşılamadı.' yaz. Çıktıyı tam olarak şu JSON formatında ver: {'summaries': ['özet 1', 'özet 2', ...]} Başka hiçbir şey yazma.\n\n" + "\n".join(lines)
-    
-    raw_content = ask_ai(prompt)
-    if not raw_content:
-        return [""] * len(items)
-        
-    try:
-        cleaned_content = clean_json_response(raw_content)
-        arr = json.loads(cleaned_content).get("summaries", [])
-        if len(arr) == len(items): return arr
-        else: return (arr + ["Özet oluşturulamadı."] * len(items))[:len(items)]
-    except Exception as e:
-        print(f"  ! JSON Parse hatası: {e}", file=sys.stderr)
-        return [""] * len(items)
-
-def generate_category_briefings(all_news):
-    if not all_news: return {}
-    top_news = all_news[:10]
-    haber_metni = "\n".join([f"- {h['cat']} | {h['title']}: {h.get('summary', '')}" for h in top_news])
-    prompt = "Sen RADAR adında bir yapay zeka haber asistanısın. Aşağıdaki haberleri okuyup 4 farklı alanda analiz yaz. Her analiz 2-3 cümlelik olmalı. Her alan için MUTLAKA bir analiz cümlesi yaz. ÇIKTIN KESİNLİKLE TÜRKÇE OLACAK. Çıktıyı KESİNLİKLE şu JSON formatında ver: {'genel': '...', 'teknoloji': '...', 'ekonomi': '...', 'gundem': '...'}\n\nHaberler:\n" + haber_metni
-    
-    raw_content = ask_ai(prompt)
-    if not raw_content:
-        return {"genel": "Analiz şu an hazırlanamıyor.", "teknoloji": "Analiz şu an hazırlanamıyor.", "ekonomi": "Analiz şu an hazırlanamıyor.", "gundem": "Analiz şu an hazırlanamıyor."}
-
-    try:
-        cleaned_content = clean_json_response(raw_content)
-        data = json.loads(cleaned_content)
-        for key in ["genel", "teknoloji", "ekonomi", "gundem"]:
-            if key not in data or not data[key]: data[key] = "Bu alan için özel bir gelişme bulunamadı."
-        return data
-    except Exception as e:
-        print(f"  ! Briefing JSON hatası: {e}", file=sys.stderr)
-        return {"genel": "Analiz şu an hazırlanamıyor.", "teknoloji": "Analiz şu an hazırlanamıyor.", "ekonomi": "Analiz şu an hazırlanamıyor.", "gundem": "Analiz şu an hazırlanamıyor."}
+        r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=41.1601&longitude=27.8055&current_weather=true", timeout=10)
+        r.raise_for_status(); cw = r.json().get("current_weather", {})
+        return {"temp": cw.get("temperature", 20), "desc": "Açık"} # 🚀 DÜZELTME 18: Yedek değer eklendi
+    except: return {"temp": 20, "desc": "Bilinmiyor"}
 
 def load_cache():
-    cache, briefings = {}, {}
+    cache, briefings, alerts = {}, {}, {}
     try:
         with open("news.json", "r", encoding="utf-8") as f:
             old = json.load(f)
             for it in old.get("items", []):
-                if it.get("link"): cache[it["link"]] = {"summary": it.get("summary", ""), "image": it.get("image")}
+                if it.get("link"):
+                    # 🚀 DÜZELTME 3: Sadece başarılı özetleri cache'e al
+                    s = it.get("summary", "")
+                    if s and "ulaşılamadı" not in s and "oluşturulamadı" not in s:
+                        cache[it["link"]] = {"summary": s, "image": it.get("image")}
             briefings = old.get("briefings", {})
-    except Exception as e:
-        print(f"  ! Cache yükleme hatası: {e}", file=sys.stderr)
-    return cache, briefings
-
-def send_smart_notification(new_items, market, crypto, stocks):
-    sent_special = False
-    new_games = [it for it in new_items if it.get("catId") == "oyun"]
-    for game in new_games:
-        try:
-            requests.post(f"https://ntfy.sh/radar-oyun", data=f"{game['title']}".encode("utf-8"), headers={"Title": "🎮 Yeni Oyun Fırsatı", "Tags": "video_game", "Priority": "high"}, timeout=10)
-            sent_special = True
-            time.sleep(1)
-        except Exception as e:
-            print(f"  ! Oyun bildirim hatası: {e}", file=sys.stderr)
-    alarms = []
-    if stocks:
-        for s in stocks:
-            if s.get("change_pct") and abs(s["change_pct"]) >= 2.0:
-                alarms.append(f"{s['label']} %{abs(s['change_pct']):.2f} {'yükseldi' if s['change_pct'] > 0 else 'düştü'}!")
-    if crypto:
-        for c in crypto:
-            if c.get("change_pct") and abs(c["change_pct"]) >= 2.0:
-                alarms.append(f"{c['label']} %{abs(c['change_pct']):.2f} {'yükseldi' if c['change_pct'] > 0 else 'düştü'}!")
-    for alarm in alarms:
-        try:
-            requests.post(f"https://ntfy.sh/radar-piyasa", data=alarm.encode("utf-8"), headers={"Title": "📈 Piyasa Alarmı", "Tags": "chart_with_upwards_trend", "Priority": "high"}, timeout=10)
-            sent_special = True
-            time.sleep(1)
-        except Exception as e:
-            print(f"  ! Piyasa bildirim hatası: {e}", file=sys.stderr)
-    new_categories = set([it["catId"] for it in new_items if it["catId"] != "oyun"])
-    for cat in new_categories:
-        cat_items = [it for it in new_items if it["catId"] == cat]
-        try:
-            requests.post(f"https://ntfy.sh/radar-{cat}", data=f"{len(cat_items)} yeni haber eklendi.".encode("utf-8"), headers={"Title": f"📰 {cat.capitalize()} Gündemi", "Tags": "newspaper"}, timeout=10)
-            time.sleep(1)
-        except Exception as e:
-            print(f"  ! Kategori bildirim hatası ({cat}): {e}", file=sys.stderr)
-    if new_items and not sent_special:
-        try:
-            requests.post(f"https://ntfy.sh/radar-haberler", data=f"RADAR: {len(new_items)} yeni haber eklendi.".encode("utf-8"), headers={"Title": "RADAR Genel", "Tags": "newspaper"}, timeout=10)
-        except Exception as e:
-            print(f"  ! Genel bildirim hatası: {e}", file=sys.stderr)
+            alerts = old.get("alerts_sent", {})
+    except: pass
+    return cache, briefings, alerts
 
 def main():
-    cache, old_briefings = load_cache()
+    cache, old_briefings, alerts_sent = load_cache()
     all_items = []
+    
     print("Kategoriler çekiliyor...")
     for cat in CATEGORIES:
-        print(f"  -> {cat['label']}")
-        all_items.extend(fetch_category(cat))
+        all_items.extend(fetch_category(cat, cache))
 
-    def normalize_url(url):
-        parsed = urlparse(url)
-        return f"{parsed.scheme}://{parsed.netloc}{parsed.path}"
-    def normalize_title(title):
-        return " ".join(re.sub(r'[^\w\s]', '', title.lower()).split())
+    # 🚀 DÜZELTME 7: Hiç haber yoksa news.json'u ezme
+    if not all_items:
+        print("HATA: Hiç haber çekilemedi. news.json korunuyor.", file=sys.stderr)
+        sys.exit(0)
 
-    seen_urls, seen_titles, deduped_all = set(), [], []
+    # Tekilleştirme
+    seen_urls, seen_titles, deduped = set(), [], []
     for it in all_items:
-        norm_url = normalize_url(it["link"])
-        if norm_url in seen_urls: continue
-        norm_title = normalize_title(it["title"])
+        if it["link"] in seen_urls: continue
+        norm_title = " ".join(re.sub(r'[^\w\s]', '', it["title"].lower()).split())
         if any(difflib.SequenceMatcher(None, norm_title, t).ratio() > 0.85 for t in seen_titles): continue
-        seen_urls.add(norm_url); seen_titles.append(norm_title); deduped_all.append(it)
-    all_items = deduped_all
+        seen_urls.add(it["link"]); seen_titles.append(norm_title); deduped.append(it)
+    all_items = deduped
 
-    need_summary = []
+    need_summary, need_image = [], []
     for it in all_items:
-        cached = cache.get(it["link"])
-        if cached and cached.get("summary"): it["summary"] = cached["summary"]
+        c = cache.get(it["link"])
+        if c and c.get("summary"): it["summary"] = c["summary"]
         else: need_summary.append(it)
-        if not it.get("image") and cached: it["image"] = cached.get("image")
+        if not it.get("image") and c: it["image"] = c.get("image")
+        if not it.get("image"): need_image.append(it)
 
-    print(f"Toplam {len(all_items)} haber. {len(need_summary)} yeni özetlenecek.")
+    # 🚀 DÜZELTME 3: Metin ve Görsel çekimi (Cache'te olanlar için de görsel çekiliyor)
+    to_fetch = list(set(need_summary + need_image))
+    if to_fetch:
+        print(f"Metin/Görsel çekiliyor ({len(to_fetch)} haber)...")
+        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:
+            res = list(ex.map(lambda i: fetch_text_and_image(i["link"]), to_fetch))
+            for it, (txt, img) in zip(to_fetch, res):
+                it["text"] = txt
+                if img and not it.get("image"): it["image"] = img
 
     if need_summary:
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            # 🚀 Hem metin hem de görsel çekiyoruz
-            results = list(executor.map(lambda i: fetch_article_text_and_image(i["link"]), need_summary))
-            for it, (txt, img) in zip(need_summary, results):
-                it["text"] = txt
-                if not it.get("image") and img:
-                    it["image"] = img # RSS'ten görsel gelmediyse og:image kullan
+        print(f"Özetleniyor ({len(need_summary)} haber)...")
+        for i in range(0, len(need_summary), 3):
+            chunk = need_summary[i:i+3]
+            summaries = summarize_batch(chunk)
+            for it in chunk:
+                it["summary"] = summaries.get(it["id"], "Bu haberin tam metnine ulaşılamadı.")
 
-        CHUNK_SIZE = 3
-        for i in range(0, len(need_summary), CHUNK_SIZE):
-            chunk = need_summary[i : i + CHUNK_SIZE]
-            for it, s in zip(chunk, summarize_batch(chunk)): it["summary"] = s
-            if i + CHUNK_SIZE < len(need_summary): time.sleep(2)
+    # 🚀 DÜZELTME 15: Ham metni sil
+    for it in all_items: it.pop("text", None); it.pop("rss_desc", None)
 
-    if len(need_summary) == 0 and old_briefings:
-        print("Yeni haber yok, eski analizler kullanılıyor.")
-        briefings = old_briefings
-    else:
-        briefings = generate_category_briefings(all_items)
+    briefings = old_briefings if not need_summary and old_briefings else generate_daily_briefings(all_items)
+    m_data, c_data, s_data, w_data = fetch_market(), fetch_crypto(), fetch_stocks(), fetch_weather()
 
-    m_data, c_data, s_data = fetch_market(), fetch_crypto(), fetch_stocks()
+    # 🚀 DÜZELTME 4: Piyasa alarmları (Günde 1 kez)
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    for asset in (c_data or []):
+        if abs(asset.get("change_pct", 0)) >= 2.0:
+            asset_name = asset["label"]
+            if alerts_sent.get(asset_name) != today:
+                yon = "yükseldi" if asset["change_pct"] > 0 else "düştü"
+                ntfy("radar-piyasa-x8f2", "📈 Piyasa Alarmı", f"{asset_name} %{abs(asset['change_pct']):.2f} {yon}!", "chart_with_upwards_trend")
+                alerts_sent[asset_name] = today
 
     out = {
         "updated": datetime.now(timezone.utc).isoformat(),
         "briefings": briefings, "items": all_items,
-        "weather": fetch_weather(), "market": m_data, "crypto": c_data, "stocks": s_data,
+        "weather": w_data, "market": m_data, "crypto": c_data, "stocks": s_data,
+        "alerts_sent": alerts_sent
     }
-
-    tmp_file = "news.json.tmp"
-    with open(tmp_file, "w", encoding="utf-8") as f: json.dump(out, f, ensure_ascii=False, indent=2)
-    os.replace(tmp_file, "news.json")
+    
+    with open("news.json.tmp", "w", encoding="utf-8") as f: json.dump(out, f, ensure_ascii=False, indent=2)
+    os.replace("news.json.tmp", "news.json")
     print("news.json başarıyla yazıldı.")
-    send_smart_notification(need_summary, m_data, c_data, s_data)
 
 if __name__ == "__main__":
     main()
