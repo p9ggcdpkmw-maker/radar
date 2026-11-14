@@ -42,7 +42,7 @@
   .main-feed::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
   
   .mobile-header, .mobile-greeting { display: none; }
-  .desktop-header { display: flex; flex-direction: column; gap: 20px; margin-bottom: 30px; }
+  .desktop-header { display: flex; flex-direction: column; gap: 20px; margin-bottom: 20px; }
   
   .header-top { display: flex; justify-content: space-between; align-items: center; }
   .greeting-title { font-size: 32px; font-weight: 900; letter-spacing: -1px; }
@@ -56,7 +56,8 @@
   .ai-chip { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px;}
   .ai-chip:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
   
-  .category-tabs { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; user-select: none; margin-top: 10px; }
+  /* 🚀 KATEGORİ SEKMELERİ GERİ GELDİ */
+  .category-tabs { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; user-select: none; margin-bottom: 20px; }
   .category-tabs::-webkit-scrollbar { display: none; }
   .cat-tab { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-muted); padding: 10px 24px; border-radius: 24px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
   .cat-tab.active { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
@@ -156,7 +157,6 @@
     .mobile-actions { display: flex; gap: 16px; font-size: 22px; color: var(--text-main); cursor: pointer;}
     .mobile-greeting h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-main);}
     .mobile-greeting p { font-size: 15px; color: var(--text-muted); font-weight: 600; margin-top: 6px;}
-    .category-tabs { margin-bottom: 20px; }
     .main-feed { overflow: visible; padding-right: 0; }
     .right-panel { width: 100%; overflow: visible; margin-top: 30px; }
     .feed-grid { grid-template-columns: 1fr; gap: 20px; }
@@ -217,7 +217,6 @@
         <input type="search" class="search-box" id="searchInput" placeholder="RADAR AI'ya sor veya ara...">
       </div>
       
-      <!-- 🚀 YENİ: HIZLI SORULAR / AI CHIPS -->
       <div class="ai-chips">
         <div class="ai-chip" onclick="quickSearch('')">🔥 En Önemliler</div>
         <div class="ai-chip" onclick="quickSearch('teknoloji')">💻 Teknoloji</div>
@@ -228,6 +227,15 @@
     </div>
     
     <input type="search" class="search-box" id="mobileSearchInput" placeholder="RADAR AI'ya sor veya ara..." style="width:100%; margin-bottom:15px; display:none;">
+
+    <!-- 🚀 KATEGORİ SEKMELERİ BURADA (Geri getirildi) -->
+    <div class="category-tabs" id="categoryTabs">
+      <button class="cat-tab active" onclick="selectCategory('all', this)">Senin İçin</button>
+      <button class="cat-tab" onclick="selectCategory('gundem', this)">Gündem</button>
+      <button class="cat-tab" onclick="selectCategory('teknoloji', this)">Teknoloji</button>
+      <button class="cat-tab" onclick="selectCategory('bilim', this)">Bilim</button>
+      <button class="cat-tab" onclick="selectCategory('oyun', this)">Ücretsiz Oyun</button>
+    </div>
 
     <div id="newsView">
       <div class="ai-briefing" id="aiBriefingCard">
@@ -408,7 +416,6 @@ function updateGreeting() {
 }
 updateGreeting();
 
-// 🚀 DÜZELTİLDİ: Hızlı sorular artık arama değil, kategori filtresi gibi çalışacak
 function quickSearch(query) {
   searchQ = '';
   document.getElementById('searchInput').value = '';
