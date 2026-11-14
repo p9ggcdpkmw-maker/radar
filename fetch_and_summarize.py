@@ -1,5 +1,5 @@
 """
-RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi (Nihai Sürüm v5)
+RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi
 """
 import json, os, re, sys, time
 import difflib
@@ -27,7 +27,6 @@ HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 }
 
-# 🚀 DÜZELTME 6: Kaynak isimleri düzeltildi, RSS adresleri spesifikleştirildi, oyun öne alındı.
 SOURCE_NAMES = {
     "webtekno": "Webtekno", "shiftdelete": "ShiftDelete", "donanimhaber": "DonanımHaber",
     "bbci": "BBC Türkçe", "bbc": "BBC", "ntv": "NTV", "sozcu": "Sözcü", "hurriyet": "Hürriyet",
@@ -36,7 +35,6 @@ SOURCE_NAMES = {
 }
 
 CATEGORIES = [
-    # Oyun, Teknoloji'den ÖNCE işlenmeli
     {"id": "oyun", "label": "Ücretsiz Oyun", "feeds": ["https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"], "keywords": ["ücretsiz", "bedava", "dağıtıyor", "promosyon", "hediye", "fırsat"]},
     {"id": "teknoloji", "label": "Teknoloji", "feeds": ["https://www.donanimhaber.com/rss/tum/", "https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"]},
     {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/bilim.rss", "https://www.aa.com.tr/tr/rss/default?cat=bilim-teknoloji"]},
@@ -47,12 +45,9 @@ CATEGORIES = [
 ]
 
 MAX_AGE_DAYS = 1.0
-MIN_ITEMS_PER_CAT = 3
-MAX_ITEMS_PER_CAT = 15
 MAX_TEXT_LENGTH = 3500
 
 def ntfy(topic, title, msg, tags="", priority=3):
-    """🚀 DÜZELTME 2: Emoji ve Türkçe karakter hatalarını çözen JSON formatı."""
     if not topic: return
     try:
         requests.post("https://ntfy.sh/", json={
@@ -72,8 +67,6 @@ def clean_json_response(text):
     return match.group(0) if match else text
 
 def ask_ai(prompt, is_json=True):
-    """🚀 DÜZELTME 8: Akıl yürütme modeli için reasoning_effort eklendi."""
-    # 1. GROQ
     if GROQ_KEY:
         for attempt in range(2):
             try:
@@ -87,7 +80,6 @@ def ask_ai(prompt, is_json=True):
                 print(f"  ! Groq hatası: {e}", file=sys.stderr)
                 time.sleep(2)
 
-    # 2. GEMINI
     if GEMINI_KEY:
         for attempt in range(3):
             try:
@@ -106,26 +98,21 @@ def fetch_category(cat, cache):
     items = []
     for feed_url in cat["feeds"]:
         try:
-            # 🚀 DÜZELTME 6: feedparser ile DW RDF ve hatalı tarihler düzeltildi
             feed = feedparser.parse(feed_url, request_headers=HEADERS)
             for entry in feed.entries:
                 title = entry.get("title", "")
                 source = SOURCE_NAMES.get(urlparse(feed_url).netloc.replace("www.", "").split('.')[0], "Haber")
                 
-                # Oyun filtresi
                 if cat["id"] == "oyun":
                     t_lower = title.lower()
                     if not any(kw in t_lower for kw in cat["keywords"]): continue
                 
-                # Tarih ISO-8601'e çevriliyor
                 pub_dt = datetime.now(timezone.utc)
                 if hasattr(entry, "published_parsed") and entry.published_parsed:
                     pub_dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
                 
-                # 1 günden eski haberleri atla
                 if (datetime.now(timezone.utc) - pub_dt).days > MAX_AGE_DAYS: continue
                 
-                # Görsel (RSS'ten)
                 img = None
                 if hasattr(entry, "media_content") and entry.media_content: img = entry.media_content[0].get("url")
                 elif hasattr(entry, "links"):
@@ -144,17 +131,15 @@ def fetch_category(cat, cache):
         except Exception as e:
             print(f"  ! Feed alınamadı ({feed_url}): {e}", file=sys.stderr)
 
-    # Tekilleştirme ve sıralama
     seen, deduped = set(), []
     for it in items:
         if it["link"] in seen: continue
         seen.add(it["link"]); deduped.append(it)
     
     deduped.sort(key=lambda i: i["pubDate"], reverse=True)
-    return deduped[:MAX_ITEMS_PER_CAT]
+    return deduped[:15]
 
 def fetch_text_and_image(url):
-    """🚀 DÜZELTME 3: Trafilatura timeout hatası giderildi, requests ile çekilip trafilatura'ya verildi."""
     text, og_image = "", None
     try:
         r = requests.get(url, headers=HEADERS, timeout=12)
@@ -171,14 +156,12 @@ def summarize_batch(items):
     if not items: return {}
     lines = []
     for it in items:
-        # Metin yoksa RSS özetini kullan
         content = it.get("text") or BeautifulSoup(it.get("rss_desc", ""), "html.parser").get_text()
         if not content:
             lines.append(f"ID: {it['id']} | Başlık: {it['title']} | Durum: METİN YOK, özet yazma.")
         else:
             lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content}")
     
-    # 🚀 DÜZELTME 8: Sıra kaymasını önlemek için ID bazlı JSON istendi
     prompt = (
         "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
         "Çıktıyı KESİNLİKLE şu JSON formatında ver: {\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\"}]}. "
@@ -193,7 +176,6 @@ def summarize_batch(items):
 
 def generate_daily_briefings(all_news):
     if not all_news: return {}
-    # 🚀 DÜZELTME 9: Sadece teknoloji değil, her kategoriden karma al
     top_news = []
     for cat_id in ["teknoloji", "gundem", "bilim", "oyun"]:
         cat_items = [n for n in all_news if n["catId"] == cat_id][:3]
@@ -238,7 +220,6 @@ def fetch_crypto():
 
 def fetch_stocks():
     results = []
-    # 🚀 DÜZELTME 21: Yahoo isteğine range=1d eklendi
     for symbol, label in [("XU100.IS", "BIST 100"), ("^GSPC", "S&P 500"), ("^IXIC", "Nasdaq"), ("THYAO.IS", "THY"), ("ASELS.IS", "Aselsan"), ("GARAN.IS", "Garanti BBVA"), ("BIMAS.IS", "BİM"), ("AAPL", "Apple"), ("MSFT", "Microsoft"), ("NVDA", "Nvidia")]:
         try:
             r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}?range=1d&interval=1d", headers=HEADERS, timeout=10)
@@ -254,7 +235,7 @@ def fetch_weather():
     try:
         r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=41.1601&longitude=27.8055&current_weather=true", timeout=10)
         r.raise_for_status(); cw = r.json().get("current_weather", {})
-        return {"temp": cw.get("temperature", 20), "desc": "Açık"} # 🚀 DÜZELTME 18: Yedek değer eklendi
+        return {"temp": cw.get("temperature", 20), "desc": "Açık"}
     except: return {"temp": 20, "desc": "Bilinmiyor"}
 
 def load_cache():
@@ -264,7 +245,6 @@ def load_cache():
             old = json.load(f)
             for it in old.get("items", []):
                 if it.get("link"):
-                    # 🚀 DÜZELTME 3: Sadece başarılı özetleri cache'e al
                     s = it.get("summary", "")
                     if s and "ulaşılamadı" not in s and "oluşturulamadı" not in s:
                         cache[it["link"]] = {"summary": s, "image": it.get("image")}
@@ -281,12 +261,10 @@ def main():
     for cat in CATEGORIES:
         all_items.extend(fetch_category(cat, cache))
 
-    # 🚀 DÜZELTME 7: Hiç haber yoksa news.json'u ezme
     if not all_items:
         print("HATA: Hiç haber çekilemedi. news.json korunuyor.", file=sys.stderr)
         sys.exit(0)
 
-    # Tekilleştirme
     seen_urls, seen_titles, deduped = set(), [], []
     for it in all_items:
         if it["link"] in seen_urls: continue
@@ -295,7 +273,8 @@ def main():
         seen_urls.add(it["link"]); seen_titles.append(norm_title); deduped.append(it)
     all_items = deduped
 
-    need_summary, need_image = [], []
+    need_summary = []
+    need_image = []
     for it in all_items:
         c = cache.get(it["link"])
         if c and c.get("summary"): it["summary"] = c["summary"]
@@ -303,8 +282,14 @@ def main():
         if not it.get("image") and c: it["image"] = c.get("image")
         if not it.get("image"): need_image.append(it)
 
-    # 🚀 DÜZELTME 3: Metin ve Görsel çekimi (Cache'te olanlar için de görsel çekiliyor)
-    to_fetch = list(set(need_summary + need_image))
+    # 🚀 HATA DÜZELTİLDİ: Dict'leri set'e atamayız, link'e göre kontrol ediyoruz.
+    seen_links = set()
+    to_fetch = []
+    for it in need_summary + need_image:
+        if it["link"] not in seen_links:
+            seen_links.add(it["link"])
+            to_fetch.append(it)
+
     if to_fetch:
         print(f"Metin/Görsel çekiliyor ({len(to_fetch)} haber)...")
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:
@@ -321,13 +306,11 @@ def main():
             for it in chunk:
                 it["summary"] = summaries.get(it["id"], "Bu haberin tam metnine ulaşılamadı.")
 
-    # 🚀 DÜZELTME 15: Ham metni sil
     for it in all_items: it.pop("text", None); it.pop("rss_desc", None)
 
     briefings = old_briefings if not need_summary and old_briefings else generate_daily_briefings(all_items)
     m_data, c_data, s_data, w_data = fetch_market(), fetch_crypto(), fetch_stocks(), fetch_weather()
 
-    # 🚀 DÜZELTME 4: Piyasa alarmları (Günde 1 kez)
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     for asset in (c_data or []):
         if abs(asset.get("change_pct", 0)) >= 2.0:
