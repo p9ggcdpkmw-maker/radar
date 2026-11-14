@@ -22,6 +22,13 @@ if not GROQ_KEY and not GEMINI_KEY:
     print("HATA: Hiçbir API anahtarı bulunamadı!", file=sys.stderr)
     sys.exit(1)
 
+# Gerçekçi User-Agent (bot engellemelerini aşmak için)
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Accept-Language": "tr-TR,tr;q=0.9,en;q=0.8",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+}
+
 CATEGORIES = [
     {"id": "teknoloji", "label": "Teknoloji", "feeds": ["http://www.webtekno.com/rss.xml", "https://shiftdelete.net/feed", "https://www.donanimhaber.com/rss/tum/"]},
     {"id": "bilim", "label": "Bilim", "feeds": ["https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.ntv.com.tr/son-dakika.rss", "https://rss.dw.com/rdf/rss-tur-all"]},
@@ -32,7 +39,7 @@ CATEGORIES = [
     {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.hurriyet.com.tr/rss/anasayfa", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.trthaber.com/sondakika.rss", "https://www.mhahaber.com/rss"]},
 ]
 
-MAX_AGE_DAYS = 1.0 
+MAX_AGE_DAYS = 1.0
 MIN_ITEMS_PER_CAT = 3
 MAX_ITEMS_PER_CAT = 15
 MAX_TEXT_LENGTH = 3500
@@ -43,12 +50,11 @@ def clean_json_response(text):
     elif text.startswith("```"): text = text[3:]
     if text.endswith("```"): text = text[:-3]
     text = text.strip()
-    start = text.find('{')
-    end = text.rfind('}')
-    if start != -1 and end != -1: text = text[start:end+1]
-    return text
+    # Regex ile doğrudan JSON objesini yakala
+    match = re.search(r'\{.*\}', text, re.DOTALL)
+    return match.group(0) if match else text
 
-# 🚀 YENİ: ÇİFT MOTORLU YAPAY ZEKA İSTEĞİ (Önce Groq, olmazsa Gemini)
+# 🚀 ÇİFT MOTORLU YAPAY ZEKA İSTEĞİ
 def ask_ai(prompt):
     # 1. GROQ DENEMESİ
     if GROQ_KEY:
@@ -62,23 +68,22 @@ def ask_ai(prompt):
                 )
                 if resp.status_code == 429:
                     print("  ! Groq limiti doldu, Gemini'ye geçiliyor...", file=sys.stderr)
-                    break # Groq'u bırak, Gemini'ye geç
+                    break
                 resp.raise_for_status()
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Groq hatası: {e}", file=sys.stderr)
                 time.sleep(2)
 
-    # 2. GEMINI DENEMESİ (Groq çökerse veya limit dolarsa buraya düşer)
+    # 2. GEMINI DENEMESİ (Model: gemini-3.8-flash)
     if GEMINI_KEY:
         print("  -> Gemini API kullanılıyor...", file=sys.stderr)
         for attempt in range(3):
             try:
-                # Gemini'nin OpenAI uyumlu endpointi
                 resp = requests.post(
-                    f"https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+                    "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
                     headers={"Authorization": f"Bearer {GEMINI_KEY}", "Content-Type": "application/json"},
-                    json={"model": "gemini-2.5-flash-latest", "max_tokens": 3000, "temperature": 0.2, "response_format": {"type": "json_object"}, "messages": [{"role": "user", "content": prompt}]},
+                    json={"model": "gemini-3.8-flash", "max_tokens": 3000, "temperature": 0.2, "response_format": {"type": "json_object"}, "messages": [{"role": "user", "content": prompt}]},
                     timeout=45
                 )
                 if resp.status_code == 429:
@@ -90,12 +95,12 @@ def ask_ai(prompt):
             except Exception as e:
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
                 time.sleep(5)
-    
-    return "" # Her ikisi de başarısız olursa
+
+    return ""
 
 def fetch_feed(url):
     try:
-        res = requests.get(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}, timeout=15)
+        res = requests.get(url, headers=HEADERS, timeout=15)
         res.raise_for_status()
         return ET.fromstring(res.content)
     except Exception as e:
@@ -107,7 +112,9 @@ def age_days(pub_date):
         d = parsedate_to_datetime(pub_date)
         if d.tzinfo is None: d = d.replace(tzinfo=timezone.utc)
         return (datetime.now(timezone.utc) - d).total_seconds() / 86400
-    except: return 999
+    except Exception as e:
+        print(f"  ! Tarih ayrıştırma hatası: {e}", file=sys.stderr)
+        return 999
 
 def extract_image(it):
     media = it.find("{http://search.yahoo.com/mrss/}content")
@@ -157,7 +164,9 @@ def fetch_weather():
         r = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={WEATHER_LAT}&longitude={WEATHER_LON}&current_weather=true", timeout=10)
         r.raise_for_status(); cw = r.json().get("current_weather", {})
         return {"temp": cw.get("temperature"), "desc": WEATHER_DESC.get(cw.get("weathercode"), "")}
-    except: return None
+    except Exception as e:
+        print(f"  ! Hava durumu hatası: {e}", file=sys.stderr)
+        return None
 
 def fetch_market():
     usdtry = eurtry = gold_usd_oz = None
@@ -166,11 +175,13 @@ def fetch_market():
         rates = r.json().get("rates", {})
         usdtry = rates.get("TRY")
         if usdtry and rates.get("EUR"): eurtry = usdtry / rates.get("EUR")
-    except: pass
+    except Exception as e:
+        print(f"  ! Döviz hatası: {e}", file=sys.stderr)
     try:
         r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
         gold_usd_oz = r.json().get("price")
-    except: pass
+    except Exception as e:
+        print(f"  ! Altın hatası: {e}", file=sys.stderr)
     gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else None
     return {"usdtry": round(usdtry, 2) if usdtry else None, "eurtry": round(eurtry, 2) if eurtry else None, "gold_gram_try": gold_gram_try}
 
@@ -181,7 +192,8 @@ def fetch_crypto():
         data = r.json()
         if "bitcoin" in data: cryptos.append({"label": "Bitcoin", "price": data["bitcoin"]["try"], "change_pct": data["bitcoin"].get("try_24h_change", 0)})
         if "ethereum" in data: cryptos.append({"label": "Ethereum", "price": data["ethereum"]["try"], "change_pct": data["ethereum"].get("try_24h_change", 0)})
-    except: pass
+    except Exception as e:
+        print(f"  ! Kripto hatası: {e}", file=sys.stderr)
     return cryptos
 
 STOCKS = [("XU100.IS", "BIST 100"), ("^GSPC", "S&P 500"), ("^IXIC", "Nasdaq"), ("THYAO.IS", "THY"), ("ASELS.IS", "Aselsan"), ("GARAN.IS", "Garanti BBVA"), ("BIMAS.IS", "BİM"), ("AAPL", "Apple"), ("MSFT", "Microsoft"), ("NVDA", "Nvidia")]
@@ -190,32 +202,45 @@ def fetch_stocks():
     results = []
     for symbol, label in STOCKS:
         try:
-            r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}", headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+            r = requests.get(f"https://query1.finance.yahoo.com/v8/finance/chart/{symbol}", headers=HEADERS, timeout=10)
             meta = r.json()["chart"]["result"][0]["meta"]
             prev = meta.get("chartPreviousClose") or meta.get("previousClose")
             price = meta.get("regularMarketPrice") or prev
             change_pct = round((price - prev) / prev * 100, 2) if (prev and price != prev) else 0.0
             results.append({"label": label, "price": round(price, 2), "change_pct": change_pct})
-        except: pass
+        except Exception as e:
+            print(f"  ! Hisse hatası ({label}): {e}", file=sys.stderr)
     return results
 
-def fetch_article_text(url):
+# 🚀 GÖRSEL ÇEKME MANTIĞI GÜÇLENDİRİLDİ (og:image desteği)
+def fetch_article_text_and_image(url):
     text = ""
+    og_image = None
     try:
-        downloaded = trafilatura.fetch_url(url, no_ssl=True, timeout=10) 
+        downloaded = trafilatura.fetch_url(url, no_ssl=True, timeout=10)
         if downloaded: text = trafilatura.extract(downloaded, include_comments=False, include_tables=False)
-    except: pass
-    if not text:
+    except Exception as e:
+        print(f"  ! Trafilatura hatası: {e}", file=sys.stderr)
+
+    if not text or not og_image:
         try:
-            res = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=10)
+            res = requests.get(url, headers=HEADERS, timeout=10)
             if res.status_code == 200:
                 soup = BeautifulSoup(res.content, 'html.parser')
-                article_body = soup.find('article') or soup.find('div', class_=re.compile(r'(content|post|text|entry)', re.I))
-                if article_body:
-                    paragraphs = article_body.find_all('p')
-                    text = " ".join([p.get_text(strip=True) for p in paragraphs])
-        except: pass
-    return text[:MAX_TEXT_LENGTH] if text else ""
+                # og:image ara
+                og_tag = soup.find("meta", property="og:image") or soup.find("meta", attrs={"name": "og:image"})
+                if og_tag and og_tag.get("content"):
+                    og_image = og_tag.get("content")
+
+                if not text:
+                    article_body = soup.find('article') or soup.find('div', class_=re.compile(r'(content|post|text|entry)', re.I))
+                    if article_body:
+                        paragraphs = article_body.find_all('p')
+                        text = " ".join([p.get_text(strip=True) for p in paragraphs])
+        except Exception as e:
+            print(f"  ! BeautifulSoup hatası: {e}", file=sys.stderr)
+    
+    return (text[:MAX_TEXT_LENGTH] if text else ""), og_image
 
 def summarize_batch(items):
     if not items: return []
@@ -243,7 +268,7 @@ def summarize_batch(items):
 
 def generate_category_briefings(all_news):
     if not all_news: return {}
-    top_news = all_news[:10] 
+    top_news = all_news[:10]
     haber_metni = "\n".join([f"- {h['cat']} | {h['title']}: {h.get('summary', '')}" for h in top_news])
     prompt = "Sen RADAR adında bir yapay zeka haber asistanısın. Aşağıdaki haberleri okuyup 4 farklı alanda analiz yaz. Her analiz 2-3 cümlelik olmalı. Her alan için MUTLAKA bir analiz cümlesi yaz. ÇIKTIN KESİNLİKLE TÜRKÇE OLACAK. Çıktıyı KESİNLİKLE şu JSON formatında ver: {'genel': '...', 'teknoloji': '...', 'ekonomi': '...', 'gundem': '...'}\n\nHaberler:\n" + haber_metni
     
@@ -269,7 +294,8 @@ def load_cache():
             for it in old.get("items", []):
                 if it.get("link"): cache[it["link"]] = {"summary": it.get("summary", ""), "image": it.get("image")}
             briefings = old.get("briefings", {})
-    except: pass
+    except Exception as e:
+        print(f"  ! Cache yükleme hatası: {e}", file=sys.stderr)
     return cache, briefings
 
 def send_smart_notification(new_items, market, crypto, stocks):
@@ -278,8 +304,10 @@ def send_smart_notification(new_items, market, crypto, stocks):
     for game in new_games:
         try:
             requests.post(f"https://ntfy.sh/radar-oyun", data=f"{game['title']}".encode("utf-8"), headers={"Title": "🎮 Yeni Oyun Fırsatı", "Tags": "video_game", "Priority": "high"}, timeout=10)
-            sent_special = True; time.sleep(1)
-        except: pass
+            sent_special = True
+            time.sleep(1)
+        except Exception as e:
+            print(f"  ! Oyun bildirim hatası: {e}", file=sys.stderr)
     alarms = []
     if stocks:
         for s in stocks:
@@ -292,19 +320,23 @@ def send_smart_notification(new_items, market, crypto, stocks):
     for alarm in alarms:
         try:
             requests.post(f"https://ntfy.sh/radar-piyasa", data=alarm.encode("utf-8"), headers={"Title": "📈 Piyasa Alarmı", "Tags": "chart_with_upwards_trend", "Priority": "high"}, timeout=10)
-            sent_special = True; time.sleep(1)
-        except: pass
+            sent_special = True
+            time.sleep(1)
+        except Exception as e:
+            print(f"  ! Piyasa bildirim hatası: {e}", file=sys.stderr)
     new_categories = set([it["catId"] for it in new_items if it["catId"] != "oyun"])
     for cat in new_categories:
         cat_items = [it for it in new_items if it["catId"] == cat]
         try:
             requests.post(f"https://ntfy.sh/radar-{cat}", data=f"{len(cat_items)} yeni haber eklendi.".encode("utf-8"), headers={"Title": f"📰 {cat.capitalize()} Gündemi", "Tags": "newspaper"}, timeout=10)
             time.sleep(1)
-        except: pass
+        except Exception as e:
+            print(f"  ! Kategori bildirim hatası ({cat}): {e}", file=sys.stderr)
     if new_items and not sent_special:
         try:
             requests.post(f"https://ntfy.sh/radar-haberler", data=f"RADAR: {len(new_items)} yeni haber eklendi.".encode("utf-8"), headers={"Title": "RADAR Genel", "Tags": "newspaper"}, timeout=10)
-        except: pass
+        except Exception as e:
+            print(f"  ! Genel bildirim hatası: {e}", file=sys.stderr)
 
 def main():
     cache, old_briefings = load_cache()
@@ -340,8 +372,13 @@ def main():
 
     if need_summary:
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            texts = list(executor.map(lambda i: fetch_article_text(i["link"]), need_summary))
-            for it, txt in zip(need_summary, texts): it["text"] = txt
+            # 🚀 Hem metin hem de görsel çekiyoruz
+            results = list(executor.map(lambda i: fetch_article_text_and_image(i["link"]), need_summary))
+            for it, (txt, img) in zip(need_summary, results):
+                it["text"] = txt
+                if not it.get("image") and img:
+                    it["image"] = img # RSS'ten görsel gelmediyse og:image kullan
+
         CHUNK_SIZE = 3
         for i in range(0, len(need_summary), CHUNK_SIZE):
             chunk = need_summary[i : i + CHUNK_SIZE]
@@ -353,7 +390,7 @@ def main():
         briefings = old_briefings
     else:
         briefings = generate_category_briefings(all_items)
-        
+
     m_data, c_data, s_data = fetch_market(), fetch_crypto(), fetch_stocks()
 
     out = {
@@ -361,7 +398,7 @@ def main():
         "briefings": briefings, "items": all_items,
         "weather": fetch_weather(), "market": m_data, "crypto": c_data, "stocks": s_data,
     }
-    
+
     tmp_file = "news.json.tmp"
     with open(tmp_file, "w", encoding="utf-8") as f: json.dump(out, f, ensure_ascii=False, indent=2)
     os.replace(tmp_file, "news.json")
