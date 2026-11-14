@@ -48,11 +48,9 @@
   .greeting-title { font-size: 32px; font-weight: 900; letter-spacing: -1px; }
   .greeting-sub { font-size: 16px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
   
-  /* 🚀 RADAR AI ARAMA ÇUBUĞU GÜNCELLENDİ */
   .search-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 20px; padding: 12px 24px; color: var(--text-main); outline: none; width: 350px; transition: all 0.3s; font-size: 14px; display: block;}
   .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); }
   
-  /* 🚀 HIZLI SORULAR (CHIPS) */
   .ai-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
   .ai-chips::-webkit-scrollbar { display: none; }
   .ai-chip { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px;}
@@ -412,14 +410,12 @@ updateGreeting();
 
 // 🚀 DÜZELTİLDİ: Hızlı sorular artık arama değil, kategori filtresi gibi çalışacak
 function quickSearch(query) {
-  // Arama çubuklarını temizle ve kapat
   searchQ = '';
   document.getElementById('searchInput').value = '';
   const mobSearch = document.getElementById('mobileSearchInput');
   mobSearch.value = '';
   mobSearch.style.display = 'none'; 
 
-  // İlgili kategori sekmesini bul ve tıkla
   if (query === '') {
     const allTab = document.querySelector('.cat-tab');
     if (allTab) selectCategory('all', allTab);
@@ -427,9 +423,6 @@ function quickSearch(query) {
     const tab = document.querySelector(`.cat-tab[onclick*="${query}"]`);
     if (tab) selectCategory(query, tab);
   }
-}
-  
-  renderNews();
 }
 
 function speakText() {
@@ -535,7 +528,6 @@ function renderNews() {
     else if (activeCat !== 'all') filtered = allNews.filter(n => n.catId === activeCat);
   }
   
-  // 🚀 GELİŞMİŞ ARAMA: Başlık + Özet + Kaynak + Kategori içinde ara
   if (searchQ) {
     const q = searchQ.toLocaleLowerCase('tr');
     filtered = filtered.filter(n => 
@@ -551,7 +543,6 @@ function renderNews() {
     return;
   }
 
-  // Puan ve tarihe göre sıralama
   let sortedNews = [...filtered].sort((a, b) => {
     const scoreA = a.score || 0;
     const scoreB = b.score || 0;
