@@ -47,10 +47,18 @@
   .header-top { display: flex; justify-content: space-between; align-items: center; }
   .greeting-title { font-size: 32px; font-weight: 900; letter-spacing: -1px; }
   .greeting-sub { font-size: 16px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
-  .search-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 20px; padding: 12px 24px; color: var(--text-main); outline: none; width: 320px; transition: all 0.3s; font-size: 14px; display: block;}
+  
+  /* 🚀 RADAR AI ARAMA ÇUBUĞU GÜNCELLENDİ */
+  .search-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 20px; padding: 12px 24px; color: var(--text-main); outline: none; width: 350px; transition: all 0.3s; font-size: 14px; display: block;}
   .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); }
-
-  .category-tabs { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; user-select: none; }
+  
+  /* 🚀 HIZLI SORULAR (CHIPS) */
+  .ai-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
+  .ai-chips::-webkit-scrollbar { display: none; }
+  .ai-chip { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px;}
+  .ai-chip:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  
+  .category-tabs { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; user-select: none; margin-top: 10px; }
   .category-tabs::-webkit-scrollbar { display: none; }
   .cat-tab { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-muted); padding: 10px 24px; border-radius: 24px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
   .cat-tab.active { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
@@ -71,14 +79,8 @@
   .news-card { border-radius: var(--radius-lg); padding: 24px; display: flex; justify-content: space-between; gap: 20px; cursor: pointer; transition: transform 0.2s; position: relative; overflow: hidden; }
   .news-card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
   .card-content { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-  
-  /* 🚀 PUANLAMA ROZETİ İÇİN EKLENEN CSS */
   .card-source-badge { display: flex; align-items: center; justify-content: space-between; font-size: 12px; font-weight: 800; margin-bottom: 12px; color: #0F172A; width: 100%;}
-  .score-badge {
-    display: inline-flex; align-items: center; gap: 4px;
-    font-size: 11px; font-weight: 900;
-    padding: 4px 8px; border-radius: 12px;
-  }
+  .score-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 900; padding: 4px 8px; border-radius: 12px; }
   .source-logo { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; }
   
   .card-title { font-size: 20px; font-weight: 800; line-height: 1.3; margin-bottom: 10px; color: #0F172A; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;}
@@ -91,7 +93,6 @@
   .action-btn:hover { background: #fff; color: #000; }
   .action-btn.liked { color: #EF4444; background: #fff; }
   .action-btn.saved { color: var(--accent); background: #fff; }
-  
   .card-image { width: 120px; height: 120px; border-radius: var(--radius-md); object-fit: cover; flex-shrink: 0; }
   
   .right-panel { width: 360px; flex-shrink: 0; display: flex; flex-direction: column; gap: 24px; overflow-y: auto; padding-bottom: 50px;}
@@ -215,19 +216,20 @@
           <div class="greeting-title" id="pcGreeting">İyi Günler! 🌤️</div>
           <div class="greeting-sub">Bugün dünyada neler oluyor?</div>
         </div>
-        <input type="search" class="search-box" id="searchInput" placeholder="Haberlerde ara...">
+        <input type="search" class="search-box" id="searchInput" placeholder="RADAR AI'ya sor veya ara...">
+      </div>
+      
+      <!-- 🚀 YENİ: HIZLI SORULAR / AI CHIPS -->
+      <div class="ai-chips">
+        <div class="ai-chip" onclick="quickSearch('')">🔥 En Önemliler</div>
+        <div class="ai-chip" onclick="quickSearch('teknoloji')">💻 Teknoloji</div>
+        <div class="ai-chip" onclick="quickSearch('bilim')">🔬 Bilim</div>
+        <div class="ai-chip" onclick="quickSearch('oyun')">🎮 Ücretsiz Oyun</div>
+        <div class="ai-chip" onclick="quickSearch('gundem')">🔥 Gündem</div>
       </div>
     </div>
     
-    <div class="category-tabs" id="categoryTabs">
-      <button class="cat-tab active" onclick="selectCategory('all', this)">Senin İçin</button>
-      <button class="cat-tab" onclick="selectCategory('gundem', this)">Gündem</button>
-      <button class="cat-tab" onclick="selectCategory('teknoloji', this)">Teknoloji</button>
-      <button class="cat-tab" onclick="selectCategory('bilim', this)">Bilim</button>
-      <button class="cat-tab" onclick="selectCategory('oyun', this)">Ücretsiz Oyun</button>
-    </div>
-    
-    <input type="search" class="search-box" id="mobileSearchInput" placeholder="Haberlerde ara..." style="width:100%; margin-bottom:15px; display:none;">
+    <input type="search" class="search-box" id="mobileSearchInput" placeholder="RADAR AI'ya sor veya ara..." style="width:100%; margin-bottom:15px; display:none;">
 
     <div id="newsView">
       <div class="ai-briefing" id="aiBriefingCard">
@@ -408,6 +410,29 @@ function updateGreeting() {
 }
 updateGreeting();
 
+// 🚀 RADAR AI HIZLI ARAMA FONKSİYONU
+function quickSearch(query) {
+  searchQ = query;
+  document.getElementById('searchInput').value = query;
+  const mobSearch = document.getElementById('mobileSearchInput');
+  mobSearch.value = query;
+  
+  // Eğer sorgu boşsa (En Önemliler) tümünü göster ve puanla sırala
+  if (query === '') {
+    activeCat = 'all'; 
+    isSavedView = false;
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.cat-tab').classList.add('active');
+  } else {
+    // Kategoriye göre filtrele
+    activeCat = query;
+    isSavedView = false;
+    document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  }
+  
+  renderNews();
+}
+
 function speakText() {
   if (!window.speechSynthesis) { alert("Tarayıcınız sesli okumayı desteklemiyor."); return; }
   const btn = document.getElementById('btnListen');
@@ -511,17 +536,23 @@ function renderNews() {
     else if (activeCat !== 'all') filtered = allNews.filter(n => n.catId === activeCat);
   }
   
+  // 🚀 GELİŞMİŞ ARAMA: Başlık + Özet + Kaynak + Kategori içinde ara
   if (searchQ) {
     const q = searchQ.toLocaleLowerCase('tr');
-    filtered = filtered.filter(n => n.title.toLocaleLowerCase('tr').includes(q) || (n.summary && n.summary.toLocaleLowerCase('tr').includes(q)));
+    filtered = filtered.filter(n => 
+      n.title.toLocaleLowerCase('tr').includes(q) || 
+      (n.summary && n.summary.toLocaleLowerCase('tr').includes(q)) ||
+      (n.source && n.source.toLocaleLowerCase('tr').includes(q)) ||
+      (n.cat && n.cat.toLocaleLowerCase('tr').includes(q))
+    );
   }
 
   if (filtered.length === 0) {
-    grid.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-weight:600;">Burada gösterilecek haber bulunamadı.</div>`;
+    grid.innerHTML = `<div style="text-align:center; padding:20px; color:var(--text-muted); font-weight:600;">Aramanıza uygun haber bulunamadı.</div>`;
     return;
   }
 
-  // 🚀 PUAN VE TARİHE GÖRE SIRALAMA
+  // Puan ve tarihe göre sıralama
   let sortedNews = [...filtered].sort((a, b) => {
     const scoreA = a.score || 0;
     const scoreB = b.score || 0;
@@ -546,9 +577,8 @@ function renderNews() {
     let snippetText = item.summary || 'Detaylı özet bulunamadı. Habere tıklayarak kaynağından okuyabilirsiniz.';
     let isWarning = snippetText.includes("tam metnine ulaşılamadı");
     
-    // 🚀 PUAN ROZETİ
     const score = item.score || 5;
-    const scoreColor = score >= 8 ? '#EAB308' : '#94A3B8'; // 8 ve üzeri sarı, altı gri
+    const scoreColor = score >= 8 ? '#EAB308' : '#94A3B8';
     
     card.innerHTML = `
       <div class="card-content">
