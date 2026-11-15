@@ -1,11 +1,11 @@
 {
-  "updated": "2026-11-15T19:26:52.373805+00:00",
+  "updated": "2026-11-15T19:39:20.738782+00:00",
   "meta": {
-    "generated_at": "2026-11-15T19:26:50+00:00",
-    "model": "gemini-3.8-flash",
+    "generated_at": "2026-11-15T19:39:18+00:00",
+    "model": "openai/gpt-oss-120b",
     "temperature": 0.2,
     "prompt_version": "v1.1",
-    "item_count": 62
+    "item_count": 61
   },
   "briefings": {
     "genel": "Son haberlerde teknoloji ve güvenlik odaklı gelişmeler öne çıkıyor; uzayda yeniden kullanılabilir roket yakalama, veri sızıntıları ve siber saldırılar gibi konular dikkat çekiyor. Ayrıca uluslararası diplomasi, enerji‑ulaşım riskleri ve Türkiye'nin savunma sistemleri de gündemde. Sanat ve kültür başlıkları daha çok yasal kararlar ve istihdam programlarıyla sınırlı kalıyor.",
@@ -15,7 +15,7 @@
   },
   "items": [
     {
-      "id": "teknoloji_1",
+      "id": "teknoloji_2",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Çin'in elektrikli yolcu uçağı CE-25A ilk insanlı uçuşunu gerçekleştirdi",
@@ -33,29 +33,6 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.donanimhaber.com/cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi--212943"
-        ]
-      },
-      "tone": "nötr"
-    },
-    {
-      "id": "gundem_61",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Megaspeed, \"Nvidia çiplerinin Çin'e aktarıldığı\" iddiaları üzerine iç soruşturma başlattı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/bilim-teknoloji/megaspeed-nvidia-ciplerinin-cine-aktarildigi-iddialari-uzerine-ic-sorusturma-baslatti/4125931",
-      "pubDate": "2026-11-15T16:16:09+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_b08c5289b289481334625ad3f32bf21f.jpg",
-      "summary": "Megaspeed, Nvidia çiplerinin Çin'e gizli yollarla aktarılması iddialarına yanıt olarak dış hukuk danışmanlarıyla kapsamlı bir iç soruşturma başlattı ve şirketin ticari faaliyetlerinin yasal olduğunu belirtti. İddialar, ABD'nin çip ihracatı kısıtlamaları ve Nvidia yöneticilerinin olası istihbarat bağlantılarıyla ilgili daha geniş bir denetim tartışmasını da içeriyor.",
-      "score": 9,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:56:57+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/bilim-teknoloji/megaspeed-nvidia-ciplerinin-cine-aktarildigi-iddialari-uzerine-ic-sorusturma-baslatti/4125931"
         ]
       },
       "tone": "nötr"
@@ -86,28 +63,6 @@
       "id": "sanat_50",
       "cat": "Sanat",
       "catId": "sanat",
-      "title": "COP31'de enerji ve ulaşımda yapay zeka kaynaklı risklere karşı işbirliği çağrısı",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/gundem/cop31de-enerji-ve-ulasimda-yapay-zeka-kaynakli-risklere-karsi-isbirligi-cagrisi-43379395",
-      "pubDate": "2026-11-15T16:06:00+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6af9d89b2356f0a3a15a2649.jpg",
-      "summary": "Antalya'da düzenlenen COP31 etkinliğinde, yapay zekanın enerji ve ulaşım altyapılarındaki riskleri ve bu risklere karşı uluslararası teknoloji diplomasisi ve işbirliğinin gerekliliği vurgulandı.",
-      "score": 8,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.hurriyet.com.tr/gundem/cop31de-enerji-ve-ulasimda-yapay-zeka-kaynakli-risklere-karsi-isbirligi-cagrisi-43379395"
-        ]
-      }
-    },
-    {
-      "id": "sanat_49",
-      "cat": "Sanat",
-      "catId": "sanat",
       "title": "İsrail, ateşkese rağmen Lübnan'ın güneyine saldırdı",
       "source": "Hürriyet",
       "link": "https://www.hurriyet.com.tr/dunya/israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-43379367",
@@ -115,7 +70,6 @@
       "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6af9cc122356f0a3a15a2609.jpg",
       "summary": "İsrail, Lübnan ile devam eden ateşkes sürecine rağmen ülkenin güneyindeki çeşitli bölgelerde hava ve kara saldırıları düzenledi; bu saldırılar sivil kayıplara ve yerinden edilmelere yol açtı.",
       "score": 8,
-      "tone": "negatif",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -125,7 +79,8 @@
         "source_urls": [
           "https://www.hurriyet.com.tr/dunya/israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-43379367"
         ]
-      }
+      },
+      "tone": "negatif"
     },
     {
       "id": "sanat_53",
@@ -160,7 +115,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2326000/mehmet-simsekaa-2327304.jpg",
       "summary": "Hazine ve Maliye Bakanı Mehmet Şimşek, çok taraflı kalkınma bankalarıyla 5,1 milyar dolarlık 10 kredi anlaşması imzaladıklarını ve piyasa manipülasyonuna karşı algoritmalı takip sistemi kuracaklarını açıkladı. Şimşek ayrıca, tasfiye sürecine alınan fonlardaki hak sahiplerine bütçeden kaynak kullanılmadan 161 milyar lira geri ödeme yapıldığını belirtti.",
       "score": 8,
-      "tone": "pozitif",
       "ai": {
         "model": "gemini-3.8-flash",
         "temperature": 0.2,
@@ -170,7 +124,8 @@
         "source_urls": [
           "https://www.trthaber.com/haber/gundem/bakan-simsek-piyasa-manipulasyonuna-karsi-algoritmali-takip-sistemi-kurulacak-963350.html"
         ]
-      }
+      },
+      "tone": "pozitif"
     },
     {
       "id": "dunya_17",
@@ -205,7 +160,6 @@
       "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/b34ca121a52317ae36b3e67b91556d36fd237e7f.webp",
       "summary": "Fuelio, Android Auto üzerinden sürücülerin sağladığı verilerle yakındaki benzin istasyonlarının fiyatlarını karşılaştırma imkanı sunuyor.",
       "score": 7,
-      "tone": "nötr",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -215,7 +169,8 @@
         "source_urls": [
           "https://shiftdelete.net/fuelio-android-auto-yakit-fiyati-karsilastirma"
         ]
-      }
+      },
+      "tone": "nötr"
     },
     {
       "id": "teknoloji_27",
@@ -228,7 +183,6 @@
       "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/90ed8ec16a0737f460a42c8c436035e40b389264.webp",
       "summary": "COMAC, 19 koltuklu CE-25A elektrikli yolcu uçağını mürettebatla ilk kez başarıyla havalandırdı; ticari sefer tarihi henüz belirlenmedi.",
       "score": 7,
-      "tone": "nötr",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -238,30 +192,8 @@
         "source_urls": [
           "https://shiftdelete.net/ce-25a-elektrikli-ucak-comac-ilk-ucus"
         ]
-      }
-    },
-    {
-      "id": "sanat_52",
-      "cat": "Sanat",
-      "catId": "sanat",
-      "title": "İsrail'de koalisyon trafiği: Eisenkot ve Netanyahu cephesi masaya oturdu",
-      "source": "Milliyet",
-      "link": "https://www.milliyet.com.tr/dunya/israilde-koalisyon-trafigi-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396",
-      "pubDate": "2026-11-15T17:54:27+00:00",
-      "image": "https://image.milimaj.com/i/milliyet/75/0x0/6af9f18bb61a898b6e310ec1.jpg",
-      "summary": "İsrail'de koalisyon görüşmeleri sürdü; Likud ve Yashar partileri temsilcileri bir saat 15 dakika süren toplantıda bir birlik hükümeti oluşturma çabalarını tartıştı ancak somut bir ilerleme kaydedilemedi.",
-      "score": 7,
-      "tone": "nötr",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:22:19+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.milliyet.com.tr/dunya/israilde-koalisyon-trafigi-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396"
-        ]
-      }
+      },
+      "tone": "nötr"
     },
     {
       "id": "teknoloji_31",
@@ -330,28 +262,6 @@
       }
     },
     {
-      "id": "teknoloji_5",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Samsung Expert RAW, Galaxy S27 ile baştan aşağı yenileniyor",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/samsung-expert-raw-galaxy-s27-ile-bastan-asagi-yenileniyor--212938",
-      "pubDate": "2026-11-15T16:00:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/212938/1200x675samsung-expert-raw-galaxy-s27-ile-bastan-asagi-yenileniyor.jpg",
-      "summary": "Samsung, Galaxy S27 serisiyle Expert RAW uygulamasını büyük ölçüde yenileyerek özelleştirilebilir kısayollar, genişletilmiş sanal diyafram aralığı (f/1.4‑f/22) ve DNG formatında seri çekim gibi özellikler ekledi; ayrıca renk tonu kontrolü ve video çekim ayarları da ön plana çıktı.",
-      "score": 7,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.donanimhaber.com/samsung-expert-raw-galaxy-s27-ile-bastan-asagi-yenileniyor--212938"
-        ]
-      }
-    },
-    {
       "id": "bilim_4",
       "cat": "Bilim",
       "catId": "bilim",
@@ -392,6 +302,52 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cmdx1ydrdyppo?at_medium=RSS&at_campaign=rss"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_28",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Cloudflare'in tarayıcısı insanlar için değil",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/kitesurf-cloudflare-yapay-zeka-ajanlari-tarayici",
+      "pubDate": "2026-11-15T18:11:06+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/cloudflare-lav-lambasi-duvari-kapak-1511.webp",
+      "summary": "Cloudflare, yapay zeka ajanları için tasarladığı düşük kaynak tüketimli Kitesurf tarayıcısını açık kaynak haline getirdi; tarayıcıda insan odaklı sekme ve tema gibi özellikler bulunmuyor.",
+      "score": 6,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:36:06+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://shiftdelete.net/kitesurf-cloudflare-yapay-zeka-ajanlari-tarayici"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_3",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Euro Truck Simulator 2 için laptop önerileri: Harita ve grafik modları ile kullanım",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri--212758",
+      "pubDate": "2026-11-15T17:30:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/212758/1200x675euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri.jpg",
+      "summary": "Euro Truck Simulator 2'yi yüksek grafik ve harita modlarıyla oynamak isteyen kullanıcılar için, en az 16 GB RAM ve RTX 5060 ya da üstü ekran kartı gerektiren laptop önerileri listelendi; modeller arasında Casper Excalibur, Gigabyte ve Lenovo gibi seçenekler yer alıyor.",
+      "score": 6,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:36:06+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.donanimhaber.com/euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri--212758"
         ]
       }
     },
@@ -528,6 +484,75 @@
       }
     },
     {
+      "id": "sanat_52",
+      "cat": "Sanat",
+      "catId": "sanat",
+      "title": "İsrail'de kritik pazarlık! Eisenkot ve Netanyahu cephesi masaya oturdu",
+      "source": "Milliyet",
+      "link": "https://www.milliyet.com.tr/dunya/israilde-kritik-pazarlik-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396",
+      "pubDate": "2026-11-15T19:22:46+00:00",
+      "image": "https://image.milimaj.com/i/milliyet/75/0x0/6af9f18bb61a898b6e310ec1.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:36:49+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.milliyet.com.tr/dunya/israilde-kritik-pazarlik-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396"
+        ]
+      }
+    },
+    {
+      "id": "sanat_44",
+      "cat": "Sanat",
+      "catId": "sanat",
+      "title": "Uğurcan Çakır için sakatlık açıklaması! Fransa maçının kadrosundan çıkarıldı",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/sporarena/ugurcan-cakir-icin-sakatlik-aciklamasi-fransa-macinin-kadrosundan-cikarildi-43379490",
+      "pubDate": "2026-11-15T18:55:56+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6afa003ac813a6f07cce8db0.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:36:49+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.hurriyet.com.tr/sporarena/ugurcan-cakir-icin-sakatlik-aciklamasi-fransa-macinin-kadrosundan-cikarildi-43379490"
+        ]
+      }
+    },
+    {
+      "id": "gundem_53",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Türkiye İklim Okulu \"gastronomi\" ve \"sıfır atık\" etkinlikleriyle ziyaretçilerin ilgisini çekti",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/gundem/turkiye-iklim-okulu-gastronomi-ve-sifir-atik-etkinlikleriyle-ziyaretcilerin-ilgisini-cekti/4125989",
+      "pubDate": "2026-11-15T18:48:18+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_f5fa64529458170351e0cd215c50fd76.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:38:14+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/gundem/turkiye-iklim-okulu-gastronomi-ve-sifir-atik-etkinlikleriyle-ziyaretcilerin-ilgisini-cekti/4125989"
+        ]
+      }
+    },
+    {
       "id": "sanat_57",
       "cat": "Sanat",
       "catId": "sanat",
@@ -543,7 +568,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:22:17+00:00",
+        "generated_at": "2026-11-15T19:36:49+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/gundem/facianin-esiginden-donuldu-inegolde-yan-yana-5-ev-alevlere-teslim-oldu-7701397"
@@ -566,7 +591,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:22:41+00:00",
+        "generated_at": "2026-11-15T19:37:10+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/katil-israil-ateskese-ragmen-gazzede-son-24-saatte-4-kisiyi-oldurdu-963358.html"
@@ -589,33 +614,10 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:22:17+00:00",
+        "generated_at": "2026-11-15T19:36:28+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cjdx1y7p47ydo?at_medium=RSS&at_campaign=rss"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_28",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Cloudflare'in tarayıcısı insanlar için değil",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/kitesurf-cloudflare-yapay-zeka-ajanlari-tarayici",
-      "pubDate": "2026-11-15T18:11:06+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/cloudflare-lav-lambasi-duvari-kapak-1511.webp",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:21:56+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://shiftdelete.net/kitesurf-cloudflare-yapay-zeka-ajanlari-tarayici"
         ]
       }
     },
@@ -635,7 +637,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:23:02+00:00",
+        "generated_at": "2026-11-15T19:37:32+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/abd-ulastirma-bakani-hava-trafiginin-pazartesi-gunune-kadar-normale-donmesini-bekliyor-963357.html"
@@ -643,7 +645,7 @@
       }
     },
     {
-      "id": "gundem_53",
+      "id": "gundem_54",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "İsrail'in ateşkese rağmen Gazze'ye düzenlediği saldırılarda son 24 saatte 4 kişi hayatını kaybetti",
@@ -655,10 +657,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:24:53+00:00",
+        "generated_at": "2026-11-15T19:38:14+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/israilin-ateskese-ragmen-gazzeye-duzenledigi-saldirilarda-son-24-saatte-4-kisi-hayatini-kaybetti/4125977"
@@ -666,7 +668,7 @@
       }
     },
     {
-      "id": "gundem_55",
+      "id": "gundem_56",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Bakan Kacır: Hedefimiz, 2030 yılına kadar 5 milyar avronun üzerinde sanayide karbonsuzlaşma yatırımını desteklemek",
@@ -678,36 +680,13 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:24:53+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/ekonomi/bakan-kacir-hedefimiz-2030-yilina-kadar-5-milyar-avronun-uzerinde-sanayide-karbonsuzlasma-yatirimini-desteklemek/4125972"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_2",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Euro Truck Simulator 2 için laptop önerileri: Harita ve grafik modları ile kullanım",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri--212758",
-      "pubDate": "2026-11-15T17:30:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/212758/1200x675euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:21:56+00:00",
+        "generated_at": "2026-11-15T19:38:36+00:00",
         "method": "summary+score+tone",
         "source_urls": [
-          "https://www.donanimhaber.com/euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri--212758"
+          "https://www.aa.com.tr/tr/ekonomi/bakan-kacir-hedefimiz-2030-yilina-kadar-5-milyar-avronun-uzerinde-sanayide-karbonsuzlasma-yatirimini-desteklemek/4125972"
         ]
       }
     },
@@ -727,7 +706,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:22:17+00:00",
+        "generated_at": "2026-11-15T19:36:28+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cje3915lly2wo?at_medium=RSS&at_campaign=rss"
@@ -747,10 +726,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:26:07+00:00",
+        "generated_at": "2026-11-15T19:38:36+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.mhahaber.com/gazimagusada-kktcnin-43uncu-kurulus-yil-donumu-coskuyla-kutlandi"
@@ -773,7 +752,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:23:02+00:00",
+        "generated_at": "2026-11-15T19:37:32+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/ekonomi/spkden-olaganustu-tasfiyede-halka-acik-ortakliklarin-geri-aldigi-paylarla-ilgili-aciklama-963356.html"
@@ -793,10 +772,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:26:07+00:00",
+        "generated_at": "2026-11-15T19:38:36+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.mhahaber.com/kktcnin-43-kurulus-yil-donumu-gazimagusada-torenle-kutlandi"
@@ -819,7 +798,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:23:02+00:00",
+        "generated_at": "2026-11-15T19:37:32+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/guncel/356-bin-kisi-sigara-birakma-polikliniklerinden-yararlandi-963355.html"
@@ -827,7 +806,7 @@
       }
     },
     {
-      "id": "gundem_58",
+      "id": "gundem_59",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Trump'tan hava trafik kontrol sisteminin yenilenmesi konusunda Kongreye çağrı",
@@ -839,10 +818,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:26:07+00:00",
+        "generated_at": "2026-11-15T19:38:57+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/trumptan-hava-trafik-kontrol-sisteminin-yenilenmesi-konusunda-kongreye-cagri/4125939"
@@ -850,7 +829,7 @@
       }
     },
     {
-      "id": "teknoloji_4",
+      "id": "teknoloji_5",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "CapCut ile Reels ve Shorts hazırlamak için laptop önerileri",
@@ -865,33 +844,10 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:21:56+00:00",
+        "generated_at": "2026-11-15T19:36:28+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.donanimhaber.com/capcut-ile-reels-ve-shorts-hazirlamak-icin-laptop-onerileri--212872"
-        ]
-      }
-    },
-    {
-      "id": "gundem_54",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Yeşil Bölge'deki Kültür ve Medeniyet Pavilyonu ziyaretçileri ağırlıyor",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/cop31/yesil-bolgedeki-kultur-ve-medeniyet-pavilyonu-ziyaretcileri-agirliyor/4125934",
-      "pubDate": "2026-11-15T16:24:39+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_333975e13f14c9d055e0fec82349da9d.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "gemini-3.8-flash",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:26:28+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/cop31/yesil-bolgedeki-kultur-ve-medeniyet-pavilyonu-ziyaretcileri-agirliyor/4125934"
         ]
       }
     },
@@ -928,7 +884,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1752000/gozalti-stok-1752517.jpg",
       "summary": "İstanbul Beşiktaş'ta bir kişinin öldüğü iş yeri saldırısıyla ilgili gözaltına alınan şüpheli sayısı 26'ya yükseldi. Soruşturmayı derinleştiren polis ekipleri, zanlıların Beyoğlu'nda halıya sarılı halde bulunan Oğuzhan Kalkan'ın cesediyle de bağlantılı olduğunu belirledi.",
       "score": 5,
-      "tone": "negatif",
       "ai": {
         "model": "gemini-3.8-flash",
         "temperature": 0.2,
@@ -938,7 +893,8 @@
         "source_urls": [
           "https://www.trthaber.com/haber/turkiye/besiktastaki-cinayetin-suphelileri-beyoglunda-bulunan-cesetle-baglantili-cikti-963354.html"
         ]
-      }
+      },
+      "tone": "negatif"
     },
     {
       "id": "sanat_34",
@@ -956,7 +912,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:22:41+00:00",
+        "generated_at": "2026-11-15T19:37:10+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.hurriyet.com.tr/dunya/abd-ordusunda-kostebek-krizi-trump-yonetimi-korgeneral-sylviayi-suclu-ilan-etti-43379290"
@@ -979,7 +935,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:22:41+00:00",
+        "generated_at": "2026-11-15T19:37:10+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/dunya/ingilterede-trajik-kaza-hasta-tasiyordu-can-pazarina-sebep-oldu-7701314"
@@ -999,10 +955,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:24:31+00:00",
+        "generated_at": "2026-11-15T19:37:53+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/iran-hurmuz-bogazinda-deniz-mayinlarina-carpan-2-petrol-tankerinden-biri-batti-963352.html"
@@ -1022,10 +978,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:24:31+00:00",
+        "generated_at": "2026-11-15T19:37:53+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/savunma/milli-projeler-turk-muhendislerin-rotasini-turkiyeye-cevirdi-963348.html"
@@ -1045,10 +1001,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:24:31+00:00",
+        "generated_at": "2026-11-15T19:37:53+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/fransada-ulusal-posta-operatoru-istirakine-siber-saldiri-963349.html"
@@ -1068,10 +1024,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "gemini-3.8-flash",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T19:24:53+00:00",
+        "generated_at": "2026-11-15T19:38:14+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/saglik/turkiyenin-acil-tip-uygulamalari-dunyaya-ornek-oluyor-963346.html"
@@ -1111,7 +1067,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1480000/yagmur-1481304.jpg",
       "summary": "Meteoroloji verilerine göre salı gününden itibaren yurt genelinde bir hafta boyunca etkili olacak sağanak yağış bekleniyor. Yağışların güney kesimlerde gök gürültülü olacağı tahmin edilirken, hava sıcaklıklarının hafta ortasından sonra mevsim normallerine yükseleceği bildirildi.",
       "score": 4,
-      "tone": "nötr",
       "ai": {
         "model": "gemini-3.8-flash",
         "temperature": 0.2,
@@ -1121,7 +1076,8 @@
         "source_urls": [
           "https://www.trthaber.com/haber/turkiye/saganak-sali-gunu-yurdu-etkisi-altina-alacak-963351.html"
         ]
-      }
+      },
+      "tone": "nötr"
     },
     {
       "id": "bilim_8",
@@ -1142,6 +1098,29 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/c6zjryk78z4ro?at_medium=RSS&at_campaign=rss"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_0",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "HBO, merakla beklenen Harry Potter dizisinden 1.5 dakikalık bir sahne paylaştı",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/hbo-harry-potter-dizisinden-1-5-dakikalik-bir-sahne-paylasti--212947",
+      "pubDate": "2026-11-15T19:30:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/212947/1200x675hbo-harry-potter-dizisinden-1-5-dakikalik-bir-sahne-paylasti.jpg",
+      "summary": "HBO, 25 Aralık'ta başlayacak Harry Potter dizisinin ilk sahnesini bir buçuk dakikalık video olarak paylaştı; sahnede öğrencilerin Hogwarts'a girişleri ve genç oyuncuların deneyimli isimlerle birlikte yer alması gösterildi.",
+      "score": 3,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:36:06+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.donanimhaber.com/hbo-harry-potter-dizisinden-1-5-dakikalik-bir-sahne-paylasti--212947"
         ]
       }
     },
@@ -1169,7 +1148,7 @@
       "tone": "nötr"
     },
     {
-      "id": "teknoloji_3",
+      "id": "teknoloji_4",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Göz yorgunluğunu azaltan Kyodo Myofree tablet tanıtıldı",
@@ -1223,7 +1202,6 @@
       "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6af9bd533516f14679cc845e.jpg",
       "summary": "İstanbul Beyoğlu'nda bir evin bodrum katında halıya sarılı bir erkek cesedi bulundu; adli tıp raporu cesedin Oğuzhan Kalkan'a ait olduğunu ve yaklaşık 10 gün önce silahla vurularak öldürüldüğünü gösterdi.",
       "score": 3,
-      "tone": "negatif",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1233,7 +1211,8 @@
         "source_urls": [
           "https://www.hurriyet.com.tr/gundem/evde-haliya-sarili-cesedi-bulunmustu-kimligi-belli-oldu-43379310"
         ]
-      }
+      },
+      "tone": "negatif"
     },
     {
       "id": "bilim_1",
@@ -1242,7 +1221,7 @@
       "title": "Son dakika deprem mi oldu? Az önce deprem nerede oldu? İstanbul, Ankara, İzmir ve il il AFAD son depremler 15 Kasım 2026",
       "source": "NTV",
       "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-15-kasim-2026-1750900",
-      "pubDate": "2026-11-15T19:00:00+00:00",
+      "pubDate": "2026-11-15T19:30:00+00:00",
       "image": "https://images.ntv.com.tr/images/477a4d82-9d42-44a3-8135-f2a9ec017f8a.jpg",
       "summary": "AFAD ve Kandilli tarafından 14-15 Kasım 2026 tarihleri arasında Türkiye ve çevresinde kaydedilen birçok düşük şiddetli deprem listelendi.",
       "score": 2,
@@ -1258,7 +1237,7 @@
       }
     },
     {
-      "id": "teknoloji_0",
+      "id": "teknoloji_1",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Korku efsanesi Friday the 13th (13. Cuma) yeni bir filmle geri dönüyor",
@@ -1268,7 +1247,6 @@
       "image": "https://www.donanimhaber.com/images/images/haber/212946/1200x675korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor.jpg",
       "summary": "13. Cuma efsanesi yeni bir sinema filmiyle 2027'de vizyona girecek; yönetmenliğini serinin önceki filmlerine imza atan Steve Miner üstlenecek.",
       "score": 2,
-      "tone": "pozitif",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1278,7 +1256,8 @@
         "source_urls": [
           "https://www.donanimhaber.com/korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor--212946"
         ]
-      }
+      },
+      "tone": "pozitif"
     },
     {
       "id": "teknoloji_29",
@@ -1304,7 +1283,7 @@
       "tone": "nötr"
     },
     {
-      "id": "sanat_48",
+      "id": "sanat_49",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Tolu Arokodare'den Trabzonspor itirafı: Teklifi reddetme nedenini açıkladı!",
@@ -1414,10 +1393,7 @@
       }
     }
   ],
-  "weather": {
-    "temp": 9.0,
-    "desc": "Kapalı"
-  },
+  "weather": null,
   "market": {
     "usdtry": 50.38,
     "eurtry": 55.61,
@@ -1426,13 +1402,13 @@
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 3269342,
-      "change_pct": -0.8297902631983353
+      "price": 3266743,
+      "change_pct": -1.0587078228861604
     },
     {
       "label": "Ethereum",
-      "price": 91783,
-      "change_pct": -0.33184172010949564
+      "price": 91787,
+      "change_pct": -0.31844968576678595
     }
   ],
   "stocks": [
