@@ -4,7 +4,6 @@ RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi
 import json, os, re, sys, time
 import difflib
 from datetime import datetime, timezone
-from email.utils import parsedate_to_datetime
 from urllib.parse import urlparse
 import concurrent.futures
 
@@ -16,10 +15,19 @@ import feedparser
 # --- YAPILANDIRMA ---
 GROQ_KEY = os.environ.get("GROQ_API_KEY", "").strip()
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
+HF_KEY = os.environ.get("HF_API_KEY", "").strip()
 
-if not GROQ_KEY and not GEMINI_KEY:
+if not GROQ_KEY and not GEMINI_KEY and not HF_KEY:
     print("HATA: Hiçbir API anahtarı bulunamadı!", file=sys.stderr)
     sys.exit(1)
+
+AI_MODEL_GROQ   = os.environ.get("AI_MODEL_GROQ", "openai/gpt-oss-120b").strip()
+AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-1.5-flash").strip()
+AI_MODEL_HF     = os.environ.get("AI_MODEL_HF", "meta-llama/Llama-3.2-3B-Instruct").strip()
+AI_TEMPERATURE  = float(os.environ.get("AI_TEMPERATURE", "0.2"))
+AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.1").strip()
+
+LAST_AI_MODEL = None
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -72,31 +80,58 @@ def clean_json_response(text):
     return match.group(0) if match else text
 
 def ask_ai(prompt, is_json=True):
+    global LAST_AI_MODEL
+
+    # 1. Groq
     if GROQ_KEY:
         for attempt in range(2):
             try:
-                body = {"model": "openai/gpt-oss-120b", "max_tokens": 4000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
+                body = {"model": AI_MODEL_GROQ, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
                 if is_json: body["response_format"] = {"type": "json_object"}
                 resp = requests.post("https://api.groq.com/openai/v1/chat/completions", headers={"Authorization": f"Bearer {GROQ_KEY}"}, json=body, timeout=45)
                 if resp.status_code == 429: break
                 resp.raise_for_status()
+                LAST_AI_MODEL = AI_MODEL_GROQ
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Groq hatası: {e}", file=sys.stderr)
                 time.sleep(2)
 
+    # 2. Gemini
     if GEMINI_KEY:
         for attempt in range(3):
             try:
-                body = {"model": "gemini-3.8-flash", "max_tokens": 4000, "temperature": 0.2, "messages": [{"role": "user", "content": prompt}]}
+                body = {"model": AI_MODEL_GEMINI, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}]}
                 if is_json: body["response_format"] = {"type": "json_object"}
                 resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=45)
                 if resp.status_code == 429: time.sleep(15); continue
                 resp.raise_for_status()
+                LAST_AI_MODEL = AI_MODEL_GEMINI
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
                 time.sleep(5)
+
+    # 3. Hugging Face (YENİ)
+    if HF_KEY:
+        for attempt in range(2):
+            try:
+                # HF için OpenAI formatını taklit ediyoruz
+                body = {"model": AI_MODEL_HF, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}]}
+                if is_json: body["response_format"] = {"type": "json_object"}
+                resp = requests.post(
+                    "https://api-inference.huggingface.co/v1/chat/completions",
+                    headers={"Authorization": f"Bearer {HF_KEY}"},
+                    json=body,
+                    timeout=60
+                )
+                resp.raise_for_status()
+                LAST_AI_MODEL = AI_MODEL_HF
+                return resp.json()["choices"][0]["message"]["content"]
+            except Exception as e:
+                print(f"  ! HF hatası: {e}", file=sys.stderr)
+                time.sleep(3)
+
     return ""
 
 def fetch_category(cat, cache):
@@ -163,7 +198,6 @@ def fetch_text_and_image(url):
     except: pass
     return text[:MAX_TEXT_LENGTH], og_image
 
-# 🚀 YENİ: TÜRKİYE ODAKLI PUANLAMA
 def summarize_batch(items):
     if not items: return {}
     lines = []
@@ -176,16 +210,11 @@ def summarize_batch(items):
     
     prompt = (
         "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
-        "Ayrıca her habere 1 ile 10 arasında bir 'Önem Puanı' ver. "
-        "DİKKAT: TÜM HABERLERE AYNI PUANI VERME! Puanlarda mutlaka çeşitlilik olsun. "
-        "PUANLAMA KURALLARI: "
-        "- Türkiye'yi veya dünyayı doğrudan etkileyen çok önemli gelişmelere (savaş, büyük kriz, dev teknoloji lansmanı) 9 veya 10 ver. "
-        "- Türkiye'deki normal günlük ekonomik, siyasi gelişmelere 6-8 arası ver. "
-        "- Sıradan, rutin, magazin veya önemsiz haberlere 1, 2 veya 3 ver. "
-        "- Eğer bir haber diğerlerinden açıkça daha önemliyse puanını yüksek tut, çekinme. "
+        "Her habere 1-10 arası 'Önem Puanı' ver. Ayrıca her haber için 'ton' (duygu) belirle: 'pozitif', 'nötr' veya 'negatif'. "
+        "PUANLAMA: Türkiye/dünya için kritik gelişmelere 9-10, günlük gelişmelere 6-8, magazin/rutin haberlere 1-3 ver. "
         "Çıktıyı KESİNLİKLE şu JSON formatında ver: "
-        "{\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\", \"score\": 8}]}. "
-        "Metin yoksa o haberi JSON'a ekleme.\n\n" + "\n".join(lines)
+        "{\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\", \"score\": 8, \"tone\": \"nötr\"}]}. "
+        "Metin yoksa ekleme.\n\n" + "\n".join(lines)
     )
     
     raw = ask_ai(prompt)
@@ -198,16 +227,18 @@ def summarize_batch(items):
                 score = int(float(score))
                 if score < 1: score = 1
                 if score > 10: score = 10
-            except: 
-                score = 5
-            result[item["id"]] = {"summary": item["summary"], "score": score}
+            except: score = 5
+            result[item["id"]] = {
+                "summary": item["summary"], 
+                "score": score,
+                "tone": item.get("tone", "nötr")
+            }
         return result
     except: return {}
 
 def generate_daily_briefings(all_news):
     if not all_news: return {}
     top_news = sorted([n for n in all_news if n.get("summary")], key=lambda x: x.get("score", 0), reverse=True)[:10]
-    
     haber_metni = "\n".join([f"- {h['cat']} | {h['title']}: {h.get('summary', '')}" for h in top_news])
     prompt = (
         "Sen RADAR adında bir haber asistanısın. Aşağıdaki haberleri okuyup 4 farklı alanda analiz yaz. "
@@ -229,13 +260,11 @@ def fetch_market(old_market=None):
         if usdtry and rates.get("EUR"): eurtry = usdtry / rates.get("EUR")
     except: 
         if old_market: return old_market
-        
     try:
         r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
         gold_usd_oz = r.json().get("price")
     except: 
         if old_market and not gold_usd_oz: return old_market
-        
     gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else (old_market.get("gold_gram_try") if old_market else None)
     return {"usdtry": round(usdtry, 2) if usdtry else (old_market.get("usdtry") if old_market else None), 
             "eurtry": round(eurtry, 2) if eurtry else (old_market.get("eurtry") if old_market else None), 
@@ -282,7 +311,7 @@ def load_cache():
                 if it.get("link"):
                     s = it.get("summary", "")
                     if s and "ulaşılamadı" not in s and "oluşturulamadı" not in s:
-                        cache[it["link"]] = {"summary": s, "image": it.get("image"), "score": it.get("score", 5)}
+                        cache[it["link"]] = {"summary": s, "image": it.get("image"), "score": it.get("score", 5), "ai": it.get("ai")}
             briefings = old.get("briefings", {})
             alerts = old.get("alerts_sent", {})
             old_market = old.get("market")
@@ -292,6 +321,7 @@ def load_cache():
     return cache, briefings, alerts, old_market, old_crypto, old_stocks
 
 def main():
+    global LAST_AI_MODEL
     cache, old_briefings, alerts_sent, old_market, old_crypto, old_stocks = load_cache()
     all_items = []
     
@@ -318,6 +348,8 @@ def main():
         if c and c.get("summary"): 
             it["summary"] = c["summary"]
             it["score"] = c.get("score", 5)
+            if c.get("ai"): it["ai"] = c["ai"]
+            if c.get("tone"): it["tone"] = c.get("tone")
         else: 
             need_summary.append(it)
         if not it.get("image") and c: it["image"] = c.get("image")
@@ -339,10 +371,20 @@ def main():
         for i in range(0, len(need_summary), 3):
             chunk = need_summary[i:i+3]
             summaries = summarize_batch(chunk)
+            batch_generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
             for it in chunk:
                 res = summaries.get(it["id"], {})
                 it["summary"] = res.get("summary", "Bu haberin tam metnine ulaşılamadı.")
                 it["score"] = res.get("score", 5)
+                it["tone"] = res.get("tone", "nötr")
+                it["ai"] = {
+                    "model": LAST_AI_MODEL or "unknown",
+                    "temperature": AI_TEMPERATURE,
+                    "prompt_version": AI_PROMPT_VER,
+                    "generated_at": batch_generated_at,
+                    "method": "summary+score+tone",
+                    "source_urls": [it["link"]],
+                }
             time.sleep(2)
 
     for it in all_items: it.pop("text", None); it.pop("rss_desc", None)
@@ -354,6 +396,18 @@ def main():
     else:
         briefings = generate_daily_briefings(all_items)
         if not briefings: briefings = old_briefings
+
+    final_generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    for it in all_items:
+        if "ai" not in it or not it.get("ai"):
+            it["ai"] = {
+                "model": LAST_AI_MODEL or "unknown",
+                "temperature": AI_TEMPERATURE,
+                "prompt_version": AI_PROMPT_VER,
+                "generated_at": final_generated_at,
+                "method": "summary+score+tone",
+                "source_urls": [it["link"]],
+            }
 
     m_data = fetch_market(old_market)
     c_data = fetch_crypto(old_crypto)
@@ -379,6 +433,13 @@ def main():
 
     out = {
         "updated": datetime.now(timezone.utc).isoformat(),
+        "meta": {
+            "generated_at": final_generated_at,
+            "model": LAST_AI_MODEL or "unknown",
+            "temperature": AI_TEMPERATURE,
+            "prompt_version": AI_PROMPT_VER,
+            "item_count": len(all_items),
+        },
         "briefings": briefings, "items": all_items,
         "weather": w_data, "market": m_data, "crypto": c_data, "stocks": s_data,
         "alerts_sent": alerts_sent
