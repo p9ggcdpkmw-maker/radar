@@ -21,8 +21,9 @@ if not GROQ_KEY and not GEMINI_KEY and not HF_KEY:
     print("HATA: Hiçbir API anahtarı bulunamadı!", file=sys.stderr)
     sys.exit(1)
 
+# KESİN DÜZELTME: Gemini modeli 3.8-flash olarak güncellendi. (2.5-flash yeni anahtarlarda 404 veriyor)
 AI_MODEL_GROQ   = os.environ.get("AI_MODEL_GROQ", "openai/gpt-oss-120b").strip()
-AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-1.5-flash").strip()
+AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-3.8-flash").strip()
 AI_MODEL_HF     = os.environ.get("AI_MODEL_HF", "meta-llama/Llama-3.2-3B-Instruct").strip()
 AI_TEMPERATURE  = float(os.environ.get("AI_TEMPERATURE", "0.2"))
 AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.1").strip()
@@ -112,15 +113,14 @@ def ask_ai(prompt, is_json=True):
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
                 time.sleep(5)
 
-    # 3. Hugging Face (YENİ)
+    # 3. Hugging Face (KESİN DÜZELTME: router.huggingface.co kullanıldı)
     if HF_KEY:
         for attempt in range(2):
             try:
-                # HF için OpenAI formatını taklit ediyoruz
                 body = {"model": AI_MODEL_HF, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}]}
                 if is_json: body["response_format"] = {"type": "json_object"}
                 resp = requests.post(
-                    "https://api-inference.huggingface.co/v1/chat/completions",
+                    "https://router.huggingface.co/v1/chat/completions",
                     headers={"Authorization": f"Bearer {HF_KEY}"},
                     json=body,
                     timeout=60
@@ -311,7 +311,7 @@ def load_cache():
                 if it.get("link"):
                     s = it.get("summary", "")
                     if s and "ulaşılamadı" not in s and "oluşturulamadı" not in s:
-                        cache[it["link"]] = {"summary": s, "image": it.get("image"), "score": it.get("score", 5), "ai": it.get("ai")}
+                        cache[it["link"]] = {"summary": s, "image": it.get("image"), "score": it.get("score", 5), "ai": it.get("ai"), "tone": it.get("tone")}
             briefings = old.get("briefings", {})
             alerts = old.get("alerts_sent", {})
             old_market = old.get("market")
@@ -349,7 +349,7 @@ def main():
             it["summary"] = c["summary"]
             it["score"] = c.get("score", 5)
             if c.get("ai"): it["ai"] = c["ai"]
-            if c.get("tone"): it["tone"] = c.get("tone")
+            if c.get("tone"): it["tone"] = c["tone"]
         else: 
             need_summary.append(it)
         if not it.get("image") and c: it["image"] = c.get("image")
