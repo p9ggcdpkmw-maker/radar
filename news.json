@@ -1,8 +1,8 @@
 {
-  "updated": "2026-11-15T18:57:53.710714+00:00",
+  "updated": "2026-11-15T19:26:52.373805+00:00",
   "meta": {
-    "generated_at": "2026-11-15T18:57:50+00:00",
-    "model": "openai/gpt-oss-120b",
+    "generated_at": "2026-11-15T19:26:50+00:00",
+    "model": "gemini-3.8-flash",
     "temperature": 0.2,
     "prompt_version": "v1.1",
     "item_count": 62
@@ -25,7 +25,6 @@
       "image": "https://www.donanimhaber.com/images/images/haber/212943/1200x675cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi.jpg",
       "summary": "Çinli COMAC, tamamen elektrikli yolcu uçağı CE-25A'nın iki pilot ve bir mühendisle gerçekleştirilen ilk insanlı uçuşunu sorunsuz tamamladı. Uçak, 19 yolcu kapasitesi, 400 km menzil ve 300 km/s hızla kısa mesafeli şehirler arası seyahatlerde geleneksel uçakların yerine geçmeyi hedefliyor ve şu anda sertifikasyon sürecine giriyor.",
       "score": 9,
-      "tone": "nötr",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -35,7 +34,8 @@
         "source_urls": [
           "https://www.donanimhaber.com/cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi--212943"
         ]
-      }
+      },
+      "tone": "nötr"
     },
     {
       "id": "gundem_61",
@@ -48,7 +48,6 @@
       "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_b08c5289b289481334625ad3f32bf21f.jpg",
       "summary": "Megaspeed, Nvidia çiplerinin Çin'e gizli yollarla aktarılması iddialarına yanıt olarak dış hukuk danışmanlarıyla kapsamlı bir iç soruşturma başlattı ve şirketin ticari faaliyetlerinin yasal olduğunu belirtti. İddialar, ABD'nin çip ihracatı kısıtlamaları ve Nvidia yöneticilerinin olası istihbarat bağlantılarıyla ilgili daha geniş bir denetim tartışmasını da içeriyor.",
       "score": 9,
-      "tone": "nötr",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -58,7 +57,8 @@
         "source_urls": [
           "https://www.aa.com.tr/tr/bilim-teknoloji/megaspeed-nvidia-ciplerinin-cine-aktarildigi-iddialari-uzerine-ic-sorusturma-baslatti/4125931"
         ]
-      }
+      },
+      "tone": "nötr"
     },
     {
       "id": "teknoloji_32",
@@ -83,7 +83,7 @@
       }
     },
     {
-      "id": "sanat_52",
+      "id": "sanat_50",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "COP31'de enerji ve ulaşımda yapay zeka kaynaklı risklere karşı işbirliği çağrısı",
@@ -105,29 +105,30 @@
       }
     },
     {
-      "id": "teknoloji_35",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "GTA 6'nın Series S sınavı Microsoft'u terletiyor",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/gta-6-xbox-series-s-performansi-microsoft",
-      "pubDate": "2026-11-15T15:41:00+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/xbox-series-s-kapak-1511.webp",
-      "summary": "GTA 6’nın Xbox Series S sürümünün 212 GB yer kaplaması ve performans endişeleri nedeniyle Microsoft yöneticileri oyunun bu platformda çalışıp çalışmayacağı konusunda tereddüt yaşıyor.",
+      "id": "sanat_49",
+      "cat": "Sanat",
+      "catId": "sanat",
+      "title": "İsrail, ateşkese rağmen Lübnan'ın güneyine saldırdı",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/dunya/israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-43379367",
+      "pubDate": "2026-11-15T15:13:23+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6af9cc122356f0a3a15a2609.jpg",
+      "summary": "İsrail, Lübnan ile devam eden ateşkes sürecine rağmen ülkenin güneyindeki çeşitli bölgelerde hava ve kara saldırıları düzenledi; bu saldırılar sivil kayıplara ve yerinden edilmelere yol açtı.",
       "score": 8,
+      "tone": "negatif",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
+        "generated_at": "2026-11-15T19:22:19+00:00",
         "method": "summary+score+tone",
         "source_urls": [
-          "https://shiftdelete.net/gta-6-xbox-series-s-performansi-microsoft"
+          "https://www.hurriyet.com.tr/dunya/israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-43379367"
         ]
       }
     },
     {
-      "id": "sanat_55",
+      "id": "sanat_53",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Fransa'da ulusal posta operatörü iştirakine siber saldırı: Milyonlarca veri ele geçirildi!",
@@ -145,6 +146,29 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/dunya/fransada-ulusal-posta-operatoru-istirakine-siber-saldiri-milyonlarca-veri-ele-gecirildi-7701320"
+        ]
+      }
+    },
+    {
+      "id": "dunya_11",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Bakan Şimşek: Piyasa manipülasyonuna karşı algoritmalı takip sistemi kurulacak",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/gundem/bakan-simsek-piyasa-manipulasyonuna-karsi-algoritmali-takip-sistemi-kurulacak-963350.html",
+      "pubDate": "2026-11-15T14:10:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2326000/mehmet-simsekaa-2327304.jpg",
+      "summary": "Hazine ve Maliye Bakanı Mehmet Şimşek, çok taraflı kalkınma bankalarıyla 5,1 milyar dolarlık 10 kredi anlaşması imzaladıklarını ve piyasa manipülasyonuna karşı algoritmalı takip sistemi kuracaklarını açıkladı. Şimşek ayrıca, tasfiye sürecine alınan fonlardaki hak sahiplerine bütçeden kaynak kullanılmadan 161 milyar lira geri ödeme yapıldığını belirtti.",
+      "score": 8,
+      "tone": "pozitif",
+      "ai": {
+        "model": "gemini-3.8-flash",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:24:10+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.trthaber.com/haber/gundem/bakan-simsek-piyasa-manipulasyonuna-karsi-algoritmali-takip-sistemi-kurulacak-963350.html"
         ]
       }
     },
@@ -171,6 +195,75 @@
       }
     },
     {
+      "id": "teknoloji_26",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Android Auto'da benzin fiyatları artık ekranda",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/fuelio-android-auto-yakit-fiyati-karsilastirma",
+      "pubDate": "2026-11-15T19:11:07+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/b34ca121a52317ae36b3e67b91556d36fd237e7f.webp",
+      "summary": "Fuelio, Android Auto üzerinden sürücülerin sağladığı verilerle yakındaki benzin istasyonlarının fiyatlarını karşılaştırma imkanı sunuyor.",
+      "score": 7,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:21:34+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://shiftdelete.net/fuelio-android-auto-yakit-fiyati-karsilastirma"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_27",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Çin'in elektrikli yolcu uçağı pilotla uçtu",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/ce-25a-elektrikli-ucak-comac-ilk-ucus",
+      "pubDate": "2026-11-15T18:41:07+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/90ed8ec16a0737f460a42c8c436035e40b389264.webp",
+      "summary": "COMAC, 19 koltuklu CE-25A elektrikli yolcu uçağını mürettebatla ilk kez başarıyla havalandırdı; ticari sefer tarihi henüz belirlenmedi.",
+      "score": 7,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:21:34+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://shiftdelete.net/ce-25a-elektrikli-ucak-comac-ilk-ucus"
+        ]
+      }
+    },
+    {
+      "id": "sanat_52",
+      "cat": "Sanat",
+      "catId": "sanat",
+      "title": "İsrail'de koalisyon trafiği: Eisenkot ve Netanyahu cephesi masaya oturdu",
+      "source": "Milliyet",
+      "link": "https://www.milliyet.com.tr/dunya/israilde-koalisyon-trafigi-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396",
+      "pubDate": "2026-11-15T17:54:27+00:00",
+      "image": "https://image.milimaj.com/i/milliyet/75/0x0/6af9f18bb61a898b6e310ec1.jpg",
+      "summary": "İsrail'de koalisyon görüşmeleri sürdü; Likud ve Yashar partileri temsilcileri bir saat 15 dakika süren toplantıda bir birlik hükümeti oluşturma çabalarını tartıştı ancak somut bir ilerleme kaydedilemedi.",
+      "score": 7,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:22:19+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.milliyet.com.tr/dunya/israilde-koalisyon-trafigi-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396"
+        ]
+      }
+    },
+    {
       "id": "teknoloji_31",
       "cat": "Teknoloji",
       "catId": "teknoloji",
@@ -193,7 +286,7 @@
       }
     },
     {
-      "id": "sanat_60",
+      "id": "sanat_58",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Diyarbakır'daki 'drift' dehşetinde emsal karar! Otomobil silah sayıldı, 28 yıl hapis cezası verildi",
@@ -215,7 +308,7 @@
       }
     },
     {
-      "id": "sanat_64",
+      "id": "sanat_62",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Bakan Işıkhan'dan 'İşgücü Uyum Programı' açıklaması: 54 bin kişilik kontenjan ayrıldı",
@@ -325,7 +418,7 @@
       }
     },
     {
-      "id": "sanat_65",
+      "id": "sanat_63",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "COP31 Başkanı Kurum’dan Türkiye pavilyonları paylaşımı",
@@ -435,30 +528,7 @@
       }
     },
     {
-      "id": "teknoloji_27",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Çin'in elektrikli yolcu uçağı pilotla uçtu",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/ce-25a-elektrikli-ucak-comac-ilk-ucus",
-      "pubDate": "2026-11-15T18:41:07+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/90ed8ec16a0737f460a42c8c436035e40b389264.webp",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:46:28+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://shiftdelete.net/ce-25a-elektrikli-ucak-comac-ilk-ucus"
-        ]
-      }
-    },
-    {
-      "id": "sanat_59",
+      "id": "sanat_57",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Facianın eşiğinden dönüldü! İnegöl'de yan yana 5 ev alevlere teslim oldu",
@@ -473,33 +543,10 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:50:04+00:00",
+        "generated_at": "2026-11-15T19:22:17+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/gundem/facianin-esiginden-donuldu-inegolde-yan-yana-5-ev-alevlere-teslim-oldu-7701397"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_0",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Korku efsanesi Friday the 13th (13. Cuma) yeni bir filmle geri dönüyor",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor--212946",
-      "pubDate": "2026-11-15T18:34:08+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/212946/1200x675korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:46:28+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.donanimhaber.com/korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor--212946"
         ]
       }
     },
@@ -519,7 +566,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:52:26+00:00",
+        "generated_at": "2026-11-15T19:22:41+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/katil-israil-ateskese-ragmen-gazzede-son-24-saatte-4-kisiyi-oldurdu-963358.html"
@@ -542,7 +589,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:49:10+00:00",
+        "generated_at": "2026-11-15T19:22:17+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cjdx1y7p47ydo?at_medium=RSS&at_campaign=rss"
@@ -562,36 +609,13 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:46:28+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://shiftdelete.net/kitesurf-cloudflare-yapay-zeka-ajanlari-tarayici"
-        ]
-      }
-    },
-    {
-      "id": "sanat_54",
-      "cat": "Sanat",
-      "catId": "sanat",
-      "title": "İsrail'de koalisyon trafiği: Eisenkot ve Netanyahu cephesi masaya oturdu",
-      "source": "Milliyet",
-      "link": "https://www.milliyet.com.tr/dunya/israilde-koalisyon-trafigi-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396",
-      "pubDate": "2026-11-15T17:54:27+00:00",
-      "image": "https://image.milimaj.com/i/milliyet/75/0x0/6af9f18bb61a898b6e310ec1.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:50:04+00:00",
+        "generated_at": "2026-11-15T19:21:56+00:00",
         "method": "summary+score+tone",
         "source_urls": [
-          "https://www.milliyet.com.tr/dunya/israilde-koalisyon-trafigi-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396"
+          "https://shiftdelete.net/kitesurf-cloudflare-yapay-zeka-ajanlari-tarayici"
         ]
       }
     },
@@ -611,7 +635,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:52:26+00:00",
+        "generated_at": "2026-11-15T19:23:02+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/abd-ulastirma-bakani-hava-trafiginin-pazartesi-gunune-kadar-normale-donmesini-bekliyor-963357.html"
@@ -631,10 +655,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:56:00+00:00",
+        "generated_at": "2026-11-15T19:24:53+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/israilin-ateskese-ragmen-gazzeye-duzenledigi-saldirilarda-son-24-saatte-4-kisi-hayatini-kaybetti/4125977"
@@ -654,10 +678,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:56:00+00:00",
+        "generated_at": "2026-11-15T19:24:53+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/ekonomi/bakan-kacir-hedefimiz-2030-yilina-kadar-5-milyar-avronun-uzerinde-sanayide-karbonsuzlasma-yatirimini-desteklemek/4125972"
@@ -680,7 +704,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:49:10+00:00",
+        "generated_at": "2026-11-15T19:21:56+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.donanimhaber.com/euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri--212758"
@@ -703,7 +727,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:50:04+00:00",
+        "generated_at": "2026-11-15T19:22:17+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cje3915lly2wo?at_medium=RSS&at_campaign=rss"
@@ -723,10 +747,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:56:00+00:00",
+        "generated_at": "2026-11-15T19:26:07+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.mhahaber.com/gazimagusada-kktcnin-43uncu-kurulus-yil-donumu-coskuyla-kutlandi"
@@ -749,7 +773,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:53:19+00:00",
+        "generated_at": "2026-11-15T19:23:02+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/ekonomi/spkden-olaganustu-tasfiyede-halka-acik-ortakliklarin-geri-aldigi-paylarla-ilgili-aciklama-963356.html"
@@ -769,10 +793,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:56:54+00:00",
+        "generated_at": "2026-11-15T19:26:07+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.mhahaber.com/kktcnin-43-kurulus-yil-donumu-gazimagusada-torenle-kutlandi"
@@ -795,7 +819,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:53:19+00:00",
+        "generated_at": "2026-11-15T19:23:02+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/guncel/356-bin-kisi-sigara-birakma-polikliniklerinden-yararlandi-963355.html"
@@ -815,10 +839,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:56:54+00:00",
+        "generated_at": "2026-11-15T19:26:07+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/trumptan-hava-trafik-kontrol-sisteminin-yenilenmesi-konusunda-kongreye-cagri/4125939"
@@ -841,7 +865,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:49:10+00:00",
+        "generated_at": "2026-11-15T19:21:56+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.donanimhaber.com/capcut-ile-reels-ve-shorts-hazirlamak-icin-laptop-onerileri--212872"
@@ -861,10 +885,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:56:54+00:00",
+        "generated_at": "2026-11-15T19:26:28+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/cop31/yesil-bolgedeki-kultur-ve-medeniyet-pavilyonu-ziyaretcileri-agirliyor/4125934"
@@ -872,7 +896,7 @@
       }
     },
     {
-      "id": "sanat_61",
+      "id": "sanat_59",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Meteoroloji illeri tek tek uyardı! Salı gününe aman dikkat: Sağanak etkisi altına alacak",
@@ -902,109 +926,17 @@
       "link": "https://www.trthaber.com/haber/turkiye/besiktastaki-cinayetin-suphelileri-beyoglunda-bulunan-cesetle-baglantili-cikti-963354.html",
       "pubDate": "2026-11-15T15:26:00+00:00",
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1752000/gozalti-stok-1752517.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "summary": "İstanbul Beşiktaş'ta bir kişinin öldüğü iş yeri saldırısıyla ilgili gözaltına alınan şüpheli sayısı 26'ya yükseldi. Soruşturmayı derinleştiren polis ekipleri, zanlıların Beyoğlu'nda halıya sarılı halde bulunan Oğuzhan Kalkan'ın cesediyle de bağlantılı olduğunu belirledi.",
       "score": 5,
-      "tone": "nötr",
+      "tone": "negatif",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:53:19+00:00",
+        "generated_at": "2026-11-15T19:24:10+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/turkiye/besiktastaki-cinayetin-suphelileri-beyoglunda-bulunan-cesetle-baglantili-cikti-963354.html"
-        ]
-      }
-    },
-    {
-      "id": "sanat_51",
-      "cat": "Sanat",
-      "catId": "sanat",
-      "title": "İsrail, ateşkese rağmen Lübnan'ın güneyine saldırdı",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/dunya/israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-43379367",
-      "pubDate": "2026-11-15T15:13:23+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6af9cc122356f0a3a15a2609.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:51:32+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.hurriyet.com.tr/dunya/israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-43379367"
-        ]
-      }
-    },
-    {
-      "id": "dunya_10",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Sağanak salı günü yurdu etkisi altına alacak",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/saganak-sali-gunu-yurdu-etkisi-altina-alacak-963351.html",
-      "pubDate": "2026-11-15T14:28:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1480000/yagmur-1481304.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:54:13+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/saganak-sali-gunu-yurdu-etkisi-altina-alacak-963351.html"
-        ]
-      }
-    },
-    {
-      "id": "sanat_35",
-      "cat": "Sanat",
-      "catId": "sanat",
-      "title": "Beyoğlu'nda halıya sarılı cesedi bulunmuştu: Kimliği belli oldu",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/gundem/evde-haliya-sarili-cesedi-bulunmustu-kimligi-belli-oldu-43379310",
-      "pubDate": "2026-11-15T14:11:00+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6af9bd533516f14679cc845e.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:51:32+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.hurriyet.com.tr/gundem/evde-haliya-sarili-cesedi-bulunmustu-kimligi-belli-oldu-43379310"
-        ]
-      }
-    },
-    {
-      "id": "dunya_11",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Bakan Şimşek: Piyasa manipülasyonuna karşı algoritmalı takip sistemi kurulacak",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/gundem/bakan-simsek-piyasa-manipulasyonuna-karsi-algoritmali-takip-sistemi-kurulacak-963350.html",
-      "pubDate": "2026-11-15T14:10:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2326000/mehmet-simsekaa-2327304.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:54:13+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.trthaber.com/haber/gundem/bakan-simsek-piyasa-manipulasyonuna-karsi-algoritmali-takip-sistemi-kurulacak-963350.html"
         ]
       }
     },
@@ -1024,7 +956,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:51:32+00:00",
+        "generated_at": "2026-11-15T19:22:41+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.hurriyet.com.tr/dunya/abd-ordusunda-kostebek-krizi-trump-yonetimi-korgeneral-sylviayi-suclu-ilan-etti-43379290"
@@ -1032,7 +964,7 @@
       }
     },
     {
-      "id": "sanat_56",
+      "id": "sanat_54",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "İngiltere'de trajik kaza: Hasta taşıyordu, can pazarına sebep oldu!",
@@ -1047,7 +979,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:52:26+00:00",
+        "generated_at": "2026-11-15T19:22:41+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/dunya/ingilterede-trajik-kaza-hasta-tasiyordu-can-pazarina-sebep-oldu-7701314"
@@ -1067,10 +999,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:54:13+00:00",
+        "generated_at": "2026-11-15T19:24:31+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/iran-hurmuz-bogazinda-deniz-mayinlarina-carpan-2-petrol-tankerinden-biri-batti-963352.html"
@@ -1090,10 +1022,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:55:07+00:00",
+        "generated_at": "2026-11-15T19:24:31+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/savunma/milli-projeler-turk-muhendislerin-rotasini-turkiyeye-cevirdi-963348.html"
@@ -1113,10 +1045,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:55:07+00:00",
+        "generated_at": "2026-11-15T19:24:31+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/fransada-ulusal-posta-operatoru-istirakine-siber-saldiri-963349.html"
@@ -1136,10 +1068,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "openai/gpt-oss-120b",
+        "model": "gemini-3.8-flash",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:55:07+00:00",
+        "generated_at": "2026-11-15T19:24:53+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/saglik/turkiyenin-acil-tip-uygulamalari-dunyaya-ornek-oluyor-963346.html"
@@ -1165,6 +1097,29 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cq1k9n3d3vrvo?at_medium=RSS&at_campaign=rss"
+        ]
+      }
+    },
+    {
+      "id": "dunya_10",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Sağanak salı günü yurdu etkisi altına alacak",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/turkiye/saganak-sali-gunu-yurdu-etkisi-altina-alacak-963351.html",
+      "pubDate": "2026-11-15T14:28:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1480000/yagmur-1481304.jpg",
+      "summary": "Meteoroloji verilerine göre salı gününden itibaren yurt genelinde bir hafta boyunca etkili olacak sağanak yağış bekleniyor. Yağışların güney kesimlerde gök gürültülü olacağı tahmin edilirken, hava sıcaklıklarının hafta ortasından sonra mevsim normallerine yükseleceği bildirildi.",
+      "score": 4,
+      "tone": "nötr",
+      "ai": {
+        "model": "gemini-3.8-flash",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:24:10+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.trthaber.com/haber/turkiye/saganak-sali-gunu-yurdu-etkisi-altina-alacak-963351.html"
         ]
       }
     },
@@ -1201,7 +1156,6 @@
       "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/bmw-m-1000-rs-kapak-1511.webp",
       "summary": "BMW, 215 beygir gücünde ve 196 kg ağırlığındaki M 1000 RS modelini 1000 adet sınırlı üretimle tanıttı; bu özellikleriyle güç-ağırlık oranında Bugatti Chiron'u geride bırakıyor.",
       "score": 3,
-      "tone": "nötr",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1211,7 +1165,8 @@
         "source_urls": [
           "https://shiftdelete.net/bmw-m-1000-rs-tanitildi-215-beygir"
         ]
-      }
+      },
+      "tone": "nötr"
     },
     {
       "id": "teknoloji_3",
@@ -1258,13 +1213,36 @@
       }
     },
     {
+      "id": "sanat_35",
+      "cat": "Sanat",
+      "catId": "sanat",
+      "title": "Beyoğlu'nda halıya sarılı cesedi bulunmuştu: Kimliği belli oldu",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/gundem/evde-haliya-sarili-cesedi-bulunmustu-kimligi-belli-oldu-43379310",
+      "pubDate": "2026-11-15T14:11:00+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6af9bd533516f14679cc845e.jpg",
+      "summary": "İstanbul Beyoğlu'nda bir evin bodrum katında halıya sarılı bir erkek cesedi bulundu; adli tıp raporu cesedin Oğuzhan Kalkan'a ait olduğunu ve yaklaşık 10 gün önce silahla vurularak öldürüldüğünü gösterdi.",
+      "score": 3,
+      "tone": "negatif",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:22:19+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.hurriyet.com.tr/gundem/evde-haliya-sarili-cesedi-bulunmustu-kimligi-belli-oldu-43379310"
+        ]
+      }
+    },
+    {
       "id": "bilim_1",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Son dakika deprem mi oldu? Az önce deprem nerede oldu? İstanbul, Ankara, İzmir ve il il AFAD son depremler 15 Kasım 2026",
       "source": "NTV",
       "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-15-kasim-2026-1750900",
-      "pubDate": "2026-11-15T18:30:00+00:00",
+      "pubDate": "2026-11-15T19:00:00+00:00",
       "image": "https://images.ntv.com.tr/images/477a4d82-9d42-44a3-8135-f2a9ec017f8a.jpg",
       "summary": "AFAD ve Kandilli tarafından 14-15 Kasım 2026 tarihleri arasında Türkiye ve çevresinde kaydedilen birçok düşük şiddetli deprem listelendi.",
       "score": 2,
@@ -1280,6 +1258,29 @@
       }
     },
     {
+      "id": "teknoloji_0",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Korku efsanesi Friday the 13th (13. Cuma) yeni bir filmle geri dönüyor",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor--212946",
+      "pubDate": "2026-11-15T18:34:08+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/212946/1200x675korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor.jpg",
+      "summary": "13. Cuma efsanesi yeni bir sinema filmiyle 2027'de vizyona girecek; yönetmenliğini serinin önceki filmlerine imza atan Steve Miner üstlenecek.",
+      "score": 2,
+      "tone": "pozitif",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T19:21:34+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.donanimhaber.com/korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor--212946"
+        ]
+      }
+    },
+    {
       "id": "teknoloji_29",
       "cat": "Teknoloji",
       "catId": "teknoloji",
@@ -1290,7 +1291,6 @@
       "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/f8926c361ef7652ce73adcbc2b6e3fde331db933.webp",
       "summary": "GTA 6'da platin kupa elde etmek yaklaşık 200 saatlik oyun süresi gerektirebilir; ana hikaye ise 50 saat içinde tamamlanabiliyor.",
       "score": 2,
-      "tone": "nötr",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1300,10 +1300,11 @@
         "source_urls": [
           "https://shiftdelete.net/gta-6-platin-kupasi-200-saat-hikaye-50-saat"
         ]
-      }
+      },
+      "tone": "nötr"
     },
     {
-      "id": "sanat_50",
+      "id": "sanat_48",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Tolu Arokodare'den Trabzonspor itirafı: Teklifi reddetme nedenini açıkladı!",
@@ -1325,7 +1326,7 @@
       }
     },
     {
-      "id": "sanat_62",
+      "id": "sanat_60",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Park halindeki otomobilin aküsü patladı! Alevlerin sıçradığı 2 araç yandı",
@@ -1347,7 +1348,7 @@
       }
     },
     {
-      "id": "sanat_63",
+      "id": "sanat_61",
       "cat": "Sanat",
       "catId": "sanat",
       "title": "Dışişleri Bakanlığı: KKTC'nin kuruluşunun 43. yıldönümü kutlu olsun",
@@ -1414,8 +1415,8 @@
     }
   ],
   "weather": {
-    "temp": 9.2,
-    "desc": "Parçalı bulutlu"
+    "temp": 9.0,
+    "desc": "Kapalı"
   },
   "market": {
     "usdtry": 50.38,
@@ -1425,13 +1426,13 @@
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 3252514,
-      "change_pct": -1.4282498387989089
+      "price": 3269342,
+      "change_pct": -0.8297902631983353
     },
     {
       "label": "Ethereum",
-      "price": 91253,
-      "change_pct": -0.9758737279466437
+      "price": 91783,
+      "change_pct": -0.33184172010949564
     }
   ],
   "stocks": [
