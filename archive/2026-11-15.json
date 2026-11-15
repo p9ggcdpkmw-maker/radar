@@ -1,11 +1,11 @@
 {
-  "updated": "2026-11-15T22:30:24.046558+00:00",
+  "updated": "2026-11-15T23:39:52.639736+00:00",
   "meta": {
-    "generated_at": "2026-11-15T22:30:21+00:00",
+    "generated_at": "2026-11-15T23:39:50+00:00",
     "model": "openai/gpt-oss-120b",
     "temperature": 0.2,
     "prompt_version": "v1.1",
-    "item_count": 75
+    "item_count": 81
   },
   "briefings": {
     "genel": "ABD'de hava trafik kontrol sistemindeki iletişim arızası yüzünden binlerce iç hat uçuşu iptal ve gecikme yaşandı; FAA sistemin aşırı yüklenmiş ve eski teknolojiye dayandığını belirterek modernizasyon ihtiyacını vurguladı. Türkiye'nin UEFA Uluslar A Ligi'nde puansız kalması, ülkenin futbol performansının zayıf olduğunu gösteriyor. Gazze'de ateşkesin devam etmesine rağmen İsrail'in saldırıları sonucu 4 sivil ölüm ve 6 yaralanma gerçekleşti, bölgedeki güvenlik durumunun istikrarsız olduğunu ortaya koyuyor.",
@@ -25,8 +25,6 @@
       "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/8ba6/live/580c5210-e01a-11f1-ad34-45f8f10f7c55.jpg",
       "summary": "ABD'de hava trafik kontrol sistemindeki iletişim arızası nedeniyle 13 Kasım'da tüm iç hat uçuşları yaklaşık dört saat durdu, ardından binlerce uçuş iptal ve ertelendi. FAA, sistemin aşırı yüklenmesi ve eski teknolojiye dayandığını belirterek modernizasyon ihtiyacını vurguladı.",
       "score": 9,
-      "tone": "negatif",
-      "why_important": "Bu kesinti, ulusal ulaşım altyapısının kırılganlığını gösteriyor ve gelecekteki seyahat güvenliği ve ekonomik etkileri açısından kritik bir uyarı niteliğinde.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -36,7 +34,9 @@
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cqx2wyd99w13o?at_medium=RSS&at_campaign=rss"
         ]
-      }
+      },
+      "tone": "negatif",
+      "why_important": "Bu kesinti, ulusal ulaşım altyapısının kırılganlığını gösteriyor ve gelecekteki seyahat güvenliği ve ekonomik etkileri açısından kritik bir uyarı niteliğinde."
     },
     {
       "id": "teknoloji_0",
@@ -86,6 +86,54 @@
       "tone": "nötr"
     },
     {
+      "id": "dunya_16",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "İşgalci İsrail, ateşkese rağmen Lübnan'ın güneyine saldırdı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/isgalci-israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-963353.html",
+      "pubDate": "2026-11-15T15:05:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2444000/lubnan-a-2444093.jpg",
+      "summary": "İsrail, 17 Nisan ateşkesine rağmen Lübnan'ın güneyinde askeri operasyonlar sürdürerek köyleri hedef alıyor, hava sahasını ihlal ediyor ve binlerce sivil ölümüne yol açan saldırılar devam ediyor.",
+      "score": 9,
+      "tone": "negatif",
+      "why_important": "Ateşkesin ihlali bölgedeki istikrarı tehdit ediyor ve uluslararası barış çabalarının başarısını doğrudan etkiliyor.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:55+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/isgalci-israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-963353.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_15",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Yapay zeka gözlükleri Tom Cruise ile başladı çağ atladı! Marka marka güncel yapay gözlük fiyatları",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/foto-galeri/teknoloji/yapay-zeka-gozlukleri-tom-cruise-ile-basladi-cag-atladi-marka-marka-guncel-yapay-gozluk-fiyatlari-galeri-931462",
+      "pubDate": "2026-11-15T23:29:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/yapay-zeka-gozlukleri-tom-cruise-ile-basladi-cag-atladi-marka-marka-guncel-yapay-gozluk-fiyatlari-imcd_cover.jpg",
+      "summary": "IDC raporuna göre, ekransız yapay zeka gözlükleri XR ve akıllı gözlük pazarının %84,6'sını hâlâ ele geçirerek sanal gerçeklik cihazlarını geride bırakıyor; fiyat ve marka çeşitliliği ise hızla artıyor.",
+      "score": 8,
+      "tone": "pozitif",
+      "why_important": "Yapay zeka gözlüklerinin pazar hakimiyeti, gelecekteki teknoloji tüketimi ve iş modelleri için kritik bir gösterge.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:46+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.ekonomim.com/foto-galeri/teknoloji/yapay-zeka-gozlukleri-tom-cruise-ile-basladi-cag-atladi-marka-marka-guncel-yapay-gozluk-fiyatlari-galeri-931462"
+        ]
+      }
+    },
+    {
       "id": "dunya_3",
       "cat": "Dünya",
       "catId": "dunya",
@@ -102,8 +150,6 @@
       ],
       "summary": "Türkiye A Milli Futbol Takımı, UEFA Uluslar A Ligi'nde Fransa'ya 2-1 kaybederek grubu puansız ve son sırada tamamladı; bu durum ligde kalma mücadelesini zorlaştırıyor.",
       "score": 8,
-      "tone": "negatif",
-      "why_important": "Takımın ligde kalma ihtimali, milli futbolun geleceği ve ülke spor politikaları açısından kritik bir dönemeç oluşturuyor.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -113,10 +159,12 @@
         "source_urls": [
           "https://www.trthaber.com/haber/gundem/turkiye-uefa-uluslar-a-ligini-puansiz-tamamladi-963366.html"
         ]
-      }
+      },
+      "tone": "negatif",
+      "why_important": "Takımın ligde kalma ihtimali, milli futbolun geleceği ve ülke spor politikaları açısından kritik bir dönemeç oluşturuyor."
     },
     {
-      "id": "ekonomi_25",
+      "id": "ekonomi_29",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Altında kota sonrası ihracat eridi!",
@@ -140,7 +188,7 @@
       "why_important": "Uygulanan kota politikalarının Türkiye'nin küresel pazar payı ve döviz girdisi üzerindeki doğrudan negatif etkilerini somut verilerle ortaya koymaktadır."
     },
     {
-      "id": "ekonomi_26",
+      "id": "ekonomi_30",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Tekstil ve giyimde 8 ayda 25 bin kişi işini kaybetti",
@@ -164,7 +212,7 @@
       "why_important": "Ülke ekonomisinin en büyük istihdam ve ihracat kaynaklarından birindeki derinleşen daralmayı ve iş gücü kaybını açıkça göstermektedir."
     },
     {
-      "id": "ekonomi_28",
+      "id": "ekonomi_32",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Kuraklık, \"yağmur bombası\"nı yeniden gündeme taşıdı",
@@ -188,31 +236,31 @@
       "why_important": "Tırmanan kuraklık krizine karşı yapay müdahalelerin etkinliği ve çevresel sınırları, geleceğin su ve gıda güvenliği açısından kritik bir tartışma konusudur."
     },
     {
-      "id": "ekonomi_31",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "COP31'de ilk hafta geride kaldı, kritik başlıklarda uzlaşma yok",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/cop31/cop31de-ilk-hafta-geride-kaldi-kritik-basliklarda-uzlasma-yok-haberi-931439",
-      "pubDate": "2026-11-15T21:00:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/15/cop31de-ilk-hafta-geride-kaldi-kritik-basliklarda-uzlasma-yok-zp4f_cover.jpg",
-      "summary": "COP31'in ilk haftasında iklim finansmanı, elektrifikasyon hedefi ve fosil yakıtlardan uzaklaşma konularında uzlaşma sağlanamadı.",
+      "id": "dunya_8",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Demir atlarımızı Gazze'ye sürüyoruz sloganıyla İstanbul'da dayanışma sürüşü",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/turkiye/demir-atlarimizi-gazzeye-suruyoruz-sloganiyla-istanbulda-dayanisma-surusu-963361.html",
+      "pubDate": "2026-11-15T20:07:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/gazze-motosiklet-aa-2503761.jpg",
+      "summary": "İstanbul'da 3.000'den fazla motosikletli, Gazze'ye destek amacıyla bir dayanışma sürüşü düzenleyerek Filistin bayraklarıyla mesaj verdi.",
       "score": 8,
-      "tone": "negatif",
-      "why_important": "Küresel iklim hedeflerine ulaşmak için kritik finansal ve politik adımların gecikmesi, çevresel riskleri artırır.",
+      "tone": "pozitif",
+      "why_important": "Büyük bir sivil hareketin uluslararası insan hakları ve Filistin‑İsrail çatışması konusundaki farkındalığı artırması dikkat çekiyor.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:08+00:00",
+        "generated_at": "2026-11-15T23:35:53+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
-          "https://www.ekonomim.com/cop31/cop31de-ilk-hafta-geride-kaldi-kritik-basliklarda-uzlasma-yok-haberi-931439"
+          "https://www.trthaber.com/haber/turkiye/demir-atlarimizi-gazzeye-suruyoruz-sloganiyla-istanbulda-dayanisma-surusu-963361.html"
         ]
       }
     },
     {
-      "id": "teknoloji_32",
+      "id": "teknoloji_33",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Apple'ın gözlüğü iPhone'a bağlı çalışacak",
@@ -284,7 +332,7 @@
       "why_important": "Üç büyük güç arasındaki doğrudan temas, uluslararası güvenlik ve ekonomik politikalar üzerinde belirleyici etkiler doğurabilir."
     },
     {
-      "id": "teknoloji_39",
+      "id": "teknoloji_40",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "TSMC'de çalışan verileri açık artırmada",
@@ -306,7 +354,79 @@
       }
     },
     {
-      "id": "teknoloji_28",
+      "id": "dunya_14",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "356 bin kişi sigara bırakma polikliniklerinden yararlandı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/guncel/356-bin-kisi-sigara-birakma-polikliniklerinden-yararlandi-963355.html",
+      "pubDate": "2026-11-15T16:39:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2436000/sigarayi-birakma-gunu-2436720.jpg",
+      "summary": "Türkiye'de akciğer kanseri vakalarının büyük kısmı tütün kullanımından kaynaklanıyor; 2026 yılında 356 bin kişi sigara bırakma polikliniklerinden hizmet alarak tarihindeki en yüksek katılımı sağladı ve 7/24 destek hattı üzerinden 670 bin çağrı yanıtlandı.",
+      "score": 8,
+      "tone": "pozitif",
+      "why_important": "Tütünle ilişkili kanser riskinin azaltılması, halk sağlığı ve sağlık harcamalarının düşürülmesi açısından hayati öneme sahiptir.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:55+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.trthaber.com/haber/guncel/356-bin-kisi-sigara-birakma-polikliniklerinden-yararlandi-963355.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_26",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "iPhone Duo 2 için Apple'ın dört hedefi var",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/iphone-duo-2-apple-dort-hedef-face-id",
+      "pubDate": "2026-11-15T23:11:05+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/d62a81e11b082fceb0b5964dd1c2d9e8471304ef.webp",
+      "summary": "Apple, iPhone Duo 2 ve sonraki modeller için dört ana hedef belirledi; ancak Face ID özelliğinin planlanan modele zamanında entegre edilememesi ihtimali bulunuyor.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Yeni iPhone'un özellik ve takvim belirsizliği, tüketicilerin satın alma kararlarını doğrudan etkileyebilir.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:46+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://shiftdelete.net/iphone-duo-2-apple-dort-hedef-face-id"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_16",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Ronaldo Hollywood'a transfer oldu! Futbol temalı komedi dizisi geliyor",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/spor/ronaldo-hollywooda-transfer-oldu-futbol-temali-komedi-dizisi-geliyor-haberi-931461",
+      "pubDate": "2026-11-15T22:31:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/ronaldo-hollywooda-transfer-oldu-futbol-temali-komedi-dizisi-geliyor-n5cu_cover.jpg",
+      "summary": "Cristiano Ronaldo, Matthew Vaughn ile kurduğu UR·Marv Studios aracılığıyla Paramount+ için 10 bölümlük bir spor komedi‑dram dizisi olan \"Day 1s\"in çekimlerine başladı; dizide yürütücü yapımcı ve kendisini canlandıran bir rol üstlenecek. Premier Lig temalı bu dizi, futbolseverler arasında büyük ilgi görmesi bekleniyor.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Ronaldo'nun medya girişimi, spor ve eğlence sektörlerinin kesişiminde yeni bir içerik trendi yaratabilir.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:48+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.ekonomim.com/spor/ronaldo-hollywooda-transfer-oldu-futbol-temali-komedi-dizisi-geliyor-haberi-931461"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_29",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Gemini sohbetten çıkmadan belge düzenliyor",
@@ -316,8 +436,6 @@
       "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/gemini-docs-sheets-kapak-1511.webp",
       "summary": "Gemini, sohbet penceresi içinde Docs ve Sheets dosyalarını oluşturup düzenleme imkanı sunuyor; bu özellik ücretsiz planlarda da mevcut ancak bazı gizlilik ayarlarının etkinleştirilmesi gerekiyor.",
       "score": 7,
-      "tone": "pozitif",
-      "why_important": "Kullanıcıların iş akışını basitleştirerek üretkenliği artırması, rekabetçi bir avantaj sağlar.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -327,10 +445,12 @@
         "source_urls": [
           "https://shiftdelete.net/gemini-docs-ve-sheets-sohbet-icinde-duzenleme"
         ]
-      }
+      },
+      "tone": "pozitif",
+      "why_important": "Kullanıcıların iş akışını basitleştirerek üretkenliği artırması, rekabetçi bir avantaj sağlar."
     },
     {
-      "id": "ekonomi_17",
+      "id": "ekonomi_21",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "A Milli Takım Uluslar Ligi'ni puansız bitirdi: Fransa'ya da kaybetti",
@@ -340,8 +460,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/a-milli-takim-uluslar-ligini-puansiz-bitirdi-fransaya-da-kaybetti-kakl_cover.jpg",
       "summary": "A Milli Futbol Takımı, UEFA Uluslar Ligi'nde Fransa'ya 2-1 kaybederek grup maçlarının tamamını kaybetti ve turnuvayı puansız tamamladı.",
       "score": 7,
-      "tone": "negatif",
-      "why_important": "Milli takımın performansı, ülkenin futbol geleceği ve yönetim politikaları hakkında tartışma yaratıyor.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -351,10 +469,12 @@
         "source_urls": [
           "https://www.ekonomim.com/spor/a-milli-takim-uluslar-ligini-puansiz-bitirdi-fransaya-da-kaybetti-haberi-931454"
         ]
-      }
+      },
+      "tone": "negatif",
+      "why_important": "Milli takımın performansı, ülkenin futbol geleceği ve yönetim politikaları hakkında tartışma yaratıyor."
     },
     {
-      "id": "teknoloji_29",
+      "id": "teknoloji_30",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "CD Projekt Red'in ilanında 2028 baharı sürprizi",
@@ -402,7 +522,7 @@
       "why_important": "Üniversite yönetmelikleri ve devlet borçlanma verileri, eğitim ve finans sektörlerinde politika ve yatırım kararlarını şekillendirir."
     },
     {
-      "id": "ekonomi_27",
+      "id": "ekonomi_31",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Emtiaya güçlü dolar gölgesi",
@@ -426,55 +546,31 @@
       "why_important": "Doların küresel çapta güçlenmesi hammadde fiyatlarını baskılayarak küresel ticaret ve enflasyon dinamiklerini doğrudan etkilemektedir."
     },
     {
-      "id": "ekonomi_30",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Mahmut Ünlü: Yatırımcı güveninin temelinde liyakat ve yetkinlik yer alıyor",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/ekonomi/mahmut-unlu-yatirimci-guveninin-temelinde-liyakat-ve-yetkinlik-yer-aliyor-haberi-931437",
-      "pubDate": "2026-11-15T21:00:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/15/mahmut-unlu-yatirimci-guveninin-temelinde-liyakat-ve-yetkinlik-yer-aliyor-b0vp_cover.jpg",
-      "summary": "Mahmut Ünlü, İzmir'de düzenlenen panelde yatırımcı güveninin liyakat ve yetkinliğe dayandığını vurguladı.",
+      "id": "dunya_5",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Nevşehir'de ata çarpan yolcu otobüsünde bir kişi öldü, 2 kişi yaralandı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/turkiye/nevsehirde-ata-carpan-yolcu-otobusunde-bir-kisi-oldu-2-kisi-yaralandi-963364.html",
+      "pubDate": "2026-11-15T20:36:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/trafik-kazasiaa-2503764.jpg",
+      "summary": "Kayseri'den Aksaray yönüne giden bir otobüs, Kayseri-Nevşehir kara yolu Çökek köyü yakınlarında sahipsiz bir ata çarptı; otobüs sürücüsü ve bir yolcu yaralandı, at ise hayatını kaybetti. Yaralılar ambulanslarla Nevşehir Devlet Hastanesi'ne kaldırıldı, kazada bir kişi hayatını kaybetti.",
       "score": 7,
       "tone": "nötr",
-      "why_important": "Yatırım ortamındaki güven unsurları, sermaye akışını ve ekonomik büyümeyi doğrudan etkiler.",
+      "why_important": "Ulaşım güvenliği ve yolculuk sırasında hayvanların kontrolsüz hareketlerinin yol açabileceği riskler hakkında toplumu bilinçlendirmesi açısından kritiktir.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:08+00:00",
+        "generated_at": "2026-11-15T23:35:51+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
-          "https://www.ekonomim.com/ekonomi/mahmut-unlu-yatirimci-guveninin-temelinde-liyakat-ve-yetkinlik-yer-aliyor-haberi-931437"
+          "https://www.trthaber.com/haber/turkiye/nevsehirde-ata-carpan-yolcu-otobusunde-bir-kisi-oldu-2-kisi-yaralandi-963364.html"
         ]
       }
     },
     {
-      "id": "ekonomi_32",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "GENAR'ın AK Parti'nin masasındaki araştırma raporu: Fon krizinde hükümetin ihmali var",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/gundem/genarin-ak-partinin-masasindaki-arastirma-raporu-fon-krizinde-hukumetin-ihmali-var-haberi-931441",
-      "pubDate": "2026-11-15T21:00:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/15/genarin-ak-partinin-masasindaki-arastirma-raporu-fon-krizinde-hukumetin-ihmali-var-hpx5_cover.jpg",
-      "summary": "GENAR'ın araştırmasına göre, fon krizinin %81'inde hükümetin ihmali olduğu düşünülüyor; bu durum AK Parti'nin oy oranını %3 düşürürken, seçmenlerin %20'si tercihini değiştirebilir.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Hükümetin ekonomik krizle ilgili algısı, seçim sonuçlarını ve politik istikrarı doğrudan etkileyebilir.",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:10+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.ekonomim.com/gundem/genarin-ak-partinin-masasindaki-arastirma-raporu-fon-krizinde-hukumetin-ihmali-var-haberi-931441"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_31",
+      "id": "teknoloji_32",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Samsung kamera uygulaması baştan yazılıyor",
@@ -498,7 +594,7 @@
       "why_important": "Kamera uygulamasındaki bu yenilik, fotoğrafçılık tutkunlarının mobil cihazlarda daha profesyonel çekimler yapabilmesini sağlayacak."
     },
     {
-      "id": "teknoloji_33",
+      "id": "teknoloji_34",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Android Auto'da benzin fiyatları artık ekranda",
@@ -521,7 +617,7 @@
       "tone": "nötr"
     },
     {
-      "id": "teknoloji_34",
+      "id": "teknoloji_35",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Çin'in elektrikli yolcu uçağı pilotla uçtu",
@@ -542,6 +638,30 @@
         ]
       },
       "tone": "nötr"
+    },
+    {
+      "id": "dunya_12",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "ABD Ulaştırma Bakanı, hava trafiğinin pazartesi gününe kadar normale dönmesini bekliyor",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/abd-ulastirma-bakani-hava-trafiginin-pazartesi-gunune-kadar-normale-donmesini-bekliyor-963357.html",
+      "pubDate": "2026-11-15T17:52:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/abd-ucus-aa-2503580.jpg",
+      "summary": "ABD Ulaştırma Bakanı Duffy, iletişim sorunu nedeniyle yaşanan hava trafiği aksaklıklarının pazartesi gününe kadar normale dönmesini beklediğini açıkladı.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "FAA'nın altyapı sorunları ve modernizasyon ihtiyacı, ABD içindeki seyahat ve ticaretin kritik bir kesintiye uğramasına yol açtı.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:53+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/abd-ulastirma-bakani-hava-trafiginin-pazartesi-gunune-kadar-normale-donmesini-bekliyor-963357.html"
+        ]
+      }
     },
     {
       "id": "bilim_7",
@@ -568,7 +688,7 @@
       "why_important": "Sanal ortamda yapılan güvenlik testleri, gerçek dünyada kazaları önleyebilecek yenilikçi çözümlerin hızlıca prototiplenmesini sağlar."
     },
     {
-      "id": "teknoloji_38",
+      "id": "teknoloji_39",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "SİPER Ürün-2 ve Çelik Kubbe: Türkiye'nin Hava Savunma Kalkanı Nasıl Çalışıyor? | 2T #20",
@@ -586,6 +706,30 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://shiftdelete.net/siper-urun-2-celik-kubbe-hava-savunma-2t-teknoloji-savunma-20"
+        ]
+      }
+    },
+    {
+      "id": "dunya_13",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "SPK'den olağanüstü tasfiyede halka açık ortaklıkların geri aldığı paylarla ilgili açıklama",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/ekonomi/spkden-olaganustu-tasfiyede-halka-acik-ortakliklarin-geri-aldigi-paylarla-ilgili-aciklama-963356.html",
+      "pubDate": "2026-11-15T16:42:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2426000/spk-2427317.jpg",
+      "summary": "SPK, olağanüstü tasfiye edilen fonların portföylerindeki hisselerin doğrudan borsada satılmasının fiyat baskısı yaratabileceğini belirterek, hisselerin kapanış fiyatı üzerinden satılmasını ve böylece fon yatırımcılarının menfaatlerinin korunmasını şart koştu.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Fon yatırımcılarının varlıklarının adil bir fiyatla nakde çevrilmesi, piyasa istikrarı ve yatırımcı güveni açısından kritiktir.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:55+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.trthaber.com/haber/ekonomi/spkden-olaganustu-tasfiyede-halka-acik-ortakliklarin-geri-aldigi-paylarla-ilgili-aciklama-963356.html"
         ]
       }
     },
@@ -658,7 +802,31 @@
       "why_important": "Bölgede olası artçı depremler ve acil durum hazırlıklarının gözden geçirilmesi gerektiğini gösteriyor."
     },
     {
-      "id": "teknoloji_27",
+      "id": "ekonomi_18",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Sergen Yalçın: Bir umut ışığı verdik",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/spor/sergen-yalcin-bir-umut-isigi-verdik-haberi-931459",
+      "pubDate": "2026-11-15T22:25:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/sergen-yalcin-bir-umut-isigi-verdik-dhm6_cover.jpg",
+      "summary": "A Milli Takım Teknik Direktörü Sergen Yalçın, Fransa'ya 2-1 kaybedilen maç sonrası \"Kaybettik ama ilerisi için çok önemli bir umut ışığı verdik\" diyerek takımın moralini yükseltmeye çalıştı.",
+      "score": 6,
+      "tone": "pozitif",
+      "why_important": "Teknik direktörün olumlu mesajı, takımın motivasyonunu artırarak gelecekteki performansına yön verebilir.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:48+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.ekonomim.com/spor/sergen-yalcin-bir-umut-isigi-verdik-haberi-931459"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_28",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Yeni Apple TV'de RAM ikiye katlandı ama boşuna",
@@ -668,8 +836,6 @@
       "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/apple-tv-4k-dorduncu-nesil-kapak-1511.webp",
       "summary": "Apple TV 4K'nin RAM'i 4 GB'dan 8 GB'a yükseltilmiş, fiyatı 299 dolara çıkmış ancak tvOS hâlâ her uygulamaya sadece 2 GB bellek tahsis ediyor.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Artan donanım maliyeti ve sınırlı yazılım faydası, tüketicilerin satın alma kararını doğrudan etkiler.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -679,10 +845,12 @@
         "source_urls": [
           "https://shiftdelete.net/apple-tv-4k-ram-8-gb-uygulama-siniri-2-gb"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Artan donanım maliyeti ve sınırlı yazılım faydası, tüketicilerin satın alma kararını doğrudan etkiler."
     },
     {
-      "id": "ekonomi_15",
+      "id": "ekonomi_19",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "AFAD personel alımı yapacak: Başvurular 23 Kasım'da başlıyor",
@@ -692,8 +860,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/afad-personel-alimi-yapacak-basvurular-23-kasimda-basliyor-rgog_cover.jpg",
       "summary": "AFAD, 13 uzman ve 7 denetçi yardımcısı olmak üzere toplam 20 personel alımı yapacak; başvurular 23 Kasım'da başlayacak.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Afet yönetimi kapasitesinin artırılması, olası krizlerde hızlı ve etkili müdahale sağlamak için hayati öneme sahip.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -703,10 +869,12 @@
         "source_urls": [
           "https://www.ekonomim.com/gundem/afad-personel-alimi-yapacak-basvurular-23-kasimda-basliyor-haberi-931458"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Afet yönetimi kapasitesinin artırılması, olası krizlerde hızlı ve etkili müdahale sağlamak için hayati öneme sahip."
     },
     {
-      "id": "ekonomi_18",
+      "id": "ekonomi_22",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "BİM'DE SABAHIN ERKEN SAATİNDE KUYRUK OLUŞACAK! YENİ LİSTE YAYINLANDI (BİM 22-28 KASIM)",
@@ -716,8 +884,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/bimde-sabahin-erken-saatinde-kuyruk-olusacak-yeni-liste-yayinlandi-bim-22-28-kasim-ecrz_cover.gif",
       "summary": "BİM, 22-28 Kasım tarihleri arasında teknoloji, ev aletleri ve kış ürünleri gibi birçok kategoride sınırlı sayıda fırsat ürünleri sunan yeni kataloğunu yayınladı.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Kısa sürede tükenebilecek indirimli ürünler, tüketicilerin bütçesini doğrudan etkileyebilir.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -727,10 +893,12 @@
         "source_urls": [
           "https://www.ekonomim.com/foto-galeri/aktuel/bimde-sabahin-erken-saatinde-kuyruk-olusacak-yeni-liste-yayinlandi-bim-22-28-kasim-s1-galeri-931453"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Kısa sürede tükenebilecek indirimli ürünler, tüketicilerin bütçesini doğrudan etkileyebilir."
     },
     {
-      "id": "ekonomi_19",
+      "id": "ekonomi_23",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "BİM'DEN DEV KAMPANYA! MERAKLA BEKLENEN İNDİRİM LİSTESİ AÇIKLANDI (BİM 20-26 KASIM)",
@@ -740,8 +908,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/bimden-dev-kampanya-merakla-beklenen-indirim-listesi-aciklandi-bim-20-26-kasim-eea5_cover.gif",
       "summary": "BİM, 20-26 Kasım tarihleri arasında ev yenileme, çeyiz ve kış hazırlığına yönelik dünyaca ünlü markaların bulunduğu yeni kampanya kataloğunu duyurdu.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Kampanya, geniş kitlelerin tasarruf etmesini sağlayarak perakende sektörü ve tüketici harcamaları üzerinde etkili olacak.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -751,10 +917,12 @@
         "source_urls": [
           "https://www.ekonomim.com/foto-galeri/aktuel/bimden-dev-kampanya-merakla-beklenen-indirim-listesi-aciklandi-bim-20-26-kasim-s1-galeri-931452"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Kampanya, geniş kitlelerin tasarruf etmesini sağlayarak perakende sektörü ve tüketici harcamaları üzerinde etkili olacak."
     },
     {
-      "id": "ekonomi_21",
+      "id": "ekonomi_25",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "NATO: Bir sonraki zirve Arnavutluk'ta düzenlenecek, henüz tarihi belli değil",
@@ -766,10 +934,6 @@
         {
           "source": "TRT Haber",
           "link": "https://www.trthaber.com/haber/dunya/bir-sonraki-nato-zirvesi-arnavutlukta-tarihi-belli-degil-963365.html"
-        },
-        {
-          "source": "Anadolu Ajansı",
-          "link": "https://www.aa.com.tr/tr/dunya/nato-bir-sonraki-zirve-arnavutlukta-duzenlenecek-henuz-tarihi-belli-degil-/4126035"
         }
       ],
       "summary": "NATO, bir sonraki liderler zirvesinin Arnavutluk'ta yapılacağını duyurdu, ancak toplantının kesin tarihi henüz belirlenmedi.",
@@ -788,7 +952,7 @@
       "why_important": "Bölgesel güvenlik ve işbirliği konularının gelecekteki yönelimlerini etkileyebilecek önemli bir diplomatik adım."
     },
     {
-      "id": "ekonomi_22",
+      "id": "ekonomi_26",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "HANIMLAR MÜJDE! A101’E PHILIPS ELEKTRİKLİ MOP GELİYOR (A101 19-25 KASIM)",
@@ -812,7 +976,7 @@
       "why_important": "Uygun fiyatlı yeni temizlik teknolojisi, ev harcamalarını ve zaman yönetimini doğrudan etkileyebilir."
     },
     {
-      "id": "ekonomi_29",
+      "id": "ekonomi_33",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Coral Travel, iç pazarda ciroda yüzde 50 büyüme hedefliyor",
@@ -836,52 +1000,28 @@
       "why_important": "Turizm sektöründeki agresif büyüme hedefleri, hem iç pazar dinamiklerini hem de Türkiye'nin hizmet ihracatı potansiyelini gözler önüne sermektedir."
     },
     {
-      "id": "ekonomi_33",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Hürmüz Boğazı'nda petrol tankeri mayına çarparak alev aldı",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/dunya/hurmuz-bogazinda-petrol-tankeri-mayina-carparak-alev-aldi-haberi-931445",
-      "pubDate": "2026-11-15T20:35:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/15/hurmuz-bogazinda-petrol-tankeri-mayina-carparak-alev-aldi-qcw7_cover.jpg",
-      "summary": "İran Ordusu, Hürmüz Boğazı'nın doğusunda izinsiz geçiş yapmaya çalışan bir petrol tankeri deniz mayınına çarpıp alev aldığını duyurdu.",
+      "id": "dunya_6",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Bursa'nın İnegöl ilçesinde 3 ev yandı: 10 kişi dumandan etkilendi",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/turkiye/bursanin-inegol-ilcesinde-3-ev-yandi-10-kisi-dumandan-etkilendi-963363.html",
+      "pubDate": "2026-11-15T20:15:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/bursa-yangin-aa-2503763.jpg",
+      "summary": "Bursa'nın İnegöl ilçesinde Turgutalp Mahallesi'nde bir ekmek tandırının söndürülmemesi sonucu çıkan yangın, kısa sürede üç evin yanmasına ve dört evin zarar görmesine yol açtı; 10 kişi dumandan etkilendi ancak yaralanma olmadı. İtfaiye ekiplerinin hızlı müdahalesiyle yangın kontrol altına alındı ve zarar gören binalar güvenlik nedeniyle yıkıldı.",
       "score": 6,
-      "tone": "negatif",
-      "why_important": "Bölgedeki deniz güvenliği ve enerji taşımacılığına yönelik tehdit, uluslararası ticaret ve jeopolitik riskleri artırıyor.",
+      "tone": "nötr",
+      "why_important": "Yangınların yayılmasını önlemek ve halkın güvenliğini sağlamak için acil müdahale ekiplerinin koordineli çalışmasının önemini gösteriyor.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:10+00:00",
+        "generated_at": "2026-11-15T23:35:51+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
-          "https://www.ekonomim.com/dunya/hurmuz-bogazinda-petrol-tankeri-mayina-carparak-alev-aldi-haberi-931445"
+          "https://www.trthaber.com/haber/turkiye/bursanin-inegol-ilcesinde-3-ev-yandi-10-kisi-dumandan-etkilendi-963363.html"
         ]
       }
-    },
-    {
-      "id": "gundem_56",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Sağlık Bakanı Memişoğlu, KKTC'nin kuruluşunun 43. yıl dönümünü kutladı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/gundem/saglik-bakani-memisoglu-kktcnin-kurulusunun-43-yil-donumunu-kutladi/4126016",
-      "pubDate": "2026-11-15T19:57:42+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_b2ea41bccbe4b33f23793f11254422d4.jpg",
-      "summary": "Sağlık Bakanı Memişoğlu, Kuzey Kıbrıs Türk Cumhuriyeti'nin 43. kuruluş yıldönümünü sosyal medyada kutlayarak şehit ve gazileri anıp iki toplum arasındaki birlik ve kardeşliği vurguladı.",
-      "score": 6,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T21:34:13+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/gundem/saglik-bakani-memisoglu-kktcnin-kurulusunun-43-yil-donumunu-kutladi/4126016"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Kıbrıs meselesi bölgesel diplomasi ve toplumsal dayanışma açısından hâlâ kritik bir konudur."
     },
     {
       "id": "dunya_10",
@@ -908,7 +1048,7 @@
       "why_important": "Uluslararası iklim zirvelerinde sürdürülebilirlik ve sıfır atık bilincinin genç nesillere eğitim yoluyla kazandırılmasına yönelik somut adımları sergilemektedir."
     },
     {
-      "id": "teknoloji_35",
+      "id": "teknoloji_36",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Cloudflare'in tarayıcısı insanlar için değil",
@@ -952,28 +1092,6 @@
         ]
       },
       "tone": "nötr"
-    },
-    {
-      "id": "teknoloji_40",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Yatırımcılar Huang'ın dönüş kapısını kapatmıyor",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/nvidia-ceo-yatirimci-mektubu-huang-donus",
-      "pubDate": "2026-11-15T16:41:00+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/eae9f50fb309379244ba1a6d467e982ae66d2a7e.webp",
-      "summary": "NVIDIA CEO Jensen Huang'un olası dönüşü ve kalıcı bir CEO seçimi konusunda Altimeter ve Atreides gibi yatırımcılar, yönetim kuruluna acele karar alınmamasını ve Huang'un geri dönme ihtimalinin korunmasını talep etti.",
-      "score": 6,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://shiftdelete.net/nvidia-ceo-yatirimci-mektubu-huang-donus"
-        ]
-      }
     },
     {
       "id": "bilim_8",
@@ -1020,7 +1138,271 @@
       }
     },
     {
-      "id": "ekonomi_16",
+      "id": "teknoloji_27",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Win+R penceresi yıllar sonra yüzünü değiştiriyor",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/windows-11-calistir-penceresi-yenileniyor",
+      "pubDate": "2026-11-15T22:41:06+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/fab01342057f05b573a4baa776358f19358b6a1d.webp",
+      "summary": "Windows 11'de Çalıştır (Win+R) penceresi yeni bir arayüz, karanlık tema ve daha hızlı açılışla güncellenirken, uzun süredir var olan bir düğme kaldırıldı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "Kullanıcı deneyimini etkileyen bu değişiklik, günlük iş akışlarını ve alışkanlıkları yeniden şekillendirebilir.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:46+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://shiftdelete.net/windows-11-calistir-penceresi-yenileniyor"
+        ]
+      }
+    },
+    {
+      "id": "gundem_53",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Husiler, Yemen'in Aden kentindeki askeri kampı balistik füzelerle hedef aldı",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/husiler-yemenin-aden-kentindeki-askeri-kampi-balistik-fuzelerle-hedef-aldi/4126069",
+      "pubDate": "2026-11-15T22:37:43+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/16/thumbs_b_c_c665d5c204de0ce73a21782f45328fcb.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:36:17+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/husiler-yemenin-aden-kentindeki-askeri-kampi-balistik-fuzelerle-hedef-aldi/4126069"
+        ]
+      }
+    },
+    {
+      "id": "gundem_157",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Berke Özer: 'Geleceğe umutlu bakmalıyız!'",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/sporarena/berke-ozer-gelecege-umutlu-bakmaliyiz-43379596",
+      "pubDate": "2026-11-15T22:31:39+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6afa32baff497cc803f6aba2.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:36:17+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.hurriyet.com.tr/sporarena/berke-ozer-gelecege-umutlu-bakmaliyiz-43379596"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_17",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "YENİ Parti PM’ye seçilen Kadem Özbay, Eğitim-İş’teki görevinden ayrıldı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/gundem/yeni-parti-pmye-secilen-kadem-ozbay-egitim-isteki-gorevinden-ayrildi-haberi-931460",
+      "pubDate": "2026-11-15T22:28:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/yeni-parti-pmye-secilen-kadem-ozbay-egitim-isteki-gorevinden-ayrildi-alv4_cover.jpg",
+      "summary": "YENİ Parti'nin Parti Meclisi üyeliğine seçilen Eğitim‑İş Genel Başkanı Kadem Özbay, parti içindeki genel başkanlık görevinden ve sendika üyeliğinden istifa etti.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "Parti içi dinamiklerdeki bu değişiklik, siyasi ve sendikal ilişkilerin gelecekteki seyrini etkileyebilir.",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:35:48+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.ekonomim.com/gundem/yeni-parti-pmye-secilen-kadem-ozbay-egitim-isteki-gorevinden-ayrildi-haberi-931460"
+        ]
+      }
+    },
+    {
+      "id": "gundem_161",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "İngiltere'den tarihi galibiyet: İspanya'nın yenilmezliği son buldu!",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/sporarena/ingiltereden-tarihi-galibiyet-ispanyanin-yenilmezligi-son-buldu-43379593",
+      "pubDate": "2026-11-15T22:19:34+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6afa2fd5ff497cc803f6ab92.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:36:17+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.hurriyet.com.tr/sporarena/ingiltereden-tarihi-galibiyet-ispanyanin-yenilmezligi-son-buldu-43379593"
+        ]
+      }
+    },
+    {
+      "id": "gundem_58",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "UEFA Uluslar Ligi'nin 6. haftası 8 maçla başladı",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/spor/uefa-uluslar-liginin-6-haftasi-8-macla-basladi/4126067",
+      "pubDate": "2026-11-15T22:18:22+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/16/thumbs_b_c_5b8fc75fab7ecfc7e5c775477f75e2ed.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:36:38+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/spor/uefa-uluslar-liginin-6-haftasi-8-macla-basladi/4126067"
+        ]
+      }
+    },
+    {
+      "id": "gundem_57",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "NYT: USS Theodore Roosevelt uçak gemisi, Orta Doğu’daki görevine başlıyor",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/nyt-uss-theodore-roosevelt-ucak-gemisi-orta-dogu-daki-gorevine-basliyor/4126063",
+      "pubDate": "2026-11-15T22:07:25+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/16/thumbs_b_c_f4a9b603a0430f6084f87971fb892c16.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:36:38+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/nyt-uss-theodore-roosevelt-ucak-gemisi-orta-dogu-daki-gorevine-basliyor/4126063"
+        ]
+      }
+    },
+    {
+      "id": "gundem_55",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Çekya'da yüz binlerce kişi kamu yayıncılarının finansmanının değiştirilmesini protesto etti",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/cekyada-yuz-binlerce-kisi-kamu-yayincilarinin-finansmaninin-degistirilmesini-protesto-etti/4126062",
+      "pubDate": "2026-11-15T22:02:04+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/16/thumbs_b_c_a69be833df9090e9c9f6e47acebb8767.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:36:38+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/cekyada-yuz-binlerce-kisi-kamu-yayincilarinin-finansmaninin-degistirilmesini-protesto-etti/4126062"
+        ]
+      }
+    },
+    {
+      "id": "gundem_56",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Kasım SED ödemeleri hak sahiplerinin hesaplarına yatırıldı",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/gundem/kasim-sed-odemeleri-hak-sahiplerinin-hesaplarina-yatirildi/4126060",
+      "pubDate": "2026-11-15T21:58:46+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/16/thumbs_b_c_5be14c25893a32c9a406b8ffdb3b8e48.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:37:52+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/gundem/kasim-sed-odemeleri-hak-sahiplerinin-hesaplarina-yatirildi/4126060"
+        ]
+      }
+    },
+    {
+      "id": "gundem_156",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Sergen Yalçın: 'Umut ediyorum ilerisi daha güzel olacak'",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/sporarena/sergen-yalcin-umut-ediyorum-ilerisi-daha-guzel-olacak-43379585",
+      "pubDate": "2026-11-15T21:58:31+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6afa2b058c01a1364d0693dd.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:37:52+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.hurriyet.com.tr/sporarena/sergen-yalcin-umut-ediyorum-ilerisi-daha-guzel-olacak-43379585"
+        ]
+      }
+    },
+    {
+      "id": "gundem_147",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "A Milli Takım, Uluslar A Ligi'nde nasıl kalır? Tek bir ihtimal var!",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/sporarena/a-milli-takim-uluslar-a-liginde-nasil-kalir-tek-bir-ihtimal-var-43379584",
+      "pubDate": "2026-11-15T21:56:00+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6afa2a52ff497cc803f6ab7f.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:37:52+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.hurriyet.com.tr/sporarena/a-milli-takim-uluslar-a-liginde-nasil-kalir-tek-bir-ihtimal-var-43379584"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_20",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "8 üniversiteye 186 personel alınacak: Başvurular başladı",
@@ -1030,8 +1412,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/8-universiteye-186-personel-alinacak-basvurular-basladi-9sa3_cover.jpg",
       "summary": "Resmi Gazete'de yayımlanan duyuruya göre, 8 üniversite toplam 186 akademik ve sözleşmeli personel alacak; başvurular 16 Kasım'da başlayacak.",
       "score": 5,
-      "tone": "nötr",
-      "why_important": "Üniversitelerde personel artışı, akademik üretkenliği ve eğitim kalitesini yükselterek uzun vadeli ekonomik ve sosyal gelişime katkı sağlar.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1041,7 +1421,9 @@
         "source_urls": [
           "https://www.ekonomim.com/egitim/8-universiteye-186-personel-alinacak-basvurular-basladi-haberi-931456"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Üniversitelerde personel artışı, akademik üretkenliği ve eğitim kalitesini yükselterek uzun vadeli ekonomik ve sosyal gelişime katkı sağlar."
     },
     {
       "id": "gundem_83",
@@ -1060,7 +1442,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:14+00:00",
+        "generated_at": "2026-11-15T23:38:14+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
           "https://www.diken.com.tr/uluslar-ligi-turkiye-fransaya-2-1-yenildi/?utm_source=rss&utm_medium=rss&utm_campaign=uluslar-ligi-turkiye-fransaya-2-1-yenildi"
@@ -1068,10 +1450,34 @@
       }
     },
     {
-      "id": "ekonomi_20",
+      "id": "gundem_54",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Hatay Mustafa Kemal Üniversitesi iklim krizine karşı geliştirdiği 8 projeyi COP31'de sunacak",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/gundem/hatay-mustafa-kemal-universitesi-iklim-krizine-karsi-gelistirdigi-8-projeyi-cop31de-sunacak/4126055",
+      "pubDate": "2026-11-15T21:35:03+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/16/thumbs_b_c_9897f56f945876f8ecc5c246ba558bb9.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T23:38:14+00:00",
+        "method": "summary+score+tone+why",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/gundem/hatay-mustafa-kemal-universitesi-iklim-krizine-karsi-gelistirdigi-8-projeyi-cop31de-sunacak/4126055"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_24",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "BİM 17 KASIM SALI AKTÜEL ÜRÜNLER KATALOĞU! BİM’E YARIN HANGİ ÜRÜNLER GELİYOR?",
+      "title": "BİM 17 KASIM SALI AKTÜEL ÜRÜNLER KATALOĞU! BİM’E YARIN HANGİ ÜRÜNLER GELİYOR? (BİM 17-23 KASIM)",
       "source": "Ekonomim",
       "link": "https://www.ekonomim.com/foto-galeri/aktuel/bim-17-kasim-sali-aktuel-urunler-katalogu-bime-yarin-hangi-urunler-geliyor-s1-galeri-931451",
       "pubDate": "2026-11-15T21:14:00+00:00",
@@ -1108,7 +1514,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:36+00:00",
+        "generated_at": "2026-11-15T23:38:14+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
           "https://www.hurriyet.com.tr/dunya/husiler-duyurdu-suudi-arabistanda-havalimani-finans-merkezi-ve-petrol-tesislerini-hedef-aldik-43379569"
@@ -1132,7 +1538,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:36+00:00",
+        "generated_at": "2026-11-15T23:38:35+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
           "https://www.diken.com.tr/49-yillik-yolculuk-voyager-1-bir-isik-gunu-uzakliga-ulasmak-uzere/?utm_source=rss&utm_medium=rss&utm_campaign=49-yillik-yolculuk-voyager-1-bir-isik-gunu-uzakliga-ulasmak-uzere"
@@ -1140,7 +1546,7 @@
       }
     },
     {
-      "id": "ekonomi_23",
+      "id": "ekonomi_27",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "BİLGİSAYAR, ÇEVRE BİRİMLERİ VE GÜÇ KAYNAKLARI ALIM İŞİ",
@@ -1156,7 +1562,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:08+00:00",
+        "generated_at": "2026-11-15T23:35:51+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
           "https://www.ekonomim.com/resmi-ilanlar/bilgisayar-cevre-birimleri-ve-guc-kaynaklari-alim-isi-ilan-931167"
@@ -1180,7 +1586,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:36+00:00",
+        "generated_at": "2026-11-15T23:38:35+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
           "https://www.hurriyet.com.tr/resmi-ilanlar/sivas-4-asliye-hukuk-mahkemesi-hakimligi-43379240"
@@ -1204,7 +1610,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:57+00:00",
+        "generated_at": "2026-11-15T23:38:35+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
           "https://www.hurriyet.com.tr/sporarena/berke-ozerden-muthis-geri-donus-522-gun-sonra-kaleye-gecti-fransa-karsisinda-buyudu-43379539"
@@ -1212,7 +1618,7 @@
       }
     },
     {
-      "id": "teknoloji_30",
+      "id": "teknoloji_31",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Kameralı gözlüğe kapılar birer birer kapanıyor",
@@ -1222,8 +1628,6 @@
       "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/ray-ban-meta-gozluk-yasak-kapak-1511.webp",
       "summary": "Akıllı gözlüklerdeki kameralar hâlâ ülke çapında yasaklanmamış olsa da, mahkemeler, okullar ve havuzlar gibi kurumlar bu cihazları yasaklıyor; Pakistan'ın Pencap eyaleti 30 günlük bir yasak getirdi.",
       "score": 5,
-      "tone": "negatif",
-      "why_important": "Gizlilik ve güvenlik endişeleri, kamusal alanda yeni teknolojilerin kabulünü sınırlandırıyor.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1233,79 +1637,9 @@
         "source_urls": [
           "https://shiftdelete.net/akilli-gozluk-yasagi-mahkeme-okul-havuz"
         ]
-      }
-    },
-    {
-      "id": "dunya_5",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Nevşehir'de ata çarpan yolcu otobüsünde bir kişi öldü, 2 kişi yaralandı",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/nevsehirde-ata-carpan-yolcu-otobusunde-bir-kisi-oldu-2-kisi-yaralandi-963364.html",
-      "pubDate": "2026-11-15T20:36:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/trafik-kazasiaa-2503764.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:31+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/nevsehirde-ata-carpan-yolcu-otobusunde-bir-kisi-oldu-2-kisi-yaralandi-963364.html"
-        ]
-      }
-    },
-    {
-      "id": "gundem_85",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "NYT: ABD Ortadoğu'ya bir uçak gemisi daha gönderiyor",
-      "source": "Diken",
-      "link": "https://www.diken.com.tr/nyt-abd-ortadoguya-bir-ucak-gemisi-daha-gonderiyor/?utm_source=rss&utm_medium=rss&utm_campaign=nyt-abd-ortadoguya-bir-ucak-gemisi-daha-gonderiyor",
-      "pubDate": "2026-11-15T20:18:25+00:00",
-      "image": "https://www.diken.com.tr/wp-content/uploads/2026/10/2026-10-01-uss-theodore-roosevelt-wikipedia-1.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:57+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.diken.com.tr/nyt-abd-ortadoguya-bir-ucak-gemisi-daha-gonderiyor/?utm_source=rss&utm_medium=rss&utm_campaign=nyt-abd-ortadoguya-bir-ucak-gemisi-daha-gonderiyor"
-        ]
-      }
-    },
-    {
-      "id": "dunya_6",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Bursa'nın İnegöl ilçesinde 3 ev yandı: 10 kişi dumandan etkilendi",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/bursanin-inegol-ilcesinde-3-ev-yandi-10-kisi-dumandan-etkilendi-963363.html",
-      "pubDate": "2026-11-15T20:15:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/bursa-yangin-aa-2503763.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:31+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/bursanin-inegol-ilcesinde-3-ev-yandi-10-kisi-dumandan-etkilendi-963363.html"
-        ]
-      }
+      },
+      "tone": "negatif",
+      "why_important": "Gizlilik ve güvenlik endişeleri, kamusal alanda yeni teknolojilerin kabulünü sınırlandırıyor."
     },
     {
       "id": "dunya_7",
@@ -1316,162 +1650,18 @@
       "link": "https://www.trthaber.com/haber/turkiye/galata-kulesine-kktc-bayragi-yansitildi-963362.html",
       "pubDate": "2026-11-15T20:13:00+00:00",
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/kktc-galata-kulesi-aa-2503762.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "summary": "Galata Kulesi, Kuzey Kıbrıs Türk Cumhuriyeti'nin 43. kuruluş yıl dönümü nedeniyle kuleye yansıtılan ışık gösterisiyle aydınlatıldı.",
       "score": 5,
       "tone": "nötr",
-      "why_important": "",
+      "why_important": "Kıbrıs sorunu ve Türkiye‑Kuzey Kıbrıs ilişkileri bölgesel politikada sembolik bir gösteriyle gündeme getirildi.",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:31+00:00",
+        "generated_at": "2026-11-15T23:35:53+00:00",
         "method": "summary+score+tone+why",
         "source_urls": [
           "https://www.trthaber.com/haber/turkiye/galata-kulesine-kktc-bayragi-yansitildi-963362.html"
-        ]
-      }
-    },
-    {
-      "id": "gundem_156",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "ABD'deki uçuş aksaklıkları üçüncü gününde devam ediyor: 5 bin 200’den fazla sefer etkilendi",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/dunya/abddeki-ucus-aksakliklari-ucuncu-gununde-devam-ediyor-5-bin-200den-fazla-sefer-etkilendi-43379540",
-      "pubDate": "2026-11-15T20:12:58+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6afa12478c01a1364d069324.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:57+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.hurriyet.com.tr/dunya/abddeki-ucus-aksakliklari-ucuncu-gununde-devam-ediyor-5-bin-200den-fazla-sefer-etkilendi-43379540"
-        ]
-      }
-    },
-    {
-      "id": "gundem_55",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Batılı 4 ülke, İsrail'e Gazze'ye insani yardımların girişine izin vermesi çağrısı yaptı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/dunya/batili-4-ulke-israile-gazzeye-insani-yardimlarin-girisine-izin-vermesi-cagrisi-yapti/4126017",
-      "pubDate": "2026-11-15T20:09:01+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_7706a3ffb068f2af78df8551350b4d58.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:30:19+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/dunya/batili-4-ulke-israile-gazzeye-insani-yardimlarin-girisine-izin-vermesi-cagrisi-yapti/4126017"
-        ]
-      }
-    },
-    {
-      "id": "dunya_8",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Demir atlarımızı Gazze'ye sürüyoruz sloganıyla İstanbul'da dayanışma sürüşü",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/demir-atlarimizi-gazzeye-suruyoruz-sloganiyla-istanbulda-dayanisma-surusu-963361.html",
-      "pubDate": "2026-11-15T20:07:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/gazze-motosiklet-aa-2503761.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:53+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/demir-atlarimizi-gazzeye-suruyoruz-sloganiyla-istanbulda-dayanisma-surusu-963361.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_12",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "ABD Ulaştırma Bakanı, hava trafiğinin pazartesi gününe kadar normale dönmesini bekliyor",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/abd-ulastirma-bakani-hava-trafiginin-pazartesi-gunune-kadar-normale-donmesini-bekliyor-963357.html",
-      "pubDate": "2026-11-15T17:52:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/abd-ucus-aa-2503580.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:53+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/abd-ulastirma-bakani-hava-trafiginin-pazartesi-gunune-kadar-normale-donmesini-bekliyor-963357.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_13",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "SPK'den olağanüstü tasfiyede halka açık ortaklıkların geri aldığı paylarla ilgili açıklama",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/ekonomi/spkden-olaganustu-tasfiyede-halka-acik-ortakliklarin-geri-aldigi-paylarla-ilgili-aciklama-963356.html",
-      "pubDate": "2026-11-15T16:42:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2426000/spk-2427317.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:28:53+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.trthaber.com/haber/ekonomi/spkden-olaganustu-tasfiyede-halka-acik-ortakliklarin-geri-aldigi-paylarla-ilgili-aciklama-963356.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_14",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "356 bin kişi sigara bırakma polikliniklerinden yararlandı",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/guncel/356-bin-kisi-sigara-birakma-polikliniklerinden-yararlandi-963355.html",
-      "pubDate": "2026-11-15T16:39:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2436000/sigarayi-birakma-gunu-2436720.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:14+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.trthaber.com/haber/guncel/356-bin-kisi-sigara-birakma-polikliniklerinden-yararlandi-963355.html"
         ]
       }
     },
@@ -1497,30 +1687,6 @@
         ]
       },
       "tone": "negatif"
-    },
-    {
-      "id": "dunya_16",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "İşgalci İsrail, ateşkese rağmen Lübnan'ın güneyine saldırdı",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/isgalci-israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-963353.html",
-      "pubDate": "2026-11-15T15:05:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2444000/lubnan-a-2444093.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T22:29:14+00:00",
-        "method": "summary+score+tone+why",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/isgalci-israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-963353.html"
-        ]
-      }
     },
     {
       "id": "bilim_12",
@@ -1551,7 +1717,7 @@
       "title": "Son dakika deprem mi oldu? Az önce deprem nerede oldu? İstanbul, Ankara, İzmir ve il il AFAD son depremler 16 Kasım 2026",
       "source": "NTV",
       "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-16-kasim-2026-1751040",
-      "pubDate": "2026-11-15T22:00:00+00:00",
+      "pubDate": "2026-11-15T23:30:00+00:00",
       "image": "https://images.ntv.com.tr/images/477a4d82-9d42-44a3-8135-f2a9ec017f8a.jpg",
       "other_sources": [
         {
@@ -1644,7 +1810,7 @@
       "tone": "nötr"
     },
     {
-      "id": "teknoloji_37",
+      "id": "teknoloji_38",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "BMW'nin yeni canavarı Chiron'u geride bıraktı",
@@ -1667,29 +1833,7 @@
       "tone": "nötr"
     },
     {
-      "id": "teknoloji_5",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Göz yorgunluğunu azaltan Kyodo Myofree tablet tanıtıldı",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/goz-yorgunlugunu-azaltan-kyodo-myofree-tablet-tanitildi--212939",
-      "pubDate": "2026-11-15T17:00:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/212939/1200x675goz-yorgunlugunu-azaltan-kyodo-myofree-tablet-tanitildi.jpg",
-      "summary": "Japon şirketi Kyodo, göz yorgunluğunu azaltmayı hedefleyen Myofree adlı 15,6 inç Android 16 tabletini tanıttı; özel polarize gözlüklerle ekranı 5 metre uzakta gibi algılatıyor.",
-      "score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.donanimhaber.com/goz-yorgunlugunu-azaltan-kyodo-myofree-tablet-tanitildi--212939"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_24",
+      "id": "ekonomi_28",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Tarihte bugün: 16 Kasım",
@@ -1736,7 +1880,7 @@
       "tone": "pozitif"
     },
     {
-      "id": "teknoloji_36",
+      "id": "teknoloji_37",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "GTA 6'da platin kupa sabır isteyecek",
@@ -1804,24 +1948,24 @@
     }
   ],
   "weather": {
-    "temp": 8.8,
+    "temp": 8.9,
     "desc": "Kapalı"
   },
   "market": {
     "usdtry": 50.38,
     "eurtry": 55.61,
-    "gold_gram_try": 6297.1
+    "gold_gram_try": 6289.57
   },
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 3283583,
-      "change_pct": 1.8421777658399525
+      "price": 3287742,
+      "change_pct": 2.9481687193320485
     },
     {
       "label": "Ethereum",
-      "price": 92071,
-      "change_pct": 3.797679257419052
+      "price": 92389,
+      "change_pct": 5.484698599311979
     }
   ],
   "stocks": [
