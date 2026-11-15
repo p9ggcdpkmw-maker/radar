@@ -21,10 +21,10 @@ if not GROQ_KEY and not GEMINI_KEY and not HF_KEY:
     print("HATA: Hiçbir API anahtarı bulunamadı!", file=sys.stderr)
     sys.exit(1)
 
-# KESİN DÜZELTME: Gemini modeli 3.8-flash olarak güncellendi. (2.5-flash yeni anahtarlarda 404 veriyor)
+# DÜZELTME: HF modeli, router üzerinde kesin çalışan openai/gpt-oss-120b olarak değiştirildi.
 AI_MODEL_GROQ   = os.environ.get("AI_MODEL_GROQ", "openai/gpt-oss-120b").strip()
 AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-3.8-flash").strip()
-AI_MODEL_HF     = os.environ.get("AI_MODEL_HF", "meta-llama/Llama-3.2-3B-Instruct").strip()
+AI_MODEL_HF     = os.environ.get("AI_MODEL_HF", "openai/gpt-oss-120b").strip()
 AI_TEMPERATURE  = float(os.environ.get("AI_TEMPERATURE", "0.2"))
 AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.1").strip()
 
@@ -96,26 +96,27 @@ def ask_ai(prompt, is_json=True):
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Groq hatası: {e}", file=sys.stderr)
-                time.sleep(2)
+                time.sleep(1)
 
     # 2. Gemini
     if GEMINI_KEY:
-        for attempt in range(3):
+        for attempt in range(2): # DÜZELTME: Deneme sayısı 2'ye düşürüldü
             try:
                 body = {"model": AI_MODEL_GEMINI, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}]}
                 if is_json: body["response_format"] = {"type": "json_object"}
-                resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=45)
-                if resp.status_code == 429: time.sleep(15); continue
+                # DÜZELTME: Timeout 60 saniyeye çıkarıldı
+                resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=60)
+                if resp.status_code == 429: time.sleep(10); continue
                 resp.raise_for_status()
                 LAST_AI_MODEL = AI_MODEL_GEMINI
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
-                time.sleep(5)
+                time.sleep(3)
 
-    # 3. Hugging Face (KESİN DÜZELTME: router.huggingface.co kullanıldı)
+    # 3. Hugging Face (DÜZELTME: 400 hatasında döngü kırılıyor)
     if HF_KEY:
-        for attempt in range(2):
+        for attempt in range(1):
             try:
                 body = {"model": AI_MODEL_HF, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}]}
                 if is_json: body["response_format"] = {"type": "json_object"}
@@ -130,7 +131,7 @@ def ask_ai(prompt, is_json=True):
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! HF hatası: {e}", file=sys.stderr)
-                time.sleep(3)
+                break # DÜZELTME: Hata alındığında tekrar denemeyi durdur
 
     return ""
 
@@ -385,7 +386,7 @@ def main():
                     "method": "summary+score+tone",
                     "source_urls": [it["link"]],
                 }
-            time.sleep(2)
+            time.sleep(1)
 
     for it in all_items: it.pop("text", None); it.pop("rss_desc", None)
 
