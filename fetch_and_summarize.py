@@ -15,7 +15,6 @@ import feedparser
 # --- YAPILANDIRMA ---
 GROQ_KEY = os.environ.get("GROQ_API_KEY", "").strip()
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-# Hugging Face tamamen kaldırıldı.
 
 if not GROQ_KEY and not GEMINI_KEY:
     print("HATA: Hiçbir API anahtarı bulunamadı!", file=sys.stderr)
@@ -24,7 +23,7 @@ if not GROQ_KEY and not GEMINI_KEY:
 AI_MODEL_GROQ   = os.environ.get("AI_MODEL_GROQ", "openai/gpt-oss-120b").strip()
 AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-3.8-flash").strip()
 AI_TEMPERATURE  = float(os.environ.get("AI_TEMPERATURE", "0.2"))
-AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.1").strip()
+AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.2").strip() # Sürüm güncellendi
 
 LAST_AI_MODEL = None
 
@@ -36,19 +35,20 @@ HEADERS = {
 
 SOURCE_NAMES = {
     "webtekno": "Webtekno", "shiftdelete": "ShiftDelete", "donanimhaber": "DonanımHaber",
+    "webrazzi": "Webrazzi", "chip": "CHIP Online",
     "bbci": "BBC Türkçe", "bbc": "BBC", "ntv": "NTV", "sozcu": "Sözcü", "hurriyet": "Hürriyet",
     "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber",
-    "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe"
+    "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe",
+    "t24": "T24", "diken": "Diken", "bloomberght": "Bloomberg HT", "ekonomim": "Ekonomim", "bigpara": "Bigpara"
 }
 
 CATEGORIES = [
     {"id": "oyun", "label": "Ücretsiz Oyun", "feeds": ["https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"], "keywords": ["ücretsiz", "bedava", "promosyon", "hediye", "oyun", "steam", "epic", "gog"]},
-    {"id": "teknoloji", "label": "Teknoloji", "feeds": ["https://www.donanimhaber.com/rss/tum/", "https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"]},
+    {"id": "teknoloji", "label": "Teknoloji", "feeds": ["https://www.donanimhaber.com/rss/tum/", "https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml", "https://webrazzi.com/feed/"]},
     {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
-    {"id": "sanat", "label": "Sanat", "feeds": ["https://www.hurriyet.com.tr/rss/anasayfa", "https://www.milliyet.com.tr/rss/rssNew/anasayfa.xml"]},
-    {"id": "doga", "label": "Doğa", "feeds": ["https://feeds.bbci.co.uk/turkce/rss.xml", "https://www.ntv.com.tr/son-dakika.rss"]},
-    {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss"]},
-    {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.mhahaber.com/rss", "https://www.hurriyet.com.tr/rss/anasayfa"]},
+    {"id": "ekonomi", "label": "Ekonomi", "feeds": ["https://www.bloomberght.com/rss", "https://www.bigpara.com/rss/", "https://www.ekonomim.com/rss"]},
+    {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
+    {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://t24.com.tr/rss/anasayfa", "https://www.diken.com.tr/feed/", "https://www.hurriyet.com.tr/rss/anasayfa"]},
 ]
 
 MAX_AGE_DAYS = 1.0
@@ -80,8 +80,6 @@ def clean_json_response(text):
 
 def ask_ai(prompt, is_json=True):
     global LAST_AI_MODEL
-
-    # 1. Groq
     if GROQ_KEY:
         for attempt in range(2):
             try:
@@ -96,7 +94,6 @@ def ask_ai(prompt, is_json=True):
                 print(f"  ! Groq hatası: {e}", file=sys.stderr)
                 time.sleep(1)
 
-    # 2. Gemini
     if GEMINI_KEY:
         for attempt in range(2):
             try:
@@ -110,7 +107,6 @@ def ask_ai(prompt, is_json=True):
             except Exception as e:
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
                 time.sleep(3)
-
     return ""
 
 def fetch_category(cat, cache):
@@ -159,7 +155,7 @@ def fetch_category(cat, cache):
         seen.add(it["link"]); deduped.append(it)
     
     deduped.sort(key=lambda i: i["pubDate"], reverse=True)
-    return deduped[:15]
+    return deduped[:20] # Kaynak başına limit biraz artırıldı
 
 def fetch_text_and_image(url):
     text, og_image = "", None
@@ -187,12 +183,13 @@ def summarize_batch(items):
         else:
             lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content}")
     
+    # YENİ: why_important (Neden Önemli) eklendi.
     prompt = (
         "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
-        "Her habere 1-10 arası 'Önem Puanı' ver. Ayrıca her haber için 'ton' (duygu) belirle: 'pozitif', 'nötr' veya 'negatif'. "
-        "PUANLAMA: Türkiye/dünya için kritik gelişmelere 9-10, günlük gelişmelere 6-8, magazin/rutin haberlere 1-3 ver. "
+        "Her habere 1-10 arası 'Önem Puanı' ver. 'ton' (duygu) belirle: 'pozitif', 'nötr' veya 'negatif'. "
+        "Ayrıca her haber için 'why_important' (Neden Önemli?) alanına, bu haberi neden okumamız gerektiğini açıklayan 1 cümlelik çarpıcı bir analiz yaz. "
         "Çıktıyı KESİNLİKLE şu JSON formatında ver: "
-        "{\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\", \"score\": 8, \"tone\": \"nötr\"}]}. "
+        "{\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\", \"score\": 8, \"tone\": \"nötr\", \"why_important\": \"cümle\"}]}. "
         "Metin yoksa ekleme.\n\n" + "\n".join(lines)
     )
     
@@ -210,7 +207,8 @@ def summarize_batch(items):
             result[item["id"]] = {
                 "summary": item["summary"], 
                 "score": score,
-                "tone": item.get("tone", "nötr")
+                "tone": item.get("tone", "nötr"),
+                "why_important": item.get("why_important", "")
             }
         return result
     except: return {}
@@ -290,7 +288,7 @@ def load_cache():
                 if it.get("link"):
                     s = it.get("summary", "")
                     if s and "ulaşılamadı" not in s and "oluşturulamadı" not in s:
-                        cache[it["link"]] = {"summary": s, "image": it.get("image"), "score": it.get("score", 5), "ai": it.get("ai"), "tone": it.get("tone")}
+                        cache[it["link"]] = {"summary": s, "image": it.get("image"), "score": it.get("score", 5), "ai": it.get("ai"), "tone": it.get("tone"), "why_important": it.get("why_important")}
             briefings = old.get("briefings", {})
             alerts = old.get("alerts_sent", {})
             old_market = old.get("market")
@@ -312,13 +310,42 @@ def main():
         print("HATA: Hiç haber çekilemedi. news.json korunuyor.", file=sys.stderr)
         sys.exit(1)
 
-    seen_urls, seen_titles, deduped = set(), [], []
+    # --- YENİ: AI HABER KÜMELEME (CLUSTERING) ---
+    print("Haberler kümeleniyor (Benzer başlıklar birleştiriliyor)...")
+    seen_urls = set()
+    clusters = []
+
     for it in all_items:
         if it["link"] in seen_urls: continue
+        
         norm_title = " ".join(re.sub(r'[^\w\s]', '', tr_lower(it["title"])).split())
-        if any(difflib.SequenceMatcher(None, norm_title, t).ratio() > 0.85 for t in seen_titles): continue
-        seen_urls.add(it["link"]); seen_titles.append(norm_title); deduped.append(it)
-    all_items = deduped
+        found_cluster = None
+        
+        for cluster in clusters:
+            # %75 benzerlik varsa aynı kümede topla
+            if difflib.SequenceMatcher(None, norm_title, cluster["norm_title"]).ratio() > 0.75:
+                found_cluster = cluster
+                break
+                
+        if found_cluster:
+            found_cluster["sources"].append({"source": it["source"], "link": it["link"]})
+            seen_urls.add(it["link"])
+        else:
+            clusters.append({
+                "item": it,
+                "norm_title": norm_title,
+                "sources": [{"source": it["source"], "link": it["link"]}]
+            })
+            seen_urls.add(it["link"])
+
+    final_items = []
+    for c in clusters:
+        it = c["item"]
+        if len(c["sources"]) > 1:
+            it["other_sources"] = c["sources"][1:]
+        final_items.append(it)
+    all_items = final_items
+    # --------------------------------------------
 
     need_summary = []
     need_image = []
@@ -329,6 +356,7 @@ def main():
             it["score"] = c.get("score", 5)
             if c.get("ai"): it["ai"] = c["ai"]
             if c.get("tone"): it["tone"] = c["tone"]
+            if c.get("why_important"): it["why_important"] = c["why_important"]
         else: 
             need_summary.append(it)
         if not it.get("image") and c: it["image"] = c.get("image")
@@ -356,12 +384,13 @@ def main():
                 it["summary"] = res.get("summary", "Bu haberin tam metnine ulaşılamadı.")
                 it["score"] = res.get("score", 5)
                 it["tone"] = res.get("tone", "nötr")
+                it["why_important"] = res.get("why_important", "")
                 it["ai"] = {
                     "model": LAST_AI_MODEL or "unknown",
                     "temperature": AI_TEMPERATURE,
                     "prompt_version": AI_PROMPT_VER,
                     "generated_at": batch_generated_at,
-                    "method": "summary+score+tone",
+                    "method": "summary+score+tone+why",
                     "source_urls": [it["link"]],
                 }
             time.sleep(1)
@@ -384,7 +413,7 @@ def main():
                 "temperature": AI_TEMPERATURE,
                 "prompt_version": AI_PROMPT_VER,
                 "generated_at": final_generated_at,
-                "method": "summary+score+tone",
+                "method": "summary+score+tone+why",
                 "source_urls": [it["link"]],
             }
 
