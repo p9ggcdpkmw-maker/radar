@@ -15,16 +15,14 @@ import feedparser
 # --- YAPILANDIRMA ---
 GROQ_KEY = os.environ.get("GROQ_API_KEY", "").strip()
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "").strip()
-HF_KEY = os.environ.get("HF_API_KEY", "").strip()
+# Hugging Face tamamen kaldırıldı.
 
-if not GROQ_KEY and not GEMINI_KEY and not HF_KEY:
+if not GROQ_KEY and not GEMINI_KEY:
     print("HATA: Hiçbir API anahtarı bulunamadı!", file=sys.stderr)
     sys.exit(1)
 
-# DÜZELTME: HF modeli, router üzerinde kesin çalışan openai/gpt-oss-120b olarak değiştirildi.
 AI_MODEL_GROQ   = os.environ.get("AI_MODEL_GROQ", "openai/gpt-oss-120b").strip()
 AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-3.8-flash").strip()
-AI_MODEL_HF     = os.environ.get("AI_MODEL_HF", "openai/gpt-oss-120b").strip()
 AI_TEMPERATURE  = float(os.environ.get("AI_TEMPERATURE", "0.2"))
 AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.1").strip()
 
@@ -100,11 +98,10 @@ def ask_ai(prompt, is_json=True):
 
     # 2. Gemini
     if GEMINI_KEY:
-        for attempt in range(2): # DÜZELTME: Deneme sayısı 2'ye düşürüldü
+        for attempt in range(2):
             try:
                 body = {"model": AI_MODEL_GEMINI, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}]}
                 if is_json: body["response_format"] = {"type": "json_object"}
-                # DÜZELTME: Timeout 60 saniyeye çıkarıldı
                 resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions", headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=60)
                 if resp.status_code == 429: time.sleep(10); continue
                 resp.raise_for_status()
@@ -113,25 +110,6 @@ def ask_ai(prompt, is_json=True):
             except Exception as e:
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
                 time.sleep(3)
-
-    # 3. Hugging Face (DÜZELTME: 400 hatasında döngü kırılıyor)
-    if HF_KEY:
-        for attempt in range(1):
-            try:
-                body = {"model": AI_MODEL_HF, "max_tokens": 4000, "temperature": AI_TEMPERATURE, "messages": [{"role": "user", "content": prompt}]}
-                if is_json: body["response_format"] = {"type": "json_object"}
-                resp = requests.post(
-                    "https://router.huggingface.co/v1/chat/completions",
-                    headers={"Authorization": f"Bearer {HF_KEY}"},
-                    json=body,
-                    timeout=60
-                )
-                resp.raise_for_status()
-                LAST_AI_MODEL = AI_MODEL_HF
-                return resp.json()["choices"][0]["message"]["content"]
-            except Exception as e:
-                print(f"  ! HF hatası: {e}", file=sys.stderr)
-                break # DÜZELTME: Hata alındığında tekrar denemeyi durdur
 
     return ""
 
