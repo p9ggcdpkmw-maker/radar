@@ -8,6 +8,8 @@
 <meta name="theme-color" content="#F8FAFC">
 <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%233B82F6'/%3E%3Ctext x='50' y='68' font-size='54' text-anchor='middle' fill='white'%3E📡%3C/text%3E%3C/svg%3E">
 <title>RADAR</title>
+<!-- YENİ: HLS.js kütüphanesi eklendi (Radyo için) -->
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
   :root {
     --bg-main: #F8FAFC; --bg-panel: #FFFFFF; --text-main: #0F172A; --text-muted: #64748B;
@@ -105,8 +107,13 @@
   .source-logo { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; }
   
   .card-title { font-size: 20px; font-weight: 800; line-height: 1.3; margin-bottom: 10px; color: #0F172A; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;}
-  .card-snippet { font-size: 15px; color: rgba(0,0,0,0.6); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px;}
+  .card-snippet { font-size: 15px; color: rgba(0,0,0,0.6); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 8px;}
   .card-snippet.warning { color: #991B1B; font-weight: 700; }
+  
+  /* YENİ: Why Important Stili */
+  .card-why { font-size: 13px; color: #4C1D95; background: #F3E8FF; padding: 8px 12px; border-radius: 8px; margin-bottom: 16px; display: none; font-weight: 600; line-height: 1.4;}
+  .card-why.show { display: block; }
+
   .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: rgba(0,0,0,0.5); }
   
   .ai-transparency-badge {
@@ -146,12 +153,19 @@
   .right-panel::-webkit-scrollbar { display: none; }
   .widget { background: var(--bg-panel); border-radius: var(--radius-lg); padding: 24px; border: 1px solid var(--border); }
   .widget-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 800; font-size: 18px; color: var(--text-main);}
-  .market-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  
+  /* YENİ: Piyasa Yüzde Tasarımı */
+  .market-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
   .market-name { font-weight: 800; font-size: 15px; color: var(--text-main);}
+  .market-price-box { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
   .market-val { text-align: right; font-weight: 800; font-size: 15px; color: var(--text-main);}
-  .market-pct { font-size: 13px; font-weight: 700; margin-top: 2px;}
-  .pct-up { color: #10B981; }
-  .pct-down { color: #EF4444; }
+  .market-pct { 
+    font-size: 12px; font-weight: 800; padding: 3px 8px; border-radius: 12px; 
+    display: inline-flex; align-items: center; gap: 4px; letter-spacing: 0.5px;
+  }
+  .pct-up { color: #059669; background: rgba(16, 185, 129, 0.15); }
+  .pct-down { color: #DC2626; background: rgba(239, 68, 68, 0.15); }
+  
   .weather-temp { font-size: 56px; font-weight: 900; line-height: 1; margin-bottom: 4px; color: var(--text-main);}
   .weather-desc { font-size: 16px; font-weight: 600; color: var(--text-muted); margin-bottom: 20px;}
   
@@ -162,6 +176,7 @@
   .modal-close { position: absolute; top: 24px; right: 24px; background: rgba(100,116,139,0.1); border: none; color: var(--text-main); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 18px; }
   .modal-title { font-size: 28px; font-weight: 900; line-height: 1.3; margin-bottom: 16px; color: var(--text-main);}
   .modal-meta { font-size: 14px; color: var(--text-muted); display: flex; gap: 12px; font-weight: 700; margin-bottom: 24px; }
+  .modal-why { background: #F3E8FF; color: #4C1D95; padding: 16px; border-radius: var(--radius-md); font-size: 15px; line-height: 1.6; font-weight: 600; margin-bottom: 24px; border: 1px solid #D8B4FE; }
   .modal-body { font-size: 16px; line-height: 1.8; color: var(--text-main); margin-bottom: 30px;}
   
   .modal-actions { display: flex; gap: 12px; margin-bottom: 30px;}
@@ -301,6 +316,7 @@
         <div class="ai-chip" onclick="quickSearch('bilim')">🔬 Bilim</div>
         <div class="ai-chip" onclick="quickSearch('oyun')">🎮 Ücretsiz Oyun</div>
         <div class="ai-chip" onclick="quickSearch('gundem')">🔥 Gündem</div>
+        <div class="ai-chip" onclick="quickSearch('ekonomi')">💵 Ekonomi</div>
       </div>
 
       <div class="trend-container" id="trendContainer">
@@ -313,6 +329,7 @@
     <div class="category-tabs" id="categoryTabs">
       <button class="cat-tab active" onclick="selectCategory('all', this)">Senin İçin</button>
       <button class="cat-tab" onclick="selectCategory('gundem', this)">Gündem</button>
+      <button class="cat-tab" onclick="selectCategory('ekonomi', this)">Ekonomi</button>
       <button class="cat-tab" onclick="selectCategory('teknoloji', this)">Teknoloji</button>
       <button class="cat-tab" onclick="selectCategory('bilim', this)">Bilim</button>
       <button class="cat-tab" onclick="selectCategory('oyun', this)">Ücretsiz Oyun</button>
@@ -399,6 +416,8 @@
     <button class="modal-close" onclick="closeModal('newsModal')">✕</button>
     <div class="modal-title" id="modalTitle"></div>
     <div class="modal-meta" id="modalMeta"></div>
+    <!-- Yeni: Modal içinde Neden Önemli -->
+    <div class="modal-why" id="modalWhy" style="display:none;"></div>
     <div class="modal-actions">
       <button class="modal-btn btn-listen" id="btnListen" onclick="speakText()">🔊 Sesli Dinle</button>
       <button class="modal-btn btn-save-modal" id="btnSaveModal" onclick="toggleSaveCurrent()">📌 Kaydet</button>
@@ -458,7 +477,7 @@
       <!-- JS ile doldurulacak -->
     </div>
     <div class="radio-disclaimer">
-      <b>⚖️ Yasal Uyarı:</b> Bu sayfadaki radyo yayınları, ilgili kurumların (TRT, Power FM vb.) resmi ve kamuya açık yayın akışlarına dayanmaktadır. RADAR sadece aracı bir arayüzdür; yayınların telif ve lisans hakları tamamen ait oldukları kuruluşlara aittir.
+      <b>⚖️ Yasal Uyarı:</b> Bu sayfadaki radyo yayınları, ilgili kurumların (TRT, Power, Slow vb.) resmi ve kamuya açık yayın akışlarına dayanmaktadır. RADAR sadece aracı bir arayüzdür; yayınların telif ve lisans hakları tamamen ait oldukları kuruluşlara aittir.
     </div>
     <audio id="radioPlayer" style="width:100%; margin-top:16px;" controls></audio>
   </div>
@@ -501,17 +520,20 @@ const SOURCE_COLORS = {
   "webtekno": "#DBEAFE", "shiftdelete": "#FFEDD5", "donanimhaber": "#FEF3C7",
   "bbc": "#FCE7F3", "ntv": "#FCE7F3", "sozcu": "#FCE7F3", "hurriyet": "#FEF3C7",
   "milliyet": "#FEF3C7", "cnnturk": "#DBEAFE", "mhahaber": "#E0E7FF",
-  "aa": "#D1FAE5", "trt": "#D1FAE5", "haberturk": "#FFEDD5", "dw": "#EDE9FE"
+  "aa": "#D1FAE5", "trt": "#D1FAE5", "haberturk": "#FFEDD5", "dw": "#EDE9FE",
+  "t24": "#E0F2FE", "diken": "#FEE2E2", "bloomberght": "#FEF08A"
 };
 const FALLBACK_COLORS = ["#DBEAFE", "#FFEDD5", "#FEF3C7", "#FCE7F3", "#D1FAE5", "#EDE9FE"];
 
-// DÜZELTME: Power FM için doğrudan çalışan MP3 akış linki eklendi.
-// DÜZELTME: TRT ve Power FM için doğrudan çalışan MP3 akışları
+// YENİ: Daha fazla radyo kanalı eklendi. Çoğu HLS(.m3u8) formatındadır.
 const RADIO_STATIONS = [
   { name: "TRT Radyo Haber", desc: "Tarafsız ve güncel haberler", url: "https://radio-trtradyohaber.live.trt.com.tr/master.m3u8" },
+  { name: "TRT Radyo 1", desc: "Kültür, sanat ve müzik", url: "https://radio-trtradyo1.live.trt.com.tr/master.m3u8" },
+  { name: "TRT FM", desc: "Türkçe pop ve hit müzik", url: "https://radio-trtfm.live.trt.com.tr/master.m3u8" },
   { name: "Power FM", desc: "Yabancı pop ve hit müzik", url: "https://listen.powerapp.com.tr/powerfm/mpeg/icecast.audio" },
   { name: "Power Plus", desc: "En iyi Türkçe pop", url: "https://listen.powerapp.com.tr/powerplus/abr/playlist.m3u8" },
-  { name: "Power Love", desc: "Romantik hitler", url: "https://listen.powerapp.com.tr/powerlove/abr/playlist.m3u8" }
+  { name: "Power Türk", desc: "Türkçe popun gücü", url: "https://listen.powerapp.com.tr/powerturk/abr/playlist.m3u8" },
+  { name: "Slow Türk", desc: "Romantik ve yavaş şarkılar", url: "https://listen.powerapp.com.tr/slowturk/abr/playlist.m3u8" }
 ];
 
 function getSourceColor(source) {
@@ -527,7 +549,7 @@ const CATEGORIES = {
   teknoloji: { label: 'Teknoloji', color: '#3B82F6' }, bilim: { label: 'Bilim', color: '#10B981' },
   sanat: { label: 'Sanat', color: '#F59E0B' }, oyun: { label: 'Ücretsiz Oyun', color: '#EF4444' },
   doga: { label: 'Doğa', color: '#84CC16' }, dunya: { label: 'Dünya', color: '#8B5CF6' },
-  gundem: { label: 'Gündem', color: '#64748B' }
+  gundem: { label: 'Gündem', color: '#64748B' }, ekonomi: { label: 'Ekonomi', color: '#FBBF24' }
 };
 
 let allNews = [];
@@ -547,6 +569,7 @@ let currentModalItem = null;
 let activeArchive = '';
 let globalMeta = null;
 let currentAIPopover = null;
+let hls = null; // HLS.js objesi için global değişken
 
 function esc(str) {
   if(!str) return '';
@@ -800,13 +823,18 @@ function renderNews() {
     if (item.tone === 'pozitif') toneIcon = ' <span title="Olumlu Haber" style="color:#10B981;">●</span>';
     else if (item.tone === 'negatif') toneIcon = ' <span title="Olumsuz Haber" style="color:#EF4444;">●</span>';
 
+    // YENİ: Neden Önemli ve Çoklu Kaynak (Cluster) Gösterimi
+    const whyHtml = item.why_important ? `<div class="card-why show">💡 <b>Neden Önemli?</b> ${esc(item.why_important)}</div>` : '';
+    const sourcesHtml = (item.other_sources && item.other_sources.length > 0) ? 
+      `<span style="font-size:11px; margin-left:6px; background:rgba(59,130,246,.1); color:var(--accent); padding:2px 6px; border-radius:6px; font-weight:800;">+${item.other_sources.length} Kaynak</span>` : '';
+
     card.innerHTML = `
       <div class="card-content">
         <div>
           <div class="card-source-badge">
             <div style="display:flex; align-items:center; gap:8px;">
               <div class="source-logo" style="background:${cat.color}"></div>
-              ${esc(item.source)}
+              ${esc(item.source)} ${sourcesHtml}
             </div>
             <div class="score-badge" style="background:${scoreColor}20; color:${scoreColor}; border:1px solid ${scoreColor};">
               ⭐ ${score}/10
@@ -814,6 +842,7 @@ function renderNews() {
           </div>
           <div class="card-title">${esc(item.title)}${toneIcon}</div>
           <div class="card-snippet ${isWarning ? 'warning' : ''}">${esc(snippetText)}</div>
+          ${whyHtml}
         </div>
         <div class="card-footer">
           <div style="display:flex; align-items:center;">
@@ -861,7 +890,10 @@ function speakText() {
   }
   
   if (!currentModalItem) return;
-  let textToRead = currentModalItem.title + ". " + (currentModalItem.summary || "Özet bulunamadı.");
+  let textToRead = currentModalItem.title + ". ";
+  if(currentModalItem.why_important) textToRead += "Neden önemli? " + currentModalItem.why_important + ". ";
+  textToRead += (currentModalItem.summary || "Özet bulunamadı.");
+  
   const utterance = new SpeechSynthesisUtterance(textToRead);
   utterance.lang = 'tr-TR'; utterance.rate = 1.0; 
   btn.innerHTML = "⏹ Durdur";
@@ -887,7 +919,6 @@ async function doTranslate() {
   const out = document.getElementById('translateOutput');
   out.textContent = 'Çevriliyor… ⏳';
 
-  // MyMemory API'si 'Autodetect' bekliyor.
   const apiFrom = from === 'Autodetect' ? 'Autodetect' : from;
 
   try {
@@ -907,7 +938,6 @@ async function doTranslate() {
   }
 
   try {
-    // Lingva 'auto' parametresini destekler
     const url = `https://lingva.ml/api/v1/${from === 'Autodetect' ? 'auto' : from}/${to}/${encodeURIComponent(text)}`;
     const res = await fetch(url);
     const data = await res.json();
@@ -941,10 +971,37 @@ function openRadio() {
 function playRadio(index) {
   const station = RADIO_STATIONS[index];
   const player = document.getElementById('radioPlayer');
-  player.src = station.url;
-  player.play().catch(e => {
-    alert("Bu radyo yayını tarayıcınızda oynatılamadı. Lütfen başka bir kanal deneyin.");
-  });
+  
+  // Eğer çalan bir HLS varsa onu temizle
+  if (hls) {
+    hls.destroy();
+    hls = null;
+  }
+
+  // 1. Safari / iOS Native HLS Desteği
+  if (player.canPlayType('application/vnd.apple.mpegurl') && station.url.includes('.m3u8')) {
+    player.src = station.url;
+    player.play().catch(e => alert("Bu radyo yayını oynatılamadı."));
+  } 
+  // 2. Android / Chrome için HLS.js Desteği
+  else if (Hls.isSupported() && station.url.includes('.m3u8')) {
+    hls = new Hls();
+    hls.loadSource(station.url);
+    hls.attachMedia(player);
+    hls.on(Hls.Events.MANIFEST_PARSED, function() {
+      player.play().catch(e => alert("Bu radyo yayını oynatılamadı."));
+    });
+    hls.on(Hls.Events.ERROR, function (event, data) {
+      if (data.fatal) {
+        alert("Radyo yayını yüklenirken hata oluştu.");
+      }
+    });
+  } 
+  // 3. MP3 / Diğer Formatlar
+  else {
+    player.src = station.url;
+    player.play().catch(e => alert("Bu radyo yayını tarayıcınızda oynatılamadı."));
+  }
 }
 
 function openSettings() {
@@ -990,6 +1047,7 @@ function closeModal(modalId) {
     const player = document.getElementById('radioPlayer');
     player.pause();
     player.src = '';
+    if(hls) { hls.destroy(); hls = null; }
   }
 }
 
@@ -1041,13 +1099,24 @@ async function loadData(path = 'news.json') {
   }
 }
 
+// YENİ: Piyasa yüzde tasarımı güncellendi
 function renderWidgets() {
   const mContainer = document.getElementById('marketWidgetContent');
   if (mContainer && marketData) {
     let mHtml = '';
-    if(marketData.usdtry) mHtml += `<div class="market-item"><div class="market-name">USD/TRY</div><div><div class="market-val">${marketData.usdtry.toFixed(2)}</div></div></div>`;
-    if(marketData.gold_gram_try) mHtml += `<div class="market-item"><div class="market-name">Gram Altın</div><div><div class="market-val">${marketData.gold_gram_try.toLocaleString('tr-TR')}</div></div></div>`;
-    if(cryptoData) cryptoData.forEach(c => mHtml += `<div class="market-item"><div class="market-name">${esc(c.label)}</div><div><div class="market-val">${(c.price || 0).toLocaleString('tr-TR')}</div><div class="market-pct ${c.change_pct >= 0 ? 'pct-up' : 'pct-down'}">${c.change_pct >= 0 ? '+' : ''}${(c.change_pct || 0).toFixed(2)}%</div></div></div>`);
+    if(marketData.usdtry) mHtml += `<div class="market-item"><div class="market-name">USD/TRY</div><div class="market-price-box"><div class="market-val">${marketData.usdtry.toFixed(2)}</div></div></div>`;
+    if(marketData.gold_gram_try) mHtml += `<div class="market-item"><div class="market-name">Gram Altın</div><div class="market-price-box"><div class="market-val">${marketData.gold_gram_try.toLocaleString('tr-TR')}</div></div></div>`;
+    if(cryptoData) cryptoData.forEach(c => {
+      const pctClass = c.change_pct >= 0 ? 'pct-up' : 'pct-down';
+      const icon = c.change_pct >= 0 ? '📈' : '📉';
+      mHtml += `<div class="market-item">
+        <div class="market-name">${esc(c.label)}</div>
+        <div class="market-price-box">
+          <div class="market-val">${(c.price || 0).toLocaleString('tr-TR')}</div>
+          <div class="market-pct ${pctClass}">${icon} %${Math.abs(c.change_pct || 0).toFixed(2)}</div>
+        </div>
+      </div>`;
+    });
     mContainer.innerHTML = mHtml || '<div style="color:var(--text-muted); font-size:12px;">Piyasa verisi yok.</div>';
   }
   
@@ -1057,6 +1126,7 @@ function renderWidgets() {
   }
 }
 
+// YENİ: Detaylı Piyasa Sayfası Yüzde Tasarımı
 function renderMarketView() {
   const container = document.getElementById('fullMarketContent');
   const wContainer = document.getElementById('fullWeatherContent');
@@ -1068,9 +1138,29 @@ function renderMarketView() {
   }
   
   let mHtml = '';
-  if(marketData && marketData.usdtry) mHtml += `<div class="market-item"><div><div class="market-name">USD/TRY</div></div><div class="market-val">${marketData.usdtry.toFixed(2)}</div></div>`;
-  if(cryptoData) cryptoData.forEach(c => mHtml += `<div class="market-item"><div><div class="market-name">${esc(c.label)}</div></div><div><div class="market-val">${(c.price || 0).toLocaleString('tr-TR')}</div><div class="market-pct ${c.change_pct >= 0 ? 'pct-up' : 'pct-down'}">${c.change_pct >= 0 ? '+' : ''}${(c.change_pct || 0).toFixed(2)}%</div></div></div>`);
-  if(stocksData) stocksData.forEach(s => mHtml += `<div class="market-item"><div><div class="market-name">${esc(s.label)}</div></div><div><div class="market-val">${(s.price || 0).toLocaleString('tr-TR')}</div><div class="market-pct ${s.change_pct >= 0 ? 'pct-up' : 'pct-down'}">${s.change_pct >= 0 ? '+' : ''}${(s.change_pct || 0).toFixed(2)}%</div></div></div>`);
+  if(marketData && marketData.usdtry) mHtml += `<div class="market-item"><div class="market-name">USD/TRY</div><div class="market-price-box"><div class="market-val">${marketData.usdtry.toFixed(2)}</div></div></div>`;
+  if(cryptoData) cryptoData.forEach(c => {
+    const pctClass = c.change_pct >= 0 ? 'pct-up' : 'pct-down';
+    const icon = c.change_pct >= 0 ? '📈' : '📉';
+    mHtml += `<div class="market-item">
+      <div class="market-name">${esc(c.label)}</div>
+      <div class="market-price-box">
+        <div class="market-val">${(c.price || 0).toLocaleString('tr-TR')}</div>
+        <div class="market-pct ${pctClass}">${icon} %${Math.abs(c.change_pct || 0).toFixed(2)}</div>
+      </div>
+    </div>`;
+  });
+  if(stocksData) stocksData.forEach(s => {
+    const pctClass = s.change_pct >= 0 ? 'pct-up' : 'pct-down';
+    const icon = s.change_pct >= 0 ? '📈' : '📉';
+    mHtml += `<div class="market-item">
+      <div class="market-name">${esc(s.label)}</div>
+      <div class="market-price-box">
+        <div class="market-val">${(s.price || 0).toLocaleString('tr-TR')}</div>
+        <div class="market-pct ${pctClass}">${icon} %${Math.abs(s.change_pct || 0).toFixed(2)}</div>
+      </div>
+    </div>`;
+  });
   container.innerHTML = mHtml;
   
   if (weatherData && wContainer) {
@@ -1144,7 +1234,25 @@ function openModal(item, cat) {
   readLinks.add(item.link);
   localStorage.setItem('radar_read', JSON.stringify(Array.from(readLinks)));
   document.getElementById('modalTitle').textContent = item.title;
-  document.getElementById('modalMeta').innerHTML = `<span style="color:${cat.color};">${esc(cat.label)}</span><span>•</span><span>${esc(item.source)}</span><span>•</span><span>${timeAgo(item.pubDate)}</span>`;
+  
+  // YENİ: Çoklu kaynakları modal başlığına ekleme
+  let sourcesHtml = '';
+  if (item.other_sources && item.other_sources.length > 0) {
+    sourcesHtml = item.other_sources.map(s => `<a href="${s.link}" target="_blank" style="color:var(--accent); text-decoration:none;">${s.source}</a>`).join(', ');
+    sourcesHtml = `<span style="font-size:13px; margin-left:8px;">(+ ${sourcesHtml})</span>`;
+  }
+
+  document.getElementById('modalMeta').innerHTML = `<span style="color:${cat.color};">${esc(cat.label)}</span><span>•</span><span>${esc(item.source)} ${sourcesHtml}</span><span>•</span><span>${timeAgo(item.pubDate)}</span>`;
+  
+  // YENİ: Modal içinde Neden Önemli gösterme
+  const whyBox = document.getElementById('modalWhy');
+  if (item.why_important) {
+    whyBox.innerHTML = `💡 <b>Neden Önemli?</b><br>${esc(item.why_important)}`;
+    whyBox.style.display = 'block';
+  } else {
+    whyBox.style.display = 'none';
+  }
+
   document.getElementById('modalBody').textContent = item.summary || item.snippet || 'Detaylı özet hazırlanmadı.';
   
   const link = item.link;
