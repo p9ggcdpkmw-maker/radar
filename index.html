@@ -48,19 +48,39 @@
   .greeting-title { font-size: 32px; font-weight: 900; letter-spacing: -1px; }
   .greeting-sub { font-size: 16px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
   
-  .search-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 20px; padding: 12px 24px; color: var(--text-main); outline: none; width: 350px; transition: all 0.3s; font-size: 14px; display: block;}
+  .search-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 20px; padding: 12px 24px; color: var(--text-main); outline: none; width: 350px; transition: all 0.3s; font-size: 14px; display: block; font-family: inherit;}
   .search-box:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); }
+  
+  .archive-select { width: 190px; padding: 12px 16px; cursor: pointer; padding-right: 32px; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748B' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; }
+  .archive-mobile-select {
+    background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main);
+    padding: 8px 10px; border-radius: 10px; font-size: 12px; font-weight: 700;
+    cursor: pointer; font-family: inherit; max-width: 130px;
+  }
+
+  .trend-container { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 8px; margin-bottom: 10px; }
+  .trend-container::-webkit-scrollbar { display: none; }
+  .trend-chip { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); color: var(--accent); padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; transition: 0.2s; }
+  .trend-chip:hover { background: var(--accent); color: #fff; }
   
   .ai-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; }
   .ai-chips::-webkit-scrollbar { display: none; }
   .ai-chip { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main); padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; transition: all 0.2s; display: flex; align-items: center; gap: 6px;}
   .ai-chip:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
   
-  /* 🚀 KATEGORİ SEKMELERİ GERİ GELDİ */
   .category-tabs { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px; user-select: none; margin-bottom: 20px; }
   .category-tabs::-webkit-scrollbar { display: none; }
   .cat-tab { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-muted); padding: 10px 24px; border-radius: 24px; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
   .cat-tab.active { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
+
+  .archive-banner {
+    display: none; background: linear-gradient(135deg, #FEF3C7, #FFEDD5);
+    border: 1px solid #FCD34D; padding: 14px 20px; border-radius: var(--radius-md);
+    margin-bottom: 20px; font-weight: 700; color: #92400E; font-size: 14px;
+  }
+  [data-theme="dark"] .archive-banner { background: linear-gradient(135deg, #78350F, #451A03); border-color: #B45309; color: #FED7AA; }
 
   .ai-briefing { background: linear-gradient(135deg, #EFF6FF, #F5F3FF); border: 1px solid #BFDBFE; border-radius: var(--radius-lg); padding: 24px; margin-bottom: 30px; }
   [data-theme="dark"] .ai-briefing { background: linear-gradient(135deg, #1E3A8A, #312E81); border-color: #3B82F6;}
@@ -68,6 +88,8 @@
   .ai-icon { font-size: 20px; background: #DBEAFE; padding: 8px; border-radius: 12px; color: var(--accent); }
   .ai-title { font-size: 18px; font-weight: 800; color: var(--text-main); }
   .ai-badge { font-size: 10px; background: var(--accent); color: #fff; padding: 4px 10px; border-radius: 12px; font-weight: 800; letter-spacing: 0.5px;}
+  .ai-badge.clickable { cursor: pointer; }
+  .ai-badge.clickable:hover { background: #2563EB; }
   .ai-tabs { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; scrollbar-width: none; }
   .ai-tabs::-webkit-scrollbar { display: none; }
   .ai-tab { background: transparent; border: 1px solid var(--border); color: var(--text-muted); padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
@@ -86,6 +108,32 @@
   .card-snippet { font-size: 15px; color: rgba(0,0,0,0.6); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 16px;}
   .card-snippet.warning { color: #991B1B; font-weight: 700; }
   .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: rgba(0,0,0,0.5); }
+  
+  .ai-transparency-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 10px; font-weight: 800; padding: 2px 7px;
+    border-radius: 999px; background: rgba(139,92,246,.18);
+    color: #7C3AED; border: 1px solid rgba(139,92,246,.35);
+    cursor: pointer; user-select: none; margin-left: 6px;
+    letter-spacing: .3px; transition: all .2s;
+  }
+  .ai-transparency-badge:hover { background: rgba(139,92,246,.3); transform: scale(1.05); }
+  [data-theme="dark"] .ai-transparency-badge { color: #C4B5FD; }
+
+  .ai-popover {
+    position: fixed; z-index: 3000; max-width: 340px;
+    background: var(--bg-panel); color: var(--text-main);
+    border: 1px solid var(--border);
+    font-size: 12.5px; padding: 14px 16px; border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,.3);
+    line-height: 1.55; font-weight: 500;
+  }
+  .ai-popover h4 { font-size: 13px; font-weight: 800; margin-bottom: 8px; color: var(--text-main); }
+  .ai-popover .row { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .ai-popover .row .k { color: var(--text-muted); font-weight: 700; }
+  .ai-popover .row .v { font-weight: 700; text-align: right; }
+  .ai-popover a { color: var(--accent); text-decoration: underline; }
+  .ai-popover code { background: rgba(100,116,139,.15); padding: 1px 5px; border-radius: 4px; font-size: .85em; }
   
   .card-actions { display: flex; gap: 8px; }
   .action-btn { background: rgba(255,255,255,0.6); border: none; padding: 8px 12px; border-radius: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; color: rgba(0,0,0,0.6); font-size: 13px;}
@@ -154,7 +202,7 @@
     .mobile-greeting { display: block; margin-bottom: 20px; }
     .mobile-logo { font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px; color: var(--text-main); letter-spacing: -0.5px;}
     .mobile-logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 8px; }
-    .mobile-actions { display: flex; gap: 16px; font-size: 22px; color: var(--text-main); cursor: pointer;}
+    .mobile-actions { display: flex; gap: 12px; font-size: 22px; color: var(--text-main); cursor: pointer; align-items: center;}
     .mobile-greeting h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-main);}
     .mobile-greeting p { font-size: 15px; color: var(--text-muted); font-weight: 600; margin-top: 6px;}
     .main-feed { overflow: visible; padding-right: 0; }
@@ -175,6 +223,22 @@
     .bn-icon { font-size: 24px; }
     body { padding-bottom: 100px; }
   }
+
+  /* Radyo & Çeviri & Ton Stilleri */
+  .radio-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+  .radio-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; }
+  .radio-item:hover { border-color: var(--accent); background: var(--accent-light); }
+  .radio-name { font-weight: 800; font-size: 15px; color: var(--text-main); }
+  .radio-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .radio-play-btn { background: var(--accent); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
+  .radio-disclaimer { font-size: 12px; color: var(--text-muted); background: rgba(100,116,139,0.08); padding: 12px; border-radius: 8px; margin-top: 16px; line-height: 1.5; }
+
+  .tone-filter { display: flex; gap: 6px; }
+  .tone-chip { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; }
+  .tone-chip.active { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main); }
+
+  .translate-box { width: 100%; height: 120px; padding: 14px; border: 1px solid var(--border); border-radius: 14px; background: var(--bg-panel); color: var(--text-main); font-family: inherit; font-size: 15px; resize: vertical; margin-bottom: 12px;}
+  .translate-output { min-height: 80px; padding: 16px; background: rgba(100,116,139,.06); border-radius: 14px; font-size: 15px; line-height: 1.6; color: var(--text-main); white-space: pre-wrap; }
 </style>
 </head>
 <body>
@@ -191,6 +255,12 @@
     <div class="nav-item" id="nav-market" onclick="showView('market', this)">
       <div class="nav-icon">📈</div> Piyasalar
     </div>
+    <div class="nav-item" onclick="openRadio()">
+      <div class="nav-icon">📻</div> Radyo
+    </div>
+    <div class="nav-item" onclick="openTranslate()">
+      <div class="nav-icon">🌐</div> Çeviri
+    </div>
     <div class="nav-item" onclick="openSettings()">
       <div class="nav-icon">⚙️</div> Ayarlar
     </div>
@@ -200,6 +270,9 @@
     <div class="mobile-header">
       <div class="mobile-logo"><div class="mobile-logo-icon"></div> RADAR</div>
       <div class="mobile-actions">
+        <select class="archive-mobile-select" id="archiveSelectMobile" onchange="onArchiveChange(event)">
+          <option value="">📅 Bugün</option>
+        </select>
         <span onclick="toggleSearch()">🔍</span>
       </div>
     </div>
@@ -212,9 +285,14 @@
       <div class="header-top">
         <div>
           <div class="greeting-title" id="pcGreeting">İyi Günler! 🌤️</div>
-          <div class="greeting-sub">Bugün dünyada neler oluyor?</div>
+          <div class="greeting-sub" id="pcGreetingSub">Bugün dünyada neler oluyor?</div>
         </div>
-        <input type="search" class="search-box" id="searchInput" placeholder="RADAR AI'ya sor veya ara...">
+        <div style="display:flex; gap:12px; align-items:center;">
+          <select class="search-box archive-select" id="archiveSelect" onchange="onArchiveChange(event)">
+            <option value="">📅 Bugün</option>
+          </select>
+          <input type="search" class="search-box" id="searchInput" placeholder="RADAR AI'ya sor veya ara...">
+        </div>
       </div>
       
       <div class="ai-chips">
@@ -224,11 +302,14 @@
         <div class="ai-chip" onclick="quickSearch('oyun')">🎮 Ücretsiz Oyun</div>
         <div class="ai-chip" onclick="quickSearch('gundem')">🔥 Gündem</div>
       </div>
+
+      <div class="trend-container" id="trendContainer">
+        <!-- Trend etiketler JS ile buraya gelecek -->
+      </div>
     </div>
     
     <input type="search" class="search-box" id="mobileSearchInput" placeholder="RADAR AI'ya sor veya ara..." style="width:100%; margin-bottom:15px; display:none;">
 
-    <!-- 🚀 KATEGORİ SEKMELERİ BURADA (Geri getirildi) -->
     <div class="category-tabs" id="categoryTabs">
       <button class="cat-tab active" onclick="selectCategory('all', this)">Senin İçin</button>
       <button class="cat-tab" onclick="selectCategory('gundem', this)">Gündem</button>
@@ -238,9 +319,13 @@
     </div>
 
     <div id="newsView">
+      <div class="archive-banner" id="archiveBanner">
+        📅 <b>Arşiv Görünümü:</b> <span id="archiveBannerDate"></span> — Bu görünüm dondurulmuş geçmiş veridir. Canlı akış için "Bugün" seçin.
+      </div>
+
       <div class="ai-briefing" id="aiBriefingCard">
         <div class="ai-header">
-          <div class="ai-icon">✨</div><div class="ai-title">Günün Analizi</div><div class="ai-badge">RADAR AI</div>
+          <div class="ai-icon">✨</div><div class="ai-title">Günün Analizi</div><div class="ai-badge" id="briefingBadge">RADAR AI</div>
         </div>
         <div class="ai-tabs">
           <button class="ai-tab active" onclick="switchBriefing('genel', this)">Günün Özeti</button>
@@ -251,6 +336,16 @@
         <div class="ai-content" id="aiBriefingContent">Yapay zeka analiz ediyor...</div>
       </div>
       
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div style="font-weight:800; font-size:16px; color:var(--text-main);">Haber Akışı</div>
+        <div class="tone-filter" id="toneFilter">
+          <button class="tone-chip active" onclick="setToneFilter('all', this)">Tümü</button>
+          <button class="tone-chip" onclick="setToneFilter('pozitif', this)">Olumlu</button>
+          <button class="tone-chip" onclick="setToneFilter('nötr', this)">Nötr</button>
+          <button class="tone-chip" onclick="setToneFilter('negatif', this)">Olumsuz</button>
+        </div>
+      </div>
+
       <div class="feed-grid" id="newsGrid">
         <div style="text-align:center; padding:20px; font-weight:600; color:var(--text-muted);">Haberler yükleniyor... 📡</div>
       </div>
@@ -285,16 +380,20 @@
     <div class="bn-icon">🏠</div><div>Ana Sayfa</div>
   </div>
   <div class="bn-item" onclick="showSaved(this)">
-    <div class="bn-icon">📌</div><div>Kaydedilenler</div>
+    <div class="bn-icon">📌</div><div>Kaydet</div>
   </div>
-  <div class="bn-item" onclick="showView('market', this)">
-    <div class="bn-icon">📈</div><div>Piyasalar</div>
+  <div class="bn-item" onclick="openRadio()">
+    <div class="bn-icon">📻</div><div>Radyo</div>
+  </div>
+  <div class="bn-item" onclick="openTranslate()">
+    <div class="bn-icon">🌐</div><div>Çeviri</div>
   </div>
   <div class="bn-item" onclick="openSettings()">
     <div class="bn-icon">⚙️</div><div>Ayarlar</div>
   </div>
 </nav>
 
+<!-- Modallar -->
 <div class="modal-overlay" id="newsModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('newsModal')">✕</button>
@@ -351,6 +450,52 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="radioModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('radioModal')">✕</button>
+    <div class="modal-title">📻 Canlı Radyo</div>
+    <div class="radio-list" id="radioList">
+      <!-- JS ile doldurulacak -->
+    </div>
+    <div class="radio-disclaimer">
+      <b>⚖️ Yasal Uyarı:</b> Bu sayfadaki radyo yayınları, ilgili kurumların (TRT, Habertürk, CNN Türk vb.) resmi ve kamuya açık yayın akışlarına dayanmaktadır. RADAR sadece aracı bir arayüzdür; yayınların telif ve lisans hakları tamamen ait oldukları kuruluşlara aittir.
+    </div>
+    <audio id="radioPlayer" style="width:100%; margin-top:16px;" controls></audio>
+  </div>
+</div>
+
+<div class="modal-overlay" id="translateModal">
+  <div class="modal-content" style="max-width:640px;">
+    <button class="modal-close" onclick="closeModal('translateModal')">✕</button>
+    <div class="modal-title">🌐 Çeviri Aracı</div>
+    <div style="display:flex; gap:10px; margin-bottom:16px;">
+      <select id="translateFrom" class="search-box" style="width:50%; padding:10px 16px;">
+        <option value="auto">Otomatik Algıla</option>
+        <option value="tr">Türkçe</option>
+        <option value="en">İngilizce</option>
+        <option value="de">Almanca</option>
+        <option value="fr">Fransızca</option>
+        <option value="es">İspanyolca</option>
+        <option value="ar">Arapça</option>
+        <option value="ru">Rusça</option>
+      </select>
+      <select id="translateTo" class="search-box" style="width:50%; padding:10px 16px;">
+        <option value="en">İngilizce</option>
+        <option value="tr">Türkçe</option>
+        <option value="de">Almanca</option>
+        <option value="fr">Fransızca</option>
+        <option value="es">İspanyolca</option>
+        <option value="ar">Arapça</option>
+        <option value="ru">Rusça</option>
+      </select>
+    </div>
+    <textarea id="translateInput" class="translate-box" placeholder="Çevrilecek metni buraya yapıştırın..."></textarea>
+    <button class="modal-btn" onclick="doTranslate()" style="background:var(--accent); color:#fff; width:100%; margin-bottom:12px;">🌐 Çevir</button>
+    <div id="translateOutput" class="translate-output"></div>
+    <div style="font-size:11px; color:var(--text-muted); margin-top:10px; text-align:right;">Çeviri: MyMemory API · Günde 5.000 karakter ücretsiz</div>
+  </div>
+</div>
+
 <script>
 const SOURCE_COLORS = {
   "webtekno": "#DBEAFE", "shiftdelete": "#FFEDD5", "donanimhaber": "#FEF3C7",
@@ -359,6 +504,13 @@ const SOURCE_COLORS = {
   "aa": "#D1FAE5", "trt": "#D1FAE5", "haberturk": "#FFEDD5", "dw": "#EDE9FE"
 };
 const FALLBACK_COLORS = ["#DBEAFE", "#FFEDD5", "#FEF3C7", "#FCE7F3", "#D1FAE5", "#EDE9FE"];
+
+const RADIO_STATIONS = [
+  { name: "TRT Radyo Haber", desc: "Tarafsız ve güncel haberler", url: "https://radio-trtradyohaber.live.trt.com.tr/master.m3u8" },
+  { name: "Habertürk Radyo", desc: "Gündem ve haber", url: "https://ciner.daioncdn.net/haberturktv/haberturktv_1080p.m3u8" },
+  { name: "CNN Türk Radyo", desc: "Haber ve tartışma", url: "https://moondigitaledge2.radyotvonline.net/cnnturk/playlist.m3u8" },
+  { name: "Power FM", desc: "Yabancı pop ve hit müzik", url: "https://listen.powerapp.com.tr/powerfm/mpeg/icecast.audio" }
+];
 
 function getSourceColor(source) {
   if (!source) return "#F1F5F9";
@@ -381,6 +533,7 @@ let activeCat = 'all';
 let activeView = 'news';
 let isSavedView = false;
 let searchQ = '';
+let activeTone = 'all';
 let readLinks = new Set(JSON.parse(localStorage.getItem('radar_read') || '[]'));
 let likedLinks = new Set(JSON.parse(localStorage.getItem('radar_liked') || '[]'));
 let savedLinks = new Set(JSON.parse(localStorage.getItem('radar_saved') || '[]'));
@@ -389,6 +542,10 @@ let briefingsData = {}, currentBriefingTab = 'genel';
 let userPrefs = JSON.parse(localStorage.getItem('radar_prefs')) || null; 
 let hideImages = localStorage.getItem('radar_hide_images') === 'true';
 let currentModalItem = null;
+let activeArchive = '';
+let globalMeta = null;
+let currentAIPopover = null;
+let isSpeakingAll = false;
 
 function esc(str) {
   if(!str) return '';
@@ -416,6 +573,92 @@ function updateGreeting() {
 }
 updateGreeting();
 
+// --- AI Şeffaflık Popover ---
+function closeAIPopover() {
+  if (currentAIPopover) { currentAIPopover.remove(); currentAIPopover = null; }
+}
+
+function showAIPopover(anchor, ai) {
+  closeAIPopover();
+  const pop = document.createElement('div');
+  pop.className = 'ai-popover';
+  const srcs = (ai.source_urls || [])
+    .map(u => `<a href="${esc(u)}" target="_blank" rel="noopener">kaynak</a>`)
+    .join(', ');
+  const gen = ai.generated_at ? new Date(ai.generated_at).toLocaleString('tr-TR') : '—';
+  pop.innerHTML = `
+    <h4>🤖 AI Şeffaflık Etiketi</h4>
+    <div class="row"><span class="k">Model</span><span class="v"><code>${esc(ai.model || '—')}</code></span></div>
+    <div class="row"><span class="k">Sıcaklık</span><span class="v">${ai.temperature !== undefined && ai.temperature !== null ? ai.temperature : '—'}</span></div>
+    <div class="row"><span class="k">Prompt</span><span class="v">${esc(ai.prompt_version || '—')}</span></div>
+    <div class="row"><span class="k">Üretim</span><span class="v">${esc(gen)}</span></div>
+    <div class="row"><span class="k">Yöntem</span><span class="v">${esc(ai.method || 'summary')}</span></div>
+    ${srcs ? `<div class="row" style="margin-top:6px;"><span class="k">Kaynak</span><span class="v">${srcs}</span></div>` : ''}
+  `;
+  document.body.appendChild(pop);
+  const rect = anchor.getBoundingClientRect();
+  const popRect = pop.getBoundingClientRect();
+  let left = Math.min(rect.left, window.innerWidth - popRect.width - 12);
+  let top = rect.bottom + 8;
+  if (top + popRect.height > window.innerHeight - 12) top = rect.top - popRect.height - 8;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+  currentAIPopover = pop;
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.ai-popover') || e.target.closest('.ai-transparency-badge') || e.target.closest('#briefingBadge')) return;
+  closeAIPopover();
+});
+window.addEventListener('scroll', closeAIPopover, true);
+window.addEventListener('resize', closeAIPopover);
+
+// --- Arşiv Yönetimi ---
+async function loadArchiveIndex() {
+  try {
+    const res = await fetch('archive/index.json?t=' + Date.now());
+    if (!res.ok) return;
+    const data = await res.json();
+    const dates = (data.dates || []).slice().reverse();
+    const selPc = document.getElementById('archiveSelect');
+    const selMob = document.getElementById('archiveSelectMobile');
+    dates.forEach(d => {
+      const o1 = document.createElement('option');
+      o1.value = d.path; o1.textContent = '📅 ' + d.date;
+      selPc.appendChild(o1);
+      if (selMob) {
+        const o2 = document.createElement('option');
+        o2.value = d.path; o2.textContent = '📅 ' + d.date;
+        selMob.appendChild(o2);
+      }
+    });
+  } catch (e) {}
+}
+
+function onArchiveChange(event) {
+  activeArchive = event.target.value || '';
+  const selPc = document.getElementById('archiveSelect');
+  const selMob = document.getElementById('archiveSelectMobile');
+  if (selPc) selPc.value = activeArchive;
+  if (selMob) selMob.value = activeArchive;
+  const banner = document.getElementById('archiveBanner');
+  const bannerDate = document.getElementById('archiveBannerDate');
+  if (activeArchive && banner && bannerDate) {
+    const m = activeArchive.match(/(\d{4}-\d{2}-\d{2})/);
+    bannerDate.textContent = m ? m[1] : activeArchive;
+    banner.style.display = 'block';
+  } else if (banner) {
+    banner.style.display = 'none';
+  }
+  const sub = document.getElementById('pcGreetingSub');
+  const mob = document.querySelector('#mobileGreeting p');
+  const text = activeArchive ? '📅 Arşiv görüntüleniyor — canlı akışa dönmek için "Bugün" seçin' : 'Bugün dünyada neler oluyor?';
+  if (sub) sub.textContent = text;
+  if (mob) mob.textContent = text;
+  loadData(activeArchive || 'news.json');
+}
+
+// --- Arama ve Filtreler ---
 function quickSearch(query) {
   searchQ = '';
   document.getElementById('searchInput').value = '';
@@ -432,67 +675,13 @@ function quickSearch(query) {
   }
 }
 
-function speakText() {
-  if (!window.speechSynthesis) { alert("Tarayıcınız sesli okumayı desteklemiyor."); return; }
-  const btn = document.getElementById('btnListen');
-  if (window.speechSynthesis.speaking) { window.speechSynthesis.cancel(); btn.innerHTML = "🔊 Sesli Dinle"; return; }
-  if (!currentModalItem) return;
-  let textToRead = currentModalItem.title + ". " + (currentModalItem.summary || "Özet bulunamadı.");
-  const utterance = new SpeechSynthesisUtterance(textToRead);
-  utterance.lang = 'tr-TR'; utterance.rate = 1.0; 
-  btn.innerHTML = "⏹ Durdur";
-  utterance.onend = () => { btn.innerHTML = "🔊 Sesli Dinle"; };
-  utterance.onerror = () => { btn.innerHTML = "🔊 Sesli Dinle"; };
-  window.speechSynthesis.speak(utterance);
-}
-
-function toggleSave(link, btn) {
-  if (savedLinks.has(link)) {
-    savedLinks.delete(link);
-    if(btn) { btn.classList.remove('saved'); btn.innerHTML = "📌"; }
-    if(isSavedView) renderNews(); 
-  } else {
-    savedLinks.add(link);
-    if(btn) { btn.classList.add('saved'); btn.innerHTML = "📌 Kaydedildi"; }
-  }
-  localStorage.setItem('radar_saved', JSON.stringify(Array.from(savedLinks)));
-}
-
-function toggleSaveCurrent() {
-  if(!currentModalItem) return;
-  toggleSave(currentModalItem.link, null);
-  const btn = document.getElementById('btnSaveModal');
-  if(savedLinks.has(currentModalItem.link)) { btn.classList.add('saved'); btn.innerHTML = "📌 Kaydedildi"; } 
-  else { btn.classList.remove('saved'); btn.innerHTML = "📌 Kaydet"; }
-}
-
-function showSaved(el) {
-  activeView = 'news'; isSavedView = true;
-  document.getElementById('newsView').style.display = 'block';
-  document.getElementById('marketView').style.display = 'none';
-  document.getElementById('desktopRightPanel').style.display = 'flex';
-  document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelectorAll('.bn-item').forEach(n => n.classList.remove('active'));
-  if(el) el.classList.add('active');
+function setToneFilter(tone, btn) {
+  activeTone = tone;
+  document.querySelectorAll('.tone-chip').forEach(c => c.classList.remove('active'));
+  if(btn) btn.classList.add('active');
   renderNews();
 }
 
-function applyTheme() {
-  const isDark = localStorage.getItem('radar_theme') === 'dark';
-  if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
-  else document.documentElement.removeAttribute('data-theme');
-  document.getElementById('themeToggle')?.classList.toggle('active', isDark);
-}
-function toggleTheme() { localStorage.setItem('radar_theme', localStorage.getItem('radar_theme') === 'dark' ? 'light' : 'dark'); applyTheme(); }
-function toggleImages() { hideImages = !hideImages; localStorage.setItem('radar_hide_images', hideImages); document.body.classList.toggle('hide-images', hideImages); document.getElementById('imageToggle').classList.toggle('active', hideImages); renderNews(); }
-applyTheme();
-if(hideImages) document.body.classList.add('hide-images');
-
-function toggleSearch() {
-  const sb = document.getElementById('mobileSearchInput');
-  sb.style.display = sb.style.display === 'none' ? 'block' : 'none';
-  if(sb.style.display === 'block') sb.focus();
-}
 document.getElementById('searchInput')?.addEventListener('input', (e) => { searchQ = e.target.value.trim(); renderNews(); });
 document.getElementById('mobileSearchInput')?.addEventListener('input', (e) => { searchQ = e.target.value.trim(); renderNews(); });
 
@@ -519,8 +708,32 @@ function selectCategory(id, el) {
   activeCat = id;
   document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
   if(el && el.classList.contains('cat-tab')) el.classList.add('active');
-  document.getElementById('aiBriefingCard').style.display = (id === 'all') ? 'block' : 'none';
+  document.getElementById('aiBriefingCard').style.display = (id === 'all' && !activeArchive) ? 'block' : 'none';
   renderNews();
+}
+
+function renderTrends() {
+  const container = document.getElementById('trendContainer');
+  if (!container || !allNews) return;
+  
+  // Basit bir kelime frekansı analizi (stop words hariç)
+  const stopWords = new Set(["bir", "ve", "bu", "da", "de", "için", "ile", "çok", "daha", "en", "ama", "gibi", "olan", "olarak", "kadar", "sonra", "önce", "yeni", "tüm", "her", "ne", "var", "yok", "mi", "mı", "mu", "mü", "ki", "ya", "veya", "ancak", "fakat", "çünkü", "eğer", "ise", "şey", "göre", "karşı", "büyük", "küçük"]);
+  const wordCounts = {};
+  
+  allNews.forEach(item => {
+    const text = (item.title + " " + (item.summary || "")).toLowerCase();
+    const words = text.replace(/[^\wçğıöşü\s]/gi, '').split(/\s+/);
+    words.forEach(w => {
+      if (w.length > 3 && !stopWords.has(w)) {
+        wordCounts[w] = (wordCounts[w] || 0) + 1;
+      }
+    });
+  });
+  
+  const sorted = Object.entries(wordCounts).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  container.innerHTML = sorted.map(([word, count]) => 
+    `<div class="trend-chip" onclick="searchQ='${word}'; document.getElementById('searchInput').value='${word}'; renderNews();">#${word} (${count})</div>`
+  ).join('');
 }
 
 function renderNews() {
@@ -533,6 +746,10 @@ function renderNews() {
   } else {
     if (activeCat === 'all' && userPrefs && userPrefs.length > 0) filtered = allNews.filter(n => userPrefs.includes(n.catId));
     else if (activeCat !== 'all') filtered = allNews.filter(n => n.catId === activeCat);
+  }
+  
+  if (activeTone !== 'all') {
+    filtered = filtered.filter(n => n.tone === activeTone);
   }
   
   if (searchQ) {
@@ -563,6 +780,7 @@ function renderNews() {
     const isLiked = likedLinks.has(item.link);
     const isSaved = savedLinks.has(item.link);
     const sourceColor = getSourceColor(item.source); 
+    const hasAI = item.ai && item.ai.model;
     
     let imgHtml = item.image ? `<img src="${esc(item.image)}" class="card-image" onerror="this.style.display='none'">` : '';
 
@@ -576,7 +794,13 @@ function renderNews() {
     
     const score = item.score || 5;
     const scoreColor = score >= 8 ? '#EAB308' : '#94A3B8';
+    const aiBadgeHtml = hasAI ? `<span class="ai-transparency-badge" title="AI şeffaflık etiketi">✦ AI</span>` : '';
     
+    // Ton ikonu belirleme
+    let toneIcon = '';
+    if (item.tone === 'pozitif') toneIcon = ' <span title="Olumlu Haber" style="color:#10B981;">●</span>';
+    else if (item.tone === 'negatif') toneIcon = ' <span title="Olumsuz Haber" style="color:#EF4444;">●</span>';
+
     card.innerHTML = `
       <div class="card-content">
         <div>
@@ -589,11 +813,14 @@ function renderNews() {
               ⭐ ${score}/10
             </div>
           </div>
-          <div class="card-title">${esc(item.title)}</div>
+          <div class="card-title">${esc(item.title)}${toneIcon}</div>
           <div class="card-snippet ${isWarning ? 'warning' : ''}">${esc(snippetText)}</div>
         </div>
         <div class="card-footer">
-          <div>${timeAgo(item.pubDate)}</div>
+          <div style="display:flex; align-items:center;">
+            <span>${timeAgo(item.pubDate)}</span>
+            ${aiBadgeHtml}
+          </div>
           <div class="card-actions">
             <button class="action-btn save-btn ${isSaved ? 'saved' : ''}" data-link="${esc(item.link)}">
               ${isSaved ? '📌 Kaydedildi' : '📌'}
@@ -609,38 +836,112 @@ function renderNews() {
     
     card.querySelector('.save-btn').addEventListener('click', (e) => { e.stopPropagation(); toggleSave(item.link, e.target.closest('button')); });
     card.querySelector('.like-btn').addEventListener('click', (e) => { e.stopPropagation(); toggleLike(item.link, e.target.closest('button')); });
-    card.addEventListener('click', () => openModal(item, cat));
     
+    const aiBadge = card.querySelector('.ai-transparency-badge');
+    if (aiBadge) {
+      aiBadge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showAIPopover(aiBadge, item.ai || {});
+      });
+    }
+    
+    card.addEventListener('click', () => openModal(item, cat));
     grid.appendChild(card);
   });
 }
 
-function openModal(item, cat) {
-  currentModalItem = item;
-  readLinks.add(item.link);
-  localStorage.setItem('radar_read', JSON.stringify(Array.from(readLinks)));
-  document.getElementById('modalTitle').textContent = item.title;
-  document.getElementById('modalMeta').innerHTML = `<span style="color:${cat.color};">${esc(cat.label)}</span><span>•</span><span>${esc(item.source)}</span><span>•</span><span>${timeAgo(item.pubDate)}</span>`;
-  document.getElementById('modalBody').textContent = item.summary || item.snippet || 'Detaylı özet hazırlanmadı.';
+// --- Podcast / Radyo Modu (Sesli Okuma) ---
+function speakText() {
+  if (!window.speechSynthesis) { alert("Tarayıcınız sesli okumayı desteklemiyor."); return; }
+  const btn = document.getElementById('btnListen');
   
-  const link = item.link;
-  document.getElementById('modalLink').href = link.startsWith('http') ? link : '#';
+  if (window.speechSynthesis.speaking) { 
+    window.speechSynthesis.cancel(); 
+    btn.innerHTML = "🔊 Sesli Dinle"; 
+    return; 
+  }
   
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  document.getElementById('btnListen').innerHTML = "🔊 Sesli Dinle";
-
-  const btnS = document.getElementById('btnSaveModal');
-  if(savedLinks.has(item.link)) { btnS.classList.add('saved'); btnS.innerHTML = "📌 Kaydedildi"; }
-  else { btnS.classList.remove('saved'); btnS.innerHTML = "📌 Kaydet"; }
-
-  document.getElementById('newsModal').classList.add('active');
-  renderNews(); 
+  if (!currentModalItem) return;
+  let textToRead = currentModalItem.title + ". " + (currentModalItem.summary || "Özet bulunamadı.");
+  const utterance = new SpeechSynthesisUtterance(textToRead);
+  utterance.lang = 'tr-TR'; utterance.rate = 1.0; 
+  btn.innerHTML = "⏹ Durdur";
+  utterance.onend = () => { btn.innerHTML = "🔊 Sesli Dinle"; };
+  utterance.onerror = () => { btn.innerHTML = "🔊 Sesli Dinle"; };
+  window.speechSynthesis.speak(utterance);
 }
 
-function toggleLike(link, btn) {
-  if (likedLinks.has(link)) { likedLinks.delete(link); btn.classList.remove('liked'); btn.innerHTML = '♡'; } 
-  else { likedLinks.add(link); btn.classList.add('liked'); btn.innerHTML = '♥'; }
-  localStorage.setItem('radar_liked', JSON.stringify(Array.from(likedLinks)));
+// --- Çeviri Aracı ---
+function openTranslate() {
+  document.getElementById('translateModal').classList.add('active');
+}
+
+async function doTranslate() {
+  const text = document.getElementById('translateInput').value.trim();
+  if (!text) { document.getElementById('translateOutput').textContent = 'Lütfen bir metin girin.'; return; }
+  if (text.length > 500) { 
+    document.getElementById('translateOutput').textContent = 'Tek seferde en fazla 500 karakter çevirebilirsiniz.';
+    return;
+  }
+  const from = document.getElementById('translateFrom').value;
+  const to = document.getElementById('translateTo').value;
+  const out = document.getElementById('translateOutput');
+  out.textContent = 'Çevriliyor… ⏳';
+
+  try {
+    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.responseData && data.responseData.translatedText) {
+      const translated = data.responseData.translatedText;
+      if (!translated.includes('MYMEMORY WARNING')) {
+        out.textContent = translated;
+        return;
+      }
+    }
+    throw new Error('MyMemory limit veya hata');
+  } catch (e) {
+    console.warn('MyMemory başarısız, Lingva deneniyor…', e);
+  }
+
+  try {
+    const url = `https://lingva.ml/api/v1/${from === 'auto' ? 'auto' : from}/${to}/${encodeURIComponent(text)}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.translation) {
+      out.textContent = data.translation;
+      return;
+    }
+    throw new Error('Lingva hatası');
+  } catch (e) {
+    console.warn('Lingva da başarısız', e);
+  }
+
+  out.textContent = 'Çeviri şu an yapılamadı. Lütfen daha sonra tekrar deneyin veya metni kısaltın.';
+}
+
+// --- Radyo İşlemleri ---
+function openRadio() {
+  const listEl = document.getElementById('radioList');
+  listEl.innerHTML = RADIO_STATIONS.map((st, i) => `
+    <div class="radio-item" onclick="playRadio(${i})">
+      <div>
+        <div class="radio-name">${st.name}</div>
+        <div class="radio-desc">${st.desc}</div>
+      </div>
+      <button class="radio-play-btn">▶</button>
+    </div>
+  `).join('');
+  document.getElementById('radioModal').classList.add('active');
+}
+
+function playRadio(index) {
+  const station = RADIO_STATIONS[index];
+  const player = document.getElementById('radioPlayer');
+  player.src = station.url;
+  player.play().catch(e => {
+    alert("Bu radyo yayını tarayıcınızda oynatılamadı. Lütfen başka bir kanal deneyin.");
+  });
 }
 
 function openSettings() {
@@ -679,7 +980,13 @@ function clearHistory() {
 function closeModal(modalId) { 
   document.getElementById(modalId).classList.remove('active'); 
   if(modalId === 'newsModal' && window.speechSynthesis) {
-    window.speechSynthesis.cancel(); document.getElementById('btnListen').innerHTML = "🔊 Sesli Dinle"; 
+    window.speechSynthesis.cancel(); 
+    document.getElementById('btnListen').innerHTML = "🔊 Sesli Dinle"; 
+  }
+  if(modalId === 'radioModal') {
+    const player = document.getElementById('radioPlayer');
+    player.pause();
+    player.src = '';
   }
 }
 
@@ -687,19 +994,47 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(overlay.id); });
 });
 
-async function loadData() {
+async function loadData(path = 'news.json') {
   try {
-    const res = await fetch('news.json?t=' + Date.now());
+    const res = await fetch(path + '?t=' + Date.now());
     if (!res.ok) throw new Error('Veri alınamadı');
     const data = await res.json();
     allNews = data.items || [];
     marketData = data.market; stocksData = data.stocks; cryptoData = data.crypto; weatherData = data.weather;
     briefingsData = data.briefings || {};
+    globalMeta = data.meta || null;
     
-    renderNews(); renderAIBriefing(); renderWidgets(); 
+    const badge = document.getElementById('briefingBadge');
+    if (badge) {
+      if (globalMeta) {
+        badge.classList.add('clickable');
+        badge.title = 'AI şeffaflık etiketini göster';
+        badge.onclick = (e) => {
+          e.stopPropagation();
+          showAIPopover(badge, {
+            model: globalMeta.model,
+            temperature: globalMeta.temperature,
+            prompt_version: globalMeta.prompt_version,
+            generated_at: globalMeta.generated_at,
+            method: 'global-briefing',
+            source_urls: []
+          });
+        };
+      }
+    }
+    
+    const briefingCard = document.getElementById('aiBriefingCard');
+    if (briefingCard) {
+      briefingCard.style.display = (activeArchive || activeCat !== 'all') ? 'none' : 'block';
+    }
+    
+    renderTrends();
+    renderNews(); 
+    renderAIBriefing(); 
+    renderWidgets(); 
     if (activeView === 'market') renderMarketView();
   } catch (e) {
-    document.getElementById('newsGrid').innerHTML = `<div style="text-align:center; padding:20px; font-weight:600; color:#EF4444;">Bağlantı hatası: ${e.message}</div>`;
+    document.getElementById('newsGrid').innerHTML = `<div style="text-align:center; padding:20px; font-weight:600; color:#EF4444;">Bağlantı hatası: ${esc(e.message)}</div>`;
   }
 }
 
@@ -753,8 +1088,89 @@ function renderAIBriefing() {
   container.innerHTML = `<p>${esc(text)}</p>`;
 }
 
-loadData();
-setInterval(loadData, 5 * 60 * 1000);
+function toggleSave(link, btn) {
+  if (savedLinks.has(link)) {
+    savedLinks.delete(link);
+    if(btn) { btn.classList.remove('saved'); btn.innerHTML = "📌"; }
+    if(isSavedView) renderNews(); 
+  } else {
+    savedLinks.add(link);
+    if(btn) { btn.classList.add('saved'); btn.innerHTML = "📌 Kaydedildi"; }
+  }
+  localStorage.setItem('radar_saved', JSON.stringify(Array.from(savedLinks)));
+}
+
+function toggleSaveCurrent() {
+  if(!currentModalItem) return;
+  toggleSave(currentModalItem.link, null);
+  const btn = document.getElementById('btnSaveModal');
+  if(savedLinks.has(currentModalItem.link)) { btn.classList.add('saved'); btn.innerHTML = "📌 Kaydedildi"; } 
+  else { btn.classList.remove('saved'); btn.innerHTML = "📌 Kaydet"; }
+}
+
+function showSaved(el) {
+  activeView = 'news'; isSavedView = true;
+  document.getElementById('newsView').style.display = 'block';
+  document.getElementById('marketView').style.display = 'none';
+  document.getElementById('desktopRightPanel').style.display = 'flex';
+  document.querySelectorAll('.sidebar .nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.bn-item').forEach(n => n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderNews();
+}
+
+function applyTheme() {
+  const isDark = localStorage.getItem('radar_theme') === 'dark';
+  if (isDark) document.documentElement.setAttribute('data-theme', 'dark');
+  else document.documentElement.removeAttribute('data-theme');
+  document.getElementById('themeToggle')?.classList.toggle('active', isDark);
+}
+function toggleTheme() { localStorage.setItem('radar_theme', localStorage.getItem('radar_theme') === 'dark' ? 'light' : 'dark'); applyTheme(); }
+function toggleImages() { hideImages = !hideImages; localStorage.setItem('radar_hide_images', hideImages); document.body.classList.toggle('hide-images', hideImages); document.getElementById('imageToggle').classList.toggle('active', hideImages); renderNews(); }
+applyTheme();
+if(hideImages) document.body.classList.add('hide-images');
+
+function toggleSearch() {
+  const sb = document.getElementById('mobileSearchInput');
+  sb.style.display = sb.style.display === 'none' ? 'block' : 'none';
+  if(sb.style.display === 'block') sb.focus();
+}
+
+function openModal(item, cat) {
+  currentModalItem = item;
+  readLinks.add(item.link);
+  localStorage.setItem('radar_read', JSON.stringify(Array.from(readLinks)));
+  document.getElementById('modalTitle').textContent = item.title;
+  document.getElementById('modalMeta').innerHTML = `<span style="color:${cat.color};">${esc(cat.label)}</span><span>•</span><span>${esc(item.source)}</span><span>•</span><span>${timeAgo(item.pubDate)}</span>`;
+  document.getElementById('modalBody').textContent = item.summary || item.snippet || 'Detaylı özet hazırlanmadı.';
+  
+  const link = item.link;
+  document.getElementById('modalLink').href = link.startsWith('http') ? link : '#';
+  
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  document.getElementById('btnListen').innerHTML = "🔊 Sesli Dinle";
+
+  const btnS = document.getElementById('btnSaveModal');
+  if(savedLinks.has(item.link)) { btnS.classList.add('saved'); btnS.innerHTML = "📌 Kaydedildi"; }
+  else { btnS.classList.remove('saved'); btnS.innerHTML = "📌 Kaydet"; }
+
+  document.getElementById('newsModal').classList.add('active');
+  renderNews(); 
+}
+
+function toggleLike(link, btn) {
+  if (likedLinks.has(link)) { likedLinks.delete(link); btn.classList.remove('liked'); btn.innerHTML = '♡'; } 
+  else { likedLinks.add(link); btn.classList.add('liked'); btn.innerHTML = '♥'; }
+  localStorage.setItem('radar_liked', JSON.stringify(Array.from(likedLinks)));
+}
+
+// Başlat
+loadArchiveIndex();
+loadData('news.json');
+
+setInterval(() => {
+  if (!activeArchive) loadData('news.json');
+}, 5 * 60 * 1000);
 </script>
 </body>
 </html>
