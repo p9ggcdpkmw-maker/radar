@@ -1,11 +1,11 @@
 {
-  "updated": "2026-11-15T18:36:27.413744+00:00",
+  "updated": "2026-11-15T18:57:53.710714+00:00",
   "meta": {
-    "generated_at": "2026-11-15T18:36:25+00:00",
+    "generated_at": "2026-11-15T18:57:50+00:00",
     "model": "openai/gpt-oss-120b",
     "temperature": 0.2,
     "prompt_version": "v1.1",
-    "item_count": 63
+    "item_count": 62
   },
   "briefings": {
     "genel": "Son haberlerde teknoloji ve güvenlik odaklı gelişmeler öne çıkıyor; uzayda yeniden kullanılabilir roket yakalama, veri sızıntıları ve siber saldırılar gibi konular dikkat çekiyor. Ayrıca uluslararası diplomasi, enerji‑ulaşım riskleri ve Türkiye'nin savunma sistemleri de gündemde. Sanat ve kültür başlıkları daha çok yasal kararlar ve istihdam programlarıyla sınırlı kalıyor.",
@@ -15,29 +15,53 @@
   },
   "items": [
     {
-      "id": "teknoloji_5",
+      "id": "teknoloji_1",
       "cat": "Teknoloji",
       "catId": "teknoloji",
-      "title": "Tarihi başarı: SpaceX, Starship'in üst aşamasını ilk kez yakaladı",
+      "title": "Çin'in elektrikli yolcu uçağı CE-25A ilk insanlı uçuşunu gerçekleştirdi",
       "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/spacex-starship-in-ust-asamasini-ilk-kez-yakaladi--212934",
-      "pubDate": "2026-11-15T15:30:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/212934/1200x675spacex-starship-in-ust-asamasini-ilk-kez-yakaladi.jpg",
-      "summary": "SpaceX, Starship roketinin üst aşamasını fırlatma kulesindeki mekanik kollarla ilk kez yakalayarak tamamen yeniden kullanılabilir hale gelmesinde kritik bir adım attı; test uçuşunda güçlendirici roket denize düşse de üst aşama sorunsuz bir şekilde tutuldu.",
+      "link": "https://www.donanimhaber.com/cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi--212943",
+      "pubDate": "2026-11-15T18:00:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/212943/1200x675cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi.jpg",
+      "summary": "Çinli COMAC, tamamen elektrikli yolcu uçağı CE-25A'nın iki pilot ve bir mühendisle gerçekleştirilen ilk insanlı uçuşunu sorunsuz tamamladı. Uçak, 19 yolcu kapasitesi, 400 km menzil ve 300 km/s hızla kısa mesafeli şehirler arası seyahatlerde geleneksel uçakların yerine geçmeyi hedefliyor ve şu anda sertifikasyon sürecine giriyor.",
       "score": 9,
+      "tone": "nötr",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
+        "generated_at": "2026-11-15T18:46:32+00:00",
         "method": "summary+score+tone",
         "source_urls": [
-          "https://www.donanimhaber.com/spacex-starship-in-ust-asamasini-ilk-kez-yakaladi--212934"
+          "https://www.donanimhaber.com/cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi--212943"
         ]
       }
     },
     {
-      "id": "teknoloji_30",
+      "id": "gundem_61",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Megaspeed, \"Nvidia çiplerinin Çin'e aktarıldığı\" iddiaları üzerine iç soruşturma başlattı",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/bilim-teknoloji/megaspeed-nvidia-ciplerinin-cine-aktarildigi-iddialari-uzerine-ic-sorusturma-baslatti/4125931",
+      "pubDate": "2026-11-15T16:16:09+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_b08c5289b289481334625ad3f32bf21f.jpg",
+      "summary": "Megaspeed, Nvidia çiplerinin Çin'e gizli yollarla aktarılması iddialarına yanıt olarak dış hukuk danışmanlarıyla kapsamlı bir iç soruşturma başlattı ve şirketin ticari faaliyetlerinin yasal olduğunu belirtti. İddialar, ABD'nin çip ihracatı kısıtlamaları ve Nvidia yöneticilerinin olası istihbarat bağlantılarıyla ilgili daha geniş bir denetim tartışmasını da içeriyor.",
+      "score": 9,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T18:56:57+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/bilim-teknoloji/megaspeed-nvidia-ciplerinin-cine-aktarildigi-iddialari-uzerine-ic-sorusturma-baslatti/4125931"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_32",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "TSMC'de çalışan verileri açık artırmada",
@@ -81,7 +105,7 @@
       }
     },
     {
-      "id": "teknoloji_33",
+      "id": "teknoloji_35",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "GTA 6'nın Series S sınavı Microsoft'u terletiyor",
@@ -125,7 +149,7 @@
       }
     },
     {
-      "id": "dunya_16",
+      "id": "dunya_17",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Cumhurbaşkanı Erdoğan: Her platformda Filistin davasını en güçlü şekilde savunacağız",
@@ -147,7 +171,7 @@
       }
     },
     {
-      "id": "teknoloji_29",
+      "id": "teknoloji_31",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "SİPER Ürün-2 ve Çelik Kubbe: Türkiye'nin Hava Savunma Kalkanı Nasıl Çalışıyor? | 2T #20",
@@ -213,7 +237,7 @@
       }
     },
     {
-      "id": "teknoloji_4",
+      "id": "teknoloji_5",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Samsung Expert RAW, Galaxy S27 ile baştan aşağı yenileniyor",
@@ -257,28 +281,6 @@
       }
     },
     {
-      "id": "teknoloji_34",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Honda CR-V'de benzinli motor dönemi kapanıyor",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/yeni-honda-cr-v-2027-hibrit-motor",
-      "pubDate": "2026-11-15T15:11:00+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/honda-cr-v-kapak-1511.webp",
-      "summary": "Honda, 2027 model CR‑V'yi yalnızca hibrit motorlarla sunacak ve yeni platformda daha hafif gövde ile geliştirilmiş dört çeker sistemini tanıttı.",
-      "score": 7,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://shiftdelete.net/yeni-honda-cr-v-2027-hibrit-motor"
-        ]
-      }
-    },
-    {
       "id": "bilim_5",
       "cat": "Bilim",
       "catId": "bilim",
@@ -301,7 +303,7 @@
       }
     },
     {
-      "id": "teknoloji_31",
+      "id": "teknoloji_33",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Yatırımcılar Huang'ın dönüş kapısını kapatmıyor",
@@ -367,7 +369,7 @@
       }
     },
     {
-      "id": "dunya_15",
+      "id": "dunya_16",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Kasım ayı SED ödemeleri hesaplara yatırıldı",
@@ -433,14 +435,14 @@
       }
     },
     {
-      "id": "sanat_59",
-      "cat": "Sanat",
-      "catId": "sanat",
-      "title": "Facianın eşiğinden dönüldü! İnegöl'de yan yana 5 ev alevlere teslim oldu",
-      "source": "Milliyet",
-      "link": "https://www.milliyet.com.tr/gundem/facianin-esiginden-donuldu-inegolde-yan-yana-5-ev-alevlere-teslim-oldu-7701397",
-      "pubDate": "2026-11-15T18:24:18+00:00",
-      "image": "https://image.milimaj.com/i/milliyet/75/0x0/6af9f599b61a898b6e310ec7.jpg",
+      "id": "teknoloji_27",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Çin'in elektrikli yolcu uçağı pilotla uçtu",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/ce-25a-elektrikli-ucak-comac-ilk-ucus",
+      "pubDate": "2026-11-15T18:41:07+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/90ed8ec16a0737f460a42c8c436035e40b389264.webp",
       "summary": "Bu haberin tam metnine ulaşılamadı.",
       "score": 5,
       "tone": "nötr",
@@ -448,10 +450,79 @@
         "model": "unknown",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:33:14+00:00",
+        "generated_at": "2026-11-15T18:46:28+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://shiftdelete.net/ce-25a-elektrikli-ucak-comac-ilk-ucus"
+        ]
+      }
+    },
+    {
+      "id": "sanat_59",
+      "cat": "Sanat",
+      "catId": "sanat",
+      "title": "Facianın eşiğinden dönüldü! İnegöl'de yan yana 5 ev alevlere teslim oldu",
+      "source": "Milliyet",
+      "link": "https://www.milliyet.com.tr/gundem/facianin-esiginden-donuldu-inegolde-yan-yana-5-ev-alevlere-teslim-oldu-7701397",
+      "pubDate": "2026-11-15T18:34:43+00:00",
+      "image": "https://image.milimaj.com/i/milliyet/75/0x0/6af9f599b61a898b6e310ec7.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T18:50:04+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/gundem/facianin-esiginden-donuldu-inegolde-yan-yana-5-ev-alevlere-teslim-oldu-7701397"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_0",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Korku efsanesi Friday the 13th (13. Cuma) yeni bir filmle geri dönüyor",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor--212946",
+      "pubDate": "2026-11-15T18:34:08+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/212946/1200x675korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "ai": {
+        "model": "unknown",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T18:46:28+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.donanimhaber.com/korku-efsanesi-friday-the-13th-yeni-bir-filmle-geri-donuyor--212946"
+        ]
+      }
+    },
+    {
+      "id": "dunya_3",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Katil İsrail ateşkese rağmen Gazze'de son 24 saatte 4 kişiyi öldürdü",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/katil-israil-ateskese-ragmen-gazzede-son-24-saatte-4-kisiyi-oldurdu-963358.html",
+      "pubDate": "2026-11-15T18:31:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2482000/gazze-naas-aa-2483398.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T18:52:26+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/katil-israil-ateskese-ragmen-gazzede-son-24-saatte-4-kisiyi-oldurdu-963358.html"
         ]
       }
     },
@@ -468,10 +539,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:33:14+00:00",
+        "generated_at": "2026-11-15T18:49:10+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cjdx1y7p47ydo?at_medium=RSS&at_campaign=rss"
@@ -479,7 +550,7 @@
       }
     },
     {
-      "id": "teknoloji_26",
+      "id": "teknoloji_28",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Cloudflare'in tarayıcısı insanlar için değil",
@@ -494,33 +565,10 @@
         "model": "unknown",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:32:27+00:00",
+        "generated_at": "2026-11-15T18:46:28+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://shiftdelete.net/kitesurf-cloudflare-yapay-zeka-ajanlari-tarayici"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_0",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Çin'in elektrikli yolcu uçağı CE-25A ilk insanlı uçuşunu gerçekleştirdi",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi--212943",
-      "pubDate": "2026-11-15T18:00:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/212943/1200x675cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:32:27+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.donanimhaber.com/cin-in-elektrikli-yolcu-ucagi-ilk-insanli-ucusunu-gerceklestirdi--212943"
         ]
       }
     },
@@ -537,10 +585,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:33:38+00:00",
+        "generated_at": "2026-11-15T18:50:04+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/dunya/israilde-koalisyon-trafigi-eisenkot-ve-netanyahu-cephesi-masaya-oturdu-7701396"
@@ -548,7 +596,7 @@
       }
     },
     {
-      "id": "dunya_3",
+      "id": "dunya_4",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "ABD Ulaştırma Bakanı, hava trafiğinin pazartesi gününe kadar normale dönmesini bekliyor",
@@ -560,10 +608,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:01+00:00",
+        "generated_at": "2026-11-15T18:52:26+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/abd-ulastirma-bakani-hava-trafiginin-pazartesi-gunune-kadar-normale-donmesini-bekliyor-963357.html"
@@ -583,59 +631,13 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:35+00:00",
+        "generated_at": "2026-11-15T18:56:00+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/israilin-ateskese-ragmen-gazzeye-duzenledigi-saldirilarda-son-24-saatte-4-kisi-hayatini-kaybetti/4125977"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_27",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "GTA 6'da platin kupa sabır isteyecek",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/gta-6-platin-kupasi-200-saat-hikaye-50-saat",
-      "pubDate": "2026-11-15T17:43:51+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/f8926c361ef7652ce73adcbc2b6e3fde331db933.webp",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:32:27+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://shiftdelete.net/gta-6-platin-kupasi-200-saat-hikaye-50-saat"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_28",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "BMW'nin yeni canavarı Chiron'u geride bıraktı",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/bmw-m-1000-rs-tanitildi-215-beygir",
-      "pubDate": "2026-11-15T17:41:09+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/bmw-m-1000-rs-kapak-1511.webp",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:32:51+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://shiftdelete.net/bmw-m-1000-rs-tanitildi-215-beygir"
         ]
       }
     },
@@ -652,10 +654,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:35+00:00",
+        "generated_at": "2026-11-15T18:56:00+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/ekonomi/bakan-kacir-hedefimiz-2030-yilina-kadar-5-milyar-avronun-uzerinde-sanayide-karbonsuzlasma-yatirimini-desteklemek/4125972"
@@ -663,7 +665,7 @@
       }
     },
     {
-      "id": "teknoloji_1",
+      "id": "teknoloji_2",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Euro Truck Simulator 2 için laptop önerileri: Harita ve grafik modları ile kullanım",
@@ -675,10 +677,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:32:51+00:00",
+        "generated_at": "2026-11-15T18:49:10+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.donanimhaber.com/euro-truck-simulator-2-ets-2-icin-laptop-tavsiyeleri--212758"
@@ -698,10 +700,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:33:14+00:00",
+        "generated_at": "2026-11-15T18:50:04+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cje3915lly2wo?at_medium=RSS&at_campaign=rss"
@@ -721,10 +723,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:35+00:00",
+        "generated_at": "2026-11-15T18:56:00+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.mhahaber.com/gazimagusada-kktcnin-43uncu-kurulus-yil-donumu-coskuyla-kutlandi"
@@ -732,7 +734,7 @@
       }
     },
     {
-      "id": "dunya_4",
+      "id": "dunya_5",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "SPK'den olağanüstü tasfiyede halka açık ortaklıkların geri aldığı paylarla ilgili açıklama",
@@ -744,10 +746,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:25+00:00",
+        "generated_at": "2026-11-15T18:53:19+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/ekonomi/spkden-olaganustu-tasfiyede-halka-acik-ortakliklarin-geri-aldigi-paylarla-ilgili-aciklama-963356.html"
@@ -767,10 +769,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:58+00:00",
+        "generated_at": "2026-11-15T18:56:54+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.mhahaber.com/kktcnin-43-kurulus-yil-donumu-gazimagusada-torenle-kutlandi"
@@ -778,7 +780,7 @@
       }
     },
     {
-      "id": "dunya_5",
+      "id": "dunya_6",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "356 bin kişi sigara bırakma polikliniklerinden yararlandı",
@@ -790,10 +792,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:25+00:00",
+        "generated_at": "2026-11-15T18:53:19+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/guncel/356-bin-kisi-sigara-birakma-polikliniklerinden-yararlandi-963355.html"
@@ -813,10 +815,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:58+00:00",
+        "generated_at": "2026-11-15T18:56:54+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/trumptan-hava-trafik-kontrol-sisteminin-yenilenmesi-konusunda-kongreye-cagri/4125939"
@@ -824,7 +826,7 @@
       }
     },
     {
-      "id": "teknoloji_3",
+      "id": "teknoloji_4",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "CapCut ile Reels ve Shorts hazırlamak için laptop önerileri",
@@ -836,10 +838,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:32:51+00:00",
+        "generated_at": "2026-11-15T18:49:10+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.donanimhaber.com/capcut-ile-reels-ve-shorts-hazirlamak-icin-laptop-onerileri--212872"
@@ -859,59 +861,13 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:58+00:00",
+        "generated_at": "2026-11-15T18:56:54+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.aa.com.tr/tr/cop31/yesil-bolgedeki-kultur-ve-medeniyet-pavilyonu-ziyaretcileri-agirliyor/4125934"
-        ]
-      }
-    },
-    {
-      "id": "gundem_61",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Megaspeed, \"Nvidia çiplerinin Çin'e aktarıldığı\" iddiaları üzerine iç soruşturma başlattı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/bilim-teknoloji/megaspeed-nvidia-ciplerinin-cine-aktarildigi-iddialari-uzerine-ic-sorusturma-baslatti/4125931",
-      "pubDate": "2026-11-15T16:16:09+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_b08c5289b289481334625ad3f32bf21f.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:22+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/bilim-teknoloji/megaspeed-nvidia-ciplerinin-cine-aktarildigi-iddialari-uzerine-ic-sorusturma-baslatti/4125931"
-        ]
-      }
-    },
-    {
-      "id": "gundem_62",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Elon Musk ve teknoloji liderleri, Jensen Huang’ın görevine iade edilmesi için imza topladı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/dunya/elon-musk-ve-teknoloji-liderleri-jensen-huang-in-gorevine-iade-edilmesi-icin-imza-topladi/4125929",
-      "pubDate": "2026-11-15T16:13:57+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/15/thumbs_b_c_aa621cbea486092a16821aaf64abbf1c.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "ai": {
-        "model": "unknown",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:22+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/dunya/elon-musk-ve-teknoloji-liderleri-jensen-huang-in-gorevine-iade-edilmesi-icin-imza-topladi/4125929"
         ]
       }
     },
@@ -938,7 +894,7 @@
       }
     },
     {
-      "id": "dunya_6",
+      "id": "dunya_7",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Beşiktaş'taki cinayetin şüphelileri Beyoğlu'nda bulunan cesetle bağlantılı çıktı",
@@ -950,10 +906,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:25+00:00",
+        "generated_at": "2026-11-15T18:53:19+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/turkiye/besiktastaki-cinayetin-suphelileri-beyoglunda-bulunan-cesetle-baglantili-cikti-963354.html"
@@ -973,10 +929,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:33:38+00:00",
+        "generated_at": "2026-11-15T18:51:32+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.hurriyet.com.tr/dunya/israil-ateskese-ragmen-lubnanin-guneyine-saldirdi-43379367"
@@ -984,7 +940,7 @@
       }
     },
     {
-      "id": "dunya_9",
+      "id": "dunya_10",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Sağanak salı günü yurdu etkisi altına alacak",
@@ -996,10 +952,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:48+00:00",
+        "generated_at": "2026-11-15T18:54:13+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/turkiye/saganak-sali-gunu-yurdu-etkisi-altina-alacak-963351.html"
@@ -1019,10 +975,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:33:38+00:00",
+        "generated_at": "2026-11-15T18:51:32+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.hurriyet.com.tr/gundem/evde-haliya-sarili-cesedi-bulunmustu-kimligi-belli-oldu-43379310"
@@ -1030,7 +986,7 @@
       }
     },
     {
-      "id": "dunya_10",
+      "id": "dunya_11",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Bakan Şimşek: Piyasa manipülasyonuna karşı algoritmalı takip sistemi kurulacak",
@@ -1042,10 +998,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:48+00:00",
+        "generated_at": "2026-11-15T18:54:13+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/gundem/bakan-simsek-piyasa-manipulasyonuna-karsi-algoritmali-takip-sistemi-kurulacak-963350.html"
@@ -1065,10 +1021,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:01+00:00",
+        "generated_at": "2026-11-15T18:51:32+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.hurriyet.com.tr/dunya/abd-ordusunda-kostebek-krizi-trump-yonetimi-korgeneral-sylviayi-suclu-ilan-etti-43379290"
@@ -1088,10 +1044,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:01+00:00",
+        "generated_at": "2026-11-15T18:52:26+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.milliyet.com.tr/dunya/ingilterede-trajik-kaza-hasta-tasiyordu-can-pazarina-sebep-oldu-7701314"
@@ -1099,7 +1055,7 @@
       }
     },
     {
-      "id": "dunya_8",
+      "id": "dunya_9",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "İran: Hürmüz Boğazı'nda deniz mayınlarına çarpan 2 petrol tankerinden biri battı",
@@ -1111,10 +1067,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:34:48+00:00",
+        "generated_at": "2026-11-15T18:54:13+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/iran-hurmuz-bogazinda-deniz-mayinlarina-carpan-2-petrol-tankerinden-biri-batti-963352.html"
@@ -1122,7 +1078,7 @@
       }
     },
     {
-      "id": "dunya_12",
+      "id": "dunya_13",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Milli projeler Türk mühendislerin rotasını Türkiye'ye çevirdi",
@@ -1134,10 +1090,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:11+00:00",
+        "generated_at": "2026-11-15T18:55:07+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/savunma/milli-projeler-turk-muhendislerin-rotasini-turkiyeye-cevirdi-963348.html"
@@ -1145,7 +1101,7 @@
       }
     },
     {
-      "id": "dunya_11",
+      "id": "dunya_12",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Fransa'da ulusal posta operatörü iştirakine siber saldırı",
@@ -1157,10 +1113,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:11+00:00",
+        "generated_at": "2026-11-15T18:55:07+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/fransada-ulusal-posta-operatoru-istirakine-siber-saldiri-963349.html"
@@ -1168,7 +1124,7 @@
       }
     },
     {
-      "id": "dunya_14",
+      "id": "dunya_15",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Türkiye'nin acil tıp uygulamaları dünyaya örnek oluyor",
@@ -1180,10 +1136,10 @@
       "score": 5,
       "tone": "nötr",
       "ai": {
-        "model": "unknown",
+        "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:35:11+00:00",
+        "generated_at": "2026-11-15T18:55:07+00:00",
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.trthaber.com/haber/saglik/turkiyenin-acil-tip-uygulamalari-dunyaya-ornek-oluyor-963346.html"
@@ -1235,7 +1191,30 @@
       }
     },
     {
-      "id": "teknoloji_2",
+      "id": "teknoloji_30",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "BMW'nin yeni canavarı Chiron'u geride bıraktı",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/bmw-m-1000-rs-tanitildi-215-beygir",
+      "pubDate": "2026-11-15T17:41:09+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/bmw-m-1000-rs-kapak-1511.webp",
+      "summary": "BMW, 215 beygir gücünde ve 196 kg ağırlığındaki M 1000 RS modelini 1000 adet sınırlı üretimle tanıttı; bu özellikleriyle güç-ağırlık oranında Bugatti Chiron'u geride bırakıyor.",
+      "score": 3,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T18:46:32+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://shiftdelete.net/bmw-m-1000-rs-tanitildi-215-beygir"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_3",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Göz yorgunluğunu azaltan Kyodo Myofree tablet tanıtıldı",
@@ -1257,7 +1236,7 @@
       }
     },
     {
-      "id": "teknoloji_32",
+      "id": "teknoloji_34",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Linux'ta Fortnite kapısı yeniden aralanıyor",
@@ -1275,28 +1254,6 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://shiftdelete.net/eac-linux-v2-bazzite-epic-anti-cheat"
-        ]
-      }
-    },
-    {
-      "id": "dunya_13",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "İskoçya'da binlerce kişi yapay zeka veri merkezlerini protesto etti",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/iskocyada-binlerce-kisi-yapay-zeka-veri-merkezlerini-protesto-etti-963347.html",
-      "pubDate": "2026-11-15T12:13:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/no-ai-re-2503677.jpg",
-      "summary": "İskoçya’da yaklaşık 6 bin kişi, büyük ölçekli yapay zeka veri merkezlerinin çevresel etkileri ve enerji tüketimi nedeniyle protesto düzenledi, hükümetin yeni planlama rehberi hazırlayacağını belirtti.",
-      "score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.1",
-        "generated_at": "2026-11-15T18:36:25+00:00",
-        "method": "summary+score+tone",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/iskocyada-binlerce-kisi-yapay-zeka-veri-merkezlerini-protesto-etti-963347.html"
         ]
       }
     },
@@ -1319,6 +1276,29 @@
         "method": "summary+score+tone",
         "source_urls": [
           "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-15-kasim-2026-1750900"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_29",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "GTA 6'da platin kupa sabır isteyecek",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/gta-6-platin-kupasi-200-saat-hikaye-50-saat",
+      "pubDate": "2026-11-15T17:43:51+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/f8926c361ef7652ce73adcbc2b6e3fde331db933.webp",
+      "summary": "GTA 6'da platin kupa elde etmek yaklaşık 200 saatlik oyun süresi gerektirebilir; ana hikaye ise 50 saat içinde tamamlanabiliyor.",
+      "score": 2,
+      "tone": "nötr",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.1",
+        "generated_at": "2026-11-15T18:46:32+00:00",
+        "method": "summary+score+tone",
+        "source_urls": [
+          "https://shiftdelete.net/gta-6-platin-kupasi-200-saat-hikaye-50-saat"
         ]
       }
     },
@@ -1445,13 +1425,13 @@
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 3249843,
-      "change_pct": -1.9543308736796126
+      "price": 3252514,
+      "change_pct": -1.4282498387989089
     },
     {
       "label": "Ethereum",
-      "price": 91262,
-      "change_pct": -1.4114183733324877
+      "price": 91253,
+      "change_pct": -0.9758737279466437
     }
   ],
   "stocks": [
