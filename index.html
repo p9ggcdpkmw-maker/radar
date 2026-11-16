@@ -551,19 +551,23 @@ const SOURCE_COLORS = {
 const FALLBACK_COLORS = ["#DBEAFE", "#FFEDD5", "#FEF3C7", "#FCE7F3", "#D1FAE5", "#EDE9FE"];
 
 const RADIO_STATIONS = [
-  // Doğrudan Çalışanlar (MP3/AAC)
-  { name: "Power FM", desc: "Yabancı pop ve hit müzik", url: "https://listen.powerapp.com.tr/powerfm/mpeg/icecast.audio" },
-  { name: "Power Plus", desc: "En iyi Türkçe pop", url: "https://listen.powerapp.com.tr/powerplus/mpeg/icecast.audio" },
-  { name: "Süper FM", desc: "Türkçe pop", url: "https://radyo.duhnet.tv/superfm" },
-  { name: "Radyo D", desc: "Türkçe pop ve hit", url: "https://radyo.duhnet.tv/radyod" },
-  { name: "Slow Türk", desc: "Romantik ve yavaş şarkılar", url: "https://listen.powerapp.com.tr/slowturk/mpeg/icecast.audio" },
+  // --- Haber & Gündem ---
   { name: "NTV Radyo", desc: "Haber ve gündem", url: "https://ntvradyo.radyotvonline.net/ntvradyo" },
   
-  // HLS Yayınları (Proxy'miz ile Çalışacak)
-  { name: "TRT Radyo Haber", desc: "Tarafsız ve güncel haberler", url: "https://radio-trtradyohaber.live.trt.com.tr/master.m3u8" },
-  { name: "TRT Radyo 1", desc: "Kültür, sanat ve müzik", url: "https://radio-trtradyo1.live.trt.com.tr/master.m3u8" },
-  { name: "TRT Radyo 3", desc: "Klasik müzik ve caz", url: "https://radio-trtradyo3.live.trt.com.tr/master.m3u8" },
-  { name: "TRT Türkü", desc: "Türkü ve halk müziği", url: "https://radio-trtturku.live.trt.com.tr/master.m3u8" },
+  // --- Pop & Hit ---
+  { name: "Süper FM", desc: "Türkçe pop", url: "https://radyo.duhnet.tv/superfm" },
+  { name: "Radyo D", desc: "Türkçe pop ve hit", url: "https://radyo.duhnet.tv/radyod" },
+  { name: "PowerTürk Slow", desc: "Türkçe slow", url: "https://listen.powerapp.com.tr/powerturkslow/mpeg/icecast.audio" },
+  
+  // --- Slow & Romantik ---
+  { name: "Slow Türk", desc: "Romantik ve yavaş şarkılar", url: "https://radyo.duhnet.tv/slowturk" },
+  
+  // --- Arabesk & Türkü ---
+  { name: "Kral Türk FM", desc: "Türkü ve halk müziği", url: "https://live.radyositesihazir.com/8032/stream" },
+  { name: "Arabesk FM", desc: "Arabesk ve fantazi", url: "http://yayin.arabeskfm.biz:8042/" },
+  
+  // --- Alternatif & Rock ---
+  { name: "Radyo ODTÜ", desc: "Alternatif rock", url: "http://stream.radyoodtu.com.tr:8006" },
   { name: "Kafa Radyo", desc: "Alternatif ve eğlenceli", url: "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8" }
 ];
 
