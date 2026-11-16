@@ -551,24 +551,20 @@ const SOURCE_COLORS = {
 const FALLBACK_COLORS = ["#DBEAFE", "#FFEDD5", "#FEF3C7", "#FCE7F3", "#D1FAE5", "#EDE9FE"];
 
 const RADIO_STATIONS = [
-  // --- Haber & Gündem ---
-  { name: "NTV Radyo", desc: "Haber ve gündem", url: "https://ntvradyo.radyotvonline.net/ntvradyo" },
-  
-  // --- Pop & Hit ---
-  { name: "Süper FM", desc: "Türkçe pop", url: "https://radyo.duhnet.tv/superfm" },
-  { name: "Radyo D", desc: "Türkçe pop ve hit", url: "https://radyo.duhnet.tv/radyod" },
-  { name: "PowerTürk Slow", desc: "Türkçe slow", url: "https://listen.powerapp.com.tr/powerturkslow/mpeg/icecast.audio" },
-  
-  // --- Slow & Romantik ---
-  { name: "Slow Türk", desc: "Romantik ve yavaş şarkılar", url: "https://radyo.duhnet.tv/slowturk" },
-  
-  // --- Arabesk & Türkü ---
+  // --- Çalıştığını Onayladıkların ---
+  { name: "Kafa Radyo", desc: "Alternatif ve eğlenceli", url: "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8" },
   { name: "Kral Türk FM", desc: "Türkü ve halk müziği", url: "https://live.radyositesihazir.com/8032/stream" },
-  { name: "Arabesk FM", desc: "Arabesk ve fantazi", url: "http://yayin.arabeskfm.biz:8042/" },
+
+  // --- Yeni Eklenen Doğrudan MP3/AAC Yayınları ---
+  { name: "Süper FM", desc: "Türkçe pop", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM.mp3" },
+  { name: "Power FM", desc: "Yabancı pop", url: "https://powerfm.listenpowerapp.com/powerfm/mpeg/icecast.audio" },
+  { name: "PowerTürk", desc: "Türkçe pop", url: "https://live.powerapp.com.tr/powerturk/mpeg/icecast.audio" },
+  { name: "Slow Türk", desc: "Romantik ve yavaş", url: "https://radyo.duhnet.tv/slowturk" },
   
-  // --- Alternatif & Rock ---
-  { name: "Radyo ODTÜ", desc: "Alternatif rock", url: "http://stream.radyoodtu.com.tr:8006" },
-  { name: "Kafa Radyo", desc: "Alternatif ve eğlenceli", url: "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8" }
+  // --- Yedek Olarak Eklenen Diğer Popüler Kanallar ---
+  { name: "Best FM", desc: "Türkçe pop", url: "https://radyo.duhnet.tv/bestfm" },
+  { name: "Joy FM", desc: "Yabancı pop", url: "https://radyo.duhnet.tv/joyfm" },
+  { name: "Pal Nostalji", desc: "Nostaljik şarkılar", url: "https://radyo.duhnet.tv/palnostalji" }
 ];
 
 function getSourceColor(source) {
