@@ -205,7 +205,6 @@
   .checkbox-custom::after { content: '✓'; color: white; font-size: 14px; font-weight: 900; display: none; }
   .pref-item.selected .checkbox-custom::after { display: block; }
 
-  /* YENİ: İlgi Alanları Akordiyon (Accordion) Tasarımı */
   details.settings-details { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
   details.settings-details summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 800; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 0; }
   details.settings-details summary::-webkit-details-marker { display: none; }
@@ -249,7 +248,6 @@
     body { padding-bottom: 100px; }
   }
 
-  /* Radyo & Çeviri & Ton Stilleri */
   .radio-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
   .radio-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; }
   .radio-item:hover { border-color: var(--accent); background: var(--accent-light); }
@@ -418,7 +416,6 @@
   </div>
 </nav>
 
-<!-- Modallar -->
 <div class="modal-overlay" id="newsModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('newsModal')">✕</button>
@@ -434,19 +431,16 @@
   </div>
 </div>
 
-<!-- YENİ: Gelişmiş Ayarlar Modalı -->
 <div class="modal-overlay" id="settingsModal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
     <div class="modal-title">⚙️ Ayarlar</div>
     
-    <!-- Akordiyon İlgi Alanları -->
     <details class="settings-details">
       <summary>🎯 İlgi Alanları</summary>
       <div class="pref-list" id="prefList"></div>
     </details>
 
-    <!-- Yeni: Haber Filtreleri -->
     <div class="settings-section">
       <div class="settings-title">📰 Haber Filtreleri</div>
       <div class="setting-row">
@@ -459,13 +453,8 @@
       </div>
     </div>
 
-    <!-- Yeni: Radyo ve Ses -->
     <div class="settings-section">
       <div class="settings-title">📻 Radyo ve Ses</div>
-      <div class="setting-row">
-        <div class="setting-label">CORS Proxy Kullan (HLS için)</div>
-        <div class="toggle-btn" id="radioProxyToggle" onclick="toggleRadioProxy()"></div>
-      </div>
       <div style="padding: 10px 0;">
         <div class="setting-label" style="margin-bottom: 8px; font-size:14px;">Radyo Ses Seviyesi</div>
         <input type="range" id="volumeSlider" min="0" max="1" step="0.1" value="0.8" style="width: 100%; accent-color: var(--accent);" oninput="setRadioVolume(this.value)">
@@ -549,6 +538,9 @@
 </div>
 
 <script>
+// Cloudflare Proxy Adresin
+const PROXY_URL = "https://radar-hls-proxy.69sygknn4y.workers.dev/?url=";
+
 const SOURCE_COLORS = {
   "webtekno": "#DBEAFE", "shiftdelete": "#FFEDD5", "donanimhaber": "#FEF3C7",
   "bbc": "#FCE7F3", "ntv": "#FCE7F3", "sozcu": "#FCE7F3", "hurriyet": "#FEF3C7",
@@ -558,9 +550,8 @@ const SOURCE_COLORS = {
 };
 const FALLBACK_COLORS = ["#DBEAFE", "#FFEDD5", "#FEF3C7", "#FCE7F3", "#D1FAE5", "#EDE9FE"];
 
-// GÜNCELLEME: Radyo kanalları genişletildi, sorunsuz çalışan MP3'ler başa alındı.
 const RADIO_STATIONS = [
-  // Doğrudan Çalışanlar (MP3/AAC - Proxy Gerektirmez)
+  // Doğrudan Çalışanlar (MP3/AAC)
   { name: "Power FM", desc: "Yabancı pop ve hit müzik", url: "https://listen.powerapp.com.tr/powerfm/mpeg/icecast.audio" },
   { name: "Power Plus", desc: "En iyi Türkçe pop", url: "https://listen.powerapp.com.tr/powerplus/mpeg/icecast.audio" },
   { name: "Süper FM", desc: "Türkçe pop", url: "https://radyo.duhnet.tv/superfm" },
@@ -568,11 +559,12 @@ const RADIO_STATIONS = [
   { name: "Slow Türk", desc: "Romantik ve yavaş şarkılar", url: "https://listen.powerapp.com.tr/slowturk/mpeg/icecast.audio" },
   { name: "NTV Radyo", desc: "Haber ve gündem", url: "https://ntvradyo.radyotvonline.net/ntvradyo" },
   
-  // HLS Yayınları (Proxy Gerektirebilir)
+  // HLS Yayınları (Proxy'miz ile Çalışacak)
   { name: "TRT Radyo Haber", desc: "Tarafsız ve güncel haberler", url: "https://radio-trtradyohaber.live.trt.com.tr/master.m3u8" },
   { name: "TRT Radyo 1", desc: "Kültür, sanat ve müzik", url: "https://radio-trtradyo1.live.trt.com.tr/master.m3u8" },
   { name: "TRT Radyo 3", desc: "Klasik müzik ve caz", url: "https://radio-trtradyo3.live.trt.com.tr/master.m3u8" },
-  { name: "TRT Türkü", desc: "Türkü ve halk müziği", url: "https://radio-trtturku.live.trt.com.tr/master.m3u8" }
+  { name: "TRT Türkü", desc: "Türkü ve halk müziği", url: "https://radio-trtturku.live.trt.com.tr/master.m3u8" },
+  { name: "Kafa Radyo", desc: "Alternatif ve eğlenceli", url: "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8" }
 ];
 
 function getSourceColor(source) {
@@ -610,10 +602,8 @@ let globalMeta = null;
 let currentAIPopover = null;
 let hls = null;
 
-// YENİ: Yeni ayarların state değişkenleri
 let ageFilter12h = localStorage.getItem('radar_age_12h') === 'true';
 let autoMarkRead = localStorage.getItem('radar_auto_read') === 'true';
-let useRadioProxy = localStorage.getItem('radar_radio_proxy') === 'true';
 let radioVolume = parseFloat(localStorage.getItem('radar_radio_volume') || '0.8');
 
 function esc(str) {
@@ -642,7 +632,6 @@ function updateGreeting() {
 }
 updateGreeting();
 
-// --- AI Şeffaflık Popover ---
 function closeAIPopover() {
   if (currentAIPopover) { currentAIPopover.remove(); currentAIPopover = null; }
 }
@@ -682,7 +671,6 @@ document.addEventListener('click', (e) => {
 window.addEventListener('scroll', closeAIPopover, true);
 window.addEventListener('resize', closeAIPopover);
 
-// --- Arşiv Yönetimi ---
 async function loadArchiveIndex() {
   try {
     const res = await fetch('archive/index.json?t=' + Date.now());
@@ -727,7 +715,6 @@ function onArchiveChange(event) {
   loadData(activeArchive || 'news.json');
 }
 
-// --- Arama ve Filtreler ---
 function quickSearch(query) {
   searchQ = '';
   document.getElementById('searchInput').value = '';
@@ -820,7 +807,6 @@ function renderNews() {
     filtered = filtered.filter(n => n.tone === activeTone);
   }
 
-  // YENİ: 12 Saat Filtresi
   if (ageFilter12h) {
     const twelveHoursAgo = new Date(Date.now() - 12 * 60 * 60 * 1000);
     filtered = filtered.filter(n => new Date(n.pubDate) > twelveHoursAgo);
@@ -928,7 +914,6 @@ function renderNews() {
   });
 }
 
-// --- Podcast / Radyo Modu (Sesli Okuma) ---
 function speakText() {
   if (!window.speechSynthesis) { alert("Tarayıcınız sesli okumayı desteklemiyor."); return; }
   const btn = document.getElementById('btnListen');
@@ -952,7 +937,6 @@ function speakText() {
   window.speechSynthesis.speak(utterance);
 }
 
-// --- Çeviri Aracı ---
 function openTranslate() {
   document.getElementById('translateModal').classList.add('active');
 }
@@ -1003,7 +987,6 @@ async function doTranslate() {
   out.textContent = 'Çeviri şu an yapılamadı. Lütfen daha sonra tekrar deneyin veya metni kısaltın.';
 }
 
-// --- Radyo İşlemleri ---
 function openRadio() {
   const listEl = document.getElementById('radioList');
   listEl.innerHTML = RADIO_STATIONS.map((st, i) => `
@@ -1022,23 +1005,24 @@ function playRadio(index) {
   const station = RADIO_STATIONS[index];
   const player = document.getElementById('radioPlayer');
   
-  player.volume = radioVolume; // Ses seviyesini uygula
+  player.volume = radioVolume; 
 
   if (hls) { hls.destroy(); hls = null; }
 
   let finalUrl = station.url;
 
-  // CORS Proxy Mantığı
-  if (useRadioProxy && finalUrl.includes('.m3u8')) {
-    // allorigins proxy'si manifest dosyasını çeker (HLS için en iyi çaba)
-    finalUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(finalUrl)}`;
+  // Cloudflare Proxy Entegrasyonu
+  if (finalUrl.includes('.m3u8')) {
+    finalUrl = PROXY_URL + encodeURIComponent(finalUrl);
   }
 
-  if (player.canPlayType('application/vnd.apple.mpegurl') && finalUrl.includes('.m3u8')) {
+  // Safari / iOS Native HLS
+  if (player.canPlayType('application/vnd.apple.mpegurl') && station.url.includes('.m3u8')) {
     player.src = finalUrl;
     player.play().catch(e => alert("Bu radyo yayını oynatılamadı."));
   } 
-  else if (Hls.isSupported() && finalUrl.includes('.m3u8')) {
+  // HLS.js
+  else if (Hls.isSupported() && station.url.includes('.m3u8')) {
     hls = new Hls();
     hls.loadSource(finalUrl);
     hls.attachMedia(player);
@@ -1047,10 +1031,12 @@ function playRadio(index) {
     });
     hls.on(Hls.Events.ERROR, function (event, data) {
       if (data.fatal) {
-        alert("Radyo yayını yüklenirken hata oluştu. Lütfen Ayarlar'dan CORS Proxy'yi açıp kapatmayı deneyin.");
+        console.error("HLS Hatası:", data);
+        alert("Radyo yayını yüklenirken hata oluştu.");
       }
     });
   } 
+  // MP3 / Diğer
   else {
     player.src = finalUrl;
     player.play().catch(e => alert("Bu radyo yayını tarayıcınızda oynatılamadı."));
@@ -1068,10 +1054,8 @@ function openSettings() {
     list.appendChild(el);
   });
 
-  // Yeni ayarların UI'daki durumlarını güncelle
   document.getElementById('ageFilterToggle').classList.toggle('active', ageFilter12h);
   document.getElementById('autoReadToggle').classList.toggle('active', autoMarkRead);
-  document.getElementById('radioProxyToggle').classList.toggle('active', useRadioProxy);
   document.getElementById('volumeSlider').value = radioVolume;
   document.getElementById('themeToggle').classList.toggle('active', localStorage.getItem('radar_theme') === 'dark');
   document.getElementById('imageToggle').classList.toggle('active', hideImages);
@@ -1091,7 +1075,6 @@ function savePreferencesFromModal() {
   renderNews();
 }
 
-// YENİ: Ayar fonksiyonları
 function toggleAgeFilter() {
   ageFilter12h = !ageFilter12h;
   localStorage.setItem('radar_age_12h', ageFilter12h);
@@ -1103,12 +1086,6 @@ function toggleAutoRead() {
   autoMarkRead = !autoMarkRead;
   localStorage.setItem('radar_auto_read', autoMarkRead);
   document.getElementById('autoReadToggle').classList.toggle('active', autoMarkRead);
-}
-
-function toggleRadioProxy() {
-  useRadioProxy = !useRadioProxy;
-  localStorage.setItem('radar_radio_proxy', useRadioProxy);
-  document.getElementById('radioProxyToggle').classList.toggle('active', useRadioProxy);
 }
 
 function setRadioVolume(val) {
@@ -1363,7 +1340,6 @@ function toggleLike(link, btn) {
   localStorage.setItem('radar_liked', JSON.stringify(Array.from(likedLinks)));
 }
 
-// Başlat
 loadArchiveIndex();
 loadData('news.json');
 
