@@ -181,15 +181,17 @@ def summarize_batch(items):
         if not content:
             lines.append(f"ID: {it['id']} | Başlık: {it['title']} | Durum: METİN YOK.")
         else:
-            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content}")
+            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content[:1500]}") # Token tasarrufu için kırpıldı
     
-    # YENİ: why_important (Neden Önemli) eklendi.
     prompt = (
         "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
-        "Her habere 1-10 arası 'Önem Puanı' ver. 'ton' (duygu) belirle: 'pozitif', 'nötr' veya 'negatif'. "
-        "Ayrıca her haber için 'why_important' (Neden Önemli?) alanına, bu haberi neden okumamız gerektiğini açıklayan 1 cümlelik çarpıcı bir analiz yaz. "
-        "Çıktıyı KESİNLİKLE şu JSON formatında ver: "
-        "{\"summaries\": [{\"id\": \"haber_id\", \"summary\": \"özet\", \"score\": 8, \"tone\": \"nötr\", \"why_important\": \"cümle\"}]}. "
+        "Her haber için şu 4 alanı doldur:\n"
+        "1. 'summary': Tarafsız özet.\n"
+        "2. 'tone': 'pozitif', 'nötr' veya 'negatif'.\n"
+        "3. 'why_important': Bu haberi neden okumalıyız? (1 çarpıcı cümle).\n"
+        "4. 'bias_score': 0 ile 10 arasında bir sayı. 0: Tamamen tarafsız/bilgilendirici, 10: Aşırı sansasyonel, manipülatif veya tık tuzağı (clickbait).\n"
+        "Çıktıyı KESİNLİKLE şu JSON formatında ver:\n"
+        "{'summaries': [{'id': 'haber_id', 'summary': 'özet', 'tone': 'nötr', 'why_important': 'cümle', 'bias_score': 3}]}\n"
         "Metin yoksa ekleme.\n\n" + "\n".join(lines)
     )
     
@@ -198,20 +200,26 @@ def summarize_batch(items):
         arr = json.loads(clean_json_response(raw)).get("summaries", [])
         result = {}
         for item in arr:
-            score = item.get("score", 5)
-            try: 
-                score = int(float(score))
-                if score < 1: score = 1
-                if score > 10: score = 10
-            except: score = 5
+            score = item.get("score", 5) # Eski uyumluluk için
+            bias = item.get("bias_score", 5)
+            try:
+                bias = int(float(bias))
+                if bias < 0: bias = 0
+                if bias > 10: bias = 10
+            except: bias = 5
+            
             result[item["id"]] = {
-                "summary": item["summary"], 
+                "summary": item.get("summary", "Özet oluşturulamadı."),
                 "score": score,
                 "tone": item.get("tone", "nötr"),
-                "why_important": item.get("why_important", "")
+                "why_important": item.get("why_important", ""),
+                "bias_score": bias
             }
         return result
-    except: return {}
+    except Exception as e:
+        print(f"JSON Ayrıştırma Hatası: {e}", file=sys.stderr)
+        return {}
+
 
 def generate_daily_briefings(all_news):
     if not all_news: return {}
