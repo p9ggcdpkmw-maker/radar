@@ -188,71 +188,88 @@
 
   .settings-section { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 20px;}
   .settings-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
-  .settings-title { font-size: 15px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 16px; }
+  .settings-title { font-size: 13px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
   
-  .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; }
-  .setting-label { font-weight: 700; font-size: 16px; color: var(--text-main); display: flex; align-items: center; gap: 12px;}
-  .toggle-btn { width: 52px; height: 28px; background: #CBD5E1; border-radius: 20px; position: relative; cursor: pointer; transition: all 0.3s; flex-shrink: 0;}
-  .toggle-btn::after { content: ''; position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; background: #fff; border-radius: 50%; transition: all 0.3s; }
+  .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
+  .setting-label { font-weight: 700; font-size: 15px; color: var(--text-main); display: flex; align-items: center; gap: 12px;}
+  .toggle-btn { width: 48px; height: 26px; background: #CBD5E1; border-radius: 20px; position: relative; cursor: pointer; transition: all 0.3s; flex-shrink: 0;}
+  .toggle-btn::after { content: ''; position: absolute; top: 2px; left: 2px; width: 22px; height: 22px; background: #fff; border-radius: 50%; transition: all 0.3s; }
   .toggle-btn.active { background: var(--accent); }
-  .toggle-btn.active::after { left: 26px; }
+  .toggle-btn.active::after { left: 24px; }
   
   .pref-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px;}
   .pref-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(100,116,139,0.05); border-radius: var(--radius-md); cursor: pointer; border: 1px solid var(--border);}
   .pref-item.selected { background: var(--accent-light); border-color: var(--accent); }
-  .checkbox-custom { width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--text-muted); display: flex; align-items: center; justify-content: center; background: var(--bg-panel);}
+  .checkbox-custom { width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--text-muted); display: flex; align-items: center; justify-content: center; background: var(--bg-panel);}
   .pref-item.selected .checkbox-custom { background: var(--accent); border-color: var(--accent); }
-  .checkbox-custom::after { content: '✓'; color: white; font-size: 14px; font-weight: 900; display: none; }
+  .checkbox-custom::after { content: '✓'; color: white; font-size: 12px; font-weight: 900; display: none; }
   .pref-item.selected .checkbox-custom::after { display: block; }
 
-  details.settings-details { margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-  details.settings-details summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 800; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 0; }
+  details.settings-details { margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+  details.settings-details summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 800; color: var(--text-main); text-transform: uppercase; letter-spacing: 0.5px; padding: 8px 0; }
   details.settings-details summary::-webkit-details-marker { display: none; }
   details.settings-details summary::after { content: '▼'; font-size: 12px; color: var(--text-muted); transition: transform 0.3s; }
   details.settings-details[open] summary::after { transform: rotate(180deg); }
   details.settings-details[open] summary { margin-bottom: 10px; }
 
-  .btn-danger { width: 100%; padding: 16px; background: rgba(239,68,68,0.1); color: #EF4444; border: 1px solid #EF4444; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; margin-top: 10px;}
-  .ntfy-info { font-size: 14px; color: var(--text-muted); background: rgba(59,130,246,0.05); padding: 20px; border-radius: var(--radius-md); line-height: 1.6; margin-top: 10px; border: 1px dashed var(--accent);}
+  .btn-danger { width: 100%; padding: 14px; background: rgba(239,68,68,0.1); color: #EF4444; border: 1px solid #EF4444; border-radius: var(--radius-md); font-weight: 800; cursor: pointer; margin-top: 10px; font-size: 14px;}
+  .ntfy-info { font-size: 13px; color: var(--text-muted); background: rgba(59,130,246,0.05); padding: 16px; border-radius: var(--radius-md); line-height: 1.5; margin-top: 10px; border: 1px dashed var(--accent);}
   .ntfy-info a { color: var(--accent); font-weight: 800; text-decoration: none;}
 
   .bottom-nav { display: none; user-select: none; }
 
+  /* MOBİL GÖRÜNÜM İYİLEŞTİRMELERİ */
   @media (max-width: 1000px) {
-    .app-container { display: block; padding: 20px; height: auto; overflow: visible; }
+    .app-container { display: block; padding: 16px; height: auto; overflow: visible; }
     .sidebar { display: none; }
     .desktop-header { display: none; }
-    .mobile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; margin-top: 10px;}
+    .mobile-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; margin-top: 8px;}
     .mobile-greeting { display: block; margin-bottom: 20px; }
-    .mobile-logo { font-size: 24px; font-weight: 900; display: flex; align-items: center; gap: 10px; color: var(--text-main); letter-spacing: -0.5px;}
-    .mobile-logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 8px; }
-    .mobile-actions { display: flex; gap: 12px; font-size: 22px; color: var(--text-main); cursor: pointer; align-items: center;}
-    .mobile-greeting h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-main);}
-    .mobile-greeting p { font-size: 15px; color: var(--text-muted); font-weight: 600; margin-top: 6px;}
+    .mobile-logo { font-size: 22px; font-weight: 900; display: flex; align-items: center; gap: 10px; color: var(--text-main); letter-spacing: -0.5px;}
+    .mobile-logo-icon { width: 30px; height: 30px; border-radius: 8px; }
+    .mobile-actions { display: flex; gap: 12px; font-size: 20px; color: var(--text-main); cursor: pointer; align-items: center;}
+    .mobile-greeting h1 { font-size: 24px; font-weight: 900; letter-spacing: -0.5px; color: var(--text-main);}
+    .mobile-greeting p { font-size: 14px; color: var(--text-muted); font-weight: 600; margin-top: 4px;}
     .main-feed { overflow: visible; padding-right: 0; }
     .right-panel { width: 100%; overflow: visible; margin-top: 30px; }
-    .feed-grid { grid-template-columns: 1fr; gap: 20px; }
-    .news-card { padding: 20px; gap: 16px; flex-direction: column-reverse; }
-    .card-image { width: 100%; height: 180px; margin-bottom: 12px; }
-    .card-title { font-size: 18px; }
+    .feed-grid { grid-template-columns: 1fr; gap: 16px; }
+    .news-card { padding: 16px; gap: 12px; flex-direction: column-reverse; }
+    .card-image { width: 100%; height: 160px; margin-bottom: 8px; }
+    .card-title { font-size: 17px; }
     
+    /* Mobil Modal ve Ayarlar Düzeltmeleri */
+    .modal-content { padding: 24px; width: 95%; max-height: 85vh; }
+    .modal-title { font-size: 20px; padding-right: 30px; margin-bottom: 16px; }
+    .modal-close { top: 16px; right: 16px; width: 32px; height: 32px; font-size: 16px; }
+    
+    .settings-section { padding-bottom: 16px; margin-bottom: 16px; }
+    .settings-title { font-size: 12px; margin-bottom: 8px; }
+    .setting-row { padding: 10px 0; }
+    .setting-label { font-size: 14px; }
+    .pref-item { padding: 10px 12px; }
+    details.settings-details summary { font-size: 13px; padding: 6px 0; }
+    
+    /* Radyo Modalı */
+    .radio-item { padding: 12px 14px; }
+    .radio-name { font-size: 14px; }
+    .radio-desc { font-size: 11px; }
+    .radio-play-btn { width: 32px; height: 32px; font-size: 12px; }
+
     .bottom-nav { 
       display: flex; position: fixed; bottom: 0; left: 0; right: 0; 
       background: var(--bg-panel); border-top: 1px solid var(--border); z-index: 2000; 
-      padding: 12px 0 calc(12px + env(safe-area-inset-bottom, 20px)) 0; 
+      padding: 8px 0 calc(8px + env(safe-area-inset-bottom, 16px)) 0; 
       justify-content: space-around; align-items: center; 
     }
-    .bn-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer; }
+    .bn-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--text-muted); font-size: 10px; font-weight: 700; cursor: pointer; }
     .bn-item.active { color: var(--accent); }
-    .bn-icon { font-size: 24px; }
-    body { padding-bottom: 100px; }
+    .bn-icon { font-size: 22px; }
+    body { padding-bottom: 80px; }
   }
 
-  .radio-list { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+  .radio-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
   .radio-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: 0.2s; }
   .radio-item:hover { border-color: var(--accent); background: var(--accent-light); }
-  .radio-name { font-weight: 800; font-size: 15px; color: var(--text-main); }
-  .radio-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
   .radio-play-btn { background: var(--accent); color: #fff; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; }
   .radio-disclaimer { font-size: 12px; color: var(--text-muted); background: rgba(100,116,139,0.08); padding: 12px; border-radius: 8px; margin-top: 16px; line-height: 1.5; }
 
@@ -538,7 +555,6 @@
 </div>
 
 <script>
-// Cloudflare Proxy Adresin
 const PROXY_URL = "https://radar-hls-proxy.69sygknn4y.workers.dev/?url=";
 
 const SOURCE_COLORS = {
@@ -550,21 +566,15 @@ const SOURCE_COLORS = {
 };
 const FALLBACK_COLORS = ["#DBEAFE", "#FFEDD5", "#FEF3C7", "#FCE7F3", "#D1FAE5", "#EDE9FE"];
 
+// Senin onayladığın ve çalışan doğrudan yayınlar
 const RADIO_STATIONS = [
-  // --- Çalıştığını Onayladıkların ---
   { name: "Kafa Radyo", desc: "Alternatif ve eğlenceli", url: "https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8" },
   { name: "Kral Türk FM", desc: "Türkü ve halk müziği", url: "https://live.radyositesihazir.com/8032/stream" },
-
-  // --- Yeni Eklenen Doğrudan MP3/AAC Yayınları ---
   { name: "Süper FM", desc: "Türkçe pop", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM.mp3" },
   { name: "Power FM", desc: "Yabancı pop", url: "https://powerfm.listenpowerapp.com/powerfm/mpeg/icecast.audio" },
   { name: "PowerTürk", desc: "Türkçe pop", url: "https://live.powerapp.com.tr/powerturk/mpeg/icecast.audio" },
   { name: "Slow Türk", desc: "Romantik ve yavaş", url: "https://radyo.duhnet.tv/slowturk" },
-  
-  // --- Yedek Olarak Eklenen Diğer Popüler Kanallar ---
-  { name: "Best FM", desc: "Türkçe pop", url: "https://radyo.duhnet.tv/bestfm" },
-  { name: "Joy FM", desc: "Yabancı pop", url: "https://radyo.duhnet.tv/joyfm" },
-  { name: "Pal Nostalji", desc: "Nostaljik şarkılar", url: "https://radyo.duhnet.tv/palnostalji" }
+  { name: "Best FM", desc: "Türkçe pop", url: "https://radyo.duhnet.tv/bestfm" }
 ];
 
 function getSourceColor(source) {
@@ -1011,17 +1021,14 @@ function playRadio(index) {
 
   let finalUrl = station.url;
 
-  // Cloudflare Proxy Entegrasyonu
   if (finalUrl.includes('.m3u8')) {
     finalUrl = PROXY_URL + encodeURIComponent(finalUrl);
   }
 
-  // Safari / iOS Native HLS
   if (player.canPlayType('application/vnd.apple.mpegurl') && station.url.includes('.m3u8')) {
     player.src = finalUrl;
     player.play().catch(e => alert("Bu radyo yayını oynatılamadı."));
   } 
-  // HLS.js
   else if (Hls.isSupported() && station.url.includes('.m3u8')) {
     hls = new Hls();
     hls.loadSource(finalUrl);
@@ -1036,7 +1043,6 @@ function playRadio(index) {
       }
     });
   } 
-  // MP3 / Diğer
   else {
     player.src = finalUrl;
     player.play().catch(e => alert("Bu radyo yayını tarayıcınızda oynatılamadı."));
