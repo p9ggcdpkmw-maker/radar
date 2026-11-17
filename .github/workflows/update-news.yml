@@ -34,39 +34,42 @@ jobs:
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          HF_API_KEY: ${{ secrets.HF_API_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           AI_TEMPERATURE: ${{ vars.AI_TEMPERATURE || '0.2' }}
           AI_PROMPT_VER: ${{ vars.AI_PROMPT_VER || 'v1.3' }}
           SITE_URL: ${{ vars.SITE_URL || 'https://p9ggcdpkmw-maker.github.io/radar/' }}
 
-      - name: Arşiv snapshot oluştur
+      - name: Arşiv snapshot oluştur (son 60 gün)
         run: |
           DATE=$(date -u +%F)
           mkdir -p archive
           cp news.json "archive/${DATE}.json"
           python - <<'PY'
           import json, glob, os
-          files = sorted(glob.glob("archive/*.json"), reverse=True)
-          manifest = [
-              {"date": os.path.basename(f)[:-5], "path": f}
-              for f in files if os.path.basename(f) != "index.json"
-          ]
+          KEEP = 60
+          files = [f for f in glob.glob("archive/*.json")
+                   if os.path.basename(f) != "index.json"]
+          files.sort(key=lambda f: os.path.basename(f)[:-5], reverse=True)
+          for f in files[KEEP:]:
+              os.remove(f)
+              print("Eski arşiv silindi:", f)
+          kept = files[:KEEP]
+          manifest = [{"date": os.path.basename(f)[:-5], "path": f} for f in kept]
           with open("archive/index.json", "w", encoding="utf-8") as fh:
               json.dump({"dates": manifest}, fh, ensure_ascii=False, indent=2)
-          print(f"{len(manifest)} arşiv dosyası manifeste yazıldı.")
+          print(f"{len(manifest)} arşiv dosyası tutuluyor (limit {KEEP}).")
           PY
 
       - name: Haberleri, arşivi, RSS ve ikonları commit et
         run: |
           git config user.name "radar-botu"
           git config user.email "radar-botu@users.noreply.github.com"
-          git add news.json archive/ feed.xml feed-*.xml icon-*.png apple-touch-icon.png favicon-32.png
+          git add -A news.json archive/ feed.xml feed-*.xml icon-*.png apple-touch-icon.png favicon-32.png
           if git diff --quiet --cached; then
             echo "Değişiklik yok."
             exit 0
           fi
-          git commit -m "RADAR: Haberler + arşiv + RSS + ikonlar güncellendi ($(date -u +%F))"
+          git commit -m "RADAR: Haberler + arşiv + RSS güncellendi ($(date -u +%F))"
           for i in 1 2 3; do
             git pull --rebase origin main && git push && break
             sleep 5
