@@ -2,7 +2,7 @@ name: RADAR Haber Botu
 
 on:
   schedule:
-    - cron: '0 * * * *'
+    - cron: '0 */2 * * *'
   workflow_dispatch: {}
 
 permissions:
@@ -15,7 +15,7 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
 
@@ -38,6 +38,9 @@ jobs:
           AI_TEMPERATURE: ${{ vars.AI_TEMPERATURE || '0.2' }}
           AI_PROMPT_VER: ${{ vars.AI_PROMPT_VER || 'v1.3' }}
           SITE_URL: ${{ vars.SITE_URL || 'https://p9ggcdpkmw-maker.github.io/radar/' }}
+          AI_PACE_SECONDS: ${{ vars.AI_PACE_SECONDS || '10' }}
+          AI_TEXT_LIMIT: ${{ vars.AI_TEXT_LIMIT || '700' }}
+          EVENT_CLUSTER: ${{ vars.EVENT_CLUSTER || '0' }}
 
       - name: Arşiv snapshot oluştur (son 60 gün)
         run: |
