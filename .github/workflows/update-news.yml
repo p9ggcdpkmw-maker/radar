@@ -2,7 +2,7 @@ name: RADAR Haber Botu
 
 on:
   schedule:
-    - cron: '0 * * * *' 
+    - cron: '0 * * * *'
   workflow_dispatch: {}
 
 permissions:
@@ -26,6 +26,9 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: PWA ikonlarını üret
+        run: python icons.py
+
       - name: Botu çalıştır
         run: python fetch_and_summarize.py
         env:
@@ -34,7 +37,8 @@ jobs:
           HF_API_KEY: ${{ secrets.HF_API_KEY }}
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
           AI_TEMPERATURE: ${{ vars.AI_TEMPERATURE || '0.2' }}
-          AI_PROMPT_VER: ${{ vars.AI_PROMPT_VER || 'v1.1' }}
+          AI_PROMPT_VER: ${{ vars.AI_PROMPT_VER || 'v1.3' }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://p9ggcdpkmw-maker.github.io/radar/' }}
 
       - name: Arşiv snapshot oluştur
         run: |
@@ -53,16 +57,16 @@ jobs:
           print(f"{len(manifest)} arşiv dosyası manifeste yazıldı.")
           PY
 
-      - name: news.json ve arşiv değiştiyse commit et
+      - name: Haberleri, arşivi, RSS ve ikonları commit et
         run: |
           git config user.name "radar-botu"
           git config user.email "radar-botu@users.noreply.github.com"
-          git add news.json archive/
+          git add news.json archive/ feed.xml feed-*.xml icon-*.png apple-touch-icon.png favicon-32.png
           if git diff --quiet --cached; then
             echo "Değişiklik yok."
             exit 0
           fi
-          git commit -m "RADAR: Haberler + arşiv güncellendi ($(date -u +%F))"
+          git commit -m "RADAR: Haberler + arşiv + RSS + ikonlar güncellendi ($(date -u +%F))"
           for i in 1 2 3; do
             git pull --rebase origin main && git push && break
             sleep 5
