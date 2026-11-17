@@ -1,6 +1,8 @@
-/* RADAR Service Worker v2 */
-const CACHE_VERSION = 'radar-v2';
-const SHELL = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+/* RADAR Service Worker v3 */
+const CACHE_VERSION = 'radar-v3';
+const SHELL = ['./', './index.html', './manifest.json',
+               './icon-192.png', './icon-512.png', './icon-maskable-512.png',
+               './apple-touch-icon.png', './favicon-32.png'];
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
@@ -13,7 +15,8 @@ self.addEventListener('install', function(event) {
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
-      return Promise.all(keys.filter(function(k) { return k !== CACHE_VERSION; }).map(function(k) { return caches.delete(k); }));
+      return Promise.all(keys.filter(function(k) { return k !== CACHE_VERSION; })
+        .map(function(k) { return caches.delete(k); }));
     }).then(function() { return self.clients.claim(); })
   );
 });
