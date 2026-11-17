@@ -592,6 +592,160 @@ def main():
     print("news.json başarıyla yazıldı.")
     write_feeds(all_items)
 
+# ================= RADAR EK PAKET v2 =================
+# Bu blok yukarıdaki ask_ai ve cluster_items fonksiyonlarını günceller.
+# main() çağrı anında bu yeni sürümleri kullanır; eski kod silinmez.
+import atexit
+
+AI_STATS = {"groq": 0, "gemini": 0, "bos": 0, "groq429": 0, "_uyari": 0}
+
+
+def _radar_ai_ozeti():
+    print("AI özeti → Groq: {} · Gemini: {} · boş cevap: {} · Groq 429: {}".format(
+        AI_STATS["groq"], AI_STATS["gemini"], AI_STATS["bos"], AI_STATS["groq429"]))
+
+
+atexit.register(_radar_ai_ozeti)
+
+
+def ask_ai(prompt, is_json=True):
+    """Groq önce, Gemini yedek. Artık her atlama log'a yazılır."""
+    global LAST_AI_MODEL
+
+    if not GROQ_KEY:
+        if not AI_STATS["_uyari"]:
+            print("  ! GROQ_API_KEY tanımsız — doğrudan Gemini kullanılıyor.", file=sys.stderr)
+            AI_STATS["_uyari"] = 1
+    else:
+        for attempt in range(2):
+            try:
+                body = {"model": AI_MODEL_GROQ, "max_tokens": 4000, "temperature": AI_TEMPERATURE,
+                        "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
+                if is_json: body["response_format"] = {"type": "json_object"}
+                resp = requests.post("https://api.groq.com/openai/v1/chat/completions",
+                                     headers={"Authorization": f"Bearer {GROQ_KEY}"}, json=body, timeout=45)
+                if resp.status_code == 429:
+                    AI_STATS["groq429"] += 1
+                    print("  ! Groq 429 (kota/hız limiti) — Gemini'ye geçiliyor.", file=sys.stderr)
+                    break
+                resp.raise_for_status()
+                LAST_AI_MODEL = AI_MODEL_GROQ
+                AI_STATS["groq"] += 1
+                return resp.json()["choices"][0]["message"]["content"]
+            except Exception as e:
+                print(f"  ! Groq hatası: {e}", file=sys.stderr)
+                time.sleep(1)
+
+    if GEMINI_KEY:
+        for attempt in range(2):
+            try:
+                body = {"model": AI_MODEL_GEMINI, "max_tokens": 4000, "temperature": AI_TEMPERATURE,
+                        "messages": [{"role": "user", "content": prompt}]}
+                if is_json: body["response_format"] = {"type": "json_object"}
+                resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+                                     headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=60)
+                if resp.status_code == 429:
+                    print("  ! Gemini 429 — 10 sn bekleniyor.", file=sys.stderr)
+                    time.sleep(10); continue
+                resp.raise_for_status()
+                LAST_AI_MODEL = AI_MODEL_GEMINI
+                AI_STATS["gemini"] += 1
+                return resp.json()["choices"][0]["message"]["content"]
+            except Exception as e:
+                print(f"  ! Gemini hatası: {e}", file=sys.stderr)
+                time.sleep(3)
+
+    AI_STATS["bos"] += 1
+    print("  ! AI yanıt vermedi (boş cevap) — bu parti özetlenemedi.", file=sys.stderr)
+    return ""
+
+
+def _ai_olay_gruplari(clusters):
+    """Tek AI çağrısıyla, farklı kelimelerle anlatılan aynı olayları gruplar."""
+    lines = [f"{i}: {c['members'][0]['title']}" for i, c in enumerate(clusters[:140])]
+    prompt = (
+        "Aşağıda numaralı haber başlıkları var. SADECE aynı somut olayı anlatanları grupla "
+        "(aynı kaza, aynı karar, aynı maç, aynı ürün duyurusu, aynı açıklama gibi). "
+        "Farklı olayları birleştirme; emin değilsen gruplama. Her grupta en az 2 numara olsun. "
+        "Gruplanmayan başlıkları çıktıya ekleme.\n"
+        'Çıktıyı KESİNLİKLE şu JSON formatında ver: {"groups":[{"event":"olayın kısa adı","idx":[3,7]}]}\n\n'
+        + "\n".join(lines)
+    )
+    raw = ask_ai(prompt)
+    if not raw: return []
+    try:
+        data = json.loads(clean_json_response(raw))
+        out = []
+        for g in data.get("groups", []):
+            idx = []
+            for x in g.get("idx", []):
+                try:
+                    idx.append(int(x))
+                except (TypeError, ValueError):
+                    pass
+            if len(idx) >= 2:
+                out.append({"event": str(g.get("event", ""))[:120], "idx": idx})
+        return out
+    except Exception as e:
+        print(f"  ! Olay kümeleme atlandı (başlık kümelemesi korunuyor): {e}", file=sys.stderr)
+        return []
+
+
+def cluster_items(all_items):
+    """1) Ucuz başlık benzerliği  2) AI olay kümeleme  3) Zaman damgalı kaynak listesi."""
+    seen_urls = set()
+    clusters = []
+    for it in all_items:
+        if it["link"] in seen_urls: continue
+        norm = " ".join(re.sub(r'[^\w\s]', '', tr_lower(it["title"])).split())
+        found = None
+        for c in clusters:
+            sm = difflib.SequenceMatcher(None, norm, c["norm"])
+            if sm.real_quick_ratio() > 0.75 and sm.quick_ratio() > 0.75 and sm.ratio() > 0.75:
+                found = c
+                break
+        if found:
+            found["members"].append(it)
+        else:
+            clusters.append({"norm": norm, "members": [it], "event": ""})
+        seen_urls.add(it["link"])
+
+    baslik_sayisi = len(clusters)
+
+    if baslik_sayisi > 3:
+        groups = _ai_olay_gruplari(clusters)
+        if groups:
+            merged, used = [], set()
+            for g in groups:
+                idxs = [i for i in dict.fromkeys(g["idx"]) if 0 <= i < baslik_sayisi and i not in used]
+                if len(idxs) < 2: continue
+                base = clusters[idxs[0]]
+                for i in idxs[1:]:
+                    base["members"].extend(clusters[i]["members"])
+                    used.add(i)
+                used.add(idxs[0])
+                base["event"] = g.get("event", "")
+                merged.append(base)
+            for i, c in enumerate(clusters):
+                if i not in used: merged.append(c)
+            clusters = merged
+            print(f"Olay kümeleme: {baslik_sayisi} başlık → {len(clusters)} olay")
+
+    final_items = []
+    for c in clusters:
+        it = c["members"][0]
+        others = c["members"][1:]
+        if others:
+            others.sort(key=lambda x: x.get("pubDate", ""))
+            it["other_sources"] = [
+                {"source": o["source"], "link": o["link"], "pubDate": o.get("pubDate")}
+                for o in others
+            ]
+            it["event_count"] = len(c["members"])
+            if c.get("event"): it["event_title"] = c["event"]
+        final_items.append(it)
+    return final_items
+# ================= /RADAR EK PAKET v2 =================
 
 if __name__ == "__main__":
     main()
