@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="UTF-8"><title>RADAR ikon üretici</title>
+<style>body{font-family:system-ui;padding:30px;background:#F8FAFC}canvas{border-radius:16px;margin:10px}a{display:inline-block;margin:10px 20px 30px 0;font-weight:700}</style>
+</head><body>
+<h2>RADAR ikon üretici</h2>
+<div><canvas id="c192"></canvas><canvas id="c512" style="width:192px;height:192px"></canvas></div>
+<div><a id="dl192"></a><a id="dl512"></a></div>
+<script>
+function draw(size) {
+  const cv = document.getElementById('c' + size);
+  cv.width = size; cv.height = size;
+  const x = cv.getContext('2d');
+  const g = x.createLinearGradient(0, 0, size, size);
+  g.addColorStop(0, '#3B82F6'); g.addColorStop(1, '#8B5CF6');
+  x.fillStyle = g; x.fillRect(0, 0, size, size);
+  const cx = size / 2, cy = size / 2;
+  x.strokeStyle = '#FFFFFF'; x.lineCap = 'round';
+  x.lineWidth = size * 0.05;
+  [[0.19, 0.55], [0.28, 0.3]].forEach(function(p) {
+    const r = size * p[0];
+    x.globalAlpha = p[1];
+    x.beginPath(); x.arc(cx, cy, r, Math.PI * 0.75, Math.PI * 1.25); x.stroke();
+    x.beginPath(); x.arc(cx, cy, r, Math.PI * -0.25, Math.PI * 0.25); x.stroke();
+  });
+  x.globalAlpha = 1;
+  x.fillStyle = '#FFFFFF';
+  x.beginPath(); x.arc(cx, cy, size * 0.078, 0, Math.PI * 2); x.fill();
+  const a = document.getElementById('dl' + size);
+  a.href = cv.toDataURL('image/png');
+  a.download = 'icon-' + size + '.png';
+  a.textContent = 'icon-' + size + '.png indir';
+}
+draw(192); draw(512);
+</script>
+</body></html>
 
