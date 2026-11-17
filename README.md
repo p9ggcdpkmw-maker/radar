@@ -56,3 +56,41 @@ Her haberin **✦ AI** rozetine tıkla: hangi model, hangi sıcaklık, hangi pro
 
 ## Nasıl çalışıyor?
 
+
+**Yedeklilik:** Groq başarısız olursa Gemini devreye girer. Özetlenemeyen haber önbelleğe alınmaz, sonraki turda yeniden denenir. Piyasa API'leri ölürse son bilinen değer korunur.
+
+---
+
+## Kurulum
+
+1. Repoyu fork'la, **Settings → Pages → Branch: main / root** aç
+2. **Settings → Secrets and variables → Actions → Secrets:**
+   - `GROQ_API_KEY` (zorunlu) — [console.groq.com](https://console.groq.com)
+   - `GEMINI_API_KEY` (yedek, isteğe bağlı)
+   - `NTFY_TOPIC` (hata bildirimi, isteğe bağlı)
+3. **Variables** (isteğe bağlı): `AI_TEMPERATURE`, `AI_PROMPT_VER`, `SITE_URL`
+4. `icons.py` içindeki `SITE_URL` varsayılanını ve `index.html`'deki alan adını kendi adresinle değiştir
+5. **Actions → RADAR Haber Botu → Run workflow**
+
+---
+
+## Dosyalar
+
+| Dosya | Görevi |
+|---|---|
+| `index.html` | Tüm arayüz (HTML + CSS + JS, tek dosya) |
+| `fetch_and_summarize.py` | Haber motoru, AI, piyasa, RSS üretimi |
+| `icons.py` | PWA ikonları (sadece standart kütüphane) |
+| `sw.js` / `manifest.json` | Offline önbellek ve kurulum |
+| `news.json` | Canlı akış verisi |
+| `archive/` | Günlük snapshot'lar (son 60 gün) |
+| `feed*.xml` | RSS çıktıları |
+
+---
+
+## Sınırlar
+
+- Özetler yapay zekâ ürünüdür, hata içerebilir; kaynak bağlantısı her zaman verilir.
+- Sansasyonel dil skoru bir **dil** değerlendirmesidir, doğruluk veya güvenilirlik ölçmez.
+- Duygu trendi günlük arşiv snapshot'larına dayanır; birkaç gün veri birikmesi gerekir.
+- RSS kaynaklarının telif hakları ilgili yayıncılara aittir; RADAR yalnızca özet ve bağlantı sunar.
