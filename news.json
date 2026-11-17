@@ -1,7 +1,7 @@
 {
-  "updated": "2026-11-17T19:25:47.066570+00:00",
+  "updated": "2026-11-17T20:51:29.572484+00:00",
   "meta": {
-    "generated_at": "2026-11-17T19:25:45+00:00",
+    "generated_at": "2026-11-17T20:51:27+00:00",
     "model": "openai/gpt-oss-120b",
     "temperature": 0.2,
     "prompt_version": "v1.3",
@@ -41,7 +41,7 @@
       "bias_score": 2
     },
     {
-      "id": "bilim_11",
+      "id": "bilim_10",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "AİHM'den Can Atalay için hak ihlâli  kararı: 'Derhal serbest bırakılmalı ve milletvekilliği görevine dönmeli'",
@@ -66,32 +66,7 @@
       "bias_score": 2
     },
     {
-      "id": "ekonomi_55",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "İran'dan ABD'ye rest: Nükleer saldırıya nükleerle yanıt veririz",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/dunya/irandan-abdye-rest-nukleer-saldiriya-nukleerle-yanit-veririz-haberi-931849",
-      "pubDate": "2026-11-17T17:32:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/17/irandan-abdye-rest-nukleer-saldiriya-nukleerle-yanit-veririz-v5nc_cover.jpg",
-      "summary": "İran Meclisi Ulusal Güvenlik Komisyonu üyesi Muhammed Rıza Muhsini Sani, ABD'nin İran'a nükleer silah kullanması durumunda Tahran'ın aynı seviyede karşılık vereceğini belirtti.",
-      "score": 9,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T17:54:10+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/dunya/irandan-abdye-rest-nukleer-saldiriya-nukleerle-yanit-veririz-haberi-931849"
-        ]
-      },
-      "tone": "negatif",
-      "why_important": "Nükleer silahların karşılıklı kullanım tehdidi, bölgesel ve küresel güvenlik açısından ciddi riskler taşıyor.",
-      "bias_score": 3
-    },
-    {
-      "id": "bilim_12",
+      "id": "bilim_11",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Ukrayna Rusya'yı Kırım'a bağlayan Kerç Köprüsü'nü vurdu, Zelenskiy 'Benzersiz operasyon' dedi",
@@ -116,7 +91,7 @@
       "bias_score": 4
     },
     {
-      "id": "bilim_13",
+      "id": "bilim_12",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Menzil Cemaati'nde neler oluyor, Uşak ve Manisa'daki protestoların arkasında ne var?",
@@ -138,6 +113,56 @@
       },
       "tone": "negatif",
       "why_important": "Cemaat içindeki bölünme, geniş toplumsal ve hukuki etkileri olabilecek büyük bir dini oluşumun istikrarını tehdit ediyor."
+    },
+    {
+      "id": "gundem_52",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Avrupa'nın en büyük doğal gaz tedarikçisi Norveçli Equinor'a siber saldırı",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/avrupanin-en-buyuk-dogal-gaz-tedarikcisi-norvecli-equinora-siber-saldiri/4128368",
+      "pubDate": "2026-11-17T20:37:50+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_49499aac716096f276b21ad90a671c28.jpg",
+      "summary": "Avrupa'nın en büyük doğal gaz tedarikçisi Equinor, Norveç'te bazı bilişim sistemlerini hedef alan bir siber saldırı tespit etti ve durumu yetkililere bildirdi. Şirket, saldırının veri hırsızlığına yol açmadığını ve operasyonları etkilemediğini belirtti.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Enerji altyapısına yönelik siber tehditler, bölgesel enerji güvenliğini etkileyebilir.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:48:22+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/avrupanin-en-buyuk-dogal-gaz-tedarikcisi-norvecli-equinora-siber-saldiri/4128368"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_50",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Irak Bakanlar Kurulu, Türkiye'ye uzanan petrol boru hattının geliştirilmesine yönelik tavsiyeyi onayladı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/ekonomi/irak-bakanlar-kurulu-turkiyeye-uzanan-petrol-boru-hattinin-gelistirilmesine-yonelik-tavsiyeyi-onayladi-haberi-931863",
+      "pubDate": "2026-11-17T20:25:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/cinin-petrol-rotasi-degisti-iranin-boslugunu-indirimli-irak-doldurdu-duoi_cover.jpg",
+      "summary": "Irak Bakanlar Kurulu, Türkiye'ye uzanan petrol boru hattının yeniden düzenlenmesi önerisini onayladı; hat üzerinden ham petrol sevkiyatı 12 yıl sonra yeniden başladı.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Enerji akışı ve bölgesel ekonomik ilişkiler açısından kritik bir gelişme.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:46:57+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/ekonomi/irak-bakanlar-kurulu-turkiyeye-uzanan-petrol-boru-hattinin-gelistirilmesine-yonelik-tavsiyeyi-onayladi-haberi-931863"
+        ]
+      }
     },
     {
       "id": "teknoloji_50",
@@ -165,32 +190,132 @@
       "bias_score": 1
     },
     {
-      "id": "ekonomi_3",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Bakan Gürlek'ten fon soruşturmasına ilişkin açıklama",
-      "source": "Bloomberg HT",
-      "link": "https://www.bloomberght.com/bakan-gurlek-ten-fon-sorusturmasina-iliskin-aciklama-3794914",
-      "pubDate": "2026-11-17T17:25:09+00:00",
-      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794936345/3794914/jpg/1280x720",
-      "summary": "Adalet Bakanı Akın Gürlek, fon soruşturmalarında 498 şüpheli belirlediklerini, bunların 129'unun tutuklu, 289'unun adli kontrol altında olduğunu ve gönüllü iade kapsamında 40,4 milyar lira tahsil edildiğini açıkladı.",
+      "id": "gundem_53",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "FBI, bilgisayar korsanlarının yapay zeka destekli araçla siber saldırıları hızlandırdığını bildirdi",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/fbi-bilgisayar-korsanlarinin-yapay-zeka-destekli-aracla-siber-saldirilari-hizlandirdigini-bildirdi/4128366",
+      "pubDate": "2026-11-17T20:36:05+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_1c12dfdac8587bc518b12d6d78f7b5da.jpg",
+      "summary": "FBI, siber suçluların yapay zeka destekli ARTEX aracıyla sızma testlerini üç saatten kısa sürede tamamlayarak saldırı hızını artırdığını bildirdi.",
       "score": 8,
+      "tone": "negatif",
+      "why_important": "Yapay zeka, siber tehditlerin ölçeğini ve hızını yükseltiyor.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T18:46:45+00:00",
+        "generated_at": "2026-11-17T20:48:34+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.bloomberght.com/bakan-gurlek-ten-fon-sorusturmasina-iliskin-aciklama-3794914"
+          "https://www.aa.com.tr/tr/dunya/fbi-bilgisayar-korsanlarinin-yapay-zeka-destekli-aracla-siber-saldirilari-hizlandirdigini-bildirdi/4128366"
         ]
-      },
-      "tone": "nötr",
-      "why_important": "Fon skandallarının geniş çaplı tutuklamalar ve büyük meblağların tahsil edilmesi, finansal sistemin güvenilirliğini etkiler.",
-      "bias_score": 1
+      }
     },
     {
-      "id": "ekonomi_0",
+      "id": "teknoloji_0",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "İngiltere'de elektrikli araç şarj ücretleri kontrolden çıkıyor",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/ingiltere-de-elektrikli-arac-sarj-ucretleri-kontrolden-cikiyor--213046",
+      "pubDate": "2026-11-17T20:34:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213046/1200x675ingiltere-de-elektrikli-arac-sarj-ucretleri-kontrolden-cikiyor.jpg",
+      "summary": "İngiltere'de şebeke ücretlerindeki artış, elektrikli araçların hızlı şarj maliyetlerini beş yılda %616 artırdı ve 2027'de kWh başına 1 sterlinin üzerine çıkması bekleniyor.",
+      "score": 8,
+      "tone": "negatif",
+      "why_important": "Şarj maliyetlerinin yükselmesi EV sahiplerinin bütçesini etkileyebilir.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:46:45+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.donanimhaber.com/ingiltere-de-elektrikli-arac-sarj-ucretleri-kontrolden-cikiyor--213046"
+        ]
+      }
+    },
+    {
+      "id": "dunya_2",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "FBI'dan yapay zeka destekli siber saldırı uyarısı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/fbidan-yapay-zeka-destekli-siber-saldiri-uyarisi-963606.html",
+      "pubDate": "2026-11-17T20:01:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2454000/sanal-devriye-siber-saldiri-2455204.jpg",
+      "summary": "FBI, saldırganların ARTEX adlı sızma testi aracını kötüye kullandığını ve bu aracın çeşitli sektörlerdeki siber saldırılarda yer aldığını bildirdi.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Bu uyarı, kurumların siber güvenlik önlemlerini gözden geçirmesini gerektirir.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:45+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/fbidan-yapay-zeka-destekli-siber-saldiri-uyarisi-963606.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_4",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Almanya'dan Ukrayna'ya 2027'de 11,6 milyar euroluk destek",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/almanya-dan-ukrayna-ya-2027-de-11-6-milyar-euroluk-destek-3794922",
+      "pubDate": "2026-11-17T19:42:16+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794944835/3794922/jpg/1280x720",
+      "summary": "Almanya Savunma Bakanı Boris Pistorius, 2027 yılında Ukrayna'ya yaklaşık 11,6 milyar euro destek sağlayacağını ve bu desteğin ağırlıklı olarak hava savunması üzerine odaklanacağını açıkladı.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Ukrayna'nın savunma kapasitesi bu destekle artacak.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:21+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bloomberght.com/almanya-dan-ukrayna-ya-2027-de-11-6-milyar-euroluk-destek-3794922"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_5",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Yapay zekayla ilaç geliştiren Isomorphic Labs, 5 milyar dolar yatırım aldı",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/yapay-zekayla-ilac-gelistiren-isomorphic-labs-5-milyar-dolar-yatirim-aldi-3794920",
+      "pubDate": "2026-11-17T19:29:03+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794943775/3794920/jpg/1280x720",
+      "summary": "Isomorphic Labs, Alphabet'in bir yan kuruluşu olarak yapay zeka tabanlı ilaç keşfi yapıyor ve Greenoaks, Sequoia ve Andreessen Horowitz gibi yatırımcılardan toplam 5 milyar dolar Seri C yatırımı aldı.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Büyük bir yatırım, biyoteknoloji ve yapay zekâ alanındaki ilerlemeleri hızlandırabilir.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:33+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bloomberght.com/yapay-zekayla-ilac-gelistiren-isomorphic-labs-5-milyar-dolar-yatirim-aldi-3794920"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_8",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "ABD'de hava trafik kontrolüne 50 milyar dolarlık modernizasyon talebi",
@@ -200,9 +325,6 @@
       "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794941925/3794917/jpg/1280x720",
       "summary": "ABD Trump yönetimi, hava trafik kontrol sisteminin modernizasyonu için Kongreden 50,1 milyar dolar talep etti; bu talep, son zamanlarda yaşanan uzun uçuş gecikmelerinin finansal aciliyetini vurguluyor.",
       "score": 8,
-      "tone": "nötr",
-      "why_important": "Güvenli ve verimli hava trafiği için büyük bir altyapı yatırımı gerektiriyor.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -212,10 +334,13 @@
         "source_urls": [
           "https://www.bloomberght.com/abd-de-hava-trafik-kontrolune-50-milyar-dolarlik-modernizasyon-talebi-3794917"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Güvenli ve verimli hava trafiği için büyük bir altyapı yatırımı gerektiriyor.",
+      "bias_score": 2
     },
     {
-      "id": "teknoloji_5",
+      "id": "teknoloji_9",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "macOS 27.3, Mac'lere yeni gizlilik kontrolleri getiriyor",
@@ -240,32 +365,7 @@
       "bias_score": 2
     },
     {
-      "id": "ekonomi_5",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Huang'dan Nvidia'ya geri dönüş sinyali",
-      "source": "Bloomberg HT",
-      "link": "https://www.bloomberght.com/huang-dan-nvidia-ya-geri-donus-sinyali-3794912",
-      "pubDate": "2026-11-17T16:18:38+00:00",
-      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794932347/3794912/jpg/1280x720",
-      "summary": "Nvidia eski CEO'su Jensen Huang, istifasından sonra yönetim kurulunun talep etmesi halinde CEO olarak geri dönmeye hazır olduğunu açıkladı.",
-      "score": 8,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:17+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bloomberght.com/huang-dan-nvidia-ya-geri-donus-sinyali-3794912"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Şirketin liderliğinde olası bir değişiklik, hisse senedi fiyatları ve teknoloji sektörünü etkileyebilir.",
-      "bias_score": 2
-    },
-    {
-      "id": "ekonomi_1",
+      "id": "ekonomi_9",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "ABD Ulusal Güvenlik Ajansı'nın gizli ağı çöktü",
@@ -303,7 +403,7 @@
       "bias_score": 3
     },
     {
-      "id": "dunya_6",
+      "id": "dunya_8",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "ABD'de Demokratlar, durdurulan uçuşlar hakkında yönetimden net açıklama bekliyor",
@@ -313,9 +413,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/abd-ucus-iptalleri-abd-havalimani-reu-2503766.jpg",
       "summary": "ABD Senatosu'ndaki Demokratlar, uçuş duruşlarıyla ilgili FAA'nın daha ayrıntılı bir soruşturma yapmasını ve sonuçları Kongre'ye raporlamasını talep etti.",
       "score": 8,
-      "tone": "nötr",
-      "why_important": "Havacılık güvenliği ve yönetim şeffaflığı açısından kritik bir denetim talebidir.",
-      "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -325,10 +422,13 @@
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/abdde-demokratlar-durdurulan-ucuslar-hakkinda-yonetimden-net-aciklama-bekliyor-963600.html"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Havacılık güvenliği ve yönetim şeffaflığı açısından kritik bir denetim talebidir.",
+      "bias_score": 3
     },
     {
-      "id": "teknoloji_4",
+      "id": "teknoloji_8",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Nvidia Rubin HPC GPU duyuruldu: 50 binden fazla CUDA çekirdeği sunuyor",
@@ -353,7 +453,32 @@
       "bias_score": 3
     },
     {
-      "id": "bilim_5",
+      "id": "dunya_10",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "ABD yönetimi, hava trafik sisteminin modernizasyonu için Kongre'den finansman talep etti",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/abd-yonetimi-hava-trafik-sisteminin-modernizasyonu-icin-kongreden-finansman-talep-etti-963598.html",
+      "pubDate": "2026-11-17T17:39:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2474000/ucak-aa-2474921.jpg",
+      "summary": "ABD Ulaştırma Bakanlığı, FAA'nın modernizasyonu için yeni bir hava trafik kontrol sistemi finansmanını Kongre'den talep etti; mevcut altyapının çökmesi 13 Kasım'da uçuşların durmasına yol açabilir.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Güvenli ve kesintisiz hava trafiği için acil finansman ihtiyacı var.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:57+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/abd-yonetimi-hava-trafik-sisteminin-modernizasyonu-icin-kongreden-finansman-talep-etti-963598.html"
+        ]
+      }
+    },
+    {
+      "id": "bilim_4",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Fon soruşturması kapsamında dört şirkete kayyum atandı",
@@ -378,82 +503,140 @@
       "bias_score": 3
     },
     {
-      "id": "ekonomi_58",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Trump'un Çin gezisi öncesi çip kısıtlaması gerilimi: Pekin misilleme uyarısı yaptı",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/kuresel-ekonomi/trumpun-cin-gezisi-oncesi-cip-kisitlamasi-gerilimi-pekin-misilleme-uyarisi-yapti-haberi-931845",
-      "pubDate": "2026-11-17T16:53:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/17/trumpun-cin-gezisi-oncesi-cip-kisitlamasi-gerilimi-pekin-misilleme-uyarisi-yapti-vm0n_cover.jpg",
-      "summary": "Çin, ABD'nin üçüncü ülkelerdeki veri merkezleri üzerinden gelişmiş yapay zeka çiplerine erişimi kısıtlayan düzenlemesine sert tepki vererek, geri adım atılmaması durumunda karşı önlemler alacağını duyurdu.",
-      "score": 8,
-      "tone": "negatif",
-      "why_important": "ABD-Çin teknoloji gerilimleri küresel ekonomik dengeleri etkileyebilir.",
-      "bias_score": 4,
+      "id": "dunya_15",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Van'da 4,3 büyüklüğünde deprem",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/turkiye/vanda-43-buyuklugunde-deprem-963593.html",
+      "pubDate": "2026-11-17T16:09:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2480000/deprem-2480656.jpg",
+      "summary": "Van'da 4,3 büyüklüğünde bir deprem meydana geldi. Olayın etkileri ve hasar durumu henüz detaylandırılmadı.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Bölgede olası can ve mal kaybı riski bulunuyor.",
+      "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:20:55+00:00",
+        "generated_at": "2026-11-17T20:48:22+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/kuresel-ekonomi/trumpun-cin-gezisi-oncesi-cip-kisitlamasi-gerilimi-pekin-misilleme-uyarisi-yapti-haberi-931845"
+          "https://www.trthaber.com/haber/turkiye/vanda-43-buyuklugunde-deprem-963593.html"
         ]
       }
     },
     {
-      "id": "ekonomi_4",
+      "id": "ekonomi_2",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "İran'dan ABD'ye nükleer rest: Aynı düzeyde karşılık veririz",
+      "title": "Fon soruşturmasında 7 şüpheli daha tutuklandı",
       "source": "Bloomberg HT",
-      "link": "https://www.bloomberght.com/iran-dan-abd-ye-nukleer-rest-ayni-duzeyde-karsilik-veririz-3794913",
-      "pubDate": "2026-11-17T16:27:57+00:00",
-      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794933184/3794913/jpg/1280x720",
-      "summary": "İran Meclisi Ulusal Güvenlik Komisyonu üyesi Muhammed Rıza Muhsini Sani, ABD'nin İran'a nükleer silah kullanması durumunda aynı düzeyde karşılık verileceğini söyledi.",
-      "score": 8,
+      "link": "https://www.bloomberght.com/fon-sorusturmasinda-7-supheli-daha-tutuklandi-3794926",
+      "pubDate": "2026-11-17T20:05:04+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794945992/3794926/jpg/1280x720",
+      "other_sources": [
+        {
+          "source": "TRT Haber",
+          "link": "https://www.trthaber.com/haber/turkiye/fon-sorusturmasinda-7-kisi-daha-tutuklandi-963604.html",
+          "pubDate": "2026-11-17T19:20:00+00:00"
+        }
+      ],
+      "event_count": 2,
+      "summary": "İstanbul Cumhuriyet Başsavcılığı, fon soruşturması kapsamında gözaltına alınan 17 şüpheliden 7'sini tutukladı, kalan 10'a adli kontrol kararı verildi. Tutuklamalar, mali suçlarla mücadelede yürütülen geniş çaplı bir operasyonun parçasıdır.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Finansal piyasaların şeffaflığı ve yasalara uygunluğu için kritik bir gelişmedir.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:15+00:00",
+        "generated_at": "2026-11-17T20:47:09+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.bloomberght.com/iran-dan-abd-ye-nukleer-rest-ayni-duzeyde-karsilik-veririz-3794913"
+          "https://www.bloomberght.com/fon-sorusturmasinda-7-supheli-daha-tutuklandi-3794926"
         ]
-      },
-      "tone": "negatif",
-      "why_important": "Bu açıklama, bölgedeki nükleer gerilimlerin artabileceği ve uluslararası güvenliğe etkisi olabileceği konusunda uyarı niteliğinde.",
-      "bias_score": 4
+      }
     },
     {
-      "id": "teknoloji_11",
+      "id": "ekonomi_3",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "OpenAI, siber güvenlik için NATO ile işbirliği yaptığını duyurdu",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/openai-siber-guvenlik-icin-nato-ile-isbirligi-yaptigini-duyurdu-3794925",
+      "pubDate": "2026-11-17T19:51:35+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794945138/3794925/jpg/1280x720",
+      "summary": "OpenAI, NATO İletişim ve Bilgi Ajansı ile işbirliği yaparak gelişmiş siber güvenlik modellerini NATO'nun temel kurumlarına sunacağını duyurdu.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "NATO müttefiklerinin ağ güvenliği güçlenecek.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:21+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bloomberght.com/openai-siber-guvenlik-icin-nato-ile-isbirligi-yaptigini-duyurdu-3794925"
+        ]
+      }
+    },
+    {
+      "id": "dunya_3",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Yeşil dönüşüm için verilecek 3 milyar liralık destek paketinde son başvuru tarihi belli oldu",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/ekonomi/yesil-donusum-icin-verilecek-3-milyar-liralik-destek-paketinde-son-basvuru-tarihi-belli-oldu-963605.html",
+      "pubDate": "2026-11-17T19:42:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1800000/turk-lirasi-para-1800470.jpg",
+      "summary": "KOSGEB'in Yeşil Sanayi Destek Programı kapsamında KOBİ'lere, proje başına 7 Milyon TL'ye kadar, %70 oranında ve 12 ay sürede 3 Milyar TL'lik bir destek paketi sunulacak; geri ödemeler 24 ay ücretsiz, toplam 36 ay faizsiz yapılacak.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "KOBİ'lerin çevre dostu yatırımları finansal destekle hızlandırılacak.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:57+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/ekonomi/yesil-donusum-icin-verilecek-3-milyar-liralik-destek-paketinde-son-basvuru-tarihi-belli-oldu-963605.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_3",
       "cat": "Teknoloji",
       "catId": "teknoloji",
-      "title": "iCloud+ almayanlara Siri AI ve Apple Intelligence kullanım sınırı!",
+      "title": "M. Night Shyamalan imzalı Remain'in yeni fragmanı yayınlandı",
       "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/icloud-almayanlara-siri-ai-ve-apple-intelligence-siniri--213016",
-      "pubDate": "2026-11-17T16:13:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213016/1200x675icloud-almayanlara-siri-ai-ve-apple-intelligence-siniri.jpg",
-      "summary": "Apple, iOS güncellemesiyle iCloud+ abonelik seviyesine göre Siri ve Apple Intelligence için günlük kullanım sınırları getirdi; üst paketler limitleri 20 kata kadar artırabiliyor, temel komutlar ise sınırsız kalıyor.",
-      "score": 8,
+      "link": "https://www.donanimhaber.com/m-night-shyamalan-imzali-remain-den-yeni-fragman--213018",
+      "pubDate": "2026-11-17T19:30:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213018/1200x675m-night-shyamalan-imzali-remain-den-yeni-fragman.jpg",
+      "summary": "M. Night Shyamalan ve Nicholas Sparks'in ortak yapımı Remain'in ilk fragmanı yayınlandı; filmde Jake Gyllenhaal ve Phoebe Dynevor başrollerde ve 5 Şubat 2027'de vizyona girecek.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Yeni bir büyük yönetmenin ve popüler yazarın iş birliği sinema sektöründe ilgi çekiyor.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:08+00:00",
+        "generated_at": "2026-11-17T20:46:57+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.donanimhaber.com/icloud-almayanlara-siri-ai-ve-apple-intelligence-siniri--213016"
+          "https://www.donanimhaber.com/m-night-shyamalan-imzali-remain-den-yeni-fragman--213018"
         ]
-      },
-      "tone": "nötr",
-      "why_important": "Kullanıcıların yapay zeka hizmetlerine erişim maliyetleri ve kullanım deneyimi doğrudan etkileniyor.",
-      "bias_score": 4
+      }
     },
     {
-      "id": "teknoloji_0",
+      "id": "teknoloji_4",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Jensen Huang sessizliğini bozdu: \"Geri dönmeye hazırım\"",
@@ -463,9 +646,6 @@
       "image": "https://www.donanimhaber.com/images/images/haber/213053/1200x675jensen-huang-goreve-geri-donmeye-hazir-oldugunu-acikladi.jpg",
       "summary": "NVIDIA eski CEO'su Jensen Huang, şirketin karmaşık bir dönemde olduğunu belirterek, hissedarlar ve yönetim kurulunun onayıyla tekrar CEO olmaya hazır olduğunu söyledi.",
       "score": 7,
-      "tone": "nötr",
-      "why_important": "Şirketin liderlik değişikliği stratejik yönünü etkileyebilir.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -475,10 +655,13 @@
         "source_urls": [
           "https://www.donanimhaber.com/jensen-huang-goreve-geri-donmeye-hazir-oldugunu-acikladi--213053"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Şirketin liderlik değişikliği stratejik yönünü etkileyebilir.",
+      "bias_score": 2
     },
     {
-      "id": "teknoloji_2",
+      "id": "teknoloji_6",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "LG, OLED monitörlerinde TCL CSOT teknolojisini kullanabilir",
@@ -503,7 +686,7 @@
       "bias_score": 2
     },
     {
-      "id": "dunya_4",
+      "id": "dunya_6",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Türk F16'larının MogadişuBandırma arasındaki intikali 55 saatte tamamlandı",
@@ -513,9 +696,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2504000/somali-msb-f16-2504345.jpg",
       "summary": "Türk F-16 pilotları, bakım için gönderilen uçakları Mogadişu'dan Bandırma'ya 55 saatte, iki seferde 5.960 deniz mili kat ederek taşıdı.",
       "score": 7,
-      "tone": "nötr",
-      "why_important": "Türk havacılık kapasitesinin ve uluslararası operasyon yeteneğinin göstergesidir.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -525,10 +705,13 @@
         "source_urls": [
           "https://www.trthaber.com/haber/gundem/turk-f-16larinin-mogadisu-bandirma-arasindaki-intikali-55-saatte-tamamlandi-963602.html"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Türk havacılık kapasitesinin ve uluslararası operasyon yeteneğinin göstergesidir.",
+      "bias_score": 2
     },
     {
-      "id": "ekonomi_51",
+      "id": "ekonomi_56",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Gmail, Apple, Microsoft ve Marriott servislerinde eş zamanlı kesinti",
@@ -553,7 +736,7 @@
       "bias_score": 2
     },
     {
-      "id": "ekonomi_52",
+      "id": "ekonomi_57",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "ABD 'de uçuşlar, bankalar derken şimdi de Ulusal Güvenlik Ajansı’nın gizli iç iletişim ağı çöktü",
@@ -603,7 +786,7 @@
       "bias_score": 2
     },
     {
-      "id": "ekonomi_2",
+      "id": "ekonomi_10",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "KOBİ'lere 3 milyar liralık yeşil dönüşüm desteği",
@@ -628,7 +811,7 @@
       "bias_score": 2
     },
     {
-      "id": "teknoloji_6",
+      "id": "teknoloji_10",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Xiaomi 18 Pro serisinin Türkiye ön satış tarihi açıklandı",
@@ -653,7 +836,7 @@
       "bias_score": 2
     },
     {
-      "id": "teknoloji_7",
+      "id": "teknoloji_11",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Apple'ın 2027'de tanıtacağı modeller belli oldu: İşte beklenen yenilikler",
@@ -678,32 +861,7 @@
       "bias_score": 2
     },
     {
-      "id": "ekonomi_57",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Bakan Gürlek: Fon soruşturmalarında 75 kişiden 40,4 milyar lira tahsil edildi",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/gundem/bakan-gurlek-fon-sorusturmalarinda-75-kisiden-404-milyar-lira-tahsil-edildi-haberi-931846",
-      "pubDate": "2026-11-17T16:59:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/09/son-dakika-bakan-gurlekten-fon-aciklamasi-firari-40-kisi-araniyor-gc7x_cover.jpg",
-      "summary": "Adalet Bakanı Akın Gürlek, fon soruşturmalarında 498 şüpheli tespit edildiğini, bunların 129'unun tutuklu ve 289'una adli kontrol kararı verildiğini, ayrıca 75 kişiden 40,4 milyar lira tahsil edildiğini açıkladı.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Kamu maliyesi ve yolsuzlukla mücadele açısından büyük bir tutarın tahsil edilmesi.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:20:55+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/gundem/bakan-gurlek-fon-sorusturmalarinda-75-kisiden-404-milyar-lira-tahsil-edildi-haberi-931846"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_9",
+      "id": "teknoloji_13",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Leapmotor B05’e büyük güncelleme: Dev ekran ve masajlı koltuklar",
@@ -728,57 +886,7 @@
       "bias_score": 2
     },
     {
-      "id": "teknoloji_55",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Grok Imagine kapandı, Grok sohbetine taşındı",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/grok-imagine-kapatildi-grok-sohbete-tasindi",
-      "pubDate": "2026-11-17T16:06:15+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/grok-imagine-kapandi-kapak-1711.webp",
-      "summary": "xAI, Grok Imagine hizmetini kapatarak görsel ve video üretimini Grok sohbetine entegre etti ve bu değişiklikte yaklaşık 60 çalışan işten çıkarıldı.",
-      "score": 7,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:10+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://shiftdelete.net/grok-imagine-kapatildi-grok-sohbete-tasindi"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Kullanıcılar artık görsel oluşturmak için ayrı bir platform yerine sohbet üzerinden işlem yapabilecek, bu da hizmet akışını etkiliyor.",
-      "bias_score": 2
-    },
-    {
-      "id": "ekonomi_62",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "New York borsası karışık seyirle açıldı",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/finans/haberler/borsa/new-york-borsasi-karisik-seyirle-acildi-haberi-931840",
-      "pubDate": "2026-11-17T15:49:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2023/04/20/newyork-borsasi-hvbf-cover-9YKC_cover.jpg",
-      "summary": "New York borsası, Nvidia'nın finansal sonuçlarıyla ilgili beklentilerin etkisiyle karışık bir açılış yaptı.",
-      "score": 7,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:20+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/finans/haberler/borsa/new-york-borsasi-karisik-seyirle-acildi-haberi-931840"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Nvidia gibi büyük teknoloji şirketlerinin performansı küresel piyasalarda geniş yankı bulur.",
-      "bias_score": 2
-    },
-    {
-      "id": "bilim_7",
+      "id": "bilim_6",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Diyarbakır'da HEVBENDİ soruşturması:  12 Kürt siyasetçi gözaltına alındı",
@@ -803,7 +911,82 @@
       "bias_score": 2
     },
     {
-      "id": "teknoloji_10",
+      "id": "gundem_55",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "İsrail, İngiltere'nin yasa dışı yerleşim inşa eden 8 şirkete yaptırım kararını \"düşmanca eylem\" olarak niteledi",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/israil-ingilterenin-yasa-disi-yerlesim-insa-eden-8-sirkete-yaptirim-kararini-dusmanca-eylem-olarak-niteledi/4128327",
+      "pubDate": "2026-11-17T19:59:34+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_f83ba58168b2cdb3228c3bba76f23740.jpg",
+      "summary": "İsrail Dışişleri Bakanı, İngiltere'nin Filistin topraklarındaki yasa dışı yerleşimlerle ilişkilendirilen sekiz şirkete yaptırım uygulamasını düşmanca bir eylem olarak nitelendi.",
+      "score": 7,
+      "tone": "negatif",
+      "why_important": "Bu karar, İsrail-İngiltere ilişkilerini ve Orta Doğu politikalarını etkileyebilir.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:48:34+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/israil-ingilterenin-yasa-disi-yerlesim-insa-eden-8-sirkete-yaptirim-kararini-dusmanca-eylem-olarak-niteledi/4128327"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_7",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "İspanya'da asgari ücrete enflasyon tahminini aşan zam kararı",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/ispanya-da-asgari-ucrete-enflasyon-tahminini-asan-zam-karari-3794918",
+      "pubDate": "2026-11-17T19:13:12+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794942962/3794918/jpg/1280x720",
+      "summary": "İspanya, 2027 itibarıyla asgari ücreti %5,3 artırarak aylık brüt 1.286 euroya yükseltmeyi planlıyor; bu oran enflasyon tahminini aşıyor.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Asgari ücret artışı, geniş bir çalışan kitlesini doğrudan etkiler.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:45+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bloomberght.com/ispanya-da-asgari-ucrete-enflasyon-tahminini-asan-zam-karari-3794918"
+        ]
+      }
+    },
+    {
+      "id": "dunya_13",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Bakan Gürlek: Fon soruşturmasında 129 şüpheli tutuklu bulunmaktadır",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/gundem/bakan-gurlek-fon-sorusturmasinda-129-supheli-tutuklu-bulunmaktadir-963595.html",
+      "pubDate": "2026-11-17T16:42:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2448000/akin-gurlekaa-2449085.jpg",
+      "summary": "Adalet Bakanı, fon soruşturmasında yeni deliller ışığında 129 şüphelinin tutuklu olduğunu ve soruşturmanın para hareketleri, mal varlığı devirleri ve bağlantılı hesaplar üzerinden derinleştirildiğini belirtti.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Fon skandalları yatırımcı güveni ve finansal düzenlemeler açısından kritiktir.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:48:09+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/gundem/bakan-gurlek-fon-sorusturmasinda-129-supheli-tutuklu-bulunmaktadir-963595.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_14",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Volkswagen’den “en çılgın GTI” sürprizi: 20 Kasım’da tanıtılacak",
@@ -828,32 +1011,7 @@
       "bias_score": 3
     },
     {
-      "id": "ekonomi_6",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Çin'den ABD'ye çip kısıtlamalarına karşı misilleme uyarısı",
-      "source": "Bloomberg HT",
-      "link": "https://www.bloomberght.com/cin-den-abd-ye-cip-kisitlamalarina-karsi-misilleme-uyarisi-3794910",
-      "pubDate": "2026-11-17T15:53:44+00:00",
-      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794930868/3794910/jpg/1280x720",
-      "summary": "Çin Ticaret Bakanlığı, ABD'nin gelişmiş yapay zeka çiplerine erişimi kısıtlayan yeni düzenlemesine karşı çıktığını ve gerekirse misilleme yapacağını duyurdu.",
-      "score": 7,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:17+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bloomberght.com/cin-den-abd-ye-cip-kisitlamalarina-karsi-misilleme-uyarisi-3794910"
-        ]
-      },
-      "tone": "negatif",
-      "why_important": "Çip kısıtlamaları, küresel teknoloji tedarik zincirini ve Çin‑ABD ilişkilerini doğrudan etkileyebilir.",
-      "bias_score": 3
-    },
-    {
-      "id": "bilim_8",
+      "id": "bilim_7",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Fon krizi bürokrasi ve siyasette kimleri, nasıl etkiledi?",
@@ -878,7 +1036,7 @@
       "bias_score": 3
     },
     {
-      "id": "bilim_10",
+      "id": "bilim_9",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Sözcü TV ve internet sitesine kayyum atanmasına tepkiler: 'Halkın haber alma hakkına ağır müdahale'",
@@ -903,7 +1061,82 @@
       "bias_score": 4
     },
     {
-      "id": "dunya_3",
+      "id": "ekonomi_0",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Google Gemini güvenlik güncellemesi yaptı",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/google-gemini-guvenlik-guncellemesi-yapti-3794928",
+      "pubDate": "2026-11-17T20:20:49+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794946878/3794928/jpg/1280x720",
+      "summary": "Google, Gemini yapay zeka sohbetlerinin güvenliğini artırmak için geçici sohbetlerin ve sohbet geçmişi kapalıyken yapılan görüşmelerin saklama süresini iki aya çıkardı.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Kullanıcı gizliliği ve yapay zeka güvenliği konularında önemli bir adım.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:46:57+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bloomberght.com/google-gemini-guvenlik-guncellemesi-yapti-3794928"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_1",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "NSA, gizli ağdaki sorunu rutin bakıma bağladı",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/nsa-gizli-agdaki-sorunu-rutin-bakima-bagladi-3794927",
+      "pubDate": "2026-11-17T20:16:09+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794946614/3794927/jpg/1280x720",
+      "summary": "ABD Ulusal Güvenlik Ajansı (NSA), gizli iç iletişim ağındaki sorunun planlı rutin bakım sırasında yaşanan geçici bir performans düşüşünden kaynaklandığını açıkladı. Kritik işlevlerin etkilenmediği ve hizmetin devam ettiği bildirildi.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Kritik altyapı hizmetlerinin kesintisiz çalışması kamu güvenliği açısından önemlidir.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:09+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bloomberght.com/nsa-gizli-agdaki-sorunu-rutin-bakima-bagladi-3794927"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_1",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Enerji Bakanlığı'nın duyurduğu “Verimli Ev” mobil uygulaması nedir?",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/enerji-bakanligi-nin-duyurdugu-verimli-ev-mobil-uygulamasi-nedi--213043",
+      "pubDate": "2026-11-17T20:10:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213043/1200x675enerji-bakanligi-nin-duyurdugu-verimli-ev-mobil-uygulamasi-nedi.jpg",
+      "summary": "Enerji Bakanlığı, e-Devlet üzerinden erişilebilen Verimli Ev uygulamasıyla evdeki cihazların enerji tüketimini analiz edip tasarruf önerileri sunuyor.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Uygulama hem faturaları düşürmeyi hem de karbon emisyonunu azaltmayı hedefliyor.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:46:45+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.donanimhaber.com/enerji-bakanligi-nin-duyurdugu-verimli-ev-mobil-uygulamasi-nedi--213043"
+        ]
+      }
+    },
+    {
+      "id": "dunya_5",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "Dünya Bankası, COP31'de iklim yatırımlarının merkezine istihdamı koydu",
@@ -913,9 +1146,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2504000/cop31aa-2504346.jpg",
       "summary": "Dünya Bankası, COP31'de 10,7 milyar dolar özel sermaye ve 6,9 milyar doların üzerindeki iklim yatırımlarının istihdam yaratma ve dayanıklılık artırma hedefiyle duyurulacağını belirtti.",
       "score": 6,
-      "tone": "pozitif",
-      "why_important": "İklim yatırımları ekonomik büyüme ve istihdamı doğrudan etkileyebilir.",
-      "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -925,35 +1155,46 @@
         "source_urls": [
           "https://www.trthaber.com/haber/ekonomi/dunya-bankasi-cop31de-iklim-yatirimlarinin-merkezine-istihdami-koydu-963603.html"
         ]
-      }
+      },
+      "tone": "pozitif",
+      "why_important": "İklim yatırımları ekonomik büyüme ve istihdamı doğrudan etkileyebilir.",
+      "bias_score": 1
     },
     {
-      "id": "ekonomi_61",
+      "id": "ekonomi_6",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "Borsa günü düşüşle tamamladı",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/finans/haberler/borsa/borsa-istanbul-gune-dususle-basladi-haberi-931692",
-      "pubDate": "2026-11-17T15:50:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/12/yabanci-yatirimci-borsa-istanbulda-yeniden-alima-dondu-1yuq_cover.jpg",
-      "summary": "Borsa İstanbul'da BIST 100 endeksi, günü yüzde 1,53 değer kaybederek 11.661,00 puanda kapattı.",
+      "title": "Apple'ın birçok hizmetinde kesinti yaşanıyor",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/apple-in-bircok-hizmetinde-kesinti-yasaniyor-3794919",
+      "pubDate": "2026-11-17T19:23:35+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/17/ver1794943443/3794919/jpg/1280x720",
+      "other_sources": [
+        {
+          "source": "Anadolu Ajansı",
+          "link": "https://www.aa.com.tr/tr/bilim-teknoloji/apple-hizmetlerinde-kesintiler-yasaniyor/4128349",
+          "pubDate": "2026-11-17T20:17:50+00:00"
+        }
+      ],
+      "event_count": 2,
+      "summary": "Apple, Türkiye saatiyle 19:45'ten itibaren App Store, Apple Music, AppleCare on Device ve iCloud oturum açma hizmetlerinde kesinti yaşandığını duyurdu.",
       "score": 6,
+      "tone": "nötr",
+      "why_important": "Hizmet kesintileri, milyonlarca kullanıcıyı ve iş süreçlerini etkileyebilir.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:20+00:00",
+        "generated_at": "2026-11-17T20:47:33+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/finans/haberler/borsa/borsa-istanbul-gune-dususle-basladi-haberi-931692"
+          "https://www.bloomberght.com/apple-in-bircok-hizmetinde-kesinti-yasaniyor-3794919"
         ]
-      },
-      "tone": "nötr",
-      "why_important": "Borsa hareketleri yatırımcıların portföylerini ve ekonomik beklentileri etkileyebilir.",
-      "bias_score": 1
+      }
     },
     {
-      "id": "ekonomi_50",
+      "id": "ekonomi_55",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "Nvidia'nın eski CEO'su Huang, 'İstenirse dönerim' dedi",
@@ -978,7 +1219,7 @@
       "bias_score": 2
     },
     {
-      "id": "teknoloji_3",
+      "id": "teknoloji_7",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "3 Body Problem geri dönüyor: Netflix, 2. sezonun yayın tarihini duyurdu",
@@ -1003,7 +1244,7 @@
       "bias_score": 2
     },
     {
-      "id": "dunya_7",
+      "id": "dunya_9",
       "cat": "Dünya",
       "catId": "dunya",
       "title": "COP31'de ülkeler fosil yakıtlardan uzaklaşma yol haritalarını duyurdu",
@@ -1013,9 +1254,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2504000/cop31aa-2504344.jpg",
       "summary": "COP31'de Danimarka ve diğer ülkeler, fosil yakıtlardan uzaklaşma stratejilerini içeren ulusal yol haritalarını açıkladı, bu sayede toplam 11 ülke benzer planlarını duyurdu.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Küresel iklim hedeflerine ulaşmada ülkelerin ortak adımları vurgulanıyor.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1025,35 +1263,63 @@
         "source_urls": [
           "https://www.trthaber.com/haber/cevre/cop31de-ulkeler-fosil-yakitlardan-uzaklasma-yol-haritalarini-duyurdu-963599.html"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Küresel iklim hedeflerine ulaşmada ülkelerin ortak adımları vurgulanıyor.",
+      "bias_score": 2
     },
     {
-      "id": "ekonomi_56",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Nvidia, ulusal güvenlik ve ihracat kontrolü için yeni denetim komitesi kurdu",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/ekonomi/nvidia-ulusal-guvenlik-ve-ihracat-kontrolu-icin-yeni-denetim-komitesi-kurdu-haberi-931847",
-      "pubDate": "2026-11-17T17:12:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/16/nvidiada-hesaplar-degisti-hedef-fiyatlara-sert-indirim-wwil_cover.jpg",
-      "summary": "Nvidia, ABD ulusal güvenlik politikaları ve ihracat kontrollerine uyumu sağlamak ve küresel ticaret risklerini yönetmek amacıyla yeni bir denetim komitesi kurduğunu duyurdu.",
+      "id": "dunya_12",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Karayolları Genel Müdürlüğü HGS için ilgili kurumlarla toplantı yapacak",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/turkiye/karayollari-genel-mudurlugu-hgs-icin-ilgili-kurumlarla-toplanti-yapacak-963596.html",
+      "pubDate": "2026-11-17T17:10:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2426000/hgs-2426763.jpg",
+      "summary": "Ulaştırma ve Altyapı Bakanı, HGS ve plaka üzerinden otoyol geçiş ücretlerinin izlenmesi ve sorunlu etiket/plaka durumlarının ele alınması için Karayolları Genel Müdürlüğü ile toplantı yapacağını duyurdu.",
       "score": 6,
+      "tone": "nötr",
+      "why_important": "HGS uygulamasındaki sorunlar sürücüler ve gelir yönetimini etkileyebilir.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T18:46:45+00:00",
+        "generated_at": "2026-11-17T20:48:09+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/ekonomi/nvidia-ulusal-guvenlik-ve-ihracat-kontrolu-icin-yeni-denetim-komitesi-kurdu-haberi-931847"
+          "https://www.trthaber.com/haber/turkiye/karayollari-genel-mudurlugu-hgs-icin-ilgili-kurumlarla-toplanti-yapacak-963596.html"
         ]
-      },
-      "tone": "nötr",
-      "why_important": "Şirketin güvenlik ve ihracat denetimi, yüksek teknoloji ürünlerinin stratejik kullanımını ve tedarik zinciri güvenliğini etkiler.",
-      "bias_score": 2
+      }
     },
     {
-      "id": "teknoloji_1",
+      "id": "dunya_16",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Bakan Kurum: Antalya'da geleceğimiz adına önemli kararlar alalım istiyoruz",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/cevre/bakan-kurum-antalyada-gelecegimiz-adina-onemli-kararlar-alalim-istiyoruz-963592.html",
+      "pubDate": "2026-11-17T15:47:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2504000/murat-kurumaa-2504332.jpg",
+      "summary": "Çevre, Şehircilik ve İklim Değişikliği Bakanı Murat Kurum, Antalya'da 2030 iklim hedeflerinin hızlandırılması ve adil geçişin önemi üzerine bir yuvarlak masa toplantısında konuştu. Bakan, emisyon azaltımı, enerji güvenliği ve istihdamı aynı çerçevede ele almanın gerekliliğini vurguladı.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Türkiye'nin iklim politikaları ve ekonomik dönüşümüyle ilgili kritik bir açıklama yapıldı.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:48:22+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/cevre/bakan-kurum-antalyada-gelecegimiz-adina-onemli-kararlar-alalim-istiyoruz-963592.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_5",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Daha üretilmeden yok sattı: Elektrikli Bentley’nin 2027 kontenjanı doldu",
@@ -1063,9 +1329,6 @@
       "image": "https://www.donanimhaber.com/images/images/haber/213019/1200x675elektrikli-bentley-torcal-daha-uretilmeden-yok-satti.jpg",
       "summary": "Bentley, henüz üretime girmeden ilk tam elektrikli SUV modeli Torcal için 2027 yılına ait tüm kontenjanı doldurdu, bu da markanın genç müşteriler kazanmasına ve satış moraline katkı sağladı.",
       "score": 6,
-      "tone": "pozitif",
-      "why_important": "Elektrikli lüks araç talebindeki artışı gösteriyor.",
-      "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1075,35 +1338,13 @@
         "source_urls": [
           "https://www.donanimhaber.com/elektrikli-bentley-torcal-daha-uretilmeden-yok-satti--213019"
         ]
-      }
-    },
-    {
-      "id": "teknoloji_57",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "245.000 TL'ye iPhone Duo Aldı, Pişman mı? 3 Haftada Ekrana Bir Şey Oldu mu?",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/245-000-tl-ye-iphone-duo-aldi-pisman-mi-3-haftada-ekrana-bir-sey-oldu-mu",
-      "pubDate": "2026-11-17T15:57:11+00:00",
-      "image": "https://shiftdelete.net/static/img/content/26-11/17/whatsapp-image-2026-11-17-at-173648-2.jpeg",
-      "summary": "Bir kullanıcı, 245.000 TL'ye satın aldığı iPhone Duo'nun üç haftalık kullanım deneyimini videoda paylaştı; cihazın artıları, eksileri ve ekran sorunları ele alındı.",
-      "score": 6,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:10+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://shiftdelete.net/245-000-tl-ye-iphone-duo-aldi-pisman-mi-3-haftada-ekrana-bir-sey-oldu-mu"
-        ]
       },
-      "tone": "nötr",
-      "why_important": "Yüksek fiyatlı bir akıllı telefonun gerçek performansını ve olası sorunlarını görmek, potansiyel alıcılar için değerli bir referans sağlıyor.",
+      "tone": "pozitif",
+      "why_important": "Elektrikli lüks araç talebindeki artışı gösteriyor.",
       "bias_score": 3
     },
     {
-      "id": "bilim_4",
+      "id": "bilim_3",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Kayyum atanan medya kuruluşları hakkında neler biliniyor?",
@@ -1128,7 +1369,7 @@
       "bias_score": 4
     },
     {
-      "id": "bilim_6",
+      "id": "bilim_5",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Yeni Parti'den ikinci fon dosyası: Özlale'nin iddiaları ve POLSAN hakkında bilinenler",
@@ -1153,102 +1394,22 @@
       "bias_score": 4
     },
     {
-      "id": "gundem_83",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Mahkeme kararı: Yaşlı bakıcılarına genel temizlik işleri yaptırılamaz",
-      "source": "Diken",
-      "link": "https://www.diken.com.tr/mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz/?utm_source=rss&utm_medium=rss&utm_campaign=mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz",
-      "pubDate": "2026-11-17T19:14:16+00:00",
-      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-17-yasli-emekli-AA.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:22:41+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.diken.com.tr/mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz/?utm_source=rss&utm_medium=rss&utm_campaign=mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz"
-        ]
-      }
-    },
-    {
-      "id": "gundem_53",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Kızamığın artık ABD ve Meksika'da \"ortadan kalkmış bir hastalık\" olmadığı belirtildi",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/dunya/kizamigin-artik-abd-ve-meksikada-ortadan-kalkmis-bir-hastalik-olmadigi-belirtildi/4128299",
-      "pubDate": "2026-11-17T19:13:22+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_08b7e0ac4940b72702d224fec8468c18.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:23:12+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/dunya/kizamigin-artik-abd-ve-meksikada-ortadan-kalkmis-bir-hastalik-olmadigi-belirtildi/4128299"
-        ]
-      }
-    },
-    {
-      "id": "gundem_55",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "NATO Genel Sekreteri Rutte, Patriot stoklarının sınırlı olduğuna dikkati çekti",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/dunya/nato-genel-sekreteri-rutte-patriot-stoklarinin-sinirli-olduguna-dikkati-cekti/4128297",
-      "pubDate": "2026-11-17T19:07:26+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_2f4f2055a9b44d9889bdc2f6c87280c6.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:23:12+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/dunya/nato-genel-sekreteri-rutte-patriot-stoklarinin-sinirli-olduguna-dikkati-cekti/4128297"
-        ]
-      }
-    },
-    {
       "id": "bilim_1",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Son dakika deprem mi oldu? Az önce deprem nerede oldu? İstanbul, Ankara, İzmir ve il il AFAD son depremler 17 Kasım 2026",
       "source": "NTV",
       "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-17-kasim-2026-1751188",
-      "pubDate": "2026-11-17T19:00:00+00:00",
+      "pubDate": "2026-11-17T20:30:00+00:00",
       "image": "https://images.ntv.com.tr/images/477a4d82-9d42-44a3-8135-f2a9ec017f8a.jpg",
       "other_sources": [
-        {
-          "source": "NTV",
-          "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-16-kasim-2026-1751040",
-          "pubDate": "2026-11-16T20:30:00+00:00"
-        },
         {
           "source": "NTV",
           "link": "https://www.ntv.com.tr/turkiye/son-dakika-vanda-deprem-mi-oldu-az-once-deprem-vanda-nerede-oldu-van-deprem-kandilli-ve-afad-son-depremler-listesi-17-kasim-2026-1751340",
           "pubDate": "2026-11-17T16:20:01+00:00"
         }
       ],
-      "event_count": 3,
+      "event_count": 2,
       "summary": "AFAD ve Kandilli Rasathanesi verilerine göre 16 Kasım 2026 tarihinde Türkiye'nin çeşitli illerinde, genellikle 1.4 şiddetinde, düşük derinlikli depremler kaydedildi.",
       "score": 5,
       "ai": {
@@ -1265,7 +1426,132 @@
       "why_important": "Deprem aktivitesi, halkın güvenliği ve acil durum hazırlıkları açısından kritik bir bilgi sunar."
     },
     {
-      "id": "gundem_56",
+      "id": "gundem_82",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Apple hizmetlerine erişim sorunu",
+      "source": "Diken",
+      "link": "https://www.diken.com.tr/apple-hizmetlerine-erisim-sorunu/?utm_source=rss&utm_medium=rss&utm_campaign=apple-hizmetlerine-erisim-sorunu",
+      "pubDate": "2026-11-17T20:15:04+00:00",
+      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-17-app-store-unsplash-2.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "bias_score": null,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:48:34+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.diken.com.tr/apple-hizmetlerine-erisim-sorunu/?utm_source=rss&utm_medium=rss&utm_campaign=apple-hizmetlerine-erisim-sorunu"
+        ]
+      }
+    },
+    {
+      "id": "gundem_83",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Fon vurgunu: Yedi kişi daha tutuklandı",
+      "source": "Diken",
+      "link": "https://www.diken.com.tr/fon-vurgunu-yedi-kisi-daha-tutuklandi-2/?utm_source=rss&utm_medium=rss&utm_campaign=fon-vurgunu-yedi-kisi-daha-tutuklandi-2",
+      "pubDate": "2026-11-17T19:30:36+00:00",
+      "image": "https://www.diken.com.tr/wp-content/uploads/2026/09/2026-09-28-borsa-hisse-unsplash-3.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "bias_score": null,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:49:53+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.diken.com.tr/fon-vurgunu-yedi-kisi-daha-tutuklandi-2/?utm_source=rss&utm_medium=rss&utm_campaign=fon-vurgunu-yedi-kisi-daha-tutuklandi-2"
+        ]
+      }
+    },
+    {
+      "id": "gundem_84",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Mahkeme kararı: Yaşlı bakıcılarına genel temizlik işleri yaptırılamaz",
+      "source": "Diken",
+      "link": "https://www.diken.com.tr/mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz/?utm_source=rss&utm_medium=rss&utm_campaign=mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz",
+      "pubDate": "2026-11-17T19:14:16+00:00",
+      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-17-yasli-emekli-AA.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "bias_score": null,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:49:53+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.diken.com.tr/mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz/?utm_source=rss&utm_medium=rss&utm_campaign=mahkeme-karari-yasli-bakicilarina-genel-temizlik-isleri-yaptirilamaz"
+        ]
+      }
+    },
+    {
+      "id": "gundem_57",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Kızamığın artık ABD ve Meksika'da \"ortadan kalkmış bir hastalık\" olmadığı belirtildi",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/kizamigin-artik-abd-ve-meksikada-ortadan-kalkmis-bir-hastalik-olmadigi-belirtildi/4128299",
+      "pubDate": "2026-11-17T19:13:22+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_08b7e0ac4940b72702d224fec8468c18.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "bias_score": null,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:49:53+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/kizamigin-artik-abd-ve-meksikada-ortadan-kalkmis-bir-hastalik-olmadigi-belirtildi/4128299"
+        ]
+      }
+    },
+    {
+      "id": "gundem_59",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "NATO Genel Sekreteri Rutte, Patriot stoklarının sınırlı olduğuna dikkati çekti",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/nato-genel-sekreteri-rutte-patriot-stoklarinin-sinirli-olduguna-dikkati-cekti/4128297",
+      "pubDate": "2026-11-17T19:07:26+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_2f4f2055a9b44d9889bdc2f6c87280c6.jpg",
+      "summary": "Bu haberin tam metnine ulaşılamadı.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "",
+      "bias_score": null,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:50:24+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/nato-genel-sekreteri-rutte-patriot-stoklarinin-sinirli-olduguna-dikkati-cekti/4128297"
+        ]
+      }
+    },
+    {
+      "id": "gundem_60",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Ukrayna Savunma Bakanı Khmara, müttefik ülkelerden hava savunma füzeleri istedi",
@@ -1282,7 +1568,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:23:12+00:00",
+        "generated_at": "2026-11-17T20:50:24+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/ukrayna-savunma-bakani-khmara-muttefik-ulkelerden-hava-savunma-fuzeleri-istedi/4128290"
@@ -1290,7 +1576,7 @@
       }
     },
     {
-      "id": "gundem_150",
+      "id": "gundem_149",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Galatasaray'da Batrakov endişesi! Maça devam edemedi",
@@ -1307,7 +1593,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:23:43+00:00",
+        "generated_at": "2026-11-17T20:50:24+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.hurriyet.com.tr/sporarena/galatasarayda-batrakov-endisesi-maca-devam-edemedi-43381767"
@@ -1315,7 +1601,7 @@
       }
     },
     {
-      "id": "gundem_159",
+      "id": "gundem_155",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "\"Fon soruşturması\" kapsamında Şamil Tayyar ifade verdi",
@@ -1332,7 +1618,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:23:43+00:00",
+        "generated_at": "2026-11-17T20:50:56+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.hurriyet.com.tr/gundem/fon-sorusturmasi-kapsaminda-samil-tayyar-ifade-verdi-43381766"
@@ -1340,7 +1626,7 @@
       }
     },
     {
-      "id": "gundem_57",
+      "id": "gundem_61",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "BUDO'nun yarınki 12 seferi iptal edildi",
@@ -1357,7 +1643,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:23:43+00:00",
+        "generated_at": "2026-11-17T20:50:56+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.aa.com.tr/tr/gundem/budonun-yarinki-12-seferi-iptal-edildi/4128283"
@@ -1365,7 +1651,7 @@
       }
     },
     {
-      "id": "gundem_59",
+      "id": "gundem_63",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Fransa'da polis Nantes ve Lyon kentlerinde göstericilere biber gazıyla müdahale etti",
@@ -1382,7 +1668,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:24:14+00:00",
+        "generated_at": "2026-11-17T20:50:56+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/fransada-polis-nantes-ve-lyon-kentlerinde-gostericilere-biber-gaziyla-mudahale-etti/4128278"
@@ -1390,357 +1676,7 @@
       }
     },
     {
-      "id": "gundem_58",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "COP31'de özel gençler mehter performansı sergiledi",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/cop31/cop31de-ozel-gencler-mehter-performansi-sergiledi/4128277",
-      "pubDate": "2026-11-17T18:24:24+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_51028d47b973459bd4dec0d6ad261e2b.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:24:14+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/cop31/cop31de-ozel-gencler-mehter-performansi-sergiledi/4128277"
-        ]
-      }
-    },
-    {
-      "id": "gundem_115",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "İspanyol basını yazdı: Vedat Muriqi'ye LaLiga'dan talip çıktı!",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/sporarena/ispanyol-basini-yazdi-vedat-muriqiye-laligadan-talip-cikti-43381744",
-      "pubDate": "2026-11-17T18:23:07+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6afc9b88925c456bddefa81c.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:24:14+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.hurriyet.com.tr/sporarena/ispanyol-basini-yazdi-vedat-muriqiye-laligadan-talip-cikti-43381744"
-        ]
-      }
-    },
-    {
-      "id": "gundem_61",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "OpenAI, siber güvenlik modellerini NATO'nun erişimine sunacak",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/bilim-teknoloji/openai-siber-guvenlik-modellerini-natonun-erisimine-sunacak/4128272",
-      "pubDate": "2026-11-17T18:17:55+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_469605eda4a2a56f03555dafd4d6ce99.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:24:42+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/bilim-teknoloji/openai-siber-guvenlik-modellerini-natonun-erisimine-sunacak/4128272"
-        ]
-      }
-    },
-    {
-      "id": "gundem_60",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "TMOK 2025 Türkiye Fair Play Ödülleri sahiplerini buldu",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/spor/tmok-2025-turkiye-fair-play-odulleri-sahiplerini-buldu/4128270",
-      "pubDate": "2026-11-17T18:16:49+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_e977573764ef7ed1bac1a7d236d01c04.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:24:42+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/spor/tmok-2025-turkiye-fair-play-odulleri-sahiplerini-buldu/4128270"
-        ]
-      }
-    },
-    {
-      "id": "gundem_85",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Valilik tarih verdi: İstanbul'da kuvvetli fırtına bekleniyor",
-      "source": "Diken",
-      "link": "https://www.diken.com.tr/valilik-tarih-verdi-istanbulda-kuvvetli-firtina-bekleniyor/?utm_source=rss&utm_medium=rss&utm_campaign=valilik-tarih-verdi-istanbulda-kuvvetli-firtina-bekleniyor",
-      "pubDate": "2026-11-17T18:08:18+00:00",
-      "image": "https://www.diken.com.tr/wp-content/uploads/2026/10/2026-10-17-istanbul-saganak-firtina-aa-1.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:24:42+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.diken.com.tr/valilik-tarih-verdi-istanbulda-kuvvetli-firtina-bekleniyor/?utm_source=rss&utm_medium=rss&utm_campaign=valilik-tarih-verdi-istanbulda-kuvvetli-firtina-bekleniyor"
-        ]
-      }
-    },
-    {
-      "id": "gundem_62",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "ABD Ulusal Güvenlik Ajansının gizli iç iletişim ağının çalışmadığı öne sürüldü",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/dunya/abd-ulusal-guvenlik-ajansinin-gizli-ic-iletisim-aginin-calismadigi-one-suruldu/4128262",
-      "pubDate": "2026-11-17T18:05:43+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/17/thumbs_b_c_87a8a34003fc8333ce6d7a1dd62aef42.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:25:13+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/dunya/abd-ulusal-guvenlik-ajansinin-gizli-ic-iletisim-aginin-calismadigi-one-suruldu/4128262"
-        ]
-      }
-    },
-    {
-      "id": "dunya_8",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "ABD yönetimi, hava trafik sisteminin modernizasyonu için Kongre'den finansman talep etti",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/abd-yonetimi-hava-trafik-sisteminin-modernizasyonu-icin-kongreden-finansman-talep-etti-963598.html",
-      "pubDate": "2026-11-17T17:39:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2474000/ucak-aa-2474921.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:21:38+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/abd-yonetimi-hava-trafik-sisteminin-modernizasyonu-icin-kongreden-finansman-talep-etti-963598.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_9",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Nvidia'nın eski CEO'su Huang, Yönetim Kurulu isterse görevine dönmeye hazır olduğunu belirtti",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/nvidianin-eski-ceosu-huang-yonetim-kurulu-isterse-gorevine-donmeye-hazir-oldugunu-belirtti-963597.html",
-      "pubDate": "2026-11-17T17:20:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/jensen-huang-nvidia-ceosu-reuters-2503282.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:21:38+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/nvidianin-eski-ceosu-huang-yonetim-kurulu-isterse-gorevine-donmeye-hazir-oldugunu-belirtti-963597.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_10",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Karayolları Genel Müdürlüğü HGS için ilgili kurumlarla toplantı yapacak",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/karayollari-genel-mudurlugu-hgs-icin-ilgili-kurumlarla-toplanti-yapacak-963596.html",
-      "pubDate": "2026-11-17T17:10:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2426000/hgs-2426763.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:21:38+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/karayollari-genel-mudurlugu-hgs-icin-ilgili-kurumlarla-toplanti-yapacak-963596.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_11",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Bakan Gürlek: Fon soruşturmasında 129 şüpheli tutuklu bulunmaktadır",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/gundem/bakan-gurlek-fon-sorusturmasinda-129-supheli-tutuklu-bulunmaktadir-963595.html",
-      "pubDate": "2026-11-17T16:42:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2448000/akin-gurlekaa-2449085.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:22:09+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/gundem/bakan-gurlek-fon-sorusturmasinda-129-supheli-tutuklu-bulunmaktadir-963595.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_12",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "İran Meclis Başkanı Kalibaf'tan ABD basınındaki kirli bomba haberine tepki",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/iran-meclis-baskani-kalibaftan-abd-basinindaki-kirli-bomba-haberine-tepki-963594.html",
-      "pubDate": "2026-11-17T16:24:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2444000/muhammed-bakir-kalibafaa-2444668.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:22:09+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/iran-meclis-baskani-kalibaftan-abd-basinindaki-kirli-bomba-haberine-tepki-963594.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_13",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Van'da 4,3 büyüklüğünde deprem",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/vanda-43-buyuklugunde-deprem-963593.html",
-      "pubDate": "2026-11-17T16:09:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2480000/deprem-2480656.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:22:09+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/vanda-43-buyuklugunde-deprem-963593.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_14",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Bakan Kurum: Antalya'da geleceğimiz adına önemli kararlar alalım istiyoruz",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/cevre/bakan-kurum-antalyada-gelecegimiz-adina-onemli-kararlar-alalim-istiyoruz-963592.html",
-      "pubDate": "2026-11-17T15:47:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2504000/murat-kurumaa-2504332.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:22:41+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/cevre/bakan-kurum-antalyada-gelecegimiz-adina-onemli-kararlar-alalim-istiyoruz-963592.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_15",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "İranlı milletvekili: ABD nükleer silah kullanırsa aynı düzeyde karşılık veririz",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/iranli-milletvekili-abd-nukleer-silah-kullanirsa-ayni-duzeyde-karsilik-veririz-963591.html",
-      "pubDate": "2026-11-17T15:45:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2200000/nukleer-silah-aa-2200217.jpg",
-      "summary": "Bu haberin tam metnine ulaşılamadı.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "",
-      "bias_score": null,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T19:22:41+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/iranli-milletvekili-abd-nukleer-silah-kullanirsa-ayni-duzeyde-karsilik-veririz-963591.html"
-        ]
-      }
-    },
-    {
-      "id": "bilim_9",
+      "id": "bilim_8",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Sözcü'ye operasyon: TV ve internet sitesine kayyum atandı, 4 kişi gözaltında",
@@ -1764,7 +1700,7 @@
       "why_important": "Medya kuruluşlarına yönelik bu müdahale, basın özgürlüğü ve hukukun üstünlüğü açısından kritik bir gelişmedir."
     },
     {
-      "id": "bilim_14",
+      "id": "bilim_13",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Çin yapay zeka harikalar diyarında liderleri ağırlayacak: Gözden uzak sorunlar",
@@ -1812,7 +1748,7 @@
       "why_important": "Konsol performansındaki iyileştirmeler oyun deneyimini doğrudan etkiler."
     },
     {
-      "id": "ekonomi_53",
+      "id": "ekonomi_58",
       "cat": "Ekonomi",
       "catId": "ekonomi",
       "title": "COP31'de çocuklara enerji tasarrufunu anlatan kitap serisi",
@@ -1834,31 +1770,6 @@
       },
       "tone": "pozitif",
       "why_important": "Çocuklara erken yaşta enerji tasarrufu bilinci kazandırmak, uzun vadeli sürdürülebilirlik hedeflerine katkı sağlar.",
-      "bias_score": 1
-    },
-    {
-      "id": "ekonomi_54",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Avrupa borsaları düşüşle kapandı",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/finans/haberler/borsa/avrupa-borsalari-dususle-kapandi-haberi-931850",
-      "pubDate": "2026-11-17T17:42:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/10/28/avrupa-borsalari-karisik-seyirle-kapandi-kp6o_cover.jpg",
-      "summary": "Avrupa borsaları, teknoloji hisselerindeki satış baskısı ve yapay zeka yatırımlarının geleceğine ilişkin endişeler nedeniyle haftanın ikinci işlem gününü düşüşle kapattı.",
-      "score": 5,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T17:54:10+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/finans/haberler/borsa/avrupa-borsalari-dususle-kapandi-haberi-931850"
-        ]
-      },
-      "tone": "negatif",
-      "why_important": "Teknoloji sektörü ve yapay zeka yatırımları, Avrupa ekonomisinin büyüme dinamiklerini etkileyen kritik alanlardır.",
       "bias_score": 1
     },
     {
@@ -1887,7 +1798,7 @@
       "bias_score": 1
     },
     {
-      "id": "teknoloji_8",
+      "id": "teknoloji_12",
       "cat": "Teknoloji",
       "catId": "teknoloji",
       "title": "Evcil hayvanlı evlerde robot süpürge: Tüy toplama ve fırça bakımında nelere bakılmalı?",
@@ -1912,54 +1823,54 @@
       "bias_score": 1
     },
     {
-      "id": "teknoloji_56",
+      "id": "teknoloji_2",
       "cat": "Teknoloji",
       "catId": "teknoloji",
-      "title": "Redmi Turbo 6 tanıtım öncesi sertifika aldı",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/redmi-turbo-6-srrc-sertifika-m407cf",
-      "pubDate": "2026-11-17T16:05:07+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/redmi-turbo-6-sertifika-kapak-1711.webp",
-      "summary": "Xiaomi'nin yeni modeli M407CF, Çin'de SRRC sertifikasını alarak Redmi Turbo 6 serisine ait olduğu tahmin edilen telefonun piyasaya çıkmaya hazır olduğunu gösterdi.",
+      "title": "Xbox'tan Project Helix açıklaması: \"Ne PC ne tam bir konsol\"",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/xbox-tan-project-helix-aciklamasi-ne-pc-ne-tam-bir-konsol--213020",
+      "pubDate": "2026-11-17T19:48:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213020/1200x675xbox-tan-project-helix-aciklamasi-ne-pc-ne-tam-bir-konsol.jpg",
+      "summary": "Microsoft, Project Helix'in tam bir PC olmadığını, ancak PC oyunlarını çalıştırarak grafik ve performans ayarları üzerinde daha fazla kontrol sağlayacağını belirtti.",
       "score": 5,
+      "tone": "nötr",
+      "why_important": "Cihaz, konsol ve PC arasındaki sınırları bulanıklaştırarak yeni bir oyun deneyimi sunabilir.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:10+00:00",
+        "generated_at": "2026-11-17T20:46:45+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://shiftdelete.net/redmi-turbo-6-srrc-sertifika-m407cf"
+          "https://www.donanimhaber.com/xbox-tan-project-helix-aciklamasi-ne-pc-ne-tam-bir-konsol--213020"
         ]
-      },
-      "tone": "nötr",
-      "why_important": "Sertifika alımı, cihazın resmi olarak satışa sunulması ve tüketicilerin yeni model hakkında bilgi sahibi olması açısından kritik.",
-      "bias_score": 1
+      }
     },
     {
-      "id": "ekonomi_60",
+      "id": "ekonomi_54",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "Bakanlıktan boğulma riski yaratan iki çocuk mayosuna toplatma kararı",
+      "title": "Fon soruşturmasında 7 tutuklama daha!",
       "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/ekonomi/bakanliktan-bogulma-risk-yaratan-iki-cocuk-mayosuna-toplatma-karari-haberi-931842",
-      "pubDate": "2026-11-17T16:03:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/17/bakanliktan-bogulma-risk-yaratan-iki-cocuk-mayosuna-toplatma-karari-vnbx_cover.jpg",
-      "summary": "Ticaret Bakanlığı, iki çocuk mayosunun sağlık ve güvenlik riskleri taşıdığı gerekçesiyle piyasaya arzını yasaklayıp toplatılmasına karar verdi.",
+      "link": "https://www.ekonomim.com/ekonomi/fon-sorusturmasinda-7-tutuklama-daha-haberi-931857",
+      "pubDate": "2026-11-17T19:19:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/17/fon-sorusturmasinda-7-tutuklama-daha-2wag_cover.jpg",
+      "summary": "Fon soruşturması kapsamında yedi kişi tutuklandı.",
       "score": 5,
+      "tone": "nötr",
+      "why_important": "Soruşturma, finansal düzenlemelere güveni etkileyebilir.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:17+00:00",
+        "generated_at": "2026-11-17T20:47:45+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/ekonomi/bakanliktan-bogulma-risk-yaratan-iki-cocuk-mayosuna-toplatma-karari-haberi-931842"
+          "https://www.ekonomim.com/ekonomi/fon-sorusturmasinda-7-tutuklama-daha-haberi-931857"
         ]
-      },
-      "tone": "nötr",
-      "why_important": "Çocukların gıda güvenliği açısından riskli ürünlerin tüketilmesini önlemek kamu sağlığı açısından kritiktir.",
-      "bias_score": 1
+      }
     },
     {
       "id": "teknoloji_54",
@@ -1987,7 +1898,82 @@
       "bias_score": 2
     },
     {
-      "id": "bilim_3",
+      "id": "ekonomi_52",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Emre Belözoğlu hangi oyuncunun biletini kesti? Açıklama bekleniyor",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/spor/emre-belozoglu-hangi-oyuncunun-biletini-kesti-aciklama-bekleniyor-haberi-931859",
+      "pubDate": "2026-11-17T19:38:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/17/emre-belozoglu-hangi-oyuncunun-biletini-kesti-aciklama-bekleniyor-2nz3_cover.jpg",
+      "summary": "Fenerbahçe, yüksek maaşlı ve yabancı kontenjanını dolduran Nelson Semedo'nun takımdan ayrılması olasılığını değerlendiriyor; Emre Belözoğlu'nun transferi sonrası kadro düzenlemeleri gündemde.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "Takımın kadro yapısı ve maliyet dengesi değişebilir.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:21+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/spor/emre-belozoglu-hangi-oyuncunun-biletini-kesti-aciklama-bekleniyor-haberi-931859"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_53",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Şamil Tayyar şüpheli sıfatıyla ifade verdi",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/gundem/samil-tayyar-supheli-sifatiyla-ifade-verdi-haberi-931858",
+      "pubDate": "2026-11-17T19:27:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/09/samil-tayyar-iki-kritik-isim-daha-diyerek-kimleri-kastetti-dikkat-ceken-kozmik-oda-paylasimi-2tcq_cover.jpg",
+      "summary": "Eski AK Parti milletvekili ve gazeteci Şamil Tayyar, sermaye piyasası işlemleriyle ilgili yürütülen soruşturma kapsamında savcılıkta 'şüpheli' olarak ifade verdi.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "Soruşturma, finansal piyasalarda olası usulsüzlükleri gündeme getiriyor.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:33+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/gundem/samil-tayyar-supheli-sifatiyla-ifade-verdi-haberi-931858"
+        ]
+      }
+    },
+    {
+      "id": "dunya_11",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Nvidia'nın eski CEO'su Huang, Yönetim Kurulu isterse görevine dönmeye hazır olduğunu belirtti",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/nvidianin-eski-ceosu-huang-yonetim-kurulu-isterse-gorevine-donmeye-hazir-oldugunu-belirtti-963597.html",
+      "pubDate": "2026-11-17T17:20:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2502000/jensen-huang-nvidia-ceosu-reuters-2503282.jpg",
+      "summary": "Nvidia eski CEO'su Jensen Huang, yönetim kurulu talep ederse şirket yönetimine geri dönmeye hazır olduğunu belirtti; aynı zamanda kişisel yaşamıyla ilgili spekülasyonlara yanıt vererek destek mesajlarına teşekkür etti.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "Şirket liderliğinde olası değişiklikler Nvidia'nın stratejik yönünü etkileyebilir.",
+      "bias_score": 4,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:57+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/nvidianin-eski-ceosu-huang-yonetim-kurulu-isterse-gorevine-donmeye-hazir-oldugunu-belirtti-963597.html"
+        ]
+      }
+    },
+    {
+      "id": "bilim_2",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Sözcü TV nasıl kuruldu, yayın sürecinde neler yaşandı?",
@@ -2010,6 +1996,56 @@
       "tone": "negatif",
       "why_important": "Medya özgürlüğü ve devlet müdahalesi konularındaki gelişmeler, kamuoyunun bilgiye erişimini etkileyebilir.",
       "bias_score": 4
+    },
+    {
+      "id": "dunya_14",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "İran Meclis Başkanı Kalibaf'tan ABD basınındaki kirli bomba haberine tepki",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/iran-meclis-baskani-kalibaftan-abd-basinindaki-kirli-bomba-haberine-tepki-963594.html",
+      "pubDate": "2026-11-17T16:24:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2444000/muhammed-bakir-kalibafaa-2444668.jpg",
+      "summary": "İran Meclis Başkanı, CNN ve New York Times gibi ABD medya kuruluşlarını eleştirerek, bu platformların sağ kanat çevrelerinin mesajlarını yaymak için kullanıldığını ve milyarder Larry Ellison'ın da bu çabalara destek verdiğini iddia etti.",
+      "score": 5,
+      "tone": "negatif",
+      "why_important": "Medya ve dış politika algısı üzerine uluslararası gerilimleri yansıtıyor.",
+      "bias_score": 7,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:48:09+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/iran-meclis-baskani-kalibaftan-abd-basinindaki-kirli-bomba-haberine-tepki-963594.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_51",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Papa, aracı ani fren yapınca başını ön koltuğa çarptı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/dunya/papa-araci-ani-fren-yapinca-basini-on-koltuga-carpti-haberi-931862",
+      "pubDate": "2026-11-17T20:19:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/17/papa-araci-ani-fren-yapinca-basini-on-koltuga-carpti-q2jg_cover.jpg",
+      "summary": "Papa Francis, Lima ziyaretinde taşıdığı aracın ani fren yapması sonucu başını ön koltuğa çarptı ve bu an kamera kayıtlarına yansıdı. Olayda herhangi bir ciddi yaralanma rapor edilmedi.",
+      "score": 4,
+      "tone": "nötr",
+      "why_important": "Dünya liderlerinin seyahat güvenliği konusundaki riskleri gösterir.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-17T20:47:09+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/dunya/papa-araci-ani-fren-yapinca-basini-on-koltuga-carpti-haberi-931862"
+        ]
+      }
     },
     {
       "id": "oyun_2",
@@ -2062,10 +2098,10 @@
       "bias_score": 2
     },
     {
-      "id": "bilim_15",
+      "id": "bilim_14",
       "cat": "Bilim",
       "catId": "bilim",
-      "title": "'Bebeğimin öldüğü söylendi, oğlum 42 yıl sonra bana e-posta gönderdi'",
+      "title": "'Bebeğimin öldüğünü söylediler, oğlum 42 yıl sonra e-posta gönderdi'",
       "source": "BBC Türkçe",
       "link": "https://www.bbc.com/turkce/articles/cx8dvq01ez6jo?at_medium=RSS&at_campaign=rss",
       "pubDate": "2026-11-17T08:22:51+00:00",
@@ -2085,52 +2121,27 @@
       "tone": "nötr",
       "why_important": "Geçmişte tıp ve evlat edinme süreçlerinde yapılan şüpheli uygulamaların bireylerin hayatında yarattığı uzun vadeli etkileri gözler önüne seriyor.",
       "bias_score": 4
-    },
-    {
-      "id": "ekonomi_59",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Mustafa Sandal'ın eşi Melis Sandal ne kadar parayı iade ettiğini açıkladı",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/gundem/mustafa-sandalin-esi-melis-sandal-ne-kadar-parayi-iade-ettigini-acikladi-haberi-931843",
-      "pubDate": "2026-11-17T16:31:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/17/mustafa-sandalin-esi-melis-sandal-ne-kadar-parayi-iade-ettigini-acikladi-rpey_cover.jpg",
-      "summary": "Melis Sandal, fon soruşturması kapsamında 1 trilyon 570 milyar 504 milyon 365 TL'yi 27 Ekim'de iade ettiğini açıkladı.",
-      "score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-17T16:53:15+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/gundem/mustafa-sandalin-esi-melis-sandal-ne-kadar-parayi-iade-ettigini-acikladi-haberi-931843"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Ünlü bir figürün büyük bir geri ödeme yapması, kamuoyunda mali şeffaflık beklentilerini gündeme getiriyor.",
-      "bias_score": 3
     }
   ],
   "weather": {
-    "temp": 13.1,
+    "temp": 13.0,
     "desc": "Parçalı bulutlu"
   },
   "market": {
     "usdtry": 50.42,
     "eurtry": 55.49,
-    "gold_gram_try": 6256.31
+    "gold_gram_try": 6243.9
   },
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 3214023,
-      "change_pct": -1.57487447635759
+      "price": 3219902,
+      "change_pct": -1.6034045355409545
     },
     {
       "label": "Ethereum",
-      "price": 90221,
-      "change_pct": -1.3568264305941187
+      "price": 90509,
+      "change_pct": -1.34098098723922
     }
   ],
   "stocks": [
@@ -2141,13 +2152,13 @@
     },
     {
       "label": "S&P 500",
-      "price": 7328.92,
-      "change_pct": -1.18
+      "price": 7314.46,
+      "change_pct": -1.38
     },
     {
       "label": "Nasdaq",
-      "price": 24251.99,
-      "change_pct": -1.05
+      "price": 24196.87,
+      "change_pct": -1.28
     },
     {
       "label": "THY",
@@ -2171,18 +2182,18 @@
     },
     {
       "label": "Apple",
-      "price": 350.57,
-      "change_pct": -0.63
+      "price": 351.08,
+      "change_pct": -0.48
     },
     {
       "label": "Microsoft",
-      "price": 506.42,
-      "change_pct": -2.23
+      "price": 504.11,
+      "change_pct": -2.68
     },
     {
       "label": "Nvidia",
-      "price": 153.94,
-      "change_pct": -1.41
+      "price": 153.44,
+      "change_pct": -1.73
     }
   ],
   "alerts_sent": {
