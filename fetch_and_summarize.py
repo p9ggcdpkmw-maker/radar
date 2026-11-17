@@ -592,61 +592,91 @@ def main():
     print("news.json başarıyla yazıldı.")
     write_feeds(all_items)
 
-# ================= RADAR EK PAKET v2 =================
-# Bu blok yukarıdaki ask_ai ve cluster_items fonksiyonlarını günceller.
-# main() çağrı anında bu yeni sürümleri kullanır; eski kod silinmez.
+# ================= RADAR EK PAKET v2 (kota korumalı) =================
+# ask_ai, summarize_batch ve cluster_items güncellenir. Eski kod silinmez.
 import atexit
 
-AI_STATS = {"groq": 0, "gemini": 0, "bos": 0, "groq429": 0, "_uyari": 0}
+AI_PACE = float(os.environ.get("AI_PACE_SECONDS", "10"))
+AI_TEXT_LIMIT = int(os.environ.get("AI_TEXT_LIMIT", "700"))
+EVENT_CLUSTER = os.environ.get("EVENT_CLUSTER", "0").strip() == "1"
+AI_STATS = {"groq": 0, "gemini": 0, "bos": 0, "groq429": 0, "bekleme": 0.0, "_uyari": 0}
+GROQ_KAPALI = False
 
 
 def _radar_ai_ozeti():
-    print("AI özeti → Groq: {} · Gemini: {} · boş cevap: {} · Groq 429: {}".format(
-        AI_STATS["groq"], AI_STATS["gemini"], AI_STATS["bos"], AI_STATS["groq429"]))
+    print("AI özeti → Groq: {} · Gemini: {} · boş cevap: {} · Groq 429: {} · beklenen: {:.0f} sn".format(
+        AI_STATS["groq"], AI_STATS["gemini"], AI_STATS["bos"],
+        AI_STATS["groq429"], AI_STATS["bekleme"]))
 
 
 atexit.register(_radar_ai_ozeti)
 
 
-def ask_ai(prompt, is_json=True):
-    """Groq önce, Gemini yedek. Artık her atlama log'a yazılır."""
-    global LAST_AI_MODEL
+def _gunluk_limit_mi(resp):
+    try:
+        msg = json.dumps(resp.json(), ensure_ascii=False).lower()
+    except Exception:
+        msg = (getattr(resp, "text", "") or "").lower()
+    return ("per day" in msg) or ("tpd" in msg) or ("rpd" in msg)
 
-    if not GROQ_KEY:
-        if not AI_STATS["_uyari"]:
-            print("  ! GROQ_API_KEY tanımsız — doğrudan Gemini kullanılıyor.", file=sys.stderr)
-            AI_STATS["_uyari"] = 1
-    else:
-        for attempt in range(2):
+
+def _bekleme_suresi(resp, varsayilan):
+    ra = resp.headers.get("retry-after") or resp.headers.get("Retry-After")
+    try:
+        w = float(ra)
+    except (TypeError, ValueError):
+        w = float(varsayilan)
+    return max(1.0, min(w, 90.0))
+
+
+def ask_ai(prompt, is_json=True):
+    """Groq önce; 429'da bekleyip tekrar dener, günlük kotada o tur için kapanır."""
+    global LAST_AI_MODEL, GROQ_KAPALI
+
+    if not GROQ_KEY and not AI_STATS["_uyari"]:
+        print("  ! GROQ_API_KEY tanımsız — Gemini kullanılıyor.", file=sys.stderr)
+        AI_STATS["_uyari"] = 1
+
+    if GROQ_KEY and not GROQ_KAPALI:
+        for attempt in range(4):
             try:
-                body = {"model": AI_MODEL_GROQ, "max_tokens": 4000, "temperature": AI_TEMPERATURE,
+                body = {"model": AI_MODEL_GROQ, "max_tokens": 1600, "temperature": AI_TEMPERATURE,
                         "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
                 if is_json: body["response_format"] = {"type": "json_object"}
                 resp = requests.post("https://api.groq.com/openai/v1/chat/completions",
                                      headers={"Authorization": f"Bearer {GROQ_KEY}"}, json=body, timeout=45)
                 if resp.status_code == 429:
                     AI_STATS["groq429"] += 1
-                    print("  ! Groq 429 (kota/hız limiti) — Gemini'ye geçiliyor.", file=sys.stderr)
-                    break
+                    if _gunluk_limit_mi(resp):
+                        GROQ_KAPALI = True
+                        print("  ! Groq GÜNLÜK kota doldu — bu turda Groq kapatıldı, Gemini deneniyor.", file=sys.stderr)
+                        break
+                    w = _bekleme_suresi(resp, 12 + attempt * 10)
+                    AI_STATS["bekleme"] += w
+                    print(f"  ! Groq 429 (hız limiti) — {w:.0f} sn bekleniyor, tekrar denenecek ({attempt + 1}/4)", file=sys.stderr)
+                    time.sleep(w)
+                    continue
                 resp.raise_for_status()
                 LAST_AI_MODEL = AI_MODEL_GROQ
                 AI_STATS["groq"] += 1
+                time.sleep(AI_PACE)
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Groq hatası: {e}", file=sys.stderr)
-                time.sleep(1)
+                time.sleep(2)
 
     if GEMINI_KEY:
         for attempt in range(2):
             try:
-                body = {"model": AI_MODEL_GEMINI, "max_tokens": 4000, "temperature": AI_TEMPERATURE,
+                body = {"model": AI_MODEL_GEMINI, "max_tokens": 1600, "temperature": AI_TEMPERATURE,
                         "messages": [{"role": "user", "content": prompt}]}
                 if is_json: body["response_format"] = {"type": "json_object"}
                 resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
                                      headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=60)
                 if resp.status_code == 429:
-                    print("  ! Gemini 429 — 10 sn bekleniyor.", file=sys.stderr)
-                    time.sleep(10); continue
+                    w = _bekleme_suresi(resp, 15)
+                    print(f"  ! Gemini 429 — {w:.0f} sn bekleniyor.", file=sys.stderr)
+                    time.sleep(w); continue
                 resp.raise_for_status()
                 LAST_AI_MODEL = AI_MODEL_GEMINI
                 AI_STATS["gemini"] += 1
@@ -656,95 +686,131 @@ def ask_ai(prompt, is_json=True):
                 time.sleep(3)
 
     AI_STATS["bos"] += 1
-    print("  ! AI yanıt vermedi (boş cevap) — bu parti özetlenemedi.", file=sys.stderr)
+    print("  ! AI yanıt vermedi — bu parti özetlenemedi (sonraki turda tekrar denenecek).", file=sys.stderr)
     return ""
 
 
-def _ai_olay_gruplari(clusters):
-    """Tek AI çağrısıyla, farklı kelimelerle anlatılan aynı olayları gruplar."""
-    lines = [f"{i}: {c['members'][0]['title']}" for i, c in enumerate(clusters[:140])]
+def summarize_batch(items):
+    """Metni olmayan haberi AI'a göndermez; içeriği kısaltarak token tasarrufu yapar."""
+    if not items: return {}
+    lines, bos = [], []
+    for it in items:
+        content = it.get("text") or BeautifulSoup(it.get("rss_desc", ""), "html.parser").get_text()
+        content = (content or "").strip()
+        if len(content) < 40:
+            bos.append(it["id"])
+            continue
+        lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content[:AI_TEXT_LIMIT]}")
+    if not lines:
+        return {}
+    if bos:
+        print(f"  · Metni olmayan {len(bos)} haber AI'a gönderilmedi (kota tasarrufu).")
+
     prompt = (
-        "Aşağıda numaralı haber başlıkları var. SADECE aynı somut olayı anlatanları grupla "
-        "(aynı kaza, aynı karar, aynı maç, aynı ürün duyurusu, aynı açıklama gibi). "
-        "Farklı olayları birleştirme; emin değilsen gruplama. Her grupta en az 2 numara olsun. "
-        "Gruplanmayan başlıkları çıktıya ekleme.\n"
-        'Çıktıyı KESİNLİKLE şu JSON formatında ver: {"groups":[{"event":"olayın kısa adı","idx":[3,7]}]}\n\n'
+        "Aşağıdaki haberleri Türkçe, 2 cümlelik tarafsız bir dille özetle. "
+        "Her haber için 5 alan doldur:\n"
+        "1. 'summary': tarafsız özet\n"
+        "2. 'score': 1-10 önem puanı\n"
+        "3. 'tone': 'pozitif' / 'nötr' / 'negatif'\n"
+        "4. 'why_important': neden okumalıyız (1 kısa cümle)\n"
+        "5. 'bias_score': 0-10 dil abartısı (0 tarafsız, 10 tık tuzağı)\n"
+        "Sadece şu JSON'u ver, başka metin yazma:\n"
+        '{"summaries":[{"id":"haber_id","summary":"özet","score":8,"tone":"nötr","why_important":"cümle","bias_score":3}]}\n\n'
         + "\n".join(lines)
+    )
+    raw = ask_ai(prompt)
+    if not raw:
+        return {}
+    try:
+        arr = json.loads(clean_json_response(raw)).get("summaries", [])
+        result = {}
+        for item in arr:
+            iid = item.get("id")
+            if not iid: continue
+            tone = item.get("tone")
+            if tone not in ("pozitif", "nötr", "negatif"): tone = "nötr"
+            result[iid] = {
+                "summary": item.get("summary") or "Özet oluşturulamadı.",
+                "score": clamp_int(item.get("score"), 1, 10, 5),
+                "tone": tone,
+                "why_important": item.get("why_important", ""),
+                "bias_score": clamp_int(item.get("bias_score"), 0, 10, None),
+            }
+        return result
+    except Exception as e:
+        print(f"JSON Ayrıştırma Hatası: {e}", file=sys.stderr)
+        return {}
+
+
+def _ai_olay_gruplari(clusters):
+    lines = [f"{i}: {c['members'][0]['title']}" for i, c in enumerate(clusters[:120])]
+    prompt = (
+        "Numaralı haber başlıklarında SADECE aynı somut olayı anlatanları grupla. "
+        "Emin değilsen gruplama. Her grupta en az 2 numara olsun. Gruplanmayanları yazma.\n"
+        'Sadece şu JSON: {"groups":[{"event":"olayın kısa adı","idx":[3,7]}]}\n\n' + "\n".join(lines)
     )
     raw = ask_ai(prompt)
     if not raw: return []
     try:
-        data = json.loads(clean_json_response(raw))
         out = []
-        for g in data.get("groups", []):
+        for g in json.loads(clean_json_response(raw)).get("groups", []):
             idx = []
             for x in g.get("idx", []):
-                try:
-                    idx.append(int(x))
-                except (TypeError, ValueError):
-                    pass
+                try: idx.append(int(x))
+                except (TypeError, ValueError): pass
             if len(idx) >= 2:
                 out.append({"event": str(g.get("event", ""))[:120], "idx": idx})
         return out
     except Exception as e:
-        print(f"  ! Olay kümeleme atlandı (başlık kümelemesi korunuyor): {e}", file=sys.stderr)
+        print(f"  ! Olay kümeleme atlandı: {e}", file=sys.stderr)
         return []
 
 
 def cluster_items(all_items):
-    """1) Ucuz başlık benzerliği  2) AI olay kümeleme  3) Zaman damgalı kaynak listesi."""
-    seen_urls = set()
-    clusters = []
+    seen, clusters = set(), []
     for it in all_items:
-        if it["link"] in seen_urls: continue
+        if it["link"] in seen: continue
         norm = " ".join(re.sub(r'[^\w\s]', '', tr_lower(it["title"])).split())
         found = None
         for c in clusters:
             sm = difflib.SequenceMatcher(None, norm, c["norm"])
             if sm.real_quick_ratio() > 0.75 and sm.quick_ratio() > 0.75 and sm.ratio() > 0.75:
-                found = c
-                break
+                found = c; break
         if found:
             found["members"].append(it)
         else:
             clusters.append({"norm": norm, "members": [it], "event": ""})
-        seen_urls.add(it["link"])
+        seen.add(it["link"])
 
-    baslik_sayisi = len(clusters)
-
-    if baslik_sayisi > 3:
+    n0 = len(clusters)
+    if EVENT_CLUSTER and n0 > 3:
         groups = _ai_olay_gruplari(clusters)
         if groups:
             merged, used = [], set()
             for g in groups:
-                idxs = [i for i in dict.fromkeys(g["idx"]) if 0 <= i < baslik_sayisi and i not in used]
+                idxs = [i for i in dict.fromkeys(g["idx"]) if 0 <= i < n0 and i not in used]
                 if len(idxs) < 2: continue
                 base = clusters[idxs[0]]
                 for i in idxs[1:]:
-                    base["members"].extend(clusters[i]["members"])
-                    used.add(i)
-                used.add(idxs[0])
-                base["event"] = g.get("event", "")
+                    base["members"].extend(clusters[i]["members"]); used.add(i)
+                used.add(idxs[0]); base["event"] = g.get("event", "")
                 merged.append(base)
             for i, c in enumerate(clusters):
                 if i not in used: merged.append(c)
             clusters = merged
-            print(f"Olay kümeleme: {baslik_sayisi} başlık → {len(clusters)} olay")
+            print(f"Olay kümeleme: {n0} başlık → {len(clusters)} olay")
 
-    final_items = []
+    final = []
     for c in clusters:
         it = c["members"][0]
         others = c["members"][1:]
         if others:
             others.sort(key=lambda x: x.get("pubDate", ""))
-            it["other_sources"] = [
-                {"source": o["source"], "link": o["link"], "pubDate": o.get("pubDate")}
-                for o in others
-            ]
+            it["other_sources"] = [{"source": o["source"], "link": o["link"], "pubDate": o.get("pubDate")} for o in others]
             it["event_count"] = len(c["members"])
             if c.get("event"): it["event_title"] = c["event"]
-        final_items.append(it)
-    return final_items
+        final.append(it)
+    return final
 # ================= /RADAR EK PAKET v2 =================
 
 if __name__ == "__main__":
