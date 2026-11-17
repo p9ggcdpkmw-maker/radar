@@ -1719,6 +1719,230 @@ registerRadarSW();
 setInterval(() => {
   if (!activeArchive) loadData('news.json');
 }, 5 * 60 * 1000);
+  /* ================= RADAR EK PAKET v2 =================
+   Bayat veri uyarısı · Paylaş · Olay örgüsü · Otomatik gece modu
+   Mevcut hiçbir fonksiyonu silmez, üstüne ekler.
+===================================================== */
+(function () {
+  const $ = function (id) { return document.getElementById(id); };
+
+  const css = `
+  .radar-stale{display:none;margin-bottom:16px;padding:12px 16px;border-radius:var(--radius-md);font-size:13px;font-weight:700;line-height:1.5}
+  .radar-stale.warn{display:block;background:linear-gradient(135deg,#FEE2E2,#FEF3C7);border:1px solid #FCA5A5;color:#991B1B}
+  .radar-stale.info{display:block;background:rgba(100,116,139,.07);border:1px solid var(--border);color:var(--text-muted);font-weight:600}
+  [data-theme="dark"] .radar-stale.warn{background:linear-gradient(135deg,#7F1D1D,#78350F);border-color:#B91C1C;color:#FECACA}
+  #newsModal .modal-actions{flex-wrap:wrap}
+  #newsModal .btn-share{flex:1 1 100%;background:#EDE9FE;color:#5B21B6}
+  #newsModal .btn-share:hover{background:#DDD6FE}
+  [data-theme="dark"] #newsModal .btn-share{background:#312E81;color:#C7D2FE}
+  .radar-timeline{background:rgba(100,116,139,.06);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 var(--radius-md) var(--radius-md) 0;padding:16px;margin-bottom:24px}
+  .radar-tl-h{font-size:13px;font-weight:800;color:var(--text-main);margin-bottom:4px}
+  .radar-tl-sub{font-size:11px;color:var(--text-muted);font-weight:600;margin-bottom:10px}
+  .radar-tl-row{display:flex;gap:10px;align-items:center;padding:7px 0;border-top:1px dashed var(--border)}
+  .radar-tl-row.first{border-top:none}
+  .radar-tl-t{font-family:ui-monospace,monospace;font-size:11px;font-weight:700;color:var(--accent);width:46px;flex-shrink:0}
+  .radar-tl-s{font-size:13px;font-weight:700;color:var(--text-main);text-decoration:none;flex:1;min-width:0;word-break:break-word}
+  .radar-tl-s:hover{color:var(--accent);text-decoration:underline}
+  .radar-tl-g{font-size:10px;font-weight:800;color:var(--text-muted);background:rgba(100,116,139,.12);padding:2px 6px;border-radius:6px;flex-shrink:0}
+  .radar-tl-first{font-size:10px;font-weight:800;color:#047857;background:rgba(16,185,129,.15);padding:2px 6px;border-radius:6px;flex-shrink:0}
+  [data-theme="dark"] .radar-tl-first{color:#6EE7B7}`;
+  const st = document.createElement('style');
+  st.textContent = css;
+  document.head.appendChild(st);
+
+  function flash(btn, txt) {
+    if (!btn) return;
+    const old = btn.innerHTML;
+    btn.innerHTML = txt;
+    setTimeout(function () { btn.innerHTML = old; }, 1800);
+  }
+
+  /* ---------- 1) BAYAT VERİ UYARISI ---------- */
+  const staleBox = document.createElement('div');
+  staleBox.className = 'radar-stale';
+  staleBox.id = 'radarStale';
+  const nv = $('newsView');
+  if (nv) nv.insertBefore(staleBox, nv.firstChild);
+
+  function ageText(min) {
+    if (min < 60) return Math.round(min) + ' dakika';
+    if (min < 1440) return Math.round(min / 60) + ' saat';
+    return Math.round(min / 1440) + ' gün';
+  }
+
+  function checkStale() {
+    if (!staleBox) return;
+    if (typeof activeArchive !== 'undefined' && activeArchive) { staleBox.className = 'radar-stale'; return; }
+    const gen = (typeof globalMeta !== 'undefined' && globalMeta) ? globalMeta.generated_at : null;
+    if (!gen) { staleBox.className = 'radar-stale'; return; }
+    const t = new Date(gen).getTime();
+    if (isNaN(t)) { staleBox.className = 'radar-stale'; return; }
+    const min = (Date.now() - t) / 60000;
+    if (min >= 180) {
+      staleBox.className = 'radar-stale warn';
+      staleBox.innerHTML = '⚠️ <b>Veri ' + ageText(min) + ' önce güncellendi.</b> Haber botu çalışmamış olabilir — Actions sekmesinden kontrol et.';
+    } else if (min >= 20) {
+      staleBox.className = 'radar-stale info';
+      staleBox.innerHTML = '🕒 Son güncelleme: ' + ageText(min) + ' önce';
+    } else {
+      staleBox.className = 'radar-stale';
+    }
+  }
+
+  const _loadData = loadData;
+  loadData = async function () {
+    const r = await _loadData.apply(this, arguments);
+    checkStale();
+    return r;
+  };
+  setInterval(checkStale, 60000);
+  setTimeout(checkStale, 1500);
+
+  /* ---------- 2) PAYLAŞ BUTONU ---------- */
+  const actions = document.querySelector('#newsModal .modal-actions');
+  let shareBtn = null;
+  if (actions) {
+    shareBtn = document.createElement('button');
+    shareBtn.className = 'modal-btn btn-share';
+    shareBtn.id = 'btnShare';
+    shareBtn.innerHTML = '↗ Paylaş';
+    shareBtn.addEventListener('click', shareCurrent);
+    actions.appendChild(shareBtn);
+  }
+
+  async function shareCurrent() {
+    const it = (typeof currentModalItem !== 'undefined') ? currentModalItem : null;
+    if (!it) return;
+    const payload = { title: it.title, text: (it.summary || '').slice(0, 180), url: it.link };
+    if (navigator.share) {
+      try { await navigator.share(payload); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    try {
+      await navigator.clipboard.writeText(it.link);
+      flash(shareBtn, '✓ Bağlantı kopyalandı');
+    } catch (e) {
+      window.prompt('Bağlantıyı kopyalayın:', it.link);
+    }
+  }
+
+  /* ---------- 3) OLAY ÖRGÜSÜ (ZAMAN ÇİZELGESİ) ---------- */
+  const tl = document.createElement('div');
+  tl.className = 'radar-timeline';
+  tl.id = 'radarTimeline';
+  tl.style.display = 'none';
+  const mb = $('modalBody');
+  if (mb && mb.parentNode) mb.parentNode.insertBefore(tl, mb.nextSibling);
+
+  function renderTimeline(item) {
+    if (!tl) return;
+    const rows = [{ source: item.source, link: item.link, pubDate: item.pubDate }];
+    (item.other_sources || []).forEach(function (s) {
+      if (s && s.link) rows.push({ source: s.source, link: s.link, pubDate: s.pubDate });
+    });
+    if (rows.length < 2) { tl.style.display = 'none'; tl.innerHTML = ''; return; }
+
+    rows.sort(function (a, b) { return new Date(a.pubDate || 0) - new Date(b.pubDate || 0); });
+    const t0 = new Date(rows[0].pubDate || 0).getTime();
+
+    let html = '<div class="radar-tl-h">🧵 Olay örgüsü · ' + rows.length + ' kaynak</div>';
+    html += '<div class="radar-tl-sub">' +
+      (item.event_title ? esc(item.event_title) + ' — ' : '') +
+      'Bu olayı ilk kim verdi, diğerleri ne kadar sonra geçti?</div>';
+
+    rows.forEach(function (r, i) {
+      const d = new Date(r.pubDate || 0);
+      const ok = !isNaN(d.getTime());
+      const hh = ok ? d.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }) : '--:--';
+      let tag;
+      if (i === 0) {
+        tag = '<span class="radar-tl-first">İLK</span>';
+      } else if (ok && !isNaN(t0)) {
+        const gap = Math.max(0, Math.round((d.getTime() - t0) / 60000));
+        tag = '<span class="radar-tl-g">+' + (gap < 60 ? gap + ' dk' : Math.round(gap / 60) + ' sa') + '</span>';
+      } else {
+        tag = '<span class="radar-tl-g">—</span>';
+      }
+      html += '<div class="radar-tl-row' + (i === 0 ? ' first' : '') + '">' +
+        '<span class="radar-tl-t">' + hh + '</span>' +
+        '<a class="radar-tl-s" href="' + esc(safeUrl(r.link)) + '" target="_blank" rel="noopener">' + esc(r.source || 'Kaynak') + '</a>' +
+        tag + '</div>';
+    });
+
+    tl.innerHTML = html;
+    tl.style.display = 'block';
+  }
+
+  const _openModal = openModal;
+  openModal = function (item, cat) {
+    _openModal(item, cat);
+    renderTimeline(item);
+  };
+
+  /* ---------- 4) OTOMATİK GECE MODU ---------- */
+  const mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  if (localStorage.getItem('radar_theme_auto') === null) {
+    localStorage.setItem('radar_theme_auto', localStorage.getItem('radar_theme') ? 'false' : 'true');
+  }
+  function themeAuto() { return localStorage.getItem('radar_theme_auto') !== 'false'; }
+
+  function syncThemeUI() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const t1 = $('themeToggle'); if (t1) t1.classList.toggle('active', dark);
+    const t2 = $('radarThemeAuto'); if (t2) t2.classList.toggle('active', themeAuto());
+  }
+
+  applyTheme = function () {
+    const dark = themeAuto() ? !!(mq && mq.matches) : localStorage.getItem('radar_theme') === 'dark';
+    if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+    else document.documentElement.removeAttribute('data-theme');
+    syncThemeUI();
+  };
+
+  toggleTheme = function () {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    localStorage.setItem('radar_theme_auto', 'false');
+    localStorage.setItem('radar_theme', dark ? 'light' : 'dark');
+    applyTheme();
+  };
+
+  function toggleThemeAuto() {
+    if (themeAuto()) {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      localStorage.setItem('radar_theme_auto', 'false');
+      localStorage.setItem('radar_theme', dark ? 'dark' : 'light');
+    } else {
+      localStorage.setItem('radar_theme_auto', 'true');
+      localStorage.removeItem('radar_theme');
+    }
+    applyTheme();
+  }
+
+  const themeRow = $('themeToggle') ? $('themeToggle').closest('.setting-row') : null;
+  if (themeRow && themeRow.parentNode) {
+    const row = document.createElement('div');
+    row.className = 'setting-row';
+    row.innerHTML = '<div class="setting-label">🖥️ Sistem temasına uy</div><div class="toggle-btn" id="radarThemeAuto"></div>';
+    themeRow.parentNode.insertBefore(row, themeRow);
+    row.querySelector('#radarThemeAuto').addEventListener('click', toggleThemeAuto);
+  }
+
+  if (mq) {
+    const onSys = function () { if (themeAuto()) applyTheme(); };
+    if (mq.addEventListener) mq.addEventListener('change', onSys);
+    else if (mq.addListener) mq.addListener(onSys);
+  }
+
+  const _openSettings = openSettings;
+  openSettings = function () {
+    _openSettings.apply(this, arguments);
+    syncThemeUI();
+  };
+
+  applyTheme();
+})();
+/* ================= /RADAR EK PAKET v2 ================= */
 </script>
 </body>
 </html>
