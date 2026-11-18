@@ -1485,6 +1485,17 @@ document.addEventListener('input',function(e){
   });
 })();
 /* ===== /RADAR yama v2 ===== */
+/* yama v3: coin modalına fiyat farkı notu */
+var _oc = openCoin;
+openCoin = function(sym){ _oc(sym);
+  var s = document.getElementById('cStats');
+  if (s && !s.querySelector('.cnote')) {
+    var d = document.createElement('div');
+    d.className = 'kv cnote';
+    d.innerHTML = '<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:60%">Binance son işlem fiyatı. Aracı uygulama fiyatı alış-satış makası ve USDT/USD farkı nedeniyle ±%0,5 sapabilir.</b>';
+    s.appendChild(d);
+  }
+};
 
 })();
 </script>
