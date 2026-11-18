@@ -1326,6 +1326,42 @@ if('serviceWorker'in navigator&&location.protocol!=='file:'){var go=function(){n
 setInterval(function(){if(!S.arch&&!document.hidden)loadData()},3e5);
 setInterval(function(){hello();checkStale()},6e4);
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&S.view==='market')mkTickers()});
+ /* ===== RADAR yama: mStocks düzeltmesi ===== */
+mStocks = function(){
+  function vol(v){try{return Number(v||0).toLocaleString('tr-TR',{notation:'compact',maximumFractionDigits:1})}catch(e){return '—'}}
+  function rows(g){
+    var w=Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){return q&&q.grp===g&&isFinite(q.v)&&q.v>0});
+    if(w.length)return w;
+    var bn=['BIST 100','THY','Aselsan','Garanti BBVA','BİM'];
+    var src=(g==='bist')?ST.filter(function(s){return bn.indexOf(s.label)>=0}):ST.filter(function(s){return bn.indexOf(s.label)<0});
+    return src.map(function(s){return{k:s.label,n:s.label,v:s.price,p:s.change_pct,vol:0,mcap:0,grp:g,src:'bot'}});
+  }
+  function tbl(list,cur){
+    list=list.slice().sort(function(a,b){return (b.vol||0)-(a.vol||0)});
+    if(!list.length)return '<p class="hint" style="padding:14px">Bu grup için veri yok.</p>';
+    return '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th class="l">Sembol</th><th class="l">Ad</th><th>Fiyat</th><th>%</th><th>Hacim</th></tr></thead><tbody>'+
+      list.map(function(r){return '<tr><td class="l"><b style="font:800 12.5px var(--mono)">'+esc(r.k)+'</b></td>'+
+      '<td class="l" style="font:700 12px var(--sans);color:var(--ink2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n||r.k)+'</td>'+
+      '<td>'+price(r.v)+(cur==='₺'?' ₺':' $')+'</td>'+
+      '<td class="'+cls(r.p)+'">'+(r.p!=null?arw(r.p)+' '+pct(r.p):'—')+'</td>'+
+      '<td>'+((r.vol||0)>0?vol(r.vol):'—')+'</td></tr>'}).join('')+'</tbody></table></div>';
+  }
+  var q=(MT.stq||'').toLocaleUpperCase('tr');
+  var f=function(l){return q?l.filter(function(r){return ((r.k||'')+' '+(r.n||'')).toLocaleUpperCase('tr').indexOf(q)>=0}):l};
+  var bist=f(rows('bist')),us=f(rows('us')),idx=rows('idx');
+  var live=MT.wkOK&&(rows('bist').length>0||rows('us').length>0);
+  return (idx.length?'<div class="strip">'+idx.map(function(r){return '<div class="scard"><b>'+esc(r.n)+'</b><span>'+price(r.v)+'</span><i class="'+cls(r.p)+'">'+pct(r.p)+'</i></div>'}).join('')+'</div>':'')+
+    '<div class="mkt-bar"><input class="inp" id="stq" placeholder="Hisse ara: THYAO, AAPL, ASELS…" value="'+esc(MT.stq||'')+'">'+
+    '<span class="srcc'+(live?' live':'')+'"><span class="pd"></span>'+(live?'worker · hacme göre':'bot · sınırlı yedek')+'</span></div>'+
+    '<div class="gh2">Borsa İstanbul<span>'+bist.length+' hisse</span></div><div class="mkb" style="border-radius:0;border-top:none">'+tbl(bist,'₺')+'</div>'+
+    '<div class="gh2" style="margin-top:14px">ABD Borsaları<span>'+us.length+' hisse</span></div><div class="mkb" style="border-radius:0 0 var(--r3) var(--r3);border-top:none">'+tbl(us,'$')+'</div>'+
+    '<p class="hint">Liste işlem hacmine göre sıralıdır (TradingView ilk 50 + Yahoo yedeği). BIST verisi ~15 dk gecikmeli olabilir.</p>';
+};
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='stq'){MT.stq=e.target.value;renderMarket();
+    var n=document.getElementById('stq');if(n){n.focus();var L=n.value.length;n.setSelectionRange(L,L)}}
+});
+/* ===== /RADAR yama ===== */
 })();
 </script>
 </body>
