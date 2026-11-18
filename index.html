@@ -1362,6 +1362,130 @@ document.addEventListener('input',function(e){
     var n=document.getElementById('stq');if(n){n.focus();var L=n.value.length;n.setSelectionRange(L,L)}}
 });
 /* ===== /RADAR yama ===== */
+/* ===== RADAR yama v2: hisse filtreleri + son rötuşlar ===== */
+(function(){
+  MT.stSort=MT.stSort||'vol'; MT.stMkt=MT.stMkt||'all'; MT.stDir=MT.stDir||'all';
+  MT.stfav=MT.stfav||new Set(LS.g('radar_stfav',[]));
+  MT.wkAsOf=MT.wkAsOf||0;
+
+  var stCss=document.createElement('style');
+  stCss.textContent='.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.tbl{min-width:540px}@media(max-width:900px){.tbl{min-width:470px}}';
+  document.head.appendChild(stCss);
+
+  /* wkLoad sarıcı: verinin yaşını da yakala */
+  wkLoad=function(){return jget(MKT_URL+'?g=fx,metal,st,idx',10000).then(function(d){
+    MT.wk={};(d.quotes||[]).forEach(function(q){if(q&&q.k&&isFinite(q.v)&&q.v>0)MT.wk[q.grp+':'+q.k]=q});
+    MT.wkOK=true;MT.wkFail=0;MT.wkAsOf=d.as_of||Date.now();
+  }).catch(function(){MT.wkFail++;if(MT.wkFail>=3)MT.wkOK=false;});};
+
+  setInterval(function(){var el=document.getElementById('mkAge');if(!el)return;
+    if(!MT.wkAsOf){el.textContent='—';return}
+    var s=Math.round((Date.now()-MT.wkAsOf)/1000);
+    el.textContent=s<5?'az önce':s<60?s+' sn önce':Math.round(s/60)+' dk önce';},5000);
+
+  function vol2(v){try{return Number(v||0).toLocaleString('tr-TR',{notation:'compact',maximumFractionDigits:1})}catch(e){return '—'}}
+  function cap2(v,grp){if(!isFinite(v)||v<=0)return '—';var s=grp==='bist'?' ₺':' $';var n=Number(v);
+    if(n>=1e12)return nf(n/1e12,2)+' Tn'+s;if(n>=1e9)return nf(n/1e9,1)+' Mr'+s;if(n>=1e6)return nf(n/1e6,1)+' Mn'+s;return nf(n,0)+s}
+  function onN(b){return b?' class="on"':''}
+  function selN(b){return b?' selected':''}
+
+  function pool(){
+    var w=Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){return q&&(q.grp==='bist'||q.grp==='us')&&isFinite(q.v)&&q.v>0});
+    if(w.length)return w;
+    var bn=['BIST 100','THY','Aselsan','Garanti BBVA','BİM'];
+    return ST.map(function(s){return{k:s.label,n:s.label,v:s.price,p:s.change_pct,vol:0,mcap:0,grp:bn.indexOf(s.label)>=0?'bist':'us',src:'bot'}});
+  }
+  function idxRows(){return Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){return q&&q.grp==='idx'&&isFinite(q.v)&&q.v>0})}
+
+  function stars(){
+    var r=pool().filter(function(x){return x.p!=null});
+    if(r.length<6)return '';
+    var up=r.slice().sort(function(a,b){return b.p-a.p}).slice(0,3);
+    var dn=r.slice().sort(function(a,b){return a.p-b.p}).slice(0,3);
+    function card(list,t){return '<div class="scard"><b>'+t+'</b>'+list.map(function(x){
+      return '<div style="display:flex;justify-content:space-between;gap:10px;font:700 11.5px var(--mono);padding:2px 0"><span>'+esc(x.k)+'</span><span class="'+cls(x.p)+'">'+pct(x.p)+'</span></div>'}).join('')+'</div>'}
+    return '<div class="strip">'+card(up,'🚀 En çok yükselen')+card(dn,'🩸 En çok düşen')+'</div>';
+  }
+
+  function tbl(list){
+    if(!list.length)return '<p class="hint" style="padding:14px">Filtreyle eşleşen hisse yok. Filtreleri gevşet.</p>';
+    return '<div class="tblwrap"><table class="tbl"><thead><tr><th class="l">Sembol</th><th class="l">Ad</th><th>Fiyat</th><th>%</th><th>Hacim</th><th>★</th></tr></thead><tbody>'+
+      list.map(function(r){var cur=r.grp==='bist'?' ₺':' $';
+        return '<tr data-stk="'+esc(r.k)+'" data-grp="'+r.grp+'">'+
+        '<td class="l"><b style="font:800 12.5px var(--mono)">'+esc(r.k)+'</b></td>'+
+        '<td class="l" style="font:700 12px var(--sans);color:var(--ink2);max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n||r.k)+
+          '<i style="font:700 9px var(--mono);color:var(--ink3);font-style:normal"> · '+(r.grp==='bist'?'BIST':'ABD')+'</i></td>'+
+        '<td>'+price(r.v)+cur+'</td>'+
+        '<td class="'+cls(r.p)+'">'+(r.p!=null?arw(r.p)+' '+pct(r.p):'—')+'</td>'+
+        '<td>'+((r.vol||0)>0?vol2(r.vol)+cur:'—')+'</td>'+
+        '<td><span class="stx'+(MT.stfav.has(r.k)?' on':'')+'" data-stfav="'+esc(r.k)+'">'+(MT.stfav.has(r.k)?'★':'☆')+'</span></td></tr>'}).join('')+
+      '</tbody></table></div>';
+  }
+
+  mStocks=function(){
+    var all=pool();
+    var rows=all.filter(function(r){return MT.stMkt==='all'||r.grp===MT.stMkt});
+    var q=(MT.stq||'').toLocaleUpperCase('tr');
+    if(q)rows=rows.filter(function(r){return ((r.k||'')+' '+(r.n||'')).toLocaleUpperCase('tr').indexOf(q)>=0});
+    if(MT.stDir==='up')rows=rows.filter(function(r){return (r.p||0)>0});
+    if(MT.stDir==='dn')rows=rows.filter(function(r){return (r.p||0)<0});
+    rows.sort(function(a,b){
+      var fa=MT.stfav.has(a.k)?0:1,fb=MT.stfav.has(b.k)?0:1;if(fa!==fb)return fa-fb;
+      if(MT.stSort==='chg')return (b.p||0)-(a.p||0);
+      if(MT.stSort==='price')return (b.v||0)-(a.v||0);
+      if(MT.stSort==='name')return String(a.k).localeCompare(String(b.k),'tr');
+      return (b.vol||0)-(a.vol||0)});
+    var live=MT.wkOK&&all.length>0;
+    var idx=idxRows();
+    return (idx.length?'<div class="strip">'+idx.map(function(r){return '<div class="scard"><b>'+esc(r.n)+'</b><span>'+price(r.v)+'</span><i class="'+cls(r.p)+'">'+pct(r.p)+'</i></div>'}).join('')+'</div>':'')+
+      stars()+
+      '<div class="mkt-bar"><input class="inp" id="stq" placeholder="Hisse ara: THYAO, AAPL, ASELS…" value="'+esc(MT.stq||'')+'">'+
+      '<div class="seg sm" id="stmSeg"><button data-m="all"'+onN(MT.stMkt==='all')+'>Tümü</button><button data-m="bist"'+onN(MT.stMkt==='bist')+'>BIST</button><button data-m="us"'+onN(MT.stMkt==='us')+'>ABD</button></div>'+
+      '<div class="seg sm" id="stDirSeg"><button data-d="all"'+onN(MT.stDir==='all')+'>Hepsi</button><button data-d="up"'+onN(MT.stDir==='up')+'>↑ Yükselen</button><button data-d="dn"'+onN(MT.stDir==='dn')+'>↓ Düşen</button></div>'+
+      '<select class="sel sm" id="stSort"><option value="vol"'+selN(MT.stSort==='vol')+'>Hacme göre</option><option value="chg"'+selN(MT.stSort==='chg')+'>Değişime göre</option><option value="price"'+selN(MT.stSort==='price')+'>Fiyata göre</option><option value="name"'+selN(MT.stSort==='name')+'>Ada göre</option></select>'+
+      '<span class="srcc'+(live?' live':'')+'"><span class="pd"></span>'+(live?'worker':'bot')+' · <span id="mkAge">—</span></span></div>'+
+      '<div class="gh2">Hisseler<span>'+rows.length+' / '+all.length+'</span></div>'+
+      '<div class="mkb" style="border-radius:0;border-top:none">'+tbl(rows)+'</div>'+
+      '<p class="hint">Satıra tıkla → detay + gün içi grafik (varsa). ★ favoriler her zaman üste çıkar. Mobilde tabloyu yana kaydırabilirsin.</p>';
+  };
+
+  function openStock(k,grp){
+    var r=pool().filter(function(x){return x.k===k})[0];if(!r)return;
+    document.getElementById('cKick').textContent=(grp==='bist'?'BORSA İSTANBUL':'ABD')+' · '+(r.src==='tv'?'TradingView':r.src==='yahoo'?'Yahoo':'bot');
+    document.getElementById('cName').textContent=r.n||r.k;
+    document.getElementById('cPrice').textContent=price(r.v)+(grp==='bist'?' ₺':' $');
+    document.getElementById('cChg').innerHTML=(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'')+' <span style="color:var(--ink3)">günlük değişim</span>';
+    var cv=document.getElementById('cSpark');
+    if(r.s&&r.s.length>2){cv.style.display='block';spark(cv,r.s)}else{cv.style.display='none'}
+    document.getElementById('cStats').innerHTML=
+      '<div class="kv"><span>Hacim</span><b>'+((r.vol||0)>0?vol2(r.vol)+(grp==='bist'?' ₺':' $'):'—')+'</b></div>'+
+      '<div class="kv"><span>Piyasa değeri</span><b>'+cap2(r.mcap,grp)+'</b></div>'+
+      '<div class="kv"><span>Sembol</span><b>'+esc(r.k)+'</b></div>'+
+      '<div class="kv"><span>Gecikme</span><b>'+(r.src==='tv'?'~15 dk olabilir':r.src==='yahoo'?'~1 dk':'2 saat (bot)')+'</b></div>';
+    var f=document.getElementById('cFav');
+    f.textContent=MT.stfav.has(k)?'★ Favorilerde':'★ Favorilere ekle';
+    f.onclick=function(){MT.stfav.has(k)?MT.stfav.delete(k):MT.stfav.add(k);LS.s('radar_stfav',Array.from(MT.stfav));
+      f.textContent=MT.stfav.has(k)?'★ Favorilerde':'★ Favorilere ekle';renderMarket()};
+    openM('#mCoin');
+  }
+
+  document.addEventListener('input',function(e){
+    if(e.target&&e.target.id==='stq'){MT.stq=e.target.value;renderMarket();
+      var n=document.getElementById('stq');if(n){n.focus();var L=n.value.length;n.setSelectionRange(L,L)}}});
+  document.addEventListener('change',function(e){
+    if(e.target&&e.target.id==='stSort'){MT.stSort=e.target.value;renderMarket()}});
+  document.addEventListener('click',function(e){
+    var m=e.target.closest('#stmSeg button');if(m){MT.stMkt=m.dataset.m;renderMarket();return}
+    var d=e.target.closest('#stDirSeg button');if(d){MT.stDir=d.dataset.d;renderMarket();return}
+    var f=e.target.closest('[data-stfav]');
+    if(f){e.stopPropagation();var k=f.dataset.stfav;MT.stfav.has(k)?MT.stfav.delete(k):MT.stfav.add(k);
+      LS.s('radar_stfav',Array.from(MT.stfav));renderMarket();return}
+    var tr=e.target.closest('tr[data-stk]');
+    if(tr){openStock(tr.dataset.stk,tr.dataset.grp)}
+  });
+})();
+/* ===== /RADAR yama v2 ===== */
+
 })();
 </script>
 </body>
