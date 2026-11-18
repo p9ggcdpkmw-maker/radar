@@ -1,74 +1,18 @@
-/* RADAR Service Worker v3 */
-const CACHE_VERSION = 'radar-v3';
-const SHELL = ['./', './index.html', './manifest.json',
-               './icon-192.png', './icon-512.png', './icon-maskable-512.png',
-               './apple-touch-icon.png', './favicon-32.png'];
-
-self.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.open(CACHE_VERSION).then(function(c) {
-      return Promise.allSettled(SHELL.map(function(u) { return c.add(u); }));
-    }).then(function() { return self.skipWaiting(); })
-  );
-});
-
-self.addEventListener('activate', function(event) {
-  event.waitUntil(
-    caches.keys().then(function(keys) {
-      return Promise.all(keys.filter(function(k) { return k !== CACHE_VERSION; })
-        .map(function(k) { return caches.delete(k); }));
-    }).then(function() { return self.clients.claim(); })
-  );
-});
-
-self.addEventListener('fetch', function(event) {
-  const req = event.request;
-  if (req.method !== 'GET') return;
-  const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
-  if (req.headers.has('range')) return;
-
-  if (req.mode === 'navigate') {
-    event.respondWith(
-      fetch(req).then(function(res) {
-        const copy = res.clone();
-        caches.open(CACHE_VERSION).then(function(c) { c.put('./index.html', copy); });
-        return res;
-      }).catch(function() {
-        return caches.match('./index.html').then(function(r) { return r || caches.match('./'); });
-      })
-    );
-    return;
-  }
-
-  if (url.pathname.endsWith('.json')) {
-    const key = new Request(url.pathname);
-    event.respondWith(
-      fetch(req).then(function(res) {
-        if (res && res.ok) {
-          const copy = res.clone();
-          caches.open(CACHE_VERSION).then(function(c) { c.put(key, copy); });
-        }
-        return res;
-      }).catch(function() {
-        return caches.match(key).then(function(r) {
-          return r || new Response('{"items":[]}', { headers: { 'Content-Type': 'application/json' } });
-        });
-      })
-    );
-    return;
-  }
-
-  event.respondWith(
-    caches.match(req).then(function(cached) {
-      const net = fetch(req).then(function(res) {
-        if (res && res.ok) {
-          const copy = res.clone();
-          caches.open(CACHE_VERSION).then(function(c) { c.put(req, copy); });
-        }
-        return res;
-      }).catch(function() { return cached; });
-      return cached || net;
-    })
-  );
+/* RADAR Service Worker v4 */
+const V='radar-v4';
+const SHELL=['./','./index.html','./radar.css','./radar.js','./manifest.json',
+ './icon-192.png','./icon-512.png','./icon-maskable-512.png','./apple-touch-icon.png','./favicon-32.png'];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>Promise.allSettled(SHELL.map(u=>c.add(u)))).then(()=>self.skipWaiting()))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
+self.addEventListener('fetch',e=>{
+ const r=e.request;if(r.method!=='GET')return;
+ const u=new URL(r.url);if(u.origin!==self.location.origin)return;if(r.headers.has('range'))return;
+ if(r.mode==='navigate'){e.respondWith(fetch(r).then(res=>{const c=res.clone();caches.open(V).then(x=>x.put('./index.html',c));return res})
+  .catch(()=>caches.match('./index.html').then(x=>x||caches.match('./'))));return}
+ if(u.pathname.endsWith('.json')){const key=new Request(u.pathname);
+  e.respondWith(fetch(r).then(res=>{if(res&&res.ok){const c=res.clone();caches.open(V).then(x=>x.put(key,c))}return res})
+   .catch(()=>caches.match(key).then(x=>x||new Response('{"items":[]}',{headers:{'Content-Type':'application/json'}}))));return}
+ e.respondWith(caches.match(r).then(hit=>{
+  const net=fetch(r).then(res=>{if(res&&res.ok){const c=res.clone();caches.open(V).then(x=>x.put(r,c))}return res}).catch(()=>hit);
+  return hit||net}));
 });
