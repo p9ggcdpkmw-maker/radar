@@ -611,7 +611,7 @@ body.compact .grid{gap:10px}
 (function(){
 "use strict";
 /* >>> KENDİ WORKER ADRESİNİ BURAYA YAZ <<< */
-var MKT_URL='https://radar-market.p9ggcdpkmw-maker.workers.dev/market';
+var MKT_URL='https://radar-market.69sygknn4y.workers.dev/market';
 var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};
 var clamp=function(v,a,b){return v<a?a:v>b?b:v};
@@ -1326,6 +1326,709 @@ if('serviceWorker'in navigator&&location.protocol!=='file:'){var go=function(){n
 setInterval(function(){if(!S.arch&&!document.hidden)loadData()},3e5);
 setInterval(function(){hello();checkStale()},6e4);
 document.addEventListener('visibilitychange',function(){if(!document.hidden&&S.view==='market')mkTickers()});
+/* ===== RADAR yama: mStocks düzeltmesi ===== */
+mStocks = function(){
+  function vol(v){try{return Number(v||0).toLocaleString('tr-TR',{notation:'compact',maximumFractionDigits:1})}catch(e){return '—'}}
+  function rows(g){
+    var w=Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){return q&&q.grp===g&&isFinite(q.v)&&q.v>0});
+    if(w.length)return w;
+    var bn=['BIST 100','THY','Aselsan','Garanti BBVA','BİM'];
+    var src=(g==='bist')?ST.filter(function(s){return bn.indexOf(s.label)>=0}):ST.filter(function(s){return bn.indexOf(s.label)<0});
+    return src.map(function(s){return{k:s.label,n:s.label,v:s.price,p:s.change_pct,vol:0,mcap:0,grp:g,src:'bot'}});
+  }
+  function tbl(list,cur){
+    list=list.slice().sort(function(a,b){return (b.vol||0)-(a.vol||0)});
+    if(!list.length)return '<p class="hint" style="padding:14px">Bu grup için veri yok.</p>';
+    return '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th class="l">Sembol</th><th class="l">Ad</th><th>Fiyat</th><th>%</th><th>Hacim</th></tr></thead><tbody>'+
+      list.map(function(r){return '<tr><td class="l"><b style="font:800 12.5px var(--mono)">'+esc(r.k)+'</b></td>'+
+      '<td class="l" style="font:700 12px var(--sans);color:var(--ink2);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n||r.k)+'</td>'+
+      '<td>'+price(r.v)+(cur==='₺'?' ₺':' $')+'</td>'+
+      '<td class="'+cls(r.p)+'">'+(r.p!=null?arw(r.p)+' '+pct(r.p):'—')+'</td>'+
+      '<td>'+((r.vol||0)>0?vol(r.vol):'—')+'</td></tr>'}).join('')+'</tbody></table></div>';
+  }
+  var q=(MT.stq||'').toLocaleUpperCase('tr');
+  var f=function(l){return q?l.filter(function(r){return ((r.k||'')+' '+(r.n||'')).toLocaleUpperCase('tr').indexOf(q)>=0}):l};
+  var bist=f(rows('bist')),us=f(rows('us')),idx=rows('idx');
+  var live=MT.wkOK&&(rows('bist').length>0||rows('us').length>0);
+  return (idx.length?'<div class="strip">'+idx.map(function(r){return '<div class="scard"><b>'+esc(r.n)+'</b><span>'+price(r.v)+'</span><i class="'+cls(r.p)+'">'+pct(r.p)+'</i></div>'}).join('')+'</div>':'')+
+    '<div class="mkt-bar"><input class="inp" id="stq" placeholder="Hisse ara: THYAO, AAPL, ASELS…" value="'+esc(MT.stq||'')+'">'+
+    '<span class="srcc'+(live?' live':'')+'"><span class="pd"></span>'+(live?'worker · hacme göre':'bot · sınırlı yedek')+'</span></div>'+
+    '<div class="gh2">Borsa İstanbul<span>'+bist.length+' hisse</span></div><div class="mkb" style="border-radius:0;border-top:none">'+tbl(bist,'₺')+'</div>'+
+    '<div class="gh2" style="margin-top:14px">ABD Borsaları<span>'+us.length+' hisse</span></div><div class="mkb" style="border-radius:0 0 var(--r3) var(--r3);border-top:none">'+tbl(us,'$')+'</div>'+
+    '<p class="hint">Liste işlem hacmine göre sıralıdır (TradingView ilk 50 + Yahoo yedeği). BIST verisi ~15 dk gecikmeli olabilir.</p>';
+};
+document.addEventListener('input',function(e){
+  if(e.target&&e.target.id==='stq'){MT.stq=e.target.value;renderMarket();
+    var n=document.getElementById('stq');if(n){n.focus();var L=n.value.length;n.setSelectionRange(L,L)}}
+});
+/* ===== /RADAR yama ===== */
+/* ===== RADAR yama v2: hisse filtreleri + son rötuşlar ===== */
+(function(){
+  MT.stSort=MT.stSort||'vol'; MT.stMkt=MT.stMkt||'all'; MT.stDir=MT.stDir||'all';
+  MT.stfav=MT.stfav||new Set(LS.g('radar_stfav',[]));
+  MT.wkAsOf=MT.wkAsOf||0;
+
+  var stCss=document.createElement('style');
+  stCss.textContent='.tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}.tbl{min-width:540px}@media(max-width:900px){.tbl{min-width:470px}}';
+  document.head.appendChild(stCss);
+
+  /* wkLoad sarıcı: verinin yaşını da yakala */
+  wkLoad=function(){return jget(MKT_URL+'?g=fx,metal,st,idx',10000).then(function(d){
+    MT.wk={};(d.quotes||[]).forEach(function(q){if(q&&q.k&&isFinite(q.v)&&q.v>0)MT.wk[q.grp+':'+q.k]=q});
+    MT.wkOK=true;MT.wkFail=0;MT.wkAsOf=d.as_of||Date.now();
+  }).catch(function(){MT.wkFail++;if(MT.wkFail>=3)MT.wkOK=false;});};
+
+  setInterval(function(){var el=document.getElementById('mkAge');if(!el)return;
+    if(!MT.wkAsOf){el.textContent='—';return}
+    var s=Math.round((Date.now()-MT.wkAsOf)/1000);
+    el.textContent=s<5?'az önce':s<60?s+' sn önce':Math.round(s/60)+' dk önce';},5000);
+
+  function vol2(v){try{return Number(v||0).toLocaleString('tr-TR',{notation:'compact',maximumFractionDigits:1})}catch(e){return '—'}}
+  function cap2(v,grp){if(!isFinite(v)||v<=0)return '—';var s=grp==='bist'?' ₺':' $';var n=Number(v);
+    if(n>=1e12)return nf(n/1e12,2)+' Tn'+s;if(n>=1e9)return nf(n/1e9,1)+' Mr'+s;if(n>=1e6)return nf(n/1e6,1)+' Mn'+s;return nf(n,0)+s}
+  function onN(b){return b?' class="on"':''}
+  function selN(b){return b?' selected':''}
+
+  function pool(){
+    var w=Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){return q&&(q.grp==='bist'||q.grp==='us')&&isFinite(q.v)&&q.v>0});
+    if(w.length)return w;
+    var bn=['BIST 100','THY','Aselsan','Garanti BBVA','BİM'];
+    return ST.map(function(s){return{k:s.label,n:s.label,v:s.price,p:s.change_pct,vol:0,mcap:0,grp:bn.indexOf(s.label)>=0?'bist':'us',src:'bot'}});
+  }
+  function idxRows(){return Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){return q&&q.grp==='idx'&&isFinite(q.v)&&q.v>0})}
+
+  function stars(){
+    var r=pool().filter(function(x){return x.p!=null});
+    if(r.length<6)return '';
+    var up=r.slice().sort(function(a,b){return b.p-a.p}).slice(0,3);
+    var dn=r.slice().sort(function(a,b){return a.p-b.p}).slice(0,3);
+    function card(list,t){return '<div class="scard"><b>'+t+'</b>'+list.map(function(x){
+      return '<div style="display:flex;justify-content:space-between;gap:10px;font:700 11.5px var(--mono);padding:2px 0"><span>'+esc(x.k)+'</span><span class="'+cls(x.p)+'">'+pct(x.p)+'</span></div>'}).join('')+'</div>'}
+    return '<div class="strip">'+card(up,'🚀 En çok yükselen')+card(dn,'🩸 En çok düşen')+'</div>';
+  }
+
+  function tbl(list){
+    if(!list.length)return '<p class="hint" style="padding:14px">Filtreyle eşleşen hisse yok. Filtreleri gevşet.</p>';
+    return '<div class="tblwrap"><table class="tbl"><thead><tr><th class="l">Sembol</th><th class="l">Ad</th><th>Fiyat</th><th>%</th><th>Hacim</th><th>★</th></tr></thead><tbody>'+
+      list.map(function(r){var cur=r.grp==='bist'?' ₺':' $';
+        return '<tr data-stk="'+esc(r.k)+'" data-grp="'+r.grp+'">'+
+        '<td class="l"><b style="font:800 12.5px var(--mono)">'+esc(r.k)+'</b></td>'+
+        '<td class="l" style="font:700 12px var(--sans);color:var(--ink2);max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n||r.k)+
+          '<i style="font:700 9px var(--mono);color:var(--ink3);font-style:normal"> · '+(r.grp==='bist'?'BIST':'ABD')+'</i></td>'+
+        '<td>'+price(r.v)+cur+'</td>'+
+        '<td class="'+cls(r.p)+'">'+(r.p!=null?arw(r.p)+' '+pct(r.p):'—')+'</td>'+
+        '<td>'+((r.vol||0)>0?vol2(r.vol)+cur:'—')+'</td>'+
+        '<td><span class="stx'+(MT.stfav.has(r.k)?' on':'')+'" data-stfav="'+esc(r.k)+'">'+(MT.stfav.has(r.k)?'★':'☆')+'</span></td></tr>'}).join('')+
+      '</tbody></table></div>';
+  }
+
+  mStocks=function(){
+    var all=pool();
+    var rows=all.filter(function(r){return MT.stMkt==='all'||r.grp===MT.stMkt});
+    var q=(MT.stq||'').toLocaleUpperCase('tr');
+    if(q)rows=rows.filter(function(r){return ((r.k||'')+' '+(r.n||'')).toLocaleUpperCase('tr').indexOf(q)>=0});
+    if(MT.stDir==='up')rows=rows.filter(function(r){return (r.p||0)>0});
+    if(MT.stDir==='dn')rows=rows.filter(function(r){return (r.p||0)<0});
+    rows.sort(function(a,b){
+      var fa=MT.stfav.has(a.k)?0:1,fb=MT.stfav.has(b.k)?0:1;if(fa!==fb)return fa-fb;
+      if(MT.stSort==='chg')return (b.p||0)-(a.p||0);
+      if(MT.stSort==='price')return (b.v||0)-(a.v||0);
+      if(MT.stSort==='name')return String(a.k).localeCompare(String(b.k),'tr');
+      return (b.vol||0)-(a.vol||0)});
+    var live=MT.wkOK&&all.length>0;
+    var idx=idxRows();
+    return (idx.length?'<div class="strip">'+idx.map(function(r){return '<div class="scard"><b>'+esc(r.n)+'</b><span>'+price(r.v)+'</span><i class="'+cls(r.p)+'">'+pct(r.p)+'</i></div>'}).join('')+'</div>':'')+
+      stars()+
+      '<div class="mkt-bar"><input class="inp" id="stq" placeholder="Hisse ara: THYAO, AAPL, ASELS…" value="'+esc(MT.stq||'')+'">'+
+      '<div class="seg sm" id="stmSeg"><button data-m="all"'+onN(MT.stMkt==='all')+'>Tümü</button><button data-m="bist"'+onN(MT.stMkt==='bist')+'>BIST</button><button data-m="us"'+onN(MT.stMkt==='us')+'>ABD</button></div>'+
+      '<div class="seg sm" id="stDirSeg"><button data-d="all"'+onN(MT.stDir==='all')+'>Hepsi</button><button data-d="up"'+onN(MT.stDir==='up')+'>↑ Yükselen</button><button data-d="dn"'+onN(MT.stDir==='dn')+'>↓ Düşen</button></div>'+
+      '<select class="sel sm" id="stSort"><option value="vol"'+selN(MT.stSort==='vol')+'>Hacme göre</option><option value="chg"'+selN(MT.stSort==='chg')+'>Değişime göre</option><option value="price"'+selN(MT.stSort==='price')+'>Fiyata göre</option><option value="name"'+selN(MT.stSort==='name')+'>Ada göre</option></select>'+
+      '<span class="srcc'+(live?' live':'')+'"><span class="pd"></span>'+(live?'worker':'bot')+' · <span id="mkAge">—</span></span></div>'+
+      '<div class="gh2">Hisseler<span>'+rows.length+' / '+all.length+'</span></div>'+
+      '<div class="mkb" style="border-radius:0;border-top:none">'+tbl(rows)+'</div>'+
+      '<p class="hint">Satıra tıkla → detay + gün içi grafik (varsa). ★ favoriler her zaman üste çıkar. Mobilde tabloyu yana kaydırabilirsin.</p>';
+  };
+
+  function openStock(k,grp){
+    var r=pool().filter(function(x){return x.k===k})[0];if(!r)return;
+    document.getElementById('cKick').textContent=(grp==='bist'?'BORSA İSTANBUL':'ABD')+' · '+(r.src==='tv'?'TradingView':r.src==='yahoo'?'Yahoo':'bot');
+    document.getElementById('cName').textContent=r.n||r.k;
+    document.getElementById('cPrice').textContent=price(r.v)+(grp==='bist'?' ₺':' $');
+    document.getElementById('cChg').innerHTML=(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'')+' <span style="color:var(--ink3)">günlük değişim</span>';
+    var cv=document.getElementById('cSpark');
+    if(r.s&&r.s.length>2){cv.style.display='block';spark(cv,r.s)}else{cv.style.display='none'}
+    document.getElementById('cStats').innerHTML=
+      '<div class="kv"><span>Hacim</span><b>'+((r.vol||0)>0?vol2(r.vol)+(grp==='bist'?' ₺':' $'):'—')+'</b></div>'+
+      '<div class="kv"><span>Piyasa değeri</span><b>'+cap2(r.mcap,grp)+'</b></div>'+
+      '<div class="kv"><span>Sembol</span><b>'+esc(r.k)+'</b></div>'+
+      '<div class="kv"><span>Gecikme</span><b>'+(r.src==='tv'?'~15 dk olabilir':r.src==='yahoo'?'~1 dk':'2 saat (bot)')+'</b></div>';
+    var f=document.getElementById('cFav');
+    f.textContent=MT.stfav.has(k)?'★ Favorilerde':'★ Favorilere ekle';
+    f.onclick=function(){MT.stfav.has(k)?MT.stfav.delete(k):MT.stfav.add(k);LS.s('radar_stfav',Array.from(MT.stfav));
+      f.textContent=MT.stfav.has(k)?'★ Favorilerde':'★ Favorilere ekle';renderMarket()};
+    openM('#mCoin');
+  }
+
+  document.addEventListener('input',function(e){
+    if(e.target&&e.target.id==='stq'){MT.stq=e.target.value;renderMarket();
+      var n=document.getElementById('stq');if(n){n.focus();var L=n.value.length;n.setSelectionRange(L,L)}}});
+  document.addEventListener('change',function(e){
+    if(e.target&&e.target.id==='stSort'){MT.stSort=e.target.value;renderMarket()}});
+  document.addEventListener('click',function(e){
+    var m=e.target.closest('#stmSeg button');if(m){MT.stMkt=m.dataset.m;renderMarket();return}
+    var d=e.target.closest('#stDirSeg button');if(d){MT.stDir=d.dataset.d;renderMarket();return}
+    var f=e.target.closest('[data-stfav]');
+    if(f){e.stopPropagation();var k=f.dataset.stfav;MT.stfav.has(k)?MT.stfav.delete(k):MT.stfav.add(k);
+      LS.s('radar_stfav',Array.from(MT.stfav));renderMarket();return}
+    var tr=e.target.closest('tr[data-stk]');
+    if(tr){openStock(tr.dataset.stk,tr.dataset.grp)}
+  });
+})();
+/* ===== /RADAR yama v2 ===== */
+/* yama v3: coin modalına fiyat farkı notu */
+var _oc = openCoin;
+openCoin = function(sym){ _oc(sym);
+  var s = document.getElementById('cStats');
+  if (s && !s.querySelector('.cnote')) {
+    var d = document.createElement('div');
+    d.className = 'kv cnote';
+    d.innerHTML = '<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:60%">Binance son işlem fiyatı. Aracı uygulama fiyatı alış-satış makası ve USDT/USD farkı nedeniyle ±%0,5 sapabilir.</b>';
+    s.appendChild(d);
+  }
+};
+/* ===== RADAR yama v4 (final): favori paneli, ısı haritası tıklama, CSV, modal notu ===== */
+(function(){
+  function v4vol(v){try{return Number(v||0).toLocaleString('tr-TR',{notation:'compact',maximumFractionDigits:1})}catch(e){return '—'}}
+  function v4cap(v,grp){if(!isFinite(v)||v<=0)return '—';var s=grp==='bist'?' ₺':' $';var n=Number(v);
+    if(n>=1e12)return nf(n/1e12,2)+' Tn'+s;if(n>=1e9)return nf(n/1e9,1)+' Mr'+s;if(n>=1e6)return nf(n/1e6,1)+' Mn'+s;return nf(n,0)+s}
+  MT.stfav=MT.stfav||new Set(LS.g('radar_stfav',[]));
+  MT.cfav=MT.cfav||new Set(LS.g('radar_cfav',[]));
+
+  function addNote(html){var s=document.getElementById('cStats');if(!s||s.querySelector('.cnote'))return;
+    var d=document.createElement('div');d.className='kv cnote';d.innerHTML=html;s.appendChild(d)}
+  var _oc=openCoin;
+  openCoin=function(sym){_oc(sym);addNote('<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:62%">Binance son işlem fiyatı. Aracı uygulama fiyatları alış-satış makası ve USDT/USD farkı nedeniyle ±%0,5 sapabilir.</b>')};
+
+  function openDetail(r,kind){
+    var isCoin=kind==='coin';
+    var cur=isCoin?(r.quote==='TRY'?' ₺':' $'):(r.grp==='bist'?' ₺':' $');
+    document.getElementById('cKick').textContent=isCoin?('KRİPTO · '+r.quote):((r.grp==='bist'?'BORSA İSTANBUL':'ABD')+' · '+(r.src==='tv'?'TradingView':r.src==='yahoo'?'Yahoo':'bot'));
+    document.getElementById('cName').textContent=isCoin?(r.base+' / '+r.quote):(r.n||r.k);
+    document.getElementById('cPrice').textContent=price(r.v)+cur;
+    document.getElementById('cChg').innerHTML=(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'')+' <span style="color:var(--ink3)">'+(isCoin?'24 saat':'günlük')+'</span>';
+    var cv=document.getElementById('cSpark');
+    var series=isCoin?((MT.ticks[r.sym]&&MT.ticks[r.sym].length>2)?MT.ticks[r.sym]:[]):((r.s&&r.s.length>2)?r.s:[]);
+    if(series.length>2){cv.style.display='block';spark(cv,series)}else{cv.style.display='none'}
+    var st='';
+    if(isCoin){
+      st='<div class="kv"><span>24s en yüksek</span><b>'+fmtC(r.hi)+'</b></div>'+
+         '<div class="kv"><span>24s en düşük</span><b>'+fmtC(r.lo)+'</b></div>'+
+         '<div class="kv"><span>24s hacim</span><b>'+v4vol(r.vol)+' '+r.quote+'</b></div>'+
+         '<div class="kv"><span>Kaynak</span><b>Binance · canlı</b></div>';
+    }else{
+      st='<div class="kv"><span>Hacim</span><b>'+((r.vol||0)>0?v4vol(r.vol)+cur:'—')+'</b></div>'+
+         '<div class="kv"><span>Piyasa değeri</span><b>'+v4cap(r.mcap,r.grp)+'</b></div>'+
+         '<div class="kv"><span>Sembol</span><b>'+esc(r.k)+'</b></div>'+
+         '<div class="kv"><span>Gecikme</span><b>'+(r.src==='tv'?'~15 dk olabilir':r.src==='yahoo'?'~1 dk':'2 saat (bot)')+'</b></div>';
+    }
+    document.getElementById('cStats').innerHTML=st;
+    var key=isCoin?r.sym:r.k, set=isCoin?MT.cfav:MT.stfav;
+    var f=document.getElementById('cFav');
+    f.textContent=set.has(key)?'★ Favorilerde':'★ Favorilere ekle';
+    f.onclick=function(){set.has(key)?set.delete(key):set.add(key);
+      LS.s(isCoin?'radar_cfav':'radar_stfav',Array.from(set));
+      f.textContent=set.has(key)?'★ Favorilerde':'★ Favorilere ekle';
+      renderMarket()};
+    openM('#mCoin');
+    addNote(isCoin?'<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:62%">Binance son işlem fiyatı; aracı uygulamalar makas/USDT farkı nedeniyle ±%0,5 sapabilir.</b>'
+                  :'<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:62%">Ücretsiz kaynaklar BIST için ~15 dk gecikmeli olabilir; kapanış sonrası son değer korunur.</b>');
+  }
+
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('.ht');if(!t)return;var b=t.querySelector('b');if(!b)return;var name=b.textContent.trim();
+    var coin=MT.bin.filter(function(x){return x.base===name&&x.quote==='USDT'})[0];
+    if(coin){openDetail(coin,'coin');return}
+    var q=null;Object.keys(MT.wk).forEach(function(k){var w=MT.wk[k];if((w.grp==='bist'||w.grp==='us')&&(w.k===name||w.n===name))q=w});
+    if(q)openDetail(q,'stk');
+  });
+
+  var rail=document.getElementById('rail');
+  if(rail&&!document.getElementById('favWg')){
+    var wg=document.createElement('div');wg.className='wg';wg.id='favWg';
+    wg.innerHTML='<div class="wgh">★ Favorilerim</div><div id="favBody"></div>';
+    rail.insertBefore(wg,rail.firstChild);
+  }
+  function favList(){var out=[];
+    MT.bin.forEach(function(x){if(MT.cfav.has(x.sym))out.push({kind:'coin',r:x})});
+    Object.keys(MT.wk).forEach(function(k){var w=MT.wk[k];if((w.grp==='bist'||w.grp==='us')&&MT.stfav.has(w.k))out.push({kind:'stk',r:w})});
+    return out}
+  function renderFav(){var body=document.getElementById('favBody');if(!body)return;var L=favList();
+    if(!L.length){body.innerHTML='<p class="hint">Henüz favori yok. Kripto veya hisse tablosunda ★ simgesine dokun.</p>';return}
+    body.innerHTML=L.slice(0,10).map(function(x){var r=x.r;var cur=x.kind==='coin'?(r.quote==='TRY'?' ₺':' $'):(r.grp==='bist'?' ₺':' $');
+      return '<div class="kv" style="cursor:pointer" data-favrow="'+x.kind+'|'+esc(x.kind==='coin'?r.sym:r.k)+'"><span>'+esc(x.kind==='coin'?r.base:r.k)+'</span><b>'+price(r.v)+cur+' <i class="'+cls(r.p)+'" style="font-style:normal">'+pct(r.p)+'</i></b></div>'}).join('')}
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('[data-favrow]');if(!el)return;
+    var parts=el.dataset.favrow.split('|'),kind=parts[0],key=parts[1];
+    if(kind==='coin'){var c=MT.bin.filter(function(x){return x.sym===key})[0];if(c)openDetail(c,'coin')}
+    else{var q=null;Object.keys(MT.wk).forEach(function(k){var w=MT.wk[k];if((w.grp==='bist'||w.grp==='us')&&w.k===key)q=w});if(q)openDetail(q,'stk')}
+  });
+  var _rm=renderMarket;
+  renderMarket=function(){_rm.apply(this,arguments);renderFav()};
+
+  function exportCSV(){
+    var rows=[['Tur','Sembol','Ad','Fiyat','Degisim_Yuzde','Hacim','Kaynak']];
+    MT.bin.slice().sort(function(a,b){return b.vol-a.vol}).slice(0,100).forEach(function(x){rows.push(['kripto',x.sym,x.base+'/'+x.quote,x.v,x.p==null?'':x.p.toFixed(2),x.vol,'Binance'])});
+    Object.keys(MT.wk).forEach(function(k){var q=MT.wk[k];
+      if(q.grp==='bist'||q.grp==='us'||q.grp==='idx'||q.grp==='fx')rows.push([q.grp,q.k,q.n||q.k,q.v,q.p==null?'':q.p.toFixed(2),q.vol||'',q.src||'worker'])});
+    var csv='\uFEFF'+rows.map(function(r){return r.map(function(c){c=String(c==null?'':c);return /[";\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(';')}).join('\r\n');
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download='radar-piyasa-'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
+    toast('CSV indirildi (Excel uyumlu)');
+  }
+  var anchor=document.getElementById('expSaved2');
+  if(anchor&&!document.getElementById('expCsv')){
+    var b=document.createElement('button');b.className='btn gh w';b.id='expCsv';b.textContent='⬇ Piyasa verisini CSV indir (Excel)';
+    anchor.parentNode.insertBefore(b,anchor.nextSibling);b.addEventListener('click',exportCSV);
+  }
+  renderFav();
+})();
+/* ===== /RADAR yama v4 ===== */
+/* ===== Koruma paketi: TTL yükselt + akıllı yenileme + kota sayacı ===== */
+(function(){
+  /* Worker TTL'yi 30 sn → 60 sn yapar (kota 2 kat rahatlar) */
+  if(window.MKT_URL){ window.MKT_URL=window.MKT_URL.replace(/\?g=/,'?ttl=60&g='); }
+  
+  /* Sekme görünür değilken market yenilemeyi durdur (pil + kota tasarrufu) */
+  var origTick=MT.timer;
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){clearInterval(MT.timer);MT.timer=0}
+    else if(S.view==='market'){mkTickers();MT.timer=setInterval(mkTickers,60000)}
+  });
+  
+  /* Piyasa yenileme aralığını 10 sn → 60 sn yap */
+  var _mkE=mkEnter;
+  mkEnter=function(){_mkE.call(this);clearInterval(MT.timer);MT.timer=setInterval(mkTickers,60000)};
+  
+  /* Menü'de kota durumu göstergesi */
+  var about=document.getElementById('about');
+  if(about&&about.innerHTML.indexOf('Kota')<0){
+    about.innerHTML+='<p style="margin-top:8px"><b>🛡️ Kota durumu:</b><br>'+
+      '· GitHub Pages: sınırsız<br>'+
+      '· Groq AI: 2 saatte bir (herkes için aynı)<br>'+
+      '· Cloudflare worker: ~100 kullanıcı/güne kadar<br>'+
+      '· 50+ kişi kullanıyorsa hisse verisi 2 saat gecikmeli olur.</p>';
+  }
+})();
+/* ===== /Koruma paketi ===== */
+/* ===== RADAR yama v5: başlık performansı + filtre çubuğu ===== */
+(function(){
+  /* --- 1) Performans: blur ve blend harmanlamasını kapat --- */
+  var perf=document.createElement('style');
+  perf.textContent=
+    '.top{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--bg)!important;will-change:auto!important}'+
+    '.grain{mix-blend-mode:normal!important;opacity:.035!important}'+
+    '.fbar2{display:none;flex-wrap:wrap;gap:8px;align-items:center;margin:2px 0 10px}'+
+    '.fbar2.show{display:flex}'+
+    '.fchip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:99px;border:1px solid var(--ln2);background:var(--sf2);color:var(--ink);font:800 11.5px var(--sans)}'+
+    '.fchip b{color:var(--cy)}'+
+    '.fchip button{border:none;background:none;color:var(--ink3);cursor:pointer;font-size:12px;padding:0;line-height:1}'+
+    '.fchip button:hover{color:var(--dn)}'+
+    '.fclear{margin-left:auto;border:1px solid var(--dn);background:color-mix(in srgb,var(--dn) 12%,transparent);color:var(--dn);border-radius:99px;padding:6px 13px;font:800 11.5px var(--sans);cursor:pointer}'+
+    '.fclear:hover{background:var(--dn);color:#fff}';
+  document.head.appendChild(perf);
+
+  /* --- 2) Aktif filtre çubuğu --- */
+  var feed=document.getElementById('v-feed'),anchor=document.getElementById('trendRow');
+  if(feed&&anchor&&!document.getElementById('filterBar')){
+    var bar=document.createElement('div');bar.id='filterBar';bar.className='fbar2';
+    feed.insertBefore(bar,anchor);
+  }
+  function chip(label,val,key){return '<span class="fchip">'+label+': <b>'+esc(val)+'</b><button data-fc="'+key+'" title="Bu filtreyi kaldır">✕</button></span>'}
+  function renderFilterBar(){
+    var b=document.getElementById('filterBar');if(!b)return;
+    var p=[];
+    if(S.q)p.push(chip('Arama',S.q,'q'));
+    if(S.tone!=='all')p.push(chip('Ton',S.tone,'tone'));
+    if(S.saved)p.push(chip('Görünüm','Kaydedilenler','saved'));
+    else if(S.cat!=='all')p.push(chip('Kategori',(CATS[S.cat]||{l:S.cat}).l,'cat'));
+    if(S.h12)p.push(chip('Zaman','Son 12 saat','h12'));
+    if(S.biasOff)p.push(chip('Gizlenen','Sansasyonel','bias'));
+    if(!p.length){b.className='fbar2';b.innerHTML='';return}
+    b.className='fbar2 show';
+    b.innerHTML=p.join('')+'<button class="fclear" data-fc="all">✕ Filtreleri temizle</button>';
+  }
+  function clearOne(k){
+    if(k==='q'){S.q='';var pi=document.getElementById('paIn');if(pi)pi.value=''}
+    else if(k==='tone'){S.tone='all';$$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')})}
+    else if(k==='cat'){S.cat='all';renderCats()}
+    else if(k==='saved'){S.saved=false}
+    else if(k==='h12'){S.h12=false;LS.set('radar_age_12h',false);var a=document.getElementById('sw12');if(a)a.classList.remove('on')}
+    else if(k==='bias'){S.biasOff=false;LS.set('radar_bias_filter',false);var c=document.getElementById('swBias');if(c)c.classList.remove('on')}
+    else if(k==='all'){
+      S.q='';S.tone='all';S.cat='all';S.saved=false;S.h12=false;S.biasOff=false;
+      LS.set('radar_age_12h',false);LS.set('radar_bias_filter',false);
+      var pi2=document.getElementById('paIn');if(pi2)pi2.value='';
+      $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')});
+      var a2=document.getElementById('sw12');if(a2)a2.classList.remove('on');
+      var c2=document.getElementById('swBias');if(c2)c2.classList.remove('on');
+      renderCats();
+    }
+    S.limit=24;renderFeed();
+  }
+  document.addEventListener('click',function(e){
+    var c=e.target.closest('[data-fc]');if(!c)return;
+    clearOne(c.dataset.fc);
+  });
+  var _rf=renderFeed;
+  renderFeed=function(){_rf.apply(this,arguments);renderFilterBar()};
+
+  /* --- 3) Trend çipine ikinci tık = filtreyi kaldır --- */
+  var tr=document.getElementById('trendRow');
+  if(tr)tr.addEventListener('click',function(e){
+    var b=e.target.closest('.trend');if(!b)return;
+    if(S.q===b.dataset.q){e.stopPropagation();e.preventDefault();clearOne('q')}
+  },true);
+
+  renderFilterBar();
+})();
+/* ===== /RADAR yama v5 ===== */
+/* ===== RADAR yama v6: başlık katlanma takılmasını gider ===== */
+(function(){
+  var css=document.createElement('style');
+  css.textContent=
+    '.top{background:var(--bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;'+
+    'will-change:auto!important;transform:none!important;box-shadow:0 1px 0 var(--ln)}'+
+    '.hello h1,.hello p,.top .trow,.top .cw{transition:none!important}';
+  document.head.appendChild(css);
+
+  /* eşiklere gecikme payı: 140'ta katla, 60'ta aç — sınırda titreme yok */
+  var on=false,bar=document.getElementById('topbar');
+  addEventListener('scroll',function(){
+    var y=window.scrollY||window.pageYOffset||0;
+    if(!on&&y>140)on=true;
+    else if(on&&y<60)on=false;
+    if(bar)bar.classList.toggle('tight',on);
+  },{passive:true});
+})();
+/* ===== /RADAR yama v6 ===== */
+/* ===== RADAR yama v7: çalar çubuğu tab bar'ın tam üstüne oturur ===== */
+(function(){
+  function measure(){
+    var tb=document.getElementById('tabbar'),pl=document.getElementById('player');
+    var tH=(tb&&getComputedStyle(tb).display!=='none')?tb.offsetHeight:0;
+    var pH=(pl&&pl.classList.contains('on'))?pl.offsetHeight:0;
+    document.documentElement.style.setProperty('--tab',tH+'px');
+    document.documentElement.style.setProperty('--pl',pH+'px');
+  }
+  /* çalar açılıp kapandıkça otomatik yeniden ölç */
+  if(window.MutationObserver){
+    var mo=new MutationObserver(measure);
+    mo.observe(document.getElementById('player'),{attributes:true,attributeFilter:['class']});
+    mo.observe(document.getElementById('tabbar'),{attributes:true,attributeFilter:['class','style']});
+  }
+  addEventListener('resize',measure);
+  addEventListener('orientationchange',function(){setTimeout(measure,200)});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+  measure();setTimeout(measure,300);setTimeout(measure,1200);
+})();
+/* ===== /RADAR yama v7 ===== */
+/* ===== RADAR yama v8: radyo mirror zinciri + otomatik kanal testi ===== */
+(function(){
+  var NEW=[
+    {n:'Kafa Radyo',d:'Alternatif ve eğlenceli',g:'Alternatif',urls:['https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8']},
+    {n:'Kral Türk FM',d:'Türkü ve halk müziği',g:'Halk',urls:['https://live.radyositesihazir.com/8032/stream']},
+    {n:'Süper FM',d:'Türkçe pop',g:'Pop',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM.mp3']},
+    {n:'Metro FM',d:'Yabancı hitler',g:'Yabancı',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/METRO_FM.mp3']},
+    {n:'Joy Türk',d:'Türkçe slow pop',g:'Slow',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/JOY_TURK.mp3']},
+    {n:'Power FM',d:'Yabancı pop',g:'Yabancı',urls:['https://live.powerapp.com.tr/powerfm/mpeg/icecast.audio','https://powerfm.listenpowerapp.com/powerfm/mpeg/icecast.audio']},
+    {n:'PowerTürk',d:'Türkçe pop',g:'Pop',urls:['https://live.powerapp.com.tr/powerturk/mpeg/icecast.audio','https://powerturk.listenpowerapp.com/powerturk/mpeg/icecast.audio']},
+    {n:'Slow Türk',d:'Romantik ve yavaş',g:'Slow',urls:['https://slowturk.radyotvonline.net/slowturk/playlist.m3u8','https://radyo.duhnet.tv/slowturk']},
+    {n:'Best FM',d:'Türkçe pop',g:'Pop',urls:['https://bestfm.radyotvonline.net/bestfm/playlist.m3u8','https://radyo.duhnet.tv/bestfm']},
+    {n:'Radyo Fenomen',d:'Hit müzik',g:'Pop',urls:['https://fenomen.listenfenomen.com/fenomen/mpeg/icecast.audio']}
+  ];
+  var OFF=new Set(LS.g('radar_radio_off',[]));
+  MT.rtest=MT.rtest||{};
+  function rebuild(){STATIONS.length=0;NEW.forEach(function(s){if(!OFF.has(s.n))STATIONS.push(s)})}
+  rebuild();
+
+  /* --- mirror zincirli play --- */
+  var wd=0,mIdx=0,playTok=0;
+  play=function(i){
+    var a=$('#audio'),s=STATIONS[i];if(!s)return;
+    if(curSt===i&&!a.paused){a.pause();return}
+    curSt=i;mIdx=0;playTok++;
+    $('#plName').textContent=s.n;$('#plState').textContent='bağlanıyor…';
+    $('#player').classList.add('on');document.documentElement.style.setProperty('--pl','62px');
+    tryUrl(s,playTok);renderRadio();
+  };
+  function tryUrl(s,tok){
+    var a=$('#audio');
+    if(hls){try{hls.destroy()}catch(e){}hls=null}
+    a.volume=S.vol;a.muted=S.muted;
+    var u=s.urls[mIdx]||s.urls[0],isH=u.indexOf('.m3u8')>=0,url=isH?PROXY+encodeURIComponent(u):u;
+    clearTimeout(wd);wd=setTimeout(function(){if(tok===playTok)failNext(s,tok)},12000);
+    $('#plState').textContent='bağlanıyor… ('+(mIdx+1)+'/'+s.urls.length+')';
+    var onOk=function(){if(tok!==playTok)return;clearTimeout(wd);a.removeEventListener('playing',onOk);
+      MT.rtest[s.n]='ok';$('#plState').textContent=S.muted?'sessiz · çalıyor':'canlı çalıyor';plSync()};
+    a.addEventListener('playing',onOk);
+    var onErr=function(){if(tok!==playTok)return;a.removeEventListener('error',onErr);failNext(s,tok)};
+    a.addEventListener('error',onErr);
+    var fail=function(){if(tok===playTok)failNext(s,tok)};
+    if(isH&&window.Hls&&window.Hls.isSupported()){
+      hls=new window.Hls({maxBufferLength:20});hls.loadSource(url);hls.attachMedia(a);
+      hls.on(window.Hls.Events.MANIFEST_PARSED,function(){a.play().catch(fail)});
+      hls.on(window.Hls.Events.ERROR,function(ev,d){if(d&&d.fatal)fail()});
+    }else{a.src=url;a.play().catch(fail)}
+  }
+  function failNext(s,tok){
+    if(tok!==playTok)return;
+    clearTimeout(wd);mIdx++;
+    if(mIdx<s.urls.length){tryUrl(s,tok);return}
+    MT.rtest[s.n]='bad';$('#plState').textContent='açılamadı ('+s.urls.length+' mirror denendi)';
+    toast('⚠️ '+esc(s.n)+' şu an açılamadı — tüm mirrorlar denendi','err');
+    renderRadio();renderHealth();plSync();
+  }
+  document.getElementById('plClose').addEventListener('click',function(){playTok++});
+
+  /* --- link sondası --- */
+  function probe(u){
+    return new Promise(function(res){
+      var done=false,fin=function(v){if(!done){done=true;res(v)}};
+      var isH=u.indexOf('.m3u8')>=0,target=isH?PROXY+encodeURIComponent(u):u;
+      var ac=new AbortController(),t=setTimeout(function(){ac.abort();fin(false)},9000);
+      fetch(target,{signal:ac.signal,cache:'no-store'}).then(function(r){
+        clearTimeout(t);
+        if(!r.ok)return fin(false);
+        var ct=(r.headers.get('content-type')||'').toLowerCase();
+        if(isH)return r.text().then(function(tx){fin(tx.indexOf('#EXT')>=0)}).catch(function(){fin(false)});
+        if(ct&&ct.indexOf('audio')<0&&ct.indexOf('mpeg')<0&&ct.indexOf('octet-stream')<0&&ct.indexOf('mp4')<0)return fin(false);
+        var rd=r.body&&r.body.getReader();
+        if(!rd)return fin(true);
+        rd.read().then(function(){try{rd.cancel()}catch(e){}fin(true)}).catch(function(){fin(false)});
+      }).catch(function(){
+        var ac2=new AbortController(),t2=setTimeout(function(){ac2.abort()},6000);
+        fetch(u,{mode:'no-cors',cache:'no-store',signal:ac2.signal})
+          .then(function(){clearTimeout(t2);fin(true)}).catch(function(){clearTimeout(t2);fin(false)});
+      });
+    });
+  }
+  function testAll(){
+    var list=STATIONS.slice(),idx=0;
+    (function next(){
+      if(idx>=list.length){renderRadio();renderHealth();
+        var ok=Object.keys(MT.rtest).filter(function(k){return MT.rtest[k]==='ok'}).length;
+        toast('🩺 Test bitti: '+ok+'/'+list.length+' kanal çalışıyor');return}
+      var s=list[idx++];MT.rtest[s.n]='busy';renderHealth();
+      (async function(){
+        for(var m=0;m<s.urls.length;m++){if(await probe(s.urls[m])){MT.rtest[s.n]='ok';renderHealth();renderRadio();next();return}}
+        MT.rtest[s.n]='bad';renderHealth();renderRadio();next();
+      })();
+    })();
+  }
+
+  /* --- sağlık paneli --- */
+  var vr=document.getElementById('v-radio');
+  if(vr&&!document.getElementById('radioHealth')){
+    var hp=document.createElement('div');hp.id='radioHealth';hp.className='legal';hp.style.marginTop='14px';
+    vr.insertBefore(hp,vr.querySelector('.legal'));
+  }
+  function renderHealth(){
+    var el=document.getElementById('radioHealth');if(!el)return;
+    var ok=0,bad=0;STATIONS.forEach(function(s){if(MT.rtest[s.n]==='ok')ok++;else if(MT.rtest[s.n]==='bad')bad++});
+    el.innerHTML='<b>🩺 Kanal sağlığı:</b> '+ok+' çalışıyor · '+bad+' yanıt yok · '+(STATIONS.length-ok-bad)+' bekliyor'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'+
+      '<button class="btn gh" id="rTest">▶ Testi çalıştır</button>'+
+      (bad?'<button class="btn dg" id="rHide">✗ Çalışmayanları gizle ('+bad+')</button>':'')+
+      (OFF.size?'<button class="btn gh" id="rShow">Gizlenenleri geri getir ('+OFF.size+')</button>':'')+
+      '</div><p class="hint">Test her linki önce worker proxy üzerinden, olmazsa doğrudan dener. Radyo sekmesi ilk açılışta test kendiliğinden koşar.</p>';
+    var b1=document.getElementById('rTest');if(b1)b1.onclick=testAll;
+    var b2=document.getElementById('rHide');if(b2)b2.onclick=function(){
+      STATIONS.forEach(function(s){if(MT.rtest[s.n]==='bad')OFF.add(s.n)});
+      LS.s('radar_radio_off',Array.from(OFF));rebuild();renderRadio();renderHealth()};
+    var b3=document.getElementById('rShow');if(b3)b3.onclick=function(){
+      OFF.clear();LS.s('radar_radio_off',[]);rebuild();renderRadio();renderHealth()};
+  }
+
+  /* --- rozetli liste --- */
+  renderRadio=function(){
+    var order=STATIONS.map(function(s,i){return i}).sort(function(a,b){return (S.fav.has(b)?1:0)-(S.fav.has(a)?1:0)});
+    $('#radioGrid').innerHTML=order.map(function(i){var s=STATIONS[i],playing=curSt===i&&!$('#audio').paused;
+      var t=MT.rtest[s.n];
+      var badge=t==='ok'?'<span class="rsg" style="background:color-mix(in srgb,var(--up) 15%,transparent);color:var(--up)">✓ çalışıyor</span>'
+        :t==='bad'?'<span class="rsg" style="background:color-mix(in srgb,var(--dn) 15%,transparent);color:var(--dn)">✗ yanıt yok</span>'
+        :t==='busy'?'<span class="rsg">test…</span>':'';
+      return '<div class="rs'+(curSt===i?' on':'')+'" data-i="'+i+'"><button class="rsp">'+(playing?'❚❚':'▶')+'</button>'+
+      '<div class="rsb"><b>'+esc(s.n)+'</b><span>'+esc(s.d)+'</span><br><span class="rsg">'+esc(s.g)+'</span>'+
+      (s.urls.length>1?'<span class="rsg" style="background:var(--ov);color:var(--ink3)">'+s.urls.length+' mirror</span>':'')+badge+'</div>'+
+      '<button class="rsf'+(S.fav.has(i)?' on':'')+'" data-f="'+i+'">'+(S.fav.has(i)?'★':'☆')+'</button></div>'}).join('');
+    $$('#radioGrid .rs').forEach(function(el){
+      el.addEventListener('click',function(e){if(e.target.closest('[data-f]'))return;play(+el.dataset.i)});
+      var f=$('[data-f]',el);f.addEventListener('click',function(e){e.stopPropagation();var i=+f.dataset.f;
+        S.fav.has(i)?S.fav.delete(i):S.fav.add(i);LS.s('radar_fav',Array.from(S.fav));renderRadio()});
+    });
+    renderHealth();
+  };
+
+  /* --- radyo sekmesi ilk açılışta otomatik test --- */
+  var _sv=setView,once=false;
+  setView=function(v){_sv.apply(this,arguments);if(v==='radio'&&!once){once=true;setTimeout(testAll,500)}};
+  renderRadio();
+})();
+/* ===== /RADAR yama v8 ===== */
+/* ===== RADAR yama v9: gerçek doğrulama + aday kanal testi ===== */
+(function(){
+  MT.playedOk=MT.playedOk||new Set();
+
+  /* KURAL 1: Bir kanal çalabildiyse rozeti her zaman ✓ olur */
+  var aud=document.getElementById('audio');
+  aud.addEventListener('playing',function(){
+    if(curSt>=0&&STATIONS[curSt]){MT.playedOk.add(STATIONS[curSt].n);MT.rtest[STATIONS[curSt].n]='ok';renderRadio()}
+  });
+  setInterval(function(){
+    var pl=document.getElementById('player');
+    if(pl&&pl.classList.contains('on')&&!aud.paused&&curSt>=0&&STATIONS[curSt]){
+      MT.playedOk.add(STATIONS[curSt].n);
+      if(MT.rtest[STATIONS[curSt].n]!=='ok'){MT.rtest[STATIONS[curSt].n]='ok';renderRadio()}
+    }
+  },4000);
+
+  /* KURAL 2: daha güvenilir sonda — proxy + doğrudan erişim + no-cors, 1 yeniden deneme */
+  function probe3(u){
+    return new Promise(function(res){
+      var done=false,fin=function(v){if(!done){done=true;res(v)}};
+      var isH=u.indexOf('.m3u8')>=0;
+      var tries=[];
+      if(isH)tries.push(function(){return fetch(PROXY+encodeURIComponent(u),{cache:'no-store'}).then(function(r){
+          if(!r.ok)throw 0;return r.text().then(function(t){if(t.indexOf('#EXT')<0)throw 0;return true})})});
+      tries.push(function(){return new Promise(function(ok2,no2){
+          var ac=new AbortController(),t=setTimeout(function(){ac.abort();no2(0)},8000);
+          fetch(u,{mode:'no-cors',cache:'no-store',signal:ac.signal}).then(function(){clearTimeout(t);ok2(true)}).catch(function(e){clearTimeout(t);no2(e)})})});
+      if(!isH)tries.push(function(){return fetch(PROXY+encodeURIComponent(u),{cache:'no-store'}).then(function(r){
+          if(!r.ok)throw 0;var ct=(r.headers.get('content-type')||'').toLowerCase();
+          if(ct&&ct.indexOf('audio')<0&&ct.indexOf('mpeg')<0&&ct.indexOf('octet-stream')<0)throw 0;return true})});
+      var i=0;
+      (function next(){
+        if(i>=tries.length)return fin(false);
+        var f=tries[i++];
+        Promise.resolve().then(f).then(function(){fin(true)}).catch(function(){
+          if(isH&&i===1)return Promise.resolve().then(f).then(function(){fin(true)}).catch(function(){next()});
+          next();
+        });
+      })();
+    });
+  }
+
+  /* KURAL 3: aday kanallar — test eder, SADECE çalışanları kalıcı ekler */
+  var CAND=[
+    {n:'Kral Pop',d:'Türkçe pop hit',g:'Pop',urls:['https://kralpop.radyotvonline.net/kralpop/playlist.m3u8']},
+    {n:'NTV Radyo',d:'Haber ve sohbet',g:'Haber',urls:['https://ntvradyo.radyotvonline.net/ntvradyo/playlist.m3u8']},
+    {n:'Virgin Radio',d:'Rock ve alternatif',g:'Rock',urls:['https://virginradyo.radyotvonline.net/virginradyo/playlist.m3u8']},
+    {n:'Number1 FM',d:'Yabancı hit',g:'Yabancı',urls:['https://number1fm.radyotvonline.net/number1fm/playlist.m3u8']},
+    {n:'Alem FM',d:'Türkçe pop klasikleri',g:'Pop',urls:['https://alemfm.radyotvonline.net/alemfm/playlist.m3u8']},
+    {n:'Radyo D',d:'Karışık yayın',g:'Pop',urls:['https://radyod.radyotvonline.net/radyod/playlist.m3u8']},
+    {n:'Show Radyo',d:'Türkçe pop',g:'Pop',urls:['https://showradyo.radyotvonline.net/showradyo/playlist.m3u8']},
+    {n:'Slow Time',d:'Slow ve akustik',g:'Slow',urls:['https://slowtime.radyotvonline.net/slowtime/playlist.m3u8']}
+  ];
+  var extras=LS.g('radar_radio_extra',[]);
+  extras.forEach(function(x){if(!STATIONS.some(function(s){return s.n===x.n}))STATIONS.push(x)});
+
+  var vr=document.getElementById('v-radio'),rh=document.getElementById('radioHealth');
+  if(vr&&!document.getElementById('candPanel')){
+    var cp=document.createElement('div');cp.className='legal';cp.id='candPanel';cp.style.marginTop='10px';
+    cp.innerHTML='<b>🧪 Aday kanallar:</b> 8 ek aday var (Kral Pop, NTV Radyo, Virgin, Number1, Alem FM, Radyo D, Show Radyo, Slow Time). Test hepsini dener, <b>sadece çalışanları</b> kalıcı olarak listene ekler.'+
+      '<div style="margin-top:10px"><button class="btn gh" id="candTest">🧪 Adayları test et ve çalışanları ekle</button></div>'+
+      '<div id="candRes" class="hint"></div>';
+    vr.insertBefore(cp,rh?rh.nextSibling:vr.firstChild);
+  }
+  var cb=document.getElementById('candTest');
+  if(cb)cb.onclick=function(){
+    cb.disabled=true;var res=document.getElementById('candRes');var idx=0,added=0,dead=0;
+    res.textContent='Test ediliyor…';
+    (function next(){
+      if(idx>=CAND.length){
+        cb.disabled=false;
+        res.innerHTML='Bitti: <b>'+added+' kanal eklendi</b>, '+dead+' aday çalışmıyor (elistenmedi).'+(added?' Yeni kanallar listede ★ ile favorilenebilir.':'');
+        LS.s('radar_radio_extra',extras);renderRadio();
+        if(added)toast('🧪 '+added+' yeni çalışan kanal eklendi');
+        return;
+      }
+      var c=CAND[idx++];res.textContent='Deneniyor: '+c.n+' ('+idx+'/'+CAND.length+')…';
+      (async function(){
+        var ok=false;for(var m=0;m<c.urls.length;m++){if(await probe3(c.urls[m])){ok=true;break}}
+        if(ok&&!MT.playedOk.has(c.n)&&false)ok=true;
+        if(ok&&!STATIONS.some(function(s){return s.n===c.n})){STATIONS.push(c);extras.push(c);added++}
+        else if(!ok)dead++;
+        next();
+      })();
+    })();
+  };
+})();
+/* ===== /RADAR yama v9 ===== */
+/* ===== RADAR yama v10: oynatma doğrulaması artık yalan söylemiyor ===== */
+(function(){
+  MT.playedOk=MT.playedOk||new Set();
+  MT.toastOnce=MT.toastOnce||{};
+  var aud=document.getElementById('audio');
+  function reallyPlaying(){return aud&&!aud.paused&&(aud.readyState>=2||aud.currentTime>0||(aud.buffered&&aud.buffered.length>0))}
+
+  var wd=0,mIdx=0,tok=0;
+  play=function(i){
+    var a=$('#audio'),s=STATIONS[i];if(!s)return;
+    if(curSt===i&&!a.paused){a.pause();return}
+    curSt=i;mIdx=0;tok++;
+    $('#plName').textContent=s.n;$('#plState').textContent='bağlanıyor…';
+    $('#player').classList.add('on');document.documentElement.style.setProperty('--pl','62px');
+    attempt(s,tok);renderRadio();
+  };
+  function attempt(s,myTok){
+    var a=$('#audio');
+    if(hls){try{hls.destroy()}catch(e){}hls=null}
+    a.volume=S.vol;a.muted=S.muted;
+    var u=s.urls[mIdx]||s.urls[0],isH=u.indexOf('.m3u8')>=0,url=isH?PROXY+encodeURIComponent(u):u;
+    clearTimeout(wd);
+    wd=setTimeout(function(){if(myTok!==tok)return; reallyPlaying()?success(s):fail(s,myTok)},25000);
+    $('#plState').textContent='bağlanıyor… ('+(mIdx+1)+'/'+s.urls.length+')';
+    var okH=function(){if(myTok!==tok)return;clearTimeout(wd);a.removeEventListener('playing',okH);success(s)};
+    a.addEventListener('playing',okH);
+    var erH=function(){if(myTok!==tok)return;a.removeEventListener('error',erH);fail(s,myTok)};
+    a.addEventListener('error',erH);
+    var go=function(){if(myTok===tok)fail(s,myTok)};
+    if(isH&&window.Hls&&window.Hls.isSupported()){
+      hls=new window.Hls({maxBufferLength:20});hls.loadSource(url);hls.attachMedia(a);
+      hls.on(window.Hls.Events.MANIFEST_PARSED,function(){a.play().catch(go)});
+      hls.on(window.Hls.Events.ERROR,function(ev,d){if(d&&d.fatal)go()});
+    }else{a.src=url;a.play().catch(go)}
+  }
+  function success(s){
+    MT.playedOk.add(s.n);MT.rtest[s.n]='ok';
+    $('#plState').textContent=S.muted?'sessiz · çalıyor':'canlı çalıyor';
+    renderRadio();plSync();
+  }
+  function fail(s,myTok){
+    if(myTok!==tok)return;
+    if(reallyPlaying()){success(s);return}          /* çalıyorsa ASLA başarısız deme */
+    mIdx++;
+    if(mIdx<s.urls.length){attempt(s,myTok);return}  /* sıradaki mirror */
+    if(!MT.playedOk.has(s.n))MT.rtest[s.n]='bad';     /* hiç çalmadıysa ✗ */
+    $('#plState').textContent='açılamadı ('+s.urls.length+' mirror denendi)';
+    var now=Date.now();
+    if(!MT.toastOnce[s.n]||now-MT.toastOnce[s.n]>600000){
+      MT.toastOnce[s.n]=now;
+      toast('⚠️ '+esc(s.n)+' şu an açılamadı — tüm mirrorlar denendi','err');
+    }
+    renderRadio();plSync();
+  }
+  /* ilerleyen currentTime = başarı (playing eventi gelmese bile) */
+  setInterval(function(){
+    if(curSt>=0&&STATIONS[curSt]&&reallyPlaying()){
+      var n=STATIONS[curSt].n;MT.playedOk.add(n);
+      if(MT.rtest[n]!=='ok'){MT.rtest[n]='ok';renderRadio()}
+    }
+  },2000);
+})();
+/* ===== /RADAR yama v10 ===== */
 })();
 </script>
 </body>
