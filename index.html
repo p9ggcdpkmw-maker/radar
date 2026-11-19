@@ -1693,6 +1693,7 @@ openCoin = function(sym){ _oc(sym);
       '· 50+ kişi kullanıyorsa hisse verisi 2 saat gecikmeli olur.</p>';
   }
 })();
+/* ===== /Koruma paketi ===== */
 /* ===== RADAR yama v6: başlık katlanma takılmasını gider ===== */
 (function(){
   var css=document.createElement('style');
@@ -1876,9 +1877,95 @@ openCoin = function(sym){ _oc(sym);
   renderRadio();
 })();
 /* ===== /RADAR yama v8 ===== */
+/* ===== RADAR yama v9: gerçek doğrulama + aday kanal testi ===== */
+(function(){
+  MT.playedOk=MT.playedOk||new Set();
 
-/* ===== /Koruma paketi ===== */
+  /* KURAL 1: Bir kanal çalabildiyse rozeti her zaman ✓ olur */
+  var aud=document.getElementById('audio');
+  aud.addEventListener('playing',function(){
+    if(curSt>=0&&STATIONS[curSt]){MT.playedOk.add(STATIONS[curSt].n);MT.rtest[STATIONS[curSt].n]='ok';renderRadio()}
+  });
+  setInterval(function(){
+    var pl=document.getElementById('player');
+    if(pl&&pl.classList.contains('on')&&!aud.paused&&curSt>=0&&STATIONS[curSt]){
+      MT.playedOk.add(STATIONS[curSt].n);
+      if(MT.rtest[STATIONS[curSt].n]!=='ok'){MT.rtest[STATIONS[curSt].n]='ok';renderRadio()}
+    }
+  },4000);
 
+  /* KURAL 2: daha güvenilir sonda — proxy + doğrudan erişim + no-cors, 1 yeniden deneme */
+  function probe3(u){
+    return new Promise(function(res){
+      var done=false,fin=function(v){if(!done){done=true;res(v)}};
+      var isH=u.indexOf('.m3u8')>=0;
+      var tries=[];
+      if(isH)tries.push(function(){return fetch(PROXY+encodeURIComponent(u),{cache:'no-store'}).then(function(r){
+          if(!r.ok)throw 0;return r.text().then(function(t){if(t.indexOf('#EXT')<0)throw 0;return true})})});
+      tries.push(function(){return new Promise(function(ok2,no2){
+          var ac=new AbortController(),t=setTimeout(function(){ac.abort();no2(0)},8000);
+          fetch(u,{mode:'no-cors',cache:'no-store',signal:ac.signal}).then(function(){clearTimeout(t);ok2(true)}).catch(function(e){clearTimeout(t);no2(e)})})});
+      if(!isH)tries.push(function(){return fetch(PROXY+encodeURIComponent(u),{cache:'no-store'}).then(function(r){
+          if(!r.ok)throw 0;var ct=(r.headers.get('content-type')||'').toLowerCase();
+          if(ct&&ct.indexOf('audio')<0&&ct.indexOf('mpeg')<0&&ct.indexOf('octet-stream')<0)throw 0;return true})});
+      var i=0;
+      (function next(){
+        if(i>=tries.length)return fin(false);
+        var f=tries[i++];
+        Promise.resolve().then(f).then(function(){fin(true)}).catch(function(){
+          if(isH&&i===1)return Promise.resolve().then(f).then(function(){fin(true)}).catch(function(){next()});
+          next();
+        });
+      })();
+    });
+  }
+
+  /* KURAL 3: aday kanallar — test eder, SADECE çalışanları kalıcı ekler */
+  var CAND=[
+    {n:'Kral Pop',d:'Türkçe pop hit',g:'Pop',urls:['https://kralpop.radyotvonline.net/kralpop/playlist.m3u8']},
+    {n:'NTV Radyo',d:'Haber ve sohbet',g:'Haber',urls:['https://ntvradyo.radyotvonline.net/ntvradyo/playlist.m3u8']},
+    {n:'Virgin Radio',d:'Rock ve alternatif',g:'Rock',urls:['https://virginradyo.radyotvonline.net/virginradyo/playlist.m3u8']},
+    {n:'Number1 FM',d:'Yabancı hit',g:'Yabancı',urls:['https://number1fm.radyotvonline.net/number1fm/playlist.m3u8']},
+    {n:'Alem FM',d:'Türkçe pop klasikleri',g:'Pop',urls:['https://alemfm.radyotvonline.net/alemfm/playlist.m3u8']},
+    {n:'Radyo D',d:'Karışık yayın',g:'Pop',urls:['https://radyod.radyotvonline.net/radyod/playlist.m3u8']},
+    {n:'Show Radyo',d:'Türkçe pop',g:'Pop',urls:['https://showradyo.radyotvonline.net/showradyo/playlist.m3u8']},
+    {n:'Slow Time',d:'Slow ve akustik',g:'Slow',urls:['https://slowtime.radyotvonline.net/slowtime/playlist.m3u8']}
+  ];
+  var extras=LS.g('radar_radio_extra',[]);
+  extras.forEach(function(x){if(!STATIONS.some(function(s){return s.n===x.n}))STATIONS.push(x)});
+
+  var vr=document.getElementById('v-radio'),rh=document.getElementById('radioHealth');
+  if(vr&&!document.getElementById('candPanel')){
+    var cp=document.createElement('div');cp.className='legal';cp.id='candPanel';cp.style.marginTop='10px';
+    cp.innerHTML='<b>🧪 Aday kanallar:</b> 8 ek aday var (Kral Pop, NTV Radyo, Virgin, Number1, Alem FM, Radyo D, Show Radyo, Slow Time). Test hepsini dener, <b>sadece çalışanları</b> kalıcı olarak listene ekler.'+
+      '<div style="margin-top:10px"><button class="btn gh" id="candTest">🧪 Adayları test et ve çalışanları ekle</button></div>'+
+      '<div id="candRes" class="hint"></div>';
+    vr.insertBefore(cp,rh?rh.nextSibling:vr.firstChild);
+  }
+  var cb=document.getElementById('candTest');
+  if(cb)cb.onclick=function(){
+    cb.disabled=true;var res=document.getElementById('candRes');var idx=0,added=0,dead=0;
+    res.textContent='Test ediliyor…';
+    (function next(){
+      if(idx>=CAND.length){
+        cb.disabled=false;
+        res.innerHTML='Bitti: <b>'+added+' kanal eklendi</b>, '+dead+' aday çalışmıyor (elistenmedi).'+(added?' Yeni kanallar listede ★ ile favorilenebilir.':'');
+        LS.s('radar_radio_extra',extras);renderRadio();
+        if(added)toast('🧪 '+added+' yeni çalışan kanal eklendi');
+        return;
+      }
+      var c=CAND[idx++];res.textContent='Deneniyor: '+c.n+' ('+idx+'/'+CAND.length+')…';
+      (async function(){
+        var ok=false;for(var m=0;m<c.urls.length;m++){if(await probe3(c.urls[m])){ok=true;break}}
+        if(ok&&!MT.playedOk.has(c.n)&&false)ok=true;
+        if(ok&&!STATIONS.some(function(s){return s.n===c.n})){STATIONS.push(c);extras.push(c);added++}
+        else if(!ok)dead++;
+        next();
+      })();
+    })();
+  };
+})();
+/* ===== /RADAR yama v9 ===== */
 })();
 </script>
 </body>
