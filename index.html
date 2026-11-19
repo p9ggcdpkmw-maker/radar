@@ -1595,6 +1595,34 @@ openCoin = function(sym){ _oc(sym);
   renderFav();
 })();
 /* ===== /RADAR yama v4 ===== */
+/* ===== Koruma paketi: TTL yükselt + akıllı yenileme + kota sayacı ===== */
+(function(){
+  /* Worker TTL'yi 30 sn → 60 sn yapar (kota 2 kat rahatlar) */
+  if(window.MKT_URL){ window.MKT_URL=window.MKT_URL.replace(/\?g=/,'?ttl=60&g='); }
+  
+  /* Sekme görünür değilken market yenilemeyi durdur (pil + kota tasarrufu) */
+  var origTick=MT.timer;
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){clearInterval(MT.timer);MT.timer=0}
+    else if(S.view==='market'){mkTickers();MT.timer=setInterval(mkTickers,60000)}
+  });
+  
+  /* Piyasa yenileme aralığını 10 sn → 60 sn yap */
+  var _mkE=mkEnter;
+  mkEnter=function(){_mkE.call(this);clearInterval(MT.timer);MT.timer=setInterval(mkTickers,60000)};
+  
+  /* Menü'de kota durumu göstergesi */
+  var about=document.getElementById('about');
+  if(about&&about.innerHTML.indexOf('Kota')<0){
+    about.innerHTML+='<p style="margin-top:8px"><b>🛡️ Kota durumu:</b><br>'+
+      '· GitHub Pages: sınırsız<br>'+
+      '· Groq AI: 2 saatte bir (herkes için aynı)<br>'+
+      '· Cloudflare worker: ~100 kullanıcı/güne kadar<br>'+
+      '· 50+ kişi kullanıyorsa hisse verisi 2 saat gecikmeli olur.</p>';
+  }
+})();
+/* ===== /Koruma paketi ===== */
+
 })();
 </script>
 </body>
