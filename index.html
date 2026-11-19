@@ -1712,6 +1712,28 @@ openCoin = function(sym){ _oc(sym);
   },{passive:true});
 })();
 /* ===== /RADAR yama v6 ===== */
+/* ===== RADAR yama v7: çalar çubuğu tab bar'ın tam üstüne oturur ===== */
+(function(){
+  function measure(){
+    var tb=document.getElementById('tabbar'),pl=document.getElementById('player');
+    var tH=(tb&&getComputedStyle(tb).display!=='none')?tb.offsetHeight:0;
+    var pH=(pl&&pl.classList.contains('on'))?pl.offsetHeight:0;
+    document.documentElement.style.setProperty('--tab',tH+'px');
+    document.documentElement.style.setProperty('--pl',pH+'px');
+  }
+  /* çalar açılıp kapandıkça otomatik yeniden ölç */
+  if(window.MutationObserver){
+    var mo=new MutationObserver(measure);
+    mo.observe(document.getElementById('player'),{attributes:true,attributeFilter:['class']});
+    mo.observe(document.getElementById('tabbar'),{attributes:true,attributeFilter:['class','style']});
+  }
+  addEventListener('resize',measure);
+  addEventListener('orientationchange',function(){setTimeout(measure,200)});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
+  measure();setTimeout(measure,300);setTimeout(measure,1200);
+})();
+/* ===== /RADAR yama v7 ===== */
+
 /* ===== /Koruma paketi ===== */
 
 })();
