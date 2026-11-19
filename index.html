@@ -1362,6 +1362,33 @@ document.addEventListener('input',function(e){
     var n=document.getElementById('stq');if(n){n.focus();var L=n.value.length;n.setSelectionRange(L,L)}}
 });
 /* ===== /RADAR yama ===== */
+
+  /* Piyasa yenileme aralığını 10 sn → 60 sn yap */
+  var _mkE=mkEnter;
+  mkEnter=function(){_mkE.call(this);clearInterval(MT.timer);MT.timer=setInterval(mkTickers,60000)};
+  
+  /* Menü'de kota durumu göstergesi */
+  var about=document.getElementById('about');
+  if(about&&about.innerHTML.indexOf('Kota')<0){
+    about.innerHTML+='<p style="margin-top:8px"><b>🛡️ Kota durumu:</b><br>'+
+      '· GitHub Pages: sınırsız<br>'+
+      '· Groq AI: 2 saatte bir (herkes için aynı)<br>'+
+      '· Cloudflare worker: ~100 kullanıcı/güne kadar<br>'+
+      '· 50+ kişi kullanıyorsa hisse verisi 2 saat gecikmeli olur.</p>';
+  }
+})();
+/* ===== /Koruma paketi ===== */
+/* ===== Koruma paketi: TTL yükselt + akıllı yenileme + kota sayacı ===== */
+(function(){
+  /* Worker TTL'yi 30 sn → 60 sn yapar (kota 2 kat rahatlar) */
+  if(window.MKT_URL){ window.MKT_URL=window.MKT_URL.replace(/\?g=/,'?ttl=60&g='); }
+  
+  /* Sekme görünür değilken market yenilemeyi durdur (pil + kota tasarrufu) */
+  var origTick=MT.timer;
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){clearInterval(MT.timer);MT.timer=0}
+    else if(S.view==='market'){mkTickers();MT.timer=setInterval(mkTickers,60000)}
+  });
 /* ===== RADAR yama v2: hisse filtreleri + son rötuşlar ===== */
 (function(){
   MT.stSort=MT.stSort||'vol'; MT.stMkt=MT.stMkt||'all'; MT.stDir=MT.stDir||'all';
@@ -1595,17 +1622,6 @@ openCoin = function(sym){ _oc(sym);
   renderFav();
 })();
 /* ===== /RADAR yama v4 ===== */
-/* ===== Koruma paketi: TTL yükselt + akıllı yenileme + kota sayacı ===== */
-(function(){
-  /* Worker TTL'yi 30 sn → 60 sn yapar (kota 2 kat rahatlar) */
-  if(window.MKT_URL){ window.MKT_URL=window.MKT_URL.replace(/\?g=/,'?ttl=60&g='); }
-  
-  /* Sekme görünür değilken market yenilemeyi durdur (pil + kota tasarrufu) */
-  var origTick=MT.timer;
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden){clearInterval(MT.timer);MT.timer=0}
-    else if(S.view==='market'){mkTickers();MT.timer=setInterval(mkTickers,60000)}
-  });
   /* ===== RADAR yama v5: başlık performansı + filtre çubuğu ===== */
 (function(){
   /* --- 1) Performans: blur ve blend harmanlamasını kapat --- */
@@ -1678,22 +1694,6 @@ openCoin = function(sym){ _oc(sym);
   renderFilterBar();
 })();
 /* ===== /RADAR yama v5 ===== */
-
-  /* Piyasa yenileme aralığını 10 sn → 60 sn yap */
-  var _mkE=mkEnter;
-  mkEnter=function(){_mkE.call(this);clearInterval(MT.timer);MT.timer=setInterval(mkTickers,60000)};
-  
-  /* Menü'de kota durumu göstergesi */
-  var about=document.getElementById('about');
-  if(about&&about.innerHTML.indexOf('Kota')<0){
-    about.innerHTML+='<p style="margin-top:8px"><b>🛡️ Kota durumu:</b><br>'+
-      '· GitHub Pages: sınırsız<br>'+
-      '· Groq AI: 2 saatte bir (herkes için aynı)<br>'+
-      '· Cloudflare worker: ~100 kullanıcı/güne kadar<br>'+
-      '· 50+ kişi kullanıyorsa hisse verisi 2 saat gecikmeli olur.</p>';
-  }
-})();
-/* ===== /Koruma paketi ===== */
 /* ===== RADAR yama v6: başlık katlanma takılmasını gider ===== */
 (function(){
   var css=document.createElement('style');
@@ -1966,6 +1966,63 @@ openCoin = function(sym){ _oc(sym);
   };
 })();
 /* ===== /RADAR yama v9 ===== */
+/* ===== RADAR yama v10: oynatma hatalarını gerçek duruma eşitle ===== */
+(function(){
+  var wd=0,mIdx=0,tok10=0,alive={},lastToast={};
+  function curName(){return (curSt>=0&&STATIONS[curSt])?STATIONS[curSt].n:null}
+  function toastOnce(msg){var n=curName()||'?';var t=Date.now();if(lastToast[n]&&t-lastToast[n]<60000)return;lastToast[n]=t;toast(msg,'err')}
+
+  play=function(i){
+    var a=$('#audio'),s=STATIONS[i];if(!s)return;
+    if(curSt===i&&!a.paused){a.pause();return}
+    curSt=i;mIdx=0;tok10++;
+    $('#plName').textContent=s.n;$('#plState').textContent='bağlanıyor…';
+    $('#player').classList.add('on');document.documentElement.style.setProperty('--pl','62px');
+    tryUrl(s,tok10);renderRadio();
+  };
+
+  function tryUrl(s,tok){
+    var a=$('#audio');
+    if(hls){try{hls.destroy()}catch(e){}hls=null}
+    a.volume=S.vol;a.muted=S.muted;
+    var u=s.urls[mIdx]||s.urls[0],isH=u.indexOf('.m3u8')>=0,url=isH?PROXY+encodeURIComponent(u):u;
+    clearTimeout(wd);
+    wd=setTimeout(function(){if(tok===tok10&&!alive[tok])failNext(s,tok)},20000);
+    $('#plState').textContent='bağlanıyor… ('+(mIdx+1)+'/'+s.urls.length+')';
+    var onOk=function(){if(tok!==tok10)return;alive[tok]=true;clearTimeout(wd);a.removeEventListener('playing',onOk);
+      MT.rtest[s.n]='ok';if(MT.playedOk)MT.playedOk.add(s.n);
+      $('#plState').textContent=S.muted?'sessiz · çalıyor':'canlı çalıyor';plSync();renderRadio()};
+    a.addEventListener('playing',onOk);
+    var onErr=function(){if(tok!==tok10)return;a.removeEventListener('error',onErr);
+      if(alive[tok]){mIdx++;if(mIdx<s.urls.length){tryUrl(s,tok);return}}
+      failNext(s,tok)};
+    a.addEventListener('error',onErr);
+    var start=function(){a.play().catch(function(e){
+      if(e&&e.name==='AbortError')return;          /* yarıda kesilen play() başarısızlık DEĞİLDİR */
+      if(tok===tok10)failNext(s,tok)})};
+    if(isH&&window.Hls&&window.Hls.isSupported()){
+      hls=new window.Hls({maxBufferLength:20});hls.loadSource(url);hls.attachMedia(a);
+      hls.on(window.Hls.Events.MANIFEST_PARSED,function(){if(tok===tok10)start()});
+      hls.on(window.Hls.Events.ERROR,function(ev,d){if(d&&d.fatal&&tok===tok10&&!alive[tok])failNext(s,tok)});
+    }else start();
+  }
+
+  function failNext(s,tok){
+    if(tok!==tok10||alive[tok])return;              /* çalıyorsa asla başarısızlık zinciri yok */
+    clearTimeout(wd);mIdx++;
+    if(mIdx<s.urls.length){tryUrl(s,tok);return}
+    var a=$('#audio');
+    var playingNow=curName()===s.n&&$('#player').classList.contains('on')&&!a.paused;
+    if(playingNow){MT.rtest[s.n]='ok';renderRadio();return}
+    MT.rtest[s.n]='bad';
+    $('#plState').textContent='açılamadı ('+s.urls.length+' mirror denendi)';
+    toastOnce('⚠️ '+s.n+' şu an açılamadı — tüm mirrorlar denendi');
+    renderRadio();plSync();
+  }
+
+  document.getElementById('plClose').addEventListener('click',function(){tok10++;clearTimeout(wd)});
+})();
+/* ===== /RADAR yama v10 ===== */
 })();
 </script>
 </body>
