@@ -1496,7 +1496,105 @@ openCoin = function(sym){ _oc(sym);
     s.appendChild(d);
   }
 };
+/* ===== RADAR yama v4 (final): favori paneli, ısı haritası tıklama, CSV, modal notu ===== */
+(function(){
+  function v4vol(v){try{return Number(v||0).toLocaleString('tr-TR',{notation:'compact',maximumFractionDigits:1})}catch(e){return '—'}}
+  function v4cap(v,grp){if(!isFinite(v)||v<=0)return '—';var s=grp==='bist'?' ₺':' $';var n=Number(v);
+    if(n>=1e12)return nf(n/1e12,2)+' Tn'+s;if(n>=1e9)return nf(n/1e9,1)+' Mr'+s;if(n>=1e6)return nf(n/1e6,1)+' Mn'+s;return nf(n,0)+s}
+  MT.stfav=MT.stfav||new Set(LS.g('radar_stfav',[]));
+  MT.cfav=MT.cfav||new Set(LS.g('radar_cfav',[]));
 
+  function addNote(html){var s=document.getElementById('cStats');if(!s||s.querySelector('.cnote'))return;
+    var d=document.createElement('div');d.className='kv cnote';d.innerHTML=html;s.appendChild(d)}
+  var _oc=openCoin;
+  openCoin=function(sym){_oc(sym);addNote('<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:62%">Binance son işlem fiyatı. Aracı uygulama fiyatları alış-satış makası ve USDT/USD farkı nedeniyle ±%0,5 sapabilir.</b>')};
+
+  function openDetail(r,kind){
+    var isCoin=kind==='coin';
+    var cur=isCoin?(r.quote==='TRY'?' ₺':' $'):(r.grp==='bist'?' ₺':' $');
+    document.getElementById('cKick').textContent=isCoin?('KRİPTO · '+r.quote):((r.grp==='bist'?'BORSA İSTANBUL':'ABD')+' · '+(r.src==='tv'?'TradingView':r.src==='yahoo'?'Yahoo':'bot'));
+    document.getElementById('cName').textContent=isCoin?(r.base+' / '+r.quote):(r.n||r.k);
+    document.getElementById('cPrice').textContent=price(r.v)+cur;
+    document.getElementById('cChg').innerHTML=(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'')+' <span style="color:var(--ink3)">'+(isCoin?'24 saat':'günlük')+'</span>';
+    var cv=document.getElementById('cSpark');
+    var series=isCoin?((MT.ticks[r.sym]&&MT.ticks[r.sym].length>2)?MT.ticks[r.sym]:[]):((r.s&&r.s.length>2)?r.s:[]);
+    if(series.length>2){cv.style.display='block';spark(cv,series)}else{cv.style.display='none'}
+    var st='';
+    if(isCoin){
+      st='<div class="kv"><span>24s en yüksek</span><b>'+fmtC(r.hi)+'</b></div>'+
+         '<div class="kv"><span>24s en düşük</span><b>'+fmtC(r.lo)+'</b></div>'+
+         '<div class="kv"><span>24s hacim</span><b>'+v4vol(r.vol)+' '+r.quote+'</b></div>'+
+         '<div class="kv"><span>Kaynak</span><b>Binance · canlı</b></div>';
+    }else{
+      st='<div class="kv"><span>Hacim</span><b>'+((r.vol||0)>0?v4vol(r.vol)+cur:'—')+'</b></div>'+
+         '<div class="kv"><span>Piyasa değeri</span><b>'+v4cap(r.mcap,r.grp)+'</b></div>'+
+         '<div class="kv"><span>Sembol</span><b>'+esc(r.k)+'</b></div>'+
+         '<div class="kv"><span>Gecikme</span><b>'+(r.src==='tv'?'~15 dk olabilir':r.src==='yahoo'?'~1 dk':'2 saat (bot)')+'</b></div>';
+    }
+    document.getElementById('cStats').innerHTML=st;
+    var key=isCoin?r.sym:r.k, set=isCoin?MT.cfav:MT.stfav;
+    var f=document.getElementById('cFav');
+    f.textContent=set.has(key)?'★ Favorilerde':'★ Favorilere ekle';
+    f.onclick=function(){set.has(key)?set.delete(key):set.add(key);
+      LS.s(isCoin?'radar_cfav':'radar_stfav',Array.from(set));
+      f.textContent=set.has(key)?'★ Favorilerde':'★ Favorilere ekle';
+      renderMarket()};
+    openM('#mCoin');
+    addNote(isCoin?'<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:62%">Binance son işlem fiyatı; aracı uygulamalar makas/USDT farkı nedeniyle ±%0,5 sapabilir.</b>'
+                  :'<span>Not</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:62%">Ücretsiz kaynaklar BIST için ~15 dk gecikmeli olabilir; kapanış sonrası son değer korunur.</b>');
+  }
+
+  document.addEventListener('click',function(e){
+    var t=e.target.closest('.ht');if(!t)return;var b=t.querySelector('b');if(!b)return;var name=b.textContent.trim();
+    var coin=MT.bin.filter(function(x){return x.base===name&&x.quote==='USDT'})[0];
+    if(coin){openDetail(coin,'coin');return}
+    var q=null;Object.keys(MT.wk).forEach(function(k){var w=MT.wk[k];if((w.grp==='bist'||w.grp==='us')&&(w.k===name||w.n===name))q=w});
+    if(q)openDetail(q,'stk');
+  });
+
+  var rail=document.getElementById('rail');
+  if(rail&&!document.getElementById('favWg')){
+    var wg=document.createElement('div');wg.className='wg';wg.id='favWg';
+    wg.innerHTML='<div class="wgh">★ Favorilerim</div><div id="favBody"></div>';
+    rail.insertBefore(wg,rail.firstChild);
+  }
+  function favList(){var out=[];
+    MT.bin.forEach(function(x){if(MT.cfav.has(x.sym))out.push({kind:'coin',r:x})});
+    Object.keys(MT.wk).forEach(function(k){var w=MT.wk[k];if((w.grp==='bist'||w.grp==='us')&&MT.stfav.has(w.k))out.push({kind:'stk',r:w})});
+    return out}
+  function renderFav(){var body=document.getElementById('favBody');if(!body)return;var L=favList();
+    if(!L.length){body.innerHTML='<p class="hint">Henüz favori yok. Kripto veya hisse tablosunda ★ simgesine dokun.</p>';return}
+    body.innerHTML=L.slice(0,10).map(function(x){var r=x.r;var cur=x.kind==='coin'?(r.quote==='TRY'?' ₺':' $'):(r.grp==='bist'?' ₺':' $');
+      return '<div class="kv" style="cursor:pointer" data-favrow="'+x.kind+'|'+esc(x.kind==='coin'?r.sym:r.k)+'"><span>'+esc(x.kind==='coin'?r.base:r.k)+'</span><b>'+price(r.v)+cur+' <i class="'+cls(r.p)+'" style="font-style:normal">'+pct(r.p)+'</i></b></div>'}).join('')}
+  document.addEventListener('click',function(e){
+    var el=e.target.closest('[data-favrow]');if(!el)return;
+    var parts=el.dataset.favrow.split('|'),kind=parts[0],key=parts[1];
+    if(kind==='coin'){var c=MT.bin.filter(function(x){return x.sym===key})[0];if(c)openDetail(c,'coin')}
+    else{var q=null;Object.keys(MT.wk).forEach(function(k){var w=MT.wk[k];if((w.grp==='bist'||w.grp==='us')&&w.k===key)q=w});if(q)openDetail(q,'stk')}
+  });
+  var _rm=renderMarket;
+  renderMarket=function(){_rm.apply(this,arguments);renderFav()};
+
+  function exportCSV(){
+    var rows=[['Tur','Sembol','Ad','Fiyat','Degisim_Yuzde','Hacim','Kaynak']];
+    MT.bin.slice().sort(function(a,b){return b.vol-a.vol}).slice(0,100).forEach(function(x){rows.push(['kripto',x.sym,x.base+'/'+x.quote,x.v,x.p==null?'':x.p.toFixed(2),x.vol,'Binance'])});
+    Object.keys(MT.wk).forEach(function(k){var q=MT.wk[k];
+      if(q.grp==='bist'||q.grp==='us'||q.grp==='idx'||q.grp==='fx')rows.push([q.grp,q.k,q.n||q.k,q.v,q.p==null?'':q.p.toFixed(2),q.vol||'',q.src||'worker'])});
+    var csv='\uFEFF'+rows.map(function(r){return r.map(function(c){c=String(c==null?'':c);return /[";\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(';')}).join('\r\n');
+    var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+    var a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download='radar-piyasa-'+new Date().toISOString().slice(0,10)+'.csv';
+    document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
+    toast('CSV indirildi (Excel uyumlu)');
+  }
+  var anchor=document.getElementById('expSaved2');
+  if(anchor&&!document.getElementById('expCsv')){
+    var b=document.createElement('button');b.className='btn gh w';b.id='expCsv';b.textContent='⬇ Piyasa verisini CSV indir (Excel)';
+    anchor.parentNode.insertBefore(b,anchor.nextSibling);b.addEventListener('click',exportCSV);
+  }
+  renderFav();
+})();
+/* ===== /RADAR yama v4 ===== */
 })();
 </script>
 </body>
