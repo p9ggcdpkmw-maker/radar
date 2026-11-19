@@ -1693,6 +1693,25 @@ openCoin = function(sym){ _oc(sym);
       '· 50+ kişi kullanıyorsa hisse verisi 2 saat gecikmeli olur.</p>';
   }
 })();
+/* ===== RADAR yama v6: başlık katlanma takılmasını gider ===== */
+(function(){
+  var css=document.createElement('style');
+  css.textContent=
+    '.top{background:var(--bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;'+
+    'will-change:auto!important;transform:none!important;box-shadow:0 1px 0 var(--ln)}'+
+    '.hello h1,.hello p,.top .trow,.top .cw{transition:none!important}';
+  document.head.appendChild(css);
+
+  /* eşiklere gecikme payı: 140'ta katla, 60'ta aç — sınırda titreme yok */
+  var on=false,bar=document.getElementById('topbar');
+  addEventListener('scroll',function(){
+    var y=window.scrollY||window.pageYOffset||0;
+    if(!on&&y>140)on=true;
+    else if(on&&y<60)on=false;
+    if(bar)bar.classList.toggle('tight',on);
+  },{passive:true});
+})();
+/* ===== /RADAR yama v6 ===== */
 /* ===== /Koruma paketi ===== */
 
 })();
