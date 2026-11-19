@@ -26,8 +26,6 @@ html[data-theme=light]{--void:#EFEAE0;--bg:#FAF7F2;--sf:#FFF;--sf2:#F5F2EB;--ov:
 --pri:#4F46E5;--pri2:#7C3AED;--cy:#0891B2;--up:#0E9F6E;--dn:#DC2626;--warn:#B45309;--gold:#A9761B;--mag:#DB2777;
 --sh1:0 2px 10px rgba(80,66,44,.09);--sh2:0 18px 44px rgba(80,66,44,.16)}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:auto}
-html,body{overscroll-behavior-y:none}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;min-height:100vh;padding-bottom:calc(var(--tab) + var(--pl) + 18px);overflow-x:hidden}
 body.lock{overflow:hidden}
 ::selection{background:var(--pri);color:#fff}
@@ -68,14 +66,13 @@ body.nomotion *{animation-duration:.01ms!important;transition-duration:.01ms!imp
 .side-f{margin-top:auto;padding-top:12px;font:700 10px/1.5 var(--mono);color:var(--ink3)}
 .main{min-width:0;padding:0 var(--pad) 40px}
 .rail{position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:13px;padding:18px 15px 30px;border-left:1px solid var(--ln);background:linear-gradient(180deg,var(--sf),transparent)}
-.top{position:sticky;top:0;z-index:40;margin:0 calc(var(--pad)*-1) 14px;padding:13px var(--pad) 0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--ln);transform:translateZ(0);will-change:transform}
-.trow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;min-height:44px}
+.top{position:sticky;top:0;z-index:40;margin:0 calc(var(--pad)*-1) 14px;padding:13px var(--pad) 0;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(16px);border-bottom:1px solid var(--ln);transition:padding .2s}
+.top.tight{padding-top:7px}.top.tight .hello h1{font-size:19px}.top.tight .hello p{display:none}
+.trow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .tbrand{display:none;align-items:center;gap:9px;font-weight:900;font-size:17px;letter-spacing:-.4px}
 .hello{flex:1;min-width:170px}
-.hello h1{font-size:28px;font-weight:900;letter-spacing:-1.1px;line-height:1.1;transition:transform .18s;transform-origin:left top}
-.hello p{font-size:13px;color:var(--ink2);font-weight:600;margin-top:3px;transition:opacity .18s}
-.top.tight .hello h1{transform:scale(.86)}
-.top.tight .hello p{opacity:0}
+.hello h1{font-size:28px;font-weight:900;letter-spacing:-1.1px;line-height:1.1;transition:font-size .2s}
+.hello p{font-size:13px;color:var(--ink2);font-weight:600;margin-top:3px}
 .tools{display:flex;align-items:center;gap:8px}
 .ib{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 13px;border-radius:99px;border:1px solid var(--ln2);background:var(--sf);color:var(--ink);font:800 13px var(--sans);cursor:pointer;transition:.15s}
 .ib:hover{border-color:var(--pri);color:var(--pri);transform:translateY(-1px)}
@@ -175,6 +172,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .btn.gh{background:var(--sf2)}
 .btn.dg{background:color-mix(in srgb,var(--dn) 14%,transparent);color:var(--dn);border-color:var(--dn)}
 .btn.w{width:100%;margin-top:8px}
+/* ---- PİYASA ---- */
 .mh{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}
 .mhr{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
 .srcc{font:800 10.5px var(--mono);padding:5px 10px;border-radius:99px;border:1px solid var(--ln2);background:var(--sf);color:var(--ink2);display:inline-flex;align-items:center;gap:6px}
@@ -201,16 +199,19 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .scard span{font:800 16px var(--mono);font-variant-numeric:tabular-nums}
 .scard i{display:block;font:700 10.5px var(--mono);font-style:normal;color:var(--ink3);margin-top:2px}
 .gauge{display:flex;align-items:center;gap:14px}
+.gauge svg{flex:0 0 auto}
 .gauge b{font:800 15px var(--sans)}
 .gauge span{font:700 11.5px var(--mono);color:var(--ink2)}
 .mkt-bar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px}
 .mkt-bar .inp{flex:1;min-width:150px;height:36px;border-radius:99px;border:1px solid var(--ln2);background:var(--sf);color:var(--ink);font:700 13px var(--sans);padding:0 15px;outline:none}
 .mkt-bar .inp:focus{border-color:var(--pri)}
-.tbl{width:100%;border-collapse:collapse;background:var(--sf)}
-.tbl th{font:900 10px var(--sans);letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);text-align:right;padding:10px 12px;background:var(--sf2);white-space:nowrap;user-select:none}
+.tbl{width:100%;border-collapse:collapse;border:1px solid var(--ln);border-radius:var(--r3);overflow:hidden;background:var(--sf)}
+.tbl wrap{display:block;overflow-x:auto}
+.tbl th{font:900 10px var(--sans);letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);text-align:right;padding:10px 12px;background:var(--sf2);cursor:pointer;white-space:nowrap;user-select:none}
+.tbl th:first-child,.tbl td:first-child{text-align:left}
 .tbl th.l,.tbl td.l{text-align:left}
 .tbl td{padding:9px 12px;border-top:1px solid var(--ln);font:700 12.5px var(--mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
-.tbl tbody tr{cursor:pointer;transition:background .12s}
+.tbl tr{cursor:pointer;transition:background .12s}
 .tbl tbody tr:hover{background:var(--sf2)}
 .tbl .cn{display:flex;align-items:center;gap:8px;font:800 12.5px var(--sans)}
 .tbl .cn i{width:8px;height:8px;border-radius:50%;flex:0 0 auto}
@@ -221,7 +222,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .fu{animation:fu .7s ease}.fd{animation:fd .7s ease}
 @keyframes fu{0%{background:color-mix(in srgb,var(--up) 26%,transparent)}100%{background:transparent}}
 @keyframes fd{0%{background:color-mix(in srgb,var(--dn) 26%,transparent)}100%{background:transparent}}
-.gh2{padding:10px 16px;background:var(--sf2);font:900 10.5px var(--sans);letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);display:flex;gap:8px;border:1px solid var(--ln);border-bottom:none}
+.gh2{padding:10px 16px;background:var(--sf2);font:900 10.5px var(--sans);letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);display:flex;gap:8px;border-bottom:1px solid var(--ln)}
 .gh2 span{margin-left:auto;font:800 9.5px var(--mono)}
 .mkb{border:1px solid var(--ln);border-radius:var(--r3);background:var(--sf);overflow:hidden}
 .mr{display:grid;grid-template-columns:minmax(0,1.5fr) 84px minmax(94px,1fr) 90px;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--ln)}
@@ -609,8 +610,8 @@ body.compact .grid{gap:10px}
 <script>
 (function(){
 "use strict";
-/* >>> KENDİ WORKER ADRESİN <<< */
-var MKT_URL='https://radar-market.69sygknn4y.workers.dev/market';
+/* >>> KENDİ WORKER ADRESİNİ BURAYA YAZ <<< */
+var MKT_URL='https://radar-market.p9ggcdpkmw-maker.workers.dev/market';
 var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};
 var clamp=function(v,a,b){return v<a?a:v>b?b:v};
@@ -650,12 +651,12 @@ var S={view:'feed',cat:'all',tone:'all',q:'',saved:false,arch:'',
  brief:'genel',limit:24};
 var NEWS=[],META=null,BRIEF={},MK=null,CR=[],ST=[],WX=null,ARCH=null,archLoading=null,HIST={},booting=true;
 var cur=null,hls=null,sleepT=0,curSt=-1,palIdx=0,palRows=[],cfFn=null,FXR=null,wgDone=false;
-var MT={tab:'genel',wk:{},wkOK:false,wkFail:0,bin:[],binTS:0,binOK:false,binFail:0,ws:null,wsExtra:null,ticks:{},live:{},alr:{},
- cg:null,fng:null,cf:'TRY',cs:'vol',cq:'',clim:100,cfav:new Set(LS.g('radar_cfav',[])),detail:null,stq:'',timer:0};
+/* --- piyasa durumu --- */
+var MT={tab:'genel',wk:{},wkOK:false,wkFail:0,bin:[],binTS:0,binOK:false,binFail:0,ws:null,wsExtra:null,ticks:{},live:{},
+ cg:null,fng:null,cf:'TRY',cs:'vol',cq:'',clim:100,cfav:new Set(LS.g('radar_cfav',[])),detail:null};
 var GOLD=[['Gram Altın',1,'24 ayar · 1 g'],['Çeyrek Altın',1.75*0.916,'22 ayar · saf karşılığı'],['Yarım Altın',3.5*0.916,'22 ayar · saf karşılığı'],['Tam Altın',7*0.916,'22 ayar · saf karşılığı'],['Cumhuriyet',7.216*0.916,'22 ayar · saf karşılığı'],['Ata Altın',7.216*0.916,'22 ayar · saf karşılığı'],['Ons Altın',31.1035,'31,1035 g · saf'],['Ons Gümüş',31.1035,'ons · saf'],['22 Ayar Bilezik',0.916,'1 g · 22 ayar']];
 var STOP=new Set('bir ve bu da de için ile çok daha en ama gibi olan olarak kadar sonra önce yeni tüm her ne var yok mi mı mu mü ki ya veya ancak fakat çünkü eğer ise şey göre karşı büyük küçük son ilk kez yine hem sadece değil diye üzerine arasında yönelik'.split(' '));
 var NOISE=new Set('ocak şubat mart nisan mayıs haziran temmuz ağustos eylül ekim kasım aralık pazartesi salı çarşamba perşembe cuma cumartesi pazar bugün yarın dün dakika saat gün yıl hafta milyon milyar yüzde dolar euro lira adet tane video foto galeri liste canlı dakika güncel haber haberler açıklama açıkladı dedi'.split(' '));
-var SRCLBL={tv:'TradingView · 30 sn',yahoo:'worker · 20 sn',gold:'gold-api',er:'er-api · günlük'};
 
 function toast(m,k){var t=document.createElement('div');t.className='toast'+(k?' '+k:'');t.innerHTML=m;$('#toasts').appendChild(t);
  setTimeout(function(){t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translateX(18px)';setTimeout(function(){t.remove()},320)},3000)}
@@ -686,7 +687,7 @@ function syncCtl(){
  Object.keys(m).forEach(function(id){var e=$('#'+id);if(e)e.classList.toggle('on',!!m[id])});
  $('#thRange').value=S.th;$('#thVal').textContent='%'+S.th}
 function setTheme(t){S.theme=t;LS.s('radar_theme_mode',t);applyTheme()}
-if(mq){var mhq=function(){if(S.theme==='auto')applyTheme()};mq.addEventListener?mq.addEventListener('change',mhq):mq.addListener(mhq)}
+if(mq){var mh=function(){if(S.theme==='auto')applyTheme()};mq.addEventListener?mq.addEventListener('change',mh):mq.addListener(mh)}
 function spark(cv,vals,color){if(!cv)return;var w=cv.clientWidth||84,h=cv.clientHeight||28,dpr=Math.min(2,window.devicePixelRatio||1);
  cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);var x=cv.getContext('2d');if(!x)return;
  x.setTransform(dpr,0,0,dpr,0,0);x.clearRect(0,0,w,h);
@@ -732,36 +733,26 @@ function loadArch(n){if(ARCH)return Promise.resolve(ARCH);if(archLoading)return 
  }).catch(function(){ARCH=[];return ARCH}).then(function(r){archLoading=null;return r});
  return archLoading}
 
-/* ===== PİYASA ===== */
+/* ================= PİYASA MOTORU ================= */
 function fmtC(v){var n=Number(v||0);if(!isFinite(n))return'—';
  if(n>=1000)return nf(n,0);if(n>=1)return nf(n,2);if(n>=0.01)return nf(n,4);return nf(n,6)}
 function vol(v){try{return Number(v||0).toLocaleString('tr-TR',{notation:'compact',maximumFractionDigits:1})}catch(e){return nf(v,0)}}
-function fmtCap(v,cur){if(!isFinite(v)||v<=0)return'—';var n=Number(v);
- var s=cur==='₺'?' ₺':' $';
- if(n>=1e12)return nf(n/1e12,2)+' Tn'+s;if(n>=1e9)return nf(n/1e9,1)+' Mr'+s;if(n>=1e6)return nf(n/1e6,1)+' Mn'+s;return nf(n,0)+s}
 function hlBar(v,lo,hi){if(!isFinite(lo)||!isFinite(hi)||hi<=lo)return'';
  var p=clamp((v-lo)/(hi-lo)*100,0,100);
  return '<span class="hlb" title="Gün içi aralık"><i style="left:calc('+p.toFixed(1)+'% - 1px)"></i></span>'}
-function wkLoad(){return jget(MKT_URL+'?g=fx,metal,st,idx',10000).then(function(d){
-  MT.wk={};(d.quotes||[]).forEach(function(q){if(q&&q.k&&isFinite(q.v)&&q.v>0)MT.wk[q.grp+':'+q.k]=q});
-  MT.wkOK=true;MT.wkFail=0;
- }).catch(function(){MT.wkFail++;if(MT.wkFail>=3)MT.wkOK=false})}
-function wkList(g){return Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){return q.grp===g})}
-function mapSt(s){return{k:s.label,n:s.label,s:'bot · 2 saat',v:s.price,p:s.change_pct,h:hist(s.label),grp:'st',src:'bot'}}
-function stockRows(g){var w=wkList(g);if(w.length)return w;
- var bn=['BIST 100','THY','Aselsan','Garanti BBVA','BİM'];
- if(g==='bist')return ST.filter(function(s){return bn.indexOf(s.label)>=0}).map(mapSt);
- if(g==='us')return ST.filter(function(s){return bn.indexOf(s.label)<0}).map(mapSt);
- return []}
+function wkLoad(){return jget(MKT_URL+'?g=fx,metal,st',9000).then(function(d){
+  MT.wk={};(d.quotes||[]).forEach(function(q){MT.wk[q.k]=q});MT.wkOK=true;MT.wkFail=0;
+ }).catch(function(){MT.wkFail++;if(MT.wkFail>=3)MT.wkOK=false;})}
 function binLoad(){return jget('https://api.binance.com/api/v3/ticker/24hr',15000).then(function(d){
   var ok=['TRY','USDT','FDUSD','USDC'];
-  MT.bin=(Array.isArray(d)?d:[]).filter(function(x){var q='';ok.forEach(function(s){if((x.symbol||'').slice(-s.length)===s)q=s});
-   return q&&+x.lastPrice>0&&+x.quoteVolume>0})
-   .map(function(x){var q='';ok.forEach(function(s){if((x.symbol||'').slice(-s.length)===s)q=s});
+  MT.bin=(Array.isArray(d)?d:[]).filter(function(x){return ok.indexOf((x.symbol||'').slice(-4))>=0||ok.indexOf((x.symbol||'').slice(-3))>=0})
+   .filter(function(x){return +x.lastPrice>0&&+x.quoteVolume>0})
+   .map(function(x){var q='TRY';['USDT','FDUSD','USDC'].forEach(function(s){if(x.symbol.slice(-s.length)===s)q=s});
+    if(x.symbol.slice(-3)==='TRY')q='TRY';
     return{sym:x.symbol,base:x.symbol.slice(0,x.symbol.length-q.length),quote:q,v:+x.lastPrice,p:+x.priceChangePercent,
      vol:+x.quoteVolume,hi:+x.highPrice,lo:+x.lowPrice,tr:+x.count}});
   MT.binTS=Date.now();MT.binOK=true;MT.binFail=0;
- }).catch(function(){MT.binFail++;if(MT.binFail>=3)MT.binOK=false})}
+ }).catch(function(){MT.binFail++;if(MT.binFail>=3)MT.binOK=false;})}
 function cgLoad(){return jget('https://api.coingecko.com/api/v3/global',10000).then(function(d){MT.cg=d.data||null}).catch(function(){MT.cg=null})}
 function fngLoad(){return jget('https://api.alternative.me/fng/?limit=1',8000).then(function(d){MT.fng=(d.data||[])[0]||null}).catch(function(){MT.fng=null})}
 function wsSet(extra){MT.wsExtra=extra||null;
@@ -792,14 +783,17 @@ function onTick(t){var sym=t.s,v=+t.c,o=+t.o;if(!isFinite(v))return;
  if(MT.detail===sym){$('#cPrice').textContent=fmtC(v)+(sym.slice(-3)==='TRY'?' ₺':' $');
   var cc=$('#cChg');if(cc&&p!=null)cc.innerHTML='<span class="pill '+cls(p)+'">'+arw(p)+' '+pct(p)+'</span> <span style="color:var(--ink3)">24 saat</span>';
   spark($('#cSpark'),MT.ticks[sym])}
- if(S.alert&&p!=null&&Math.abs(p)>=S.th){var key=sym+':'+(p>0?1:0);if(!MT.alr[key]){MT.alr[key]=1;notify({n:sym,p:p,v:v})}}}
+ if(S.alert&&p!=null&&Math.abs(p)>=S.th&&!MT.alr){MT.alr={};}
+ if(S.alert&&p!=null&&Math.abs(p)>=S.th){var key=sym+Math.sign(p);if(!MT.alr[key]){MT.alr[key]=1;notify({n:sym,p:p,v:v})}}}
 function notify(r){toast('🔔 '+esc(r.n)+' '+pct(r.p)+' · '+fmtC(r.v),'warn');
  try{if('Notification'in window&&Notification.permission==='granted')new Notification('RADAR · '+r.n,{body:pct(r.p),icon:'icon-192.png'})}catch(e){}}
 function binRows(){var q=MT.cf==='all'?MT.bin:MT.bin.filter(function(x){return x.quote===MT.cf});
  if(MT.cq){var s=MT.cq.toLocaleUpperCase('tr');q=q.filter(function(x){return x.base.indexOf(s)>=0||x.sym.indexOf(s)>=0})}
- var fav=Array.from(MT.cfav);q=q.slice();
- q.sort(function(a,b){var fa=fav.indexOf(a.sym)>=0?0:1,fb=fav.indexOf(b.sym)>=0?0:1;if(fa!==fb)return fa-fb;
-  if(MT.cs==='chg')return b.p-a.p;if(MT.cs==='price')return b.v-a.v;return b.vol-a.vol});
+ var fav=Array.from(MT.cfav);
+ q=q.slice();
+ q.sort(function(a,b){
+  var fa=fav.indexOf(a.sym)>=0?0:1,fb=fav.indexOf(b.sym)>=0?0:1;if(fa!==fb)return fa-fb;
+  if(MT.cs==='vol')return b.vol-a.vol;if(MT.cs==='chg')return b.p-a.p;if(MT.cs==='price')return b.v-a.v;return b.vol-a.vol});
  return q}
 function coinRow(x){var live=MT.live[x.sym];var v=live?live.v:x.v,p=live?live.p:x.p;
  return '<tr data-sym="'+x.sym+'"><td class="l"><span class="cn"><i style="background:'+(x.quote==='TRY'?'var(--gold)':'var(--cy)')+'"></i>'+esc(x.base)+
@@ -835,29 +829,27 @@ function treemap(items){var box=$('#treeBox');if(!box)return;var W=box.clientWid
   return '<div class="tc" data-sym="'+c.it.sym+'" style="left:'+c.x.toFixed(1)+'px;top:'+c.y.toFixed(1)+'px;width:'+(c.w-2).toFixed(1)+'px;height:'+(c.h-2).toFixed(1)+'px;background:'+col+'">'+
    (show?'<b>'+esc(c.it.base)+'</b><i>'+pct(c.it.p)+'</i>'+(show2?'<span>'+fmtC(c.it.v)+'</span>':''):'')+'</div>'}).join('');
  $$('#treeBox .tc').forEach(function(el){el.addEventListener('click',function(){openCoin(el.dataset.sym)})})}
-function hero(n,v,p,tag,series,hsym){return '<div class="hero"'+(hsym?' data-hero="'+hsym+'"':'')+'><div class="hhh">'+esc(n)+
- '<span class="tg'+(tag&&tag.indexOf('CANLI')===0?' live':'')+'">'+esc(tag||'BOT')+'</span></div>'+
- '<div class="hv '+cls(p)+'">'+(v!=null&&v>0?fmtC(v):'—')+'</div>'+
- '<div class="hd">'+(p!=null?'<span class="pill '+cls(p)+'">'+arw(p)+' '+pct(p)+'</span>':'<span class="pill fl">—</span>')+'</div>'+
- '<canvas class="spark" data-spark=\''+JSON.stringify(series||[])+'\'></canvas></div>'}
 function mGen(){var h=[];
- var usd=MT.wk['fx:USD/TRY']||{v:MK&&MK.usdtry,p:null};
- var gq=MT.wk['metal:Ons Altın'],uq=MT.wk['fx:USD/TRY'];
- var gram=gq&&uq?gq.v/31.1035*uq.v:(MK&&MK.gold_gram_try);
- var btc=MT.live.BTCTRY?{v:MT.live.BTCTRY.v,p:MT.live.BTCTRY.p,live:1}:(MT.bin.filter(function(x){return x.sym==='BTCTRY'})[0]||(CR[0]?{v:CR[0].price,p:CR[0].change_pct}:null));
- if(usd&&usd.v>0)h.push(hero('USD/TRY',usd.v,usd.p,MT.wkOK?'CANLI':'BOT',hist('USD/TRY')));
- if(gram&&gram>0)h.push(hero('Gram Altın',gram,null,MT.wkOK?'CANLI':'BOT',hist('Gram Altın')));
- if(btc&&btc.v>0)h.push(hero('Bitcoin',btc.v,btc.p,btc.live?'CANLI · tik':MT.binOK?'60 sn':'BOT',MT.ticks.BTCTRY&&MT.ticks.BTCTRY.length>2?MT.ticks.BTCTRY:hist('Bitcoin'),'BTCTRY'));
+ var usd=MT.wk['USD/TRY']||{v:MK&&MK.usdtry},gold=MT.wk['Ons Altın'],gram=gold&&usd?gold.v/31.1035*usd.v:(MK&&MK.gold_gram_try);
+ var btc=MT.live.BTCTRY?{v:MT.live.BTCTRY.v,p:MT.live.BTCTRY.p,live:1}:(MT.bin.filter(function(x){return x.sym==='BTCTRY'})[0]||CR.filter(function(c){return c.label==='Bitcoin'})[0]&&{v:CR[0].price,p:CR[0].change_pct});
+ h.push(hero('USD/TRY',usd&&usd.v,usd&&usd.p,MT.wkOK?'CANLI':'BOT',hist('USD/TRY')));
+ h.push(hero('Gram Altın',gram,gram&&usd&&gold?((gold.p||0)+(usd.p||0)):null,MT.wkOK?'CANLI':'BOT',hist('Gram Altın')));
+ h.push(hero('Bitcoin',btc&&btc.v,btc&&btc.p,btc&&btc.live?'CANLI · tik':MT.binOK?'60 sn':'BOT',MT.ticks.BTCTRY&&MT.ticks.BTCTRY.length>2?MT.ticks.BTCTRY:hist('Bitcoin')));
  var strip='';
- if(MT.cg){strip+='<div class="scard"><b>Küresel piyasa</b><span>$'+vol(MT.cg.total_market_cap&&MT.cg.total_market_cap.usd)+'</span><i>24s '+pct(MT.cg.market_cap_change_percentage_24h_usd)+'</i></div>';
-  strip+='<div class="scard"><b>BTC hakimiyeti</b><span>%'+nf(MT.cg.market_cap_percentage&&MT.cg.market_cap_percentage.btc,1)+'</span><i>ETH %'+nf(MT.cg.market_cap_percentage&&MT.cg.market_cap_percentage.eth,1)+'</i></div>'}
+ if(MT.cg){var mc=MT.cg.total_market_cap&&MT.cg.total_market_cap.usd,dom=MT.cg.market_cap_percentage&&MT.cg.market_cap_percentage.btc,ch=MT.cg.market_cap_change_percentage_24h_usd;
+  strip+='<div class="scard"><b>Küresel piyasa</b><span>$'+vol(mc)+'</span><i>24s '+pct(ch)+'</i></div>';
+  strip+='<div class="scard"><b>BTC hakimiyeti</b><span>%'+nf(dom,1)+'</span><i>ETH %+%'+nf(MT.cg.market_cap_percentage&&MT.cg.market_cap_percentage.eth,1)+'</i></div>'}
  if(MT.fng)strip+='<div class="scard"><b>Korku &amp; Açgözlülük</b><span>'+esc(MT.fng.value)+'</span><i>'+esc(MT.fng.value_classification||'')+'</i></div>';
- var idx=wkList('idx').filter(function(r){return r.v>0});
- if(!idx.length){var b0=ST.filter(function(s){return s.label==='BIST 100'})[0];if(b0)idx=[{n:'BIST 100',v:b0.price,p:b0.change_pct}]}
- var idxStrip=idx.slice(0,4).map(function(r){return '<div class="scard"><b>'+esc(r.n)+'</b><span>'+price(r.v)+'</span><i class="'+cls(r.p)+'">'+pct(r.p)+'</i></div>'}).join('');
+ var idx=['BIST 100','S&P 500','Nasdaq'].map(function(k){var q=MT.wk[k]||(k==='BIST 100'?ST.filter(function(s){return s.label==='BIST 100'})[0]:null);
+  return q?'<div class="scard"><b>'+esc(k)+'</b><span>'+price(q.v)+'</span><i class="'+cls(q.p)+'">'+pct(q.p)+'</i></div>':''}).join('');
  return '<div class="heroes">'+h.join('')+'</div>'+(strip?'<div class="strip">'+strip+'</div>':'')+
   (MT.fng?'<div class="mkb" style="padding:14px 16px;margin-bottom:12px">'+gauge(MT.fng.value)+'</div>':'')+
-  (idxStrip?'<div class="strip">'+idxStrip+'</div>':'')}
+  '<div class="strip">'+idx+'</div>'}
+function hero(n,v,p,tag,series){return '<div class="hero" data-hero="'+(n==='Bitcoin'?'BTCTRY':'')+'"><div class="hhh">'+esc(n)+
+ '<span class="tg'+(tag&&tag.indexOf('CANLI')===0?' live':'')+'">'+esc(tag||'BOT')+'</span></div>'+
+ '<div class="hv '+cls(p)+'">'+(v!=null?fmtC(v):'—')+'</div>'+
+ '<div class="hd">'+(p!=null?'<span class="pill '+cls(p)+'">'+arw(p)+' '+pct(p)+'</span>':'<span class="pill fl">—</span>')+'</div>'+
+ '<canvas class="spark" data-spark=\''+JSON.stringify(series||[])+'\'></canvas></div>'}
 function mCrypto(){var rows=binRows(),show=rows.slice(0,MT.clim);
  var head='<div class="strip">'+
   (MT.cg?'<div class="scard"><b>Küresel kapitalizasyon</b><span>$'+vol(MT.cg.total_market_cap&&MT.cg.total_market_cap.usd)+'</span><i>24s '+pct(MT.cg.market_cap_change_percentage_24h_usd)+'</i></div>':'')+
@@ -867,56 +859,44 @@ function mCrypto(){var rows=binRows(),show=rows.slice(0,MT.clim);
  var bar='<div class="mkt-bar"><input class="inp" id="cq" placeholder="Coin ara: BTC, ETH, AVAX…" value="'+esc(MT.cq)+'">'+
   '<div class="seg sm" id="cfSeg"><button data-f="TRY"'+(MT.cf==='TRY'?' class="on"':'')+'>₺ TRY</button><button data-f="USDT"'+(MT.cf==='USDT'?' class="on"':'')+'>$ USDT</button><button data-f="all"'+(MT.cf==='all'?' class="on"':'')+'>Tümü</button></div>'+
   '<select class="sel sm" id="csSel"><option value="vol"'+(MT.cs==='vol'?' selected':'')+'>Hacme göre</option><option value="chg"'+(MT.cs==='chg'?' selected':'')+'>Değişime göre</option><option value="price"'+(MT.cs==='price'?' selected':'')+'>Fiyata göre</option></select></div>';
- var tbl='<div style="overflow-x:auto"><table class="tbl"><thead><tr><th class="l">Coin</th><th>Fiyat</th><th>%24s</th><th>Hacim(24s)</th><th class="l">Gün aralığı</th><th>★</th></tr></thead><tbody>'+
+ var tbl='<div style="overflow-x:auto"><table class="tbl"><thead><tr><th class="l">Coin</th><th data-s="price">Fiyat ⇅</th><th data-s="chg">%24s ⇅</th><th data-s="vol">Hacim(24s) ⇅</th><th class="l">Gün aralığı</th><th>★</th></tr></thead><tbody>'+
   show.map(coinRow).join('')+'</tbody></table></div>'+
   (rows.length>MT.clim?'<button class="btn gh w" id="cMore">Tümünü göster ('+rows.length+')</button>':'')+
-  '<p class="hint">Fiyatlar Binance\'ten gelir. TRY çiftleri ₺, diğerleri $ gösterilir. ★ favoriler üste çıkar. Satıra tıkla → canlı detay.</p>';
+  '<p class="hint">Fiyatlar Binance\'ten gelir. TRY çiftleri ₺, diğerleri $ gösterilir. ★ favoriler üste çıkar. Satır tıkla → detay.</p>';
  return head+bar+tbl}
-function stTable(rows,cur){rows=rows.slice().sort(function(a,b){return (b.vol||0)-(a.vol||0)}).slice(0,60);
- if(!rows.length)return '<p class="hint" style="padding:14px">Bu grup için veri yok. Worker yanıtı bekleniyor ya da kaynak kapalı — bot yedeği de boş.</p>';
- return '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th class="l">Sembol</th><th class="l">Ad</th><th>Fiyat</th><th>%</th><th>Hacim</th><th>P. Değeri</th></tr></thead><tbody>'+
-  rows.map(function(r){return '<tr><td class="l"><b style="font:800 12.5px var(--mono)">'+esc(r.k)+'</b></td>'+
-   '<td class="l" style="font:700 12px var(--sans);color:var(--ink2);max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(r.n||r.k)+'</td>'+
-   '<td>'+price(r.v)+(cur==='₺'?' ₺':' $')+'</td>'+
-   '<td class="'+cls(r.p)+'">'+(r.p!=null?arw(r.p)+' '+pct(r.p):'—')+'</td>'+
-   '<td>'+(r.vol?vol(r.vol)+(cur==='₺'?' ₺':' $'):'—')+'</td>'+
-   '<td>'+fmtCap(r.mcap,cur)+'</td></tr>'}).join('')+'</tbody></table></div>'}
-function mStocks(){var bist=stockRows('bist'),us=stockRows('us'),idx=wkList('idx');
- var q=(MT.stq||'').toLocaleUpperCase('tr');
- var filt=function(rows){return q?rows.filter(function(r){return ((r.k||'')+' '+(r.n||'')).toLocaleUpperCase('tr').indexOf(q)>=0}):rows};
- var live=wkList('bist').length||wkList('us').length;
- var idxStrip=idx.filter(function(r){return r.v>0}).map(function(r){return '<div class="scard"><b>'+esc(r.n)+'</b><span>'+price(r.v)+'</span><i class="'+cls(r.p)+'">'+pct(r.p)+'</i></div>'}).join('');
- return (idxStrip?'<div class="strip">'+idxStrip+'</div>':'')+
- '<div class="mkt-bar"><input class="inp" id="stq" placeholder="Hisse ara: THYAO, AAPL, ASELS…" value="'+esc(MT.stq||'')+'">'+
- '<span class="srcc'+(live?' live':'')+'"><span class="pd"></span>'+(live?'TradingView · hacme göre ilk 50':'bot · sınırlı yedek')+'</span></div>'+
- '<div class="gh2">Borsa İstanbul<span>'+filt(bist).length+' hisse</span></div><div class="mkb" style="border-radius:0;border-top:none">'+stTable(filt(bist),'₺')+'</div>'+
- '<div class="gh2" style="margin-top:14px">ABD Borsaları<span>'+filt(us).length+' hisse</span></div><div class="mkb" style="border-radius:0 0 var(--r3) var(--r3);border-top:none">'+stTable(filt(us),'$')+'</div>'+
- '<p class="hint">Liste, işlem hacmine göre <b>en aktif 50 hisseyi</b> gösterir (TradingView tarayıcı uç noktası, worker üzerinden, 30 sn önbellek). Ücretsiz kaynaklar BIST için ~15 dk gecikmeli olabilir; ABD kapanış sonrası son değer kalır.</p>'}
+function mStocks(){var g=[['Borsa İstanbul · BIST',ST.filter(function(s){return ['BIST 100','THY','Aselsan','Garanti BBVA','BİM'].indexOf(s.label)>=0}).map(mapSt).concat(wkGroup('bist')),
+   'BIST 100 endeksi ve İstanbul hisseleri. Ücretsiz kaynaklar ~15 dk gecikmelidir.'],
+  ['ABD borsaları',ST.filter(function(s){return ['BIST 100','THY','Aselsan','Garanti BBVA','BİM'].indexOf(s.label)<0}).map(mapSt).concat(wkGroup('us')),
+   'S&P 500, Nasdaq ve büyük teknoloji hisseleri.']] ;
+ return g.map(function(gr){var seen={},rows=gr[0].filter(function(r){if(seen[r.k])return false;seen[r.k]=1;return true});
+  return '<div class="gh2">'+esc(gr[0].length?'':'')+gr[1-1]+''+'<span>'+rows.length+' enstrüman</span></div>'+
+   '<div class="mkb" style="border-top:none;border-radius:0 0 var(--r3) var(--r3);margin-bottom:14px">'+rows.map(rowHTML).join('')+'</div>'+
+   '<p class="hint" style="margin:0 0 14px">'+esc(gr[2])+'</p>'}).join('')}
+function wkGroup(g){return Object.keys(MT.wk).map(function(k){return MT.wk[k]}).filter(function(q){
+  if(g==='bist')return ['BIST 100','THY','Aselsan','Garanti BBVA','BİM','Koç Holding','SASA','Petkim','Ereğli Demir','Tüpraş','Akbank','Yapı Kredi','İş Bankası C','Ford Otosan','Turkcell'].indexOf(q.k)>=0;
+  return ['S&P 500','Nasdaq','Dow Jones','Apple','Microsoft','Nvidia','Tesla','Amazon','Google','Meta','AMD','Intel'].indexOf(q.k)>=0;
+ }).map(function(q){return{k:q.k,n:q.k,s:'worker · 30 sn',v:q.v,p:q.p,h:q.s,grp:g,liveNow:MT.wkOK}})}
+function mapSt(s){return{k:s.label,n:s.label,s:'bot · 2 saat',v:s.price,p:s.change_pct,h:hist(s.label),grp:'st'}}
 function rowHTML(r){var h=r.h&&r.h.length>1?r.h:[];
- var lab=r.s||SRCLBL[r.src]||'bot';
- var bd=r.liveNow?' <span class="up">CANLI</span>':(r.grp==='bist'||r.grp==='us'||r.grp==='st')?' <span>~15dk</span>':'';
- return '<div class="mr'+(r.flash?' '+r.flash:'')+'"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(lab)+bd+'</span></div>'+
+ var bd=r.liveNow?' <span class="up">CANLI</span>':(r.grp==='bist'||r.grp==='us')?' <span>~15dk</span>':'';
+ return '<div class="mr'+(r.flash?' '+r.flash:'')+'"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
  '<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas><div class="mrv">'+price(r.v)+'</div>'+
  '<div class="mrp">'+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'}
 function mFx(){var rows=[];
- ['USD/TRY','EUR/TRY','GBP/TRY','CHF/TRY','JPY/TRY'].forEach(function(k){var q=MT.wk['fx:'+k];
-  if(q)rows.push({k:k,n:k,s:SRCLBL[q.src]||'worker',v:q.v,p:q.p,h:q.s&&q.s.length>1?q.s:hist(k),grp:'fx',liveNow:MT.wkOK});
+ ['USD/TRY','EUR/TRY','GBP/TRY','CHF/TRY','JPY/TRY'].forEach(function(k){var q=MT.wk[k];
+  if(q)rows.push({k:k,n:k,s:'worker · 20 sn',v:q.v,p:q.p,h:q.s&&q.s.length>1?q.s:hist(k),grp:'fx',liveNow:MT.wkOK});
   else if(k==='USD/TRY'&&MK&&MK.usdtry)rows.push({k:k,n:k,s:'bot',v:MK.usdtry,p:null,h:hist(k),grp:'fx'});
   else if(k==='EUR/TRY'&&MK&&MK.eurtry)rows.push({k:k,n:k,s:'bot',v:MK.eurtry,p:null,h:hist(k),grp:'fx'})});
- var g=MK&&MK.gold_gram_try;var gw=MT.wk['metal:Ons Altın'],uw=MT.wk['fx:USD/TRY'];
+ var g=MK&&MK.gold_gram_try;var gw=MT.wk['Ons Altın'],uw=MT.wk['USD/TRY'];
  if(gw&&uw)g=gw.v/31.1035*uw.v;
- var goldRows=GOLD.map(function(x){var v=null,p=null,src='hesaplanmış';
-  if(x[0]==='Ons Altın'&&gw){v=gw.v;p=gw.p;src=SRCLBL[gw.src]}
-  else if(x[0]==='Ons Gümüş'&&MT.wk['metal:Ons Gümüş']){v=MT.wk['metal:Ons Gümüş'].v;p=MT.wk['metal:Ons Gümüş'].p;src=SRCLBL[MT.wk['metal:Ons Gümüş'].src]}
-  else if(g){v=g*x[1]}
+ var goldRows=GOLD.map(function(x){var v=g?g*x[1]:(x[0]==='Ons Gümüş'?(MT.wk['Ons Gümüş']?MT.wk['Ons Gümüş'].v:null):null);
   if(v==null)return null;
-  return{k:x[0],n:x[0],s:x[2]+' · '+src,v:v,p:p,h:x[0]==='Gram Altın'?hist('Gram Altın'):[],grp:'fx',liveNow:MT.wkOK}}).filter(Boolean);
- return '<div class="gh2">Döviz<span>'+rows.length+' parite</span></div><div class="mkb" style="border-radius:0;border-top:none">'+rows.map(rowHTML).join('')+'</div>'+
-  '<div class="gh2" style="margin-top:14px">Altın &amp; Gümüş<span>'+goldRows.length+' çeşit</span></div><div class="mkb" style="border-radius:0 0 var(--r3) var(--r3);border-top:none">'+goldRows.map(rowHTML).join('')+'</div>'+
+  return{k:x[0],n:x[0],s:x[2]+(x[0]==='Ons Gümüş'?' · worker':' · hesaplanmış'),v:v,p:x[0]==='Ons Gümüş'&&MT.wk['Ons Gümüş']?MT.wk['Ons Gümüş'].p:null,h:x[0]==='Gram Altın'?hist('Gram Altın'):[],grp:'fx',liveNow:MT.wkOK}}).filter(Boolean);
+ return '<div class="gh2">Döviz<span>'+rows.length+' parite</span></div><div class="mkb" style="border-radius:0">'+rows.map(rowHTML).join('')+'</div>'+
+  '<div class="gh2" style="margin-top:14px">Altın &amp; Gümüş<span>'+goldRows.length+' çeşit</span></div><div class="mkb" style="border-radius:0 0 var(--r3) var(--r3)">'+goldRows.map(rowHTML).join('')+'</div>'+
   '<p class="hint">Çeyrek/ata gibi çeşitler gram fiyatından <b>hesaplanır</b>; kuyumcu işçilik primi dahil değildir.</p>'}
 function mHeat(){var cry=MT.bin.filter(function(x){return x.quote==='USDT'}).sort(function(a,b){return b.vol-a.vol}).slice(0,40);
- var st=wkList('bist').concat(wkList('us')).filter(function(r){return r.p!=null});
- if(!st.length)st=ST.map(mapSt).filter(function(r){return r.p!=null});
+ var st=wkGroup('bist').concat(wkGroup('us')).filter(function(r){return r.p!=null});
  return '<div class="gh2">Kripto ısı haritası<span>hacme göre boyut · %24s renkte</span></div>'+
   '<div class="tree" id="treeBox"></div>'+
   '<div class="gh2" style="margin-top:14px">Hisse ısı haritası<span>'+st.length+' enstrüman</span></div>'+
@@ -938,21 +918,20 @@ function renderMarket(){var pane=$('#mkPane');if(!pane)return;
   return '<div class="hc'+(x[1].open?' open':'')+'"><b>'+x[0]+' · '+(x[1].open?'AÇIK':'KAPALI')+'</b><span>'+x[1].hours+' · '+x[1].label+'</span></div>'}).join('');
  $$('#mkTabs button').forEach(function(b){b.classList.toggle('on',b.dataset.m===MT.tab)});
  if(MT.tab==='crypto')bindCrypto();
- if(MT.tab==='stocks')bindStocks();
  if(MT.tab==='heat'&&MT.bin.length)requestAnimationFrame(function(){treemap(MT.bin.filter(function(x){return x.quote==='USDT'}).sort(function(a,b){return b.vol-a.vol}).slice(0,40))});
  redrawSparks()}
 function bindCrypto(){var q=$('#cq');if(q)q.addEventListener('input',function(e){MT.cq=e.target.value;MT.clim=100;renderMarket();var n=$('#cq');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length)}});
  $$('#cfSeg button').forEach(function(b){b.addEventListener('click',function(){MT.cf=b.dataset.f;renderMarket()})});
  var cs=$('#csSel');if(cs)cs.addEventListener('change',function(){MT.cs=cs.value;renderMarket()});
  var cm=$('#cMore');if(cm)cm.addEventListener('click',function(){MT.clim=10000;renderMarket()});
+ $$('.tbl th[data-s]').forEach(function(th){th.addEventListener('click',function(){MT.cs=th.dataset.s;renderMarket()})});
+ $$('.tbl tr[data-sym]').forEach(function(tr){tr.addEventListener('click',function(e){if(e.target.closest('[data-fav]'))return;openCoin(tr.dataset.sym)})});
  $$('[data-fav]').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();var s=b.dataset.fav;
-  MT.cfav.has(s)?MT.cfav.delete(s):MT.cfav.add(s);LS.s('radar_cfav',Array.from(MT.cfav));renderMarket()})});
- $$('.tbl tr[data-sym]').forEach(function(tr){tr.addEventListener('click',function(e){if(e.target.closest('[data-fav]'))return;openCoin(tr.dataset.sym)})})}
-function bindStocks(){var si=$('#stq');if(si)si.addEventListener('input',function(e){MT.stq=e.target.value;renderMarket();
- var n=$('#stq');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length)}})}
+  MT.cfav.has(s)?MT.cfav.delete(s):MT.cfav.add(s);LS.s('radar_cfav',Array.from(MT.cfav));renderMarket()})})}
 function openCoin(sym){var x=MT.bin.filter(function(b){return b.sym===sym})[0];if(!x)return;
  MT.detail=sym;wsSet(sym.toLowerCase()+'@miniTicker');
- $('#cKick').textContent='KRİPTO · '+x.quote;$('#cName').textContent=x.base+' / '+x.quote;
+ $('#cKick').textContent='KRİPTO · '+x.quote;
+ $('#cName').textContent=x.base+' / '+x.quote;
  var live=MT.live[sym];var v=live?live.v:x.v,p=live?live.p:x.p;
  $('#cPrice').textContent=fmtC(v)+(x.quote==='TRY'?' ₺':' $');
  $('#cChg').innerHTML=(p!=null?'<span class="pill '+cls(p)+'">'+arw(p)+' '+pct(p)+'</span>':'')+' <span style="color:var(--ink3)">24 saat</span>';
@@ -968,9 +947,10 @@ function openCoin(sym){var x=MT.bin.filter(function(b){return b.sym===sym})[0];i
  openM('#mCoin')}
 function mkTickers(){if(S.view!=='market'||document.hidden)return;
  var age=Date.now()-MT.binTS;
- Promise.all([age>60000?binLoad():Promise.resolve(),wkLoad()]).then(renderMarket)}
+ Promise.all([age>60000?binLoad():Promise.resolve(),wkLoad()]).then(function(){
+  if(MT.tab!=='crypto'&&MT.tab!=='heat')renderMarket();else renderMarket()})}
 
-/* ===== WIDGET'lar ===== */
+/* ================= YAŞAM WIDGET'LARI ================= */
 function wgb(id){return $('#'+id+' .wgb')}
 function widgets(){
  jget('https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone='+encodeURIComponent(TZ)+'&forecast_days=7',11000).then(function(d){
@@ -1010,7 +990,7 @@ function widgets(){
  converter()}
 function converter(){var b=wgb('wgConv');
  jget('https://open.er-api.com/v6/latest/USD',10000).then(function(d){FXR=d.rates||null}).catch(function(){FXR=null}).then(function(){
-  var usd=(MT.wk['fx:USD/TRY']&&MT.wk['fx:USD/TRY'].v)||(MK&&MK.usdtry),eur=(MT.wk['fx:EUR/TRY']&&MT.wk['fx:EUR/TRY'].v)||(MK&&MK.eurtry);
+  var usd=(MT.wk['USD/TRY']&&MT.wk['USD/TRY'].v)||(MK&&MK.usdtry),eur=(MT.wk['EUR/TRY']&&MT.wk['EUR/TRY'].v)||(MK&&MK.eurtry);
   var R={TRY:1,USD:usd||null,EUR:eur||null,GBP:(FXR&&FXR.TRY&&FXR.GBP)?FXR.TRY/FXR.GBP:null};
   var opts=Object.keys(R).filter(function(k){return R[k]});
   b.className='wgb';b.innerHTML='<div class="cvr"><input id="cvA" type="number" value="100" min="0" step="any"><select class="sel sm" id="cvF">'+opts.map(function(k){return '<option'+(k==='USD'?' selected':'')+'>'+k+'</option>'}).join('')+'</select></div>'+
@@ -1020,7 +1000,7 @@ function converter(){var b=wgb('wgConv');
    $('#cvO').textContent=isFinite(v)?nf(v,v>=1000?2:4)+' '+t:'—'};
   ['cvA','cvF','cvT'].forEach(function(id){var e=$('#'+id);e.addEventListener('input',calc);e.addEventListener('change',calc)});calc()})}
 
-/* ===== AKIŞ ===== */
+/* ================= AKIŞ ================= */
 function filtered(){var a=NEWS;
  if(S.saved)a=a.filter(function(n){return S.savedSet.has(n.link)});
  else if(S.cat==='all'){if(S.prefs&&S.prefs.length)a=a.filter(function(n){return S.prefs.indexOf(n.catId)>=0})}
@@ -1086,11 +1066,11 @@ function renderTrends(){var uni={},bi={};
  $('#trendRow').innerHTML=html;$('#railTrend').innerHTML=html||'<p class="hint">Yeterli tekrar eden konu yok.</p>';
  $$('.trend').forEach(function(b){b.addEventListener('click',function(){S.q=b.dataset.q;S.saved=false;S.limit=24;setView('feed');renderFeed();toast('#'+esc(b.dataset.q)+' filtrelendi')})})}
 function renderRail(){var rows=[];
- var u=MT.wk['fx:USD/TRY'];rows.push(['USD/TRY',u?u.v:(MK&&MK.usdtry),u?u.p:null]);
- var gq=MT.wk['metal:Ons Altın'],uq=MT.wk['fx:USD/TRY'];var gr=gq&&uq?gq.v/31.1035*uq.v:(MK&&MK.gold_gram_try);rows.push(['Gram Altın',gr,null]);
+ var u=MT.wk['USD/TRY'];rows.push(['USD/TRY',u?u.v:(MK&&MK.usdtry),u?u.p:null]);
+ var g=MT.wk['Ons Altın'],uu=MT.wk['USD/TRY'];var gr=g&&uu?g.v/31.1035*uu.v:(MK&&MK.gold_gram_try);rows.push(['Gram Altın',gr,null]);
  var b=MT.live.BTCTRY||MT.bin.filter(function(x){return x.sym==='BTCTRY'})[0];rows.push(['Bitcoin',b?b.v:(CR[0]&&CR[0].price),b?b.p:(CR[0]&&CR[0].change_pct)]);
  var e=MT.live.ETHTRY||MT.bin.filter(function(x){return x.sym==='ETHTRY'})[0];rows.push(['Ethereum',e?e.v:(CR[1]&&CR[1].price),e?e.p:(CR[1]&&CR[1].change_pct)]);
- $('#railMk').innerHTML=rows.map(function(r){return '<div class="kv"><span>'+r[0]+'</span><b>'+(r[1]!=null&&r[1]>0?fmtC(r[1]):'—')+(r[2]!=null?' <i class="'+cls(r[2])+'" style="font-style:normal;font-size:11px">'+pct(r[2])+'</i>':'')+'</b></div>'}).join('')}
+ $('#railMk').innerHTML=rows.map(function(r){return '<div class="kv"><span>'+r[0]+'</span><b>'+(r[1]!=null?fmtC(r[1]):'—')+(r[2]!=null?' <i class="'+cls(r[2])+'" style="font-style:normal;font-size:11px">'+pct(r[2])+'</i>':'')+'</b></div>'}).join('')}
 function sentiment(){var box=$('#railSent');box.innerHTML='<div class="skb"></div>';
  loadArch(10).then(function(arch){
   var seen=new Map(),add=function(it){(it||[]).forEach(function(x){if(x&&x.link&&x.pubDate&&!seen.has(x.link))seen.set(x.link,x)})};
@@ -1112,7 +1092,7 @@ function sentiment(){var box=$('#railSent');box.innerHTML='<div class="skb"></di
   box.innerHTML=h;bindSent()})}
 function bindSent(){var b=$('#sentGo');if(b)b.addEventListener('click',sentiment)}
 
-/* ===== MODAL / SES ===== */
+/* ================= HABER MODAL / SES ================= */
 function openNews(n){cur=n;
  if(S.autoRead){S.read.add(n.link);LS.s('radar_read',Array.from(S.read))}
  var c=CATS[n.catId]||{l:'Haber',c:'var(--pri)'};
@@ -1167,7 +1147,7 @@ $('#nShare').addEventListener('click',function(){if(!cur)return;var d={title:cur
  if(navigator.share){navigator.share(d).catch(function(e){if(e&&e.name!=='AbortError')copyTxt(cur.link)});return}copyTxt(cur.link)});
 function copyTxt(t){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){toast('Bağlantı kopyalandı')}).catch(function(){prompt('Bağlantı:',t)});else prompt('Bağlantı:',t)}
 
-/* ===== RADYO ===== */
+/* ================= RADYO ================= */
 function renderRadio(){var order=STATIONS.map(function(s,i){return i}).sort(function(a,b){return (S.fav.has(b)?1:0)-(S.fav.has(a)?1:0)});
  $('#radioGrid').innerHTML=order.map(function(i){var s=STATIONS[i],playing=curSt===i&&!$('#audio').paused;
   return '<div class="rs'+(curSt===i?' on':'')+'" data-i="'+i+'"><button class="rsp">'+(playing?'❚❚':'▶')+'</button>'+
@@ -1205,7 +1185,7 @@ $('#plSleep').addEventListener('change',function(e){clearTimeout(sleepT);var m=+
 $('#btnMute').addEventListener('click',function(){S.muted=!S.muted;LS.s('radar_muted',S.muted);$('#audio').muted=S.muted;
  $('#btnMute').textContent=S.muted?'🔇':'🔊';plSync();toast(S.muted?'Tüm sesler kapatıldı':'Ses açık')});
 
-/* ===== ÇEVİRİ / PALET / NAV ===== */
+/* ================= ÇEVİRİ / PALET / NAV ================= */
 var LANGS=[['auto','Otomatik'],['tr','Türkçe'],['en','İngilizce'],['de','Almanca'],['fr','Fransızca'],['es','İspanyolca'],['ar','Arapça'],['ru','Rusça']];
 $('#trFrom').innerHTML=LANGS.map(function(l){return '<option value="'+l[0]+'">'+l[1]+'</option>'}).join('');
 $('#trTo').innerHTML=LANGS.filter(function(l){return l[0]!=='auto'}).map(function(l){return '<option value="'+l[0]+'"'+(l[0]==='en'?' selected':'')+'>'+l[1]+'</option>'}).join('');
@@ -1264,8 +1244,7 @@ $('#moreBtn').addEventListener('click',function(){S.limit+=24;renderFeed()});
 $('#catsL').addEventListener('click',function(){$('#cats').scrollBy({left:-220,behavior:'smooth'})});
 $('#catsR').addEventListener('click',function(){$('#cats').scrollBy({left:220,behavior:'smooth'})});
 $('#cats').addEventListener('scroll',catArrows,{passive:true});
-addEventListener('resize',function(){catArrows();redrawSparks();
- if(MT.tab==='heat'&&MT.bin.length)treemap(MT.bin.filter(function(x){return x.quote==='USDT'}).sort(function(a,b){return b.vol-a.vol}).slice(0,40))});
+addEventListener('resize',function(){catArrows();redrawSparks();if(MT.tab==='heat'&&MT.bin.length)treemap(MT.bin.filter(function(x){return x.quote==='USDT'}).sort(function(a,b){return b.vol-a.vol}).slice(0,40))});
 addEventListener('scroll',function(){$('#topbar').classList.toggle('tight',scrollY>90);
  if(S.view==='feed'&&!booting&&innerHeight+scrollY>=document.body.offsetHeight-700){var a=filtered();if(S.limit<a.length){S.limit+=24;renderFeed()}}},{passive:true});
 $$('#briefTabs button').forEach(function(b){b.addEventListener('click',function(){S.brief=b.dataset.b;stopSpeak();renderBrief()})});
@@ -1299,8 +1278,8 @@ function renderPrefs(){$('#prefs').innerHTML=Object.keys(CATS).map(function(k){v
 $('#ntfyLinks').innerHTML=[['teknoloji','Teknoloji'],['gundem','Gündem'],['oyun','Oyun'],['piyasa','Piyasa']].map(function(x){
  return '<a href="https://ntfy.sh/radar-'+x[0]+'-x8f2" target="_blank" rel="noopener">'+x[1]+'</a>'}).join('');
 function renderAbout(){$('#about').innerHTML='<p><b>RADAR</b> · sunucusuz haber &amp; piyasa terminali.</p>'+
- '<p style="margin-top:8px">Model: <code>'+esc(META&&META.model||'—')+'</code><br>Haber: <code>'+NEWS.length+'</code> · Kripto çifti: <code>'+MT.bin.length+'</code> · Hisse: <code>'+(wkList('bist').length+wkList('us').length)+'</code><br>Üretim: <code>'+(META&&META.generated_at?new Date(META.generated_at).toLocaleString('tr-TR'):'—')+'</code></p>'+
- '<p style="margin-top:8px">Özetler AI ürünüdür, hata içerebilir; kaynak bağlantısı her zaman verilir. Kripto Binance\'ten canlıdır. Hisseler TradingView tarayıcı uç noktasından (worker) gelir ve ~15 dk gecikmeli olabilir. Altın çeşitleri gram fiyattan <b>hesaplanır</b>; kuyumcu fiyatı farklıdır. Piyasa saatleri resmî tatilleri içermez.</p>'}
+ '<p style="margin-top:8px">Model: <code>'+esc(META&&META.model||'—')+'</code><br>Haber: <code>'+NEWS.length+'</code> · Kripto çifti: <code>'+MT.bin.length+'</code><br>Üretim: <code>'+(META&&META.generated_at?new Date(META.generated_at).toLocaleString('tr-TR'):'—')+'</code></p>'+
+ '<p style="margin-top:8px">Özetler AI ürünüdür, hata içerebilir; kaynak bağlantısı her zaman verilir. Kripto verisi Binance\'ten canlıdır. Hisseler ücretsiz kaynaklardan ~15 dk gecikmelidir. Altın çeşitleri gram fiyattan <b>hesaplanır</b>; kuyumcu fiyatı farklıdır. Piyasa saatleri resmî tatilleri içermez.</p>'}
 function exportSaved(){var items=NEWS.filter(function(n){return S.savedSet.has(n.link)});
  var missing=Array.from(S.savedSet).filter(function(l){return !NEWS.some(function(n){return n.link===l})});
  if(!items.length&&!missing.length){toast('Kaydedilmiş haber yok','warn');return}
@@ -1323,4 +1302,31 @@ $('#archSel').addEventListener('change',function(e){S.arch=e.target.value||'';va
  booting=true;renderFeed();loadData()});
 function archInit(){jget('archive/index.json?t='+Date.now(),9000).then(function(d){
  var ds=(d.dates||[]).slice().sort(function(a,b){return String(b.date).localeCompare(String(a.date))});
- $('#archSel').innerHTML='<option value="">📅 Bugün</option>'+ds.map(function(x){return '<opti
+ $('#archSel').innerHTML='<option value="">📅 Bugün</option>'+ds.map(function(x){return '<option value="'+esc(x.path)+'">📅 '+esc(x.date)+'</option>'}).join('')}).catch(function(){})}
+function hello(){var h=new Date().getHours(),g='İyi geceler',i='🌙';
+ if(h>=5&&h<12){g='Günaydın';i='☀️'}else if(h>=12&&h<18){g='İyi günler';i='🌤️'}else if(h>=18&&h<22){g='İyi akşamlar';i='🌆'}
+ $('#hello').textContent=g+' '+i}
+function fromURL(){try{var p=new URLSearchParams(location.search),v=p.get('v'),c=p.get('cat'),t=p.get('tone'),q=p.get('q');
+ if(c&&(c==='all'||CATS[c]))S.cat=c;if(t&&['pozitif','nötr','negatif'].indexOf(t)>=0)S.tone=t;if(q)S.q=q;
+ if(v&&['feed','market','radio','saved','menu'].indexOf(v)>=0)S.view=v;
+ $$('#toneSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.tone===S.tone)})}catch(e){}}
+function zparts(tz){try{var f=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',weekday:'short',hour12:false}),p={};
+ f.formatToParts(new Date()).forEach(function(x){p[x.type]=x.value});
+ return{h:(+p.hour)%24,m:+p.minute,w:['Mon','Tue','Wed','Thu','Fri'].indexOf(p.weekday)>=0}}catch(e){var d=new Date();return{h:d.getHours(),m:d.getMinutes(),w:d.getDay()>0&&d.getDay()<6}}}
+function sess(tz,oh,om,ch,cm){var z=zparts(tz),now=z.h*60+z.m,o=oh*60+om,c=ch*60+cm;
+ return{open:z.w&&now>=o&&now<c,label:z.w?(now<o?'açılışa '+(o-now)+' dk':now<c?'kapanışa '+(c-now)+' dk':'kapandı'):'hafta sonu',
+  hours:('0'+oh).slice(-2)+':'+('0'+om).slice(-2)+'–'+('0'+ch).slice(-2)+':'+('0'+cm).slice(-2)}}
+function sessions(){var z=zparts(TZ);return{bist:sess(TZ,10,0,18,0),us:sess('America/New_York',9,30,16,0),
+ fx:{open:z.w,label:z.w?'24 saat · hafta içi':'hafta sonu',hours:'Pzt–Cum'},crypto:{open:true,label:'kesintisiz',hours:'7/24'}}}
+
+applyTheme();hello();renderPrefs();$('#plVol').value=S.vol;fromURL();renderCats();renderFeed();
+setView(S.view);archInit();loadData();bindSent();
+if('serviceWorker'in navigator&&location.protocol!=='file:'){var go=function(){navigator.serviceWorker.register('sw.js').catch(function(){})};
+ document.readyState==='complete'?go():addEventListener('load',go)}
+setInterval(function(){if(!S.arch&&!document.hidden)loadData()},3e5);
+setInterval(function(){hello();checkStale()},6e4);
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&S.view==='market')mkTickers()});
+})();
+</script>
+</body>
+</html>
