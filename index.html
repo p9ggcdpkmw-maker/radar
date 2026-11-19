@@ -1606,7 +1606,79 @@ openCoin = function(sym){ _oc(sym);
     if(document.hidden){clearInterval(MT.timer);MT.timer=0}
     else if(S.view==='market'){mkTickers();MT.timer=setInterval(mkTickers,60000)}
   });
-  
+  /* ===== RADAR yama v5: başlık performansı + filtre çubuğu ===== */
+(function(){
+  /* --- 1) Performans: blur ve blend harmanlamasını kapat --- */
+  var perf=document.createElement('style');
+  perf.textContent=
+    '.top{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--bg)!important;will-change:auto!important}'+
+    '.grain{mix-blend-mode:normal!important;opacity:.035!important}'+
+    '.fbar2{display:none;flex-wrap:wrap;gap:8px;align-items:center;margin:2px 0 10px}'+
+    '.fbar2.show{display:flex}'+
+    '.fchip{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:99px;border:1px solid var(--ln2);background:var(--sf2);color:var(--ink);font:800 11.5px var(--sans)}'+
+    '.fchip b{color:var(--cy)}'+
+    '.fchip button{border:none;background:none;color:var(--ink3);cursor:pointer;font-size:12px;padding:0;line-height:1}'+
+    '.fchip button:hover{color:var(--dn)}'+
+    '.fclear{margin-left:auto;border:1px solid var(--dn);background:color-mix(in srgb,var(--dn) 12%,transparent);color:var(--dn);border-radius:99px;padding:6px 13px;font:800 11.5px var(--sans);cursor:pointer}'+
+    '.fclear:hover{background:var(--dn);color:#fff}';
+  document.head.appendChild(perf);
+
+  /* --- 2) Aktif filtre çubuğu --- */
+  var feed=document.getElementById('v-feed'),anchor=document.getElementById('trendRow');
+  if(feed&&anchor&&!document.getElementById('filterBar')){
+    var bar=document.createElement('div');bar.id='filterBar';bar.className='fbar2';
+    feed.insertBefore(bar,anchor);
+  }
+  function chip(label,val,key){return '<span class="fchip">'+label+': <b>'+esc(val)+'</b><button data-fc="'+key+'" title="Bu filtreyi kaldır">✕</button></span>'}
+  function renderFilterBar(){
+    var b=document.getElementById('filterBar');if(!b)return;
+    var p=[];
+    if(S.q)p.push(chip('Arama',S.q,'q'));
+    if(S.tone!=='all')p.push(chip('Ton',S.tone,'tone'));
+    if(S.saved)p.push(chip('Görünüm','Kaydedilenler','saved'));
+    else if(S.cat!=='all')p.push(chip('Kategori',(CATS[S.cat]||{l:S.cat}).l,'cat'));
+    if(S.h12)p.push(chip('Zaman','Son 12 saat','h12'));
+    if(S.biasOff)p.push(chip('Gizlenen','Sansasyonel','bias'));
+    if(!p.length){b.className='fbar2';b.innerHTML='';return}
+    b.className='fbar2 show';
+    b.innerHTML=p.join('')+'<button class="fclear" data-fc="all">✕ Filtreleri temizle</button>';
+  }
+  function clearOne(k){
+    if(k==='q'){S.q='';var pi=document.getElementById('paIn');if(pi)pi.value=''}
+    else if(k==='tone'){S.tone='all';$$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')})}
+    else if(k==='cat'){S.cat='all';renderCats()}
+    else if(k==='saved'){S.saved=false}
+    else if(k==='h12'){S.h12=false;LS.set('radar_age_12h',false);var a=document.getElementById('sw12');if(a)a.classList.remove('on')}
+    else if(k==='bias'){S.biasOff=false;LS.set('radar_bias_filter',false);var c=document.getElementById('swBias');if(c)c.classList.remove('on')}
+    else if(k==='all'){
+      S.q='';S.tone='all';S.cat='all';S.saved=false;S.h12=false;S.biasOff=false;
+      LS.set('radar_age_12h',false);LS.set('radar_bias_filter',false);
+      var pi2=document.getElementById('paIn');if(pi2)pi2.value='';
+      $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')});
+      var a2=document.getElementById('sw12');if(a2)a2.classList.remove('on');
+      var c2=document.getElementById('swBias');if(c2)c2.classList.remove('on');
+      renderCats();
+    }
+    S.limit=24;renderFeed();
+  }
+  document.addEventListener('click',function(e){
+    var c=e.target.closest('[data-fc]');if(!c)return;
+    clearOne(c.dataset.fc);
+  });
+  var _rf=renderFeed;
+  renderFeed=function(){_rf.apply(this,arguments);renderFilterBar()};
+
+  /* --- 3) Trend çipine ikinci tık = filtreyi kaldır --- */
+  var tr=document.getElementById('trendRow');
+  if(tr)tr.addEventListener('click',function(e){
+    var b=e.target.closest('.trend');if(!b)return;
+    if(S.q===b.dataset.q){e.stopPropagation();e.preventDefault();clearOne('q')}
+  },true);
+
+  renderFilterBar();
+})();
+/* ===== /RADAR yama v5 ===== */
+
   /* Piyasa yenileme aralığını 10 sn → 60 sn yap */
   var _mkE=mkEnter;
   mkEnter=function(){_mkE.call(this);clearInterval(MT.timer);MT.timer=setInterval(mkTickers,60000)};
