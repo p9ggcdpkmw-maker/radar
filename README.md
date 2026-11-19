@@ -1,96 +1,46 @@
 # 📡 RADAR
 
-**Yapay zekâ ile özetlenmiş, puanlanmış ve sansasyonel dili işaretlenmiş kişisel haber akışı.**
-
-Sunucu yok, veritabanı yok, aylık fatura yok. GitHub Actions saat başı haberleri toplar, Groq ile özetler, sonucu statik dosyalar olarak GitHub Pages'e yazar.
+**Yapay zekâ ile özetlenmiş haber akışı + canlı piyasa terminali + radyo. Sunucu yok, aylık cost 0 ₺.**
 
 [![Haber Botu](https://github.com/p9ggcdpkmw-maker/radar/actions/workflows/update-news.yml/badge.svg)](https://github.com/p9ggcdpkmw-maker/radar/actions/workflows/update-news.yml)
-
 🔗 **Canlı:** https://p9ggcdpkmw-maker.github.io/radar/
 
----
-
-## Özellikler
-
-### Haber
-- 6 kategoride Türkçe RSS taraması (gündem, ekonomi, teknoloji, bilim, dünya, ücretsiz oyun)
-- Her habere **özet**, **önem puanı (1-10)**, **duygu tonu** ve **"Neden önemli?"** cümlesi
-- **Sansasyonel dil skoru (0-10)** — tık tuzağı haberler rozetle işaretlenir, istersen gizlenir
-- **Olay kümeleme**: aynı olayı veren kaynaklar tek kartta toplanır
-- **Olay örgüsü**: haberi ilk kim verdi, diğerleri kaç dakika sonra geçti — zaman çizelgesi
-- Sonsuz kaydırma, arama, kategori/ton filtreleri, trend kelimeler, günlük arşiv
-
-### Kişisel
-- İlgi alanı seçimi, kaydet / beğen / okundu işaretleme (tarayıcıda saklanır)
-- Filtreli bağlantı kopyalama ve kaydedilenleri JSON olarak dışa aktarma
-- Gece modu (sistem temasına otomatik uyar), görselleri gizleme
-- **Bayat veri uyarısı**: bot çalışmazsa site sessizce eski haberi göstermez
-
-### Ekstra
-- 📈 Piyasa: USD/TRY, gram altın, Bitcoin, Ethereum, BIST 100, S&P 500, Nasdaq + 7 hisse
-- ☀️ Hava durumu (Çorlu)
-- 📻 Canlı radyo (7 istasyon, HLS proxy ile)
-- 🌐 Çeviri (MyMemory → Lingva yedeği)
-- 🔊 Sesli okuma: tek haber veya günün analizi
-- 📱 PWA: ana ekrana kurulur, internetsizken son akışı gösterir
-- 🔔 ntfy ile kategori ve piyasa bildirimleri
-
-### Şeffaflık
-Her haberin **✦ AI** rozetine tıkla: hangi model, hangi sıcaklık, hangi prompt sürümü, ne zaman üretildi, hangi kaynaktan — hepsi görünür.
+GitHub Actions saatte bir değil **2 saatte bir** haberleri toplar, Groq ile özetler/puanlar, sonucu statik dosya olarak GitHub Pages'e yazar. Piyasa katmanı ise tarayıcıdan + Cloudflare worker'dan **canlı** akar. Kurulumdan sonra bakım gerektirmez; bir şey bozulursa site kendi kendini ihbar eder.
 
 ---
 
-## RSS abonelikleri
+## ✨ Özellikler
 
-| Kategori | Adres |
-|---|---|
-| Tümü | `https://p9ggcdpkmw-maker.github.io/radar/feed.xml` |
-| Teknoloji | `.../feed-teknoloji.xml` |
-| Gündem | `.../feed-gundem.xml` |
-| Ekonomi | `.../feed-ekonomi.xml` |
-| Bilim | `.../feed-bilim.xml` |
-| Dünya | `.../feed-dunya.xml` |
-| Ücretsiz Oyun | `.../feed-oyun.xml` |
+### 📰 Haber
+- 6 kategoride Türkçe RSS taraması (Gündem, Ekonomi, Teknoloji, Bilim, Dünya, Ücretsiz Oyun)
+- Her habere: **özet**, **önem puanı (1-10)**, **duygu tonu**, **"Neden önemli?"**, **sansasyonel dil skoru (0-10)**
+- Başlık kümelemesi: aynı olayı veren kaynaklar tek kartta (`+N kaynak`)
+- **🧵 Olay örgüsü**: haberi ilk kim verdi, diğerleri kaç dakika sonra geçti
+- Günün Analizi (4 sekme) + **sesli okuma** + AI şeffaflık etiketi (model/sıcaklık/prompt/zeit)
+- Sonsuz kaydırma, Ctrl+K arama paleti, ton & sansasyonel filtreleri, son 12 saat filtresi
+- İlgi alanı kişiselleştirme, kaydet/beğen/okundu, **günlük arşiv** (son 60 gün)
+- **Bayat veri uyarısı**: bot çalışmazsa site sessizce eski haber göstermez, bağırır
+- Filtreli bağlantı kopyalama, kaydedilenleri JSON dışa aktarma
+- Duygu Trendi: arşivden son 7 günün olumlu/nötr/olumsuz dağılımı
 
----
+### 📈 Piyasa Terminali
+- **Kripto (canlı):** Binance WebSocket ile tik tik BTC/ETH + REST ile **~1.400 çift**; arama, TRY/USDT filtresi, hacim/değişim/fiyat sıralama, favoriler, canlı detay modalı
+- **Hisseler:** TradingView scanner'dan **BIST + ABD hacme göre ilk 50** (Cloudflare worker üzerinden), endeksler (BIST 100, S&P 500, Dow, Nasdaq 100); pazar/yön/sıralama filtreleri, favoriler, **CSV dışa aktarma (Excel uyumlu)**
+- **Döviz & Altın:** USD/EUR/GBP/CHF/JPY + 9 altın-gümüş çeşidi (gramdan hesaplanır)
+- **Isı haritaları:** kripto treemap'i (hacim bazlı) + hisse ısı ızgarası, tıklayınca detay
+- Küresel kapitalizasyon, BTC hakimiyeti, **Korku & Açgözlülük göstergesi**
+- Piyasa saatleri: BIST/ABD/döviz/kripto açık-kapalı + kapanışa geri sayım
+- Veri kaynağı etiketleri: `CANLI · tik`, `worker · 30 sn`, `~15 dk`, `bot · 2 saat` — ne izlediğini her zaman bilirsin
+- Tarayıcı içi fiyat alarmı (eşik ayarlı) + ntfy push bildirimleri
 
-## Nasıl çalışıyor?
+### 🌤️ Yaşam Widget'ları
+Hava (7 gün + saatlik), hava kalitesi (AQI/PM2.5), gün doğumu-batışı, namaz vakitleri (Diyanet), çoklu döviz çevirici — hepsi Çorlu konumuna sabit, anahtarsız açık API'ler.
 
-
-**Yedeklilik:** Groq başarısız olursa Gemini devreye girer. Özetlenemeyen haber önbelleğe alınmaz, sonraki turda yeniden denenir. Piyasa API'leri ölürse son bilinen değer korunur.
-
----
-
-## Kurulum
-
-1. Repoyu fork'la, **Settings → Pages → Branch: main / root** aç
-2. **Settings → Secrets and variables → Actions → Secrets:**
-   - `GROQ_API_KEY` (zorunlu) — [console.groq.com](https://console.groq.com)
-   - `GEMINI_API_KEY` (yedek, isteğe bağlı)
-   - `NTFY_TOPIC` (hata bildirimi, isteğe bağlı)
-3. **Variables** (isteğe bağlı): `AI_TEMPERATURE`, `AI_PROMPT_VER`, `SITE_URL`
-4. `icons.py` içindeki `SITE_URL` varsayılanını ve `index.html`'deki alan adını kendi adresinle değiştir
-5. **Actions → RADAR Haber Botu → Run workflow**
-
----
-
-## Dosyalar
-
-| Dosya | Görevi |
-|---|---|
-| `index.html` | Tüm arayüz (HTML + CSS + JS, tek dosya) |
-| `fetch_and_summarize.py` | Haber motoru, AI, piyasa, RSS üretimi |
-| `icons.py` | PWA ikonları (sadece standart kütüphane) |
-| `sw.js` / `manifest.json` | Offline önbellek ve kurulum |
-| `news.json` | Canlı akış verisi |
-| `archive/` | Günlük snapshot'lar (son 60 gün) |
-| `feed*.xml` | RSS çıktıları |
+### 📻 Radyo & Araçlar
+- 7 istasyon, **kalıcı çalar çubuğu** (sekme değiştirsen de çalar), favoriler, uyku zamanlayıcı, HLS proxy
+- Çeviri aracı (MyMemory → Lingva yedeği), gece/gündüz/otomatik tema, yoğunluk & yazı boyutu, PWA (ana ekrana kurulum + offline)
 
 ---
 
-## Sınırlar
+## 🏗️ Mimari
 
-- Özetler yapay zekâ ürünüdür, hata içerebilir; kaynak bağlantısı her zaman verilir.
-- Sansasyonel dil skoru bir **dil** değerlendirmesidir, doğruluk veya güvenilirlik ölçmez.
-- Duygu trendi günlük arşiv snapshot'larına dayanır; birkaç gün veri birikmesi gerekir.
-- RSS kaynaklarının telif hakları ilgili yayıncılara aittir; RADAR yalnızca özet ve bağlantı sunar.
