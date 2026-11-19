@@ -1733,6 +1733,149 @@ openCoin = function(sym){ _oc(sym);
   measure();setTimeout(measure,300);setTimeout(measure,1200);
 })();
 /* ===== /RADAR yama v7 ===== */
+/* ===== RADAR yama v8: radyo mirror zinciri + otomatik kanal testi ===== */
+(function(){
+  var NEW=[
+    {n:'Kafa Radyo',d:'Alternatif ve eğlenceli',g:'Alternatif',urls:['https://moondigitalmaster.radyotvonline.net/kafaradyo/playlist.m3u8']},
+    {n:'Kral Türk FM',d:'Türkü ve halk müziği',g:'Halk',urls:['https://live.radyositesihazir.com/8032/stream']},
+    {n:'Süper FM',d:'Türkçe pop',g:'Pop',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM.mp3']},
+    {n:'Metro FM',d:'Yabancı hitler',g:'Yabancı',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/METRO_FM.mp3']},
+    {n:'Joy Türk',d:'Türkçe slow pop',g:'Slow',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/JOY_TURK.mp3']},
+    {n:'Power FM',d:'Yabancı pop',g:'Yabancı',urls:['https://live.powerapp.com.tr/powerfm/mpeg/icecast.audio','https://powerfm.listenpowerapp.com/powerfm/mpeg/icecast.audio']},
+    {n:'PowerTürk',d:'Türkçe pop',g:'Pop',urls:['https://live.powerapp.com.tr/powerturk/mpeg/icecast.audio','https://powerturk.listenpowerapp.com/powerturk/mpeg/icecast.audio']},
+    {n:'Slow Türk',d:'Romantik ve yavaş',g:'Slow',urls:['https://slowturk.radyotvonline.net/slowturk/playlist.m3u8','https://radyo.duhnet.tv/slowturk']},
+    {n:'Best FM',d:'Türkçe pop',g:'Pop',urls:['https://bestfm.radyotvonline.net/bestfm/playlist.m3u8','https://radyo.duhnet.tv/bestfm']},
+    {n:'Radyo Fenomen',d:'Hit müzik',g:'Pop',urls:['https://fenomen.listenfenomen.com/fenomen/mpeg/icecast.audio']}
+  ];
+  var OFF=new Set(LS.g('radar_radio_off',[]));
+  MT.rtest=MT.rtest||{};
+  function rebuild(){STATIONS.length=0;NEW.forEach(function(s){if(!OFF.has(s.n))STATIONS.push(s)})}
+  rebuild();
+
+  /* --- mirror zincirli play --- */
+  var wd=0,mIdx=0,playTok=0;
+  play=function(i){
+    var a=$('#audio'),s=STATIONS[i];if(!s)return;
+    if(curSt===i&&!a.paused){a.pause();return}
+    curSt=i;mIdx=0;playTok++;
+    $('#plName').textContent=s.n;$('#plState').textContent='bağlanıyor…';
+    $('#player').classList.add('on');document.documentElement.style.setProperty('--pl','62px');
+    tryUrl(s,playTok);renderRadio();
+  };
+  function tryUrl(s,tok){
+    var a=$('#audio');
+    if(hls){try{hls.destroy()}catch(e){}hls=null}
+    a.volume=S.vol;a.muted=S.muted;
+    var u=s.urls[mIdx]||s.urls[0],isH=u.indexOf('.m3u8')>=0,url=isH?PROXY+encodeURIComponent(u):u;
+    clearTimeout(wd);wd=setTimeout(function(){if(tok===playTok)failNext(s,tok)},12000);
+    $('#plState').textContent='bağlanıyor… ('+(mIdx+1)+'/'+s.urls.length+')';
+    var onOk=function(){if(tok!==playTok)return;clearTimeout(wd);a.removeEventListener('playing',onOk);
+      MT.rtest[s.n]='ok';$('#plState').textContent=S.muted?'sessiz · çalıyor':'canlı çalıyor';plSync()};
+    a.addEventListener('playing',onOk);
+    var onErr=function(){if(tok!==playTok)return;a.removeEventListener('error',onErr);failNext(s,tok)};
+    a.addEventListener('error',onErr);
+    var fail=function(){if(tok===playTok)failNext(s,tok)};
+    if(isH&&window.Hls&&window.Hls.isSupported()){
+      hls=new window.Hls({maxBufferLength:20});hls.loadSource(url);hls.attachMedia(a);
+      hls.on(window.Hls.Events.MANIFEST_PARSED,function(){a.play().catch(fail)});
+      hls.on(window.Hls.Events.ERROR,function(ev,d){if(d&&d.fatal)fail()});
+    }else{a.src=url;a.play().catch(fail)}
+  }
+  function failNext(s,tok){
+    if(tok!==playTok)return;
+    clearTimeout(wd);mIdx++;
+    if(mIdx<s.urls.length){tryUrl(s,tok);return}
+    MT.rtest[s.n]='bad';$('#plState').textContent='açılamadı ('+s.urls.length+' mirror denendi)';
+    toast('⚠️ '+esc(s.n)+' şu an açılamadı — tüm mirrorlar denendi','err');
+    renderRadio();renderHealth();plSync();
+  }
+  document.getElementById('plClose').addEventListener('click',function(){playTok++});
+
+  /* --- link sondası --- */
+  function probe(u){
+    return new Promise(function(res){
+      var done=false,fin=function(v){if(!done){done=true;res(v)}};
+      var isH=u.indexOf('.m3u8')>=0,target=isH?PROXY+encodeURIComponent(u):u;
+      var ac=new AbortController(),t=setTimeout(function(){ac.abort();fin(false)},9000);
+      fetch(target,{signal:ac.signal,cache:'no-store'}).then(function(r){
+        clearTimeout(t);
+        if(!r.ok)return fin(false);
+        var ct=(r.headers.get('content-type')||'').toLowerCase();
+        if(isH)return r.text().then(function(tx){fin(tx.indexOf('#EXT')>=0)}).catch(function(){fin(false)});
+        if(ct&&ct.indexOf('audio')<0&&ct.indexOf('mpeg')<0&&ct.indexOf('octet-stream')<0&&ct.indexOf('mp4')<0)return fin(false);
+        var rd=r.body&&r.body.getReader();
+        if(!rd)return fin(true);
+        rd.read().then(function(){try{rd.cancel()}catch(e){}fin(true)}).catch(function(){fin(false)});
+      }).catch(function(){
+        var ac2=new AbortController(),t2=setTimeout(function(){ac2.abort()},6000);
+        fetch(u,{mode:'no-cors',cache:'no-store',signal:ac2.signal})
+          .then(function(){clearTimeout(t2);fin(true)}).catch(function(){clearTimeout(t2);fin(false)});
+      });
+    });
+  }
+  function testAll(){
+    var list=STATIONS.slice(),idx=0;
+    (function next(){
+      if(idx>=list.length){renderRadio();renderHealth();
+        var ok=Object.keys(MT.rtest).filter(function(k){return MT.rtest[k]==='ok'}).length;
+        toast('🩺 Test bitti: '+ok+'/'+list.length+' kanal çalışıyor');return}
+      var s=list[idx++];MT.rtest[s.n]='busy';renderHealth();
+      (async function(){
+        for(var m=0;m<s.urls.length;m++){if(await probe(s.urls[m])){MT.rtest[s.n]='ok';renderHealth();renderRadio();next();return}}
+        MT.rtest[s.n]='bad';renderHealth();renderRadio();next();
+      })();
+    })();
+  }
+
+  /* --- sağlık paneli --- */
+  var vr=document.getElementById('v-radio');
+  if(vr&&!document.getElementById('radioHealth')){
+    var hp=document.createElement('div');hp.id='radioHealth';hp.className='legal';hp.style.marginTop='14px';
+    vr.insertBefore(hp,vr.querySelector('.legal'));
+  }
+  function renderHealth(){
+    var el=document.getElementById('radioHealth');if(!el)return;
+    var ok=0,bad=0;STATIONS.forEach(function(s){if(MT.rtest[s.n]==='ok')ok++;else if(MT.rtest[s.n]==='bad')bad++});
+    el.innerHTML='<b>🩺 Kanal sağlığı:</b> '+ok+' çalışıyor · '+bad+' yanıt yok · '+(STATIONS.length-ok-bad)+' bekliyor'+
+      '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">'+
+      '<button class="btn gh" id="rTest">▶ Testi çalıştır</button>'+
+      (bad?'<button class="btn dg" id="rHide">✗ Çalışmayanları gizle ('+bad+')</button>':'')+
+      (OFF.size?'<button class="btn gh" id="rShow">Gizlenenleri geri getir ('+OFF.size+')</button>':'')+
+      '</div><p class="hint">Test her linki önce worker proxy üzerinden, olmazsa doğrudan dener. Radyo sekmesi ilk açılışta test kendiliğinden koşar.</p>';
+    var b1=document.getElementById('rTest');if(b1)b1.onclick=testAll;
+    var b2=document.getElementById('rHide');if(b2)b2.onclick=function(){
+      STATIONS.forEach(function(s){if(MT.rtest[s.n]==='bad')OFF.add(s.n)});
+      LS.s('radar_radio_off',Array.from(OFF));rebuild();renderRadio();renderHealth()};
+    var b3=document.getElementById('rShow');if(b3)b3.onclick=function(){
+      OFF.clear();LS.s('radar_radio_off',[]);rebuild();renderRadio();renderHealth()};
+  }
+
+  /* --- rozetli liste --- */
+  renderRadio=function(){
+    var order=STATIONS.map(function(s,i){return i}).sort(function(a,b){return (S.fav.has(b)?1:0)-(S.fav.has(a)?1:0)});
+    $('#radioGrid').innerHTML=order.map(function(i){var s=STATIONS[i],playing=curSt===i&&!$('#audio').paused;
+      var t=MT.rtest[s.n];
+      var badge=t==='ok'?'<span class="rsg" style="background:color-mix(in srgb,var(--up) 15%,transparent);color:var(--up)">✓ çalışıyor</span>'
+        :t==='bad'?'<span class="rsg" style="background:color-mix(in srgb,var(--dn) 15%,transparent);color:var(--dn)">✗ yanıt yok</span>'
+        :t==='busy'?'<span class="rsg">test…</span>':'';
+      return '<div class="rs'+(curSt===i?' on':'')+'" data-i="'+i+'"><button class="rsp">'+(playing?'❚❚':'▶')+'</button>'+
+      '<div class="rsb"><b>'+esc(s.n)+'</b><span>'+esc(s.d)+'</span><br><span class="rsg">'+esc(s.g)+'</span>'+
+      (s.urls.length>1?'<span class="rsg" style="background:var(--ov);color:var(--ink3)">'+s.urls.length+' mirror</span>':'')+badge+'</div>'+
+      '<button class="rsf'+(S.fav.has(i)?' on':'')+'" data-f="'+i+'">'+(S.fav.has(i)?'★':'☆')+'</button></div>'}).join('');
+    $$('#radioGrid .rs').forEach(function(el){
+      el.addEventListener('click',function(e){if(e.target.closest('[data-f]'))return;play(+el.dataset.i)});
+      var f=$('[data-f]',el);f.addEventListener('click',function(e){e.stopPropagation();var i=+f.dataset.f;
+        S.fav.has(i)?S.fav.delete(i):S.fav.add(i);LS.s('radar_fav',Array.from(S.fav));renderRadio()});
+    });
+    renderHealth();
+  };
+
+  /* --- radyo sekmesi ilk açılışta otomatik test --- */
+  var _sv=setView,once=false;
+  setView=function(v){_sv.apply(this,arguments);if(v==='radio'&&!once){once=true;setTimeout(testAll,500)}};
+  renderRadio();
+})();
+/* ===== /RADAR yama v8 ===== */
 
 /* ===== /Koruma paketi ===== */
 
