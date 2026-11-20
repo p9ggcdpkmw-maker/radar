@@ -21,7 +21,7 @@ if not GROQ_KEY and not GEMINI_KEY:
     sys.exit(1)
 
 AI_MODEL_GROQ   = os.environ.get("AI_MODEL_GROQ", "openai/gpt-oss-120b").strip()
-AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-3.8-flash").strip()
+AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-3.5-flash-lite").strip()
 AI_TEMPERATURE  = float(os.environ.get("AI_TEMPERATURE", "0.2"))
 AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.3").strip()
 SITE_URL        = os.environ.get("SITE_URL", "https://p9ggcdpkmw-maker.github.io/radar/").strip().rstrip("/") + "/"
