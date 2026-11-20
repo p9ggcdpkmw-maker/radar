@@ -1809,9 +1809,13 @@ setInterval(tickClock,10000);
 setInterval(function(){if(curSt>=0&&STATIONS[curSt]&&reallyPlaying()){var n=STATIONS[curSt].n;
 MT.playedOk.add(n);if(MT.rtest[n]!=='ok'){MT.rtest[n]='ok';if(S.view==='radio'){renderRadio();renderHealth()}}}},2000);
 renderRecent();measure();setTimeout(measure,300);setTimeout(measure,1200);
-if('serviceWorker'in navigator&&location.protocol!=='file:'){
-var go=function(){navigator.serviceWorker.register('sw.js').catch(function(){})};
-document.readyState==='complete'?go():addEventListener('load',go)}}
+if("serviceWorker"in navigator&&location.protocol!=='file:'){
+var banner=document.createElement('div');banner.id='updateBanner';banner.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);z-index:500;display:none;padding:10px 16px;border-radius:8px;background:var(--sf);border:1px solid var(--ln);color:var(--ink)';banner.innerHTML='🔄 Yeni içerik var <button class="btn pri" id="updateReload" style="margin-left:10px;padding:4px 12px">Yenile</button>';document.body.appendChild(banner);
+var go=function(){navigator.serviceWorker.register('sw.js').then(function(reg){
+reg.addEventListener('updatefound',function(){var nw=reg.installing;nw.addEventListener('statechange',function(){
+if(nw.state==='installed'&&navigator.serviceWorker.controller){banner.style.display='block'}})})}).catch(function(e){console.warn('Service Worker kayıt başarısız:', e)})};
+document.readyState==='complete'?go():addEventListener('load',go)}
+document.getElementById('updateReload').addEventListener('click',function(){if(navigator.serviceWorker.controller)navigator.serviceWorker.controller.postMessage('SKIP_WAITING');location.reload(true)});
 bindEvents();
 init();
 })();
