@@ -560,6 +560,12 @@ body.compact .grid{gap:10px}
 <div id="mkPane"></div>
 <button class="btn gh w" id="cMore" hidden>Tümünü göster</button>
 <div class="hours" id="mkHours"></div>
+<div class="cp" style="margin-top:13px"><div class="cph">💼 Portföyüm <em>bu cihazda saklanır</em></div>
+<div class="cvr"><select class="sel sm" id="pfKind"><option value="coin">Kripto</option><option value="stk">Hisse</option></select><input id="pfSym" placeholder="BTC / THYAO"></div>
+<div class="cvr"><input id="pfAmt" type="number" step="any" min="0" placeholder="Adet"><input id="pfBuy" type="number" step="any" min="0" placeholder="Alış fiyatı"></div>
+<button class="btn pri w" id="pfAdd">+ Portföye ekle</button>
+<div id="pfBody" style="margin-top:10px"><p class="hint">Henüz kayıt yok. Coin/hisse, adet ve alış fiyatı ekle; güncel değer ve kâr/zarar burada görünür.</p></div>
+</div>
 <h3 class="st">Yaşam &amp; Araçlar</h3>
 <div class="wgs">
 <div class="wg wide" id="wgWeather"><div class="wgh">☀️ Hava · <span id="wxName">Çorlu</span></div><div class="wgb skb"></div></div>
@@ -590,6 +596,8 @@ body.compact .grid{gap:10px}
 <section class="view" id="v-saved">
 <div class="mh"><div><h2 class="vt">Kaydedilenler</h2><p class="vs" id="savedSub">—</p></div><button class="btn gh" id="expSaved">⬇ JSON indir</button></div>
 <div class="grid" id="savedGrid"></div>
+<h3 class="st">🕑 Sonra Okunacaklar <em id="laterCount"></em></h3>
+<div class="grid" id="laterGrid"></div>
 </section>
 <section class="view" id="v-menu">
 <h2 class="vt" style="margin-bottom:14px">Menü</h2>
@@ -619,6 +627,10 @@ body.compact .grid{gap:10px}
 <a href="https://ntfy.sh/radar-oyun-x8f2" target="_blank" rel="noopener">Oyun</a>
 <a href="https://ntfy.sh/radar-piyasa-x8f2" target="_blank" rel="noopener">Piyasa</a>
 </div>
+</div>
+<div class="cp"><div class="cph">💰 Kuyumcu primi</div>
+<div class="row col"><span>Tahmini işçilik primi <b id="gpVal">%3</b></span><input type="range" id="goldPrim" min="0" max="15" step="0.5"></div>
+<p class="hint">Hesaplanan altın çeşitlerinin yanına kuyumcu satış tahmini ekler. Gerçek kuyumcu fiyatı değildir; piyasa/şehir farkı içermez.</p>
 </div>
 <div class="cp"><div class="cph">🌐 Çeviri</div>
 <div class="trr"><select class="sel" id="trFrom" aria-label="Kaynak dil"></select><button class="ib" id="trSwap" title="Dilleri değiştir">⇄</button><select class="sel" id="trTo" aria-label="Hedef dil"></select></div>
@@ -663,7 +675,9 @@ body.compact .grid{gap:10px}
 <button class="mx" data-close aria-label="Kapat">✕</button>
 <div class="mk" id="nKicker"></div><h2 class="mt" id="nTitle"></h2>
 <div class="mm" id="nMeta"></div><div class="mb" id="nBias"></div><div class="mw" id="nWhy"></div>
-<div class="ma"><button class="btn pri" id="nSpeak">🔊 Dinle</button><button class="btn gh" id="nSave">📌 Kaydet</button><button class="btn gh" id="nShare">↗ Paylaş</button></div>
+<div class="ma"><button class="btn pri" id="nSpeak">🔊 Dinle</button><button class="btn gh" id="nSave">📌 Kaydet</button><button class="btn gh" id="nShare">↗ Paylaş</button>
+<select class="sel sm" id="nRate" aria-label="Okuma hızı"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select>
+<select class="sel sm" id="nVoice" aria-label="Ses seçimi"></select></div>
 <p class="mbody" id="nBody"></p><div class="tl" id="nTL"></div>
 <a class="btn pri w" id="nLink" target="_blank" rel="noopener">Kaynakta oku ↗</a>
 </div></div>
@@ -752,6 +766,8 @@ muted:LS.g('radar_muted',false),vol:Number(LS.raw('radar_radio_volume')||0.8),
 read:new Set(LS.g('radar_read',[])),liked:new Set(LS.g('radar_liked',[])),savedSet:new Set(LS.g('radar_saved',[])),fav:new Set(LS.g('radar_fav',[])),
 brief:'genel',limit:24};
 if(['feed','market','radio','saved','menu'].indexOf(S.view)<0)S.view='feed';
+S.later=new Set(LS.g('radar_later',[]));
+var GPRIM=Number(LS.g('radar_gold_prim',3));
 var NEWS=[],META=null,BRIEF={},MK=null,CR=[],ST=[],ARCH=null,archLoading=null,HIST={},booting=true;
 var cur=null,hls=null,sleepT=0,curSt=-1,mIdx=0,playTok=0,wd=0,attOk=null,attErr=null,radioBusy=false;
 var palIdx=0,palRows=[],cfFn=null,FXR=null,CVR=null,wgDone=false,speaking=null,lastErrT=0,tightOn=false;
@@ -857,7 +873,7 @@ return '<article class="nc'+(S.read.has(n.link)?' read':'')+'" style="--cc:'+c.c
 '<h3 class="nch">'+esc(n.title||'')+'</h3><p class="ncs'+(bad?' bad':'')+'">'+esc(sum)+'</p>'+
 (n.why_important?'<div class="ncw">💡 '+esc(n.why_important)+'</div>':'')+
 '<div class="ncf"><span>'+ago(n.pubDate)+'</span>'+(n.ai&&n.ai.model?'<span class="badge bai" data-ai role="button" tabindex="0">✦ AI</span>':'')+biasBadge(n)+
-'<span class="acts"><span class="act sv'+(S.savedSet.has(n.link)?' on':'')+'" role="button" tabindex="0" aria-label="Kaydet">📌</span><span class="act lk'+(S.liked.has(n.link)?' liked':'')+'" role="button" tabindex="0" aria-label="Beğen">'+(S.liked.has(n.link)?'♥':'♡')+'</span></span></div>'+
+'<span class="acts"><span class="act lt'+(S.later.has(n.link)?' on':'')+'" role="button" tabindex="0" aria-label="Sonra oku">🕑</span><span class="act sv'+(S.savedSet.has(n.link)?' on':'')+'" role="button" tabindex="0" aria-label="Kaydet">📌</span><span class="act lk'+(S.liked.has(n.link)?' liked':'')+'" role="button" tabindex="0" aria-label="Beğen">'+(S.liked.has(n.link)?'♥':'♡')+'</span></span></div>'+
 '</div>'+img+'</article>'}
 function paintGrid(host,arr,limit){
 if(!arr.length){host.innerHTML='<div class="empty"><b>🔍</b><p>Bu filtreyle haber yok. Kategoriyi ya da ton filtresini değiştirmeyi dene.</p></div>';return}
@@ -917,6 +933,11 @@ LS.set('radar_age_12h',false);LS.set('radar_bias_filter',false);$('#paIn').value
 $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')});renderCats()}
 syncCtl();S.limit=24;renderTrends();renderFeed()}
 function toggleSave(l){S.savedSet.has(l)?S.savedSet.delete(l):S.savedSet.add(l);LS.s('radar_saved',Array.from(S.savedSet));renderSaved()}
+function toggleLater(l){S.later.has(l)?S.later.delete(l):S.later.add(l);LS.s('radar_later',Array.from(S.later));renderLater()}
+function renderLater(){var a=NEWS.filter(function(n){return S.later.has(n.link)});
+var lc=$('#laterCount');if(lc)lc.textContent=a.length+' haber';
+if(!S.later.size){$('#laterGrid').innerHTML='<div class="empty"><b>🕑</b><p>Listen boş. Haber kartındaki 🕑 simgesine bas, burada birikir.</p></div>';return}
+paintGrid($('#laterGrid'),a,0)}
 function toggleLike(l,el){var on=!S.liked.has(l);on?S.liked.add(l):S.liked.delete(l);
 LS.s('radar_liked',Array.from(S.liked));if(el){el.classList.toggle('liked',on);el.textContent=on?'♥':'♡'}}
 /* ================= SAĞ RAY ================= */
@@ -1126,7 +1147,7 @@ if(x[3]==='silver'){if(!sil)return null;v=sil.v;pp=sil.p;src='ons · worker'}
 else if(x[3]==='ons'){v=gb.ons?gb.ons.v:(g!=null?g*31.1035:null);pp=gb.ons?gb.ons.p:gb.p;src=x[2]+(gb.ons?' · worker':' · hesaplanmış')}
 else{if(g==null)return null;v=g*x[1];pp=gb.p;src=x[2]+(gb.direct&&x[1]===1?' · worker':' · hesaplanmış')}
 if(v==null)return null;
-return{n:x[0],s:src,v:v,p:pp,h:x[0]==='Gram Altın'?hist('Gram Altın'):[],liveNow:MT.wkOK}}).filter(Boolean);
+return{n:x[0],s:src+(x[3]==='calc'?' · kuyumcu ~'+nf(v*(1+GPRIM/100),0)+' ₺':''),v:v,p:pp,h:x[0]==='Gram Altın'?hist('Gram Altın'):[],liveNow:MT.wkOK}}).filter(Boolean);
 return '<div class="gh2">Döviz<span>'+rows.length+' parite</span></div><div class="mkb">'+rows.map(rowHTML).join('')+'</div>'+
 '<div class="gh2" style="margin-top:14px">Altın &amp; Gümüş<span>'+goldRows.length+' çeşit</span></div><div class="mkb">'+goldRows.map(rowHTML).join('')+'</div>'+
 '<p class="hint">Gram = ons/31,1035 × USDTRY. Çeyrek/ata gibi çeşitler gram fiyatından <b>hesaplanır</b>; kuyumcu işçilik primi dahil değildir.</p>'}
@@ -1155,6 +1176,18 @@ var show=c.w>64&&c.h>44,show2=c.w>84&&c.h>64;
 return '<div class="tc" role="button" tabindex="0" data-sym="'+c.it.sym+'" style="left:'+c.x.toFixed(1)+'px;top:'+c.y.toFixed(1)+'px;width:'+(c.w-2).toFixed(1)+'px;height:'+(c.h-2).toFixed(1)+'px;background:'+col+'">'+
 (show?'<b>'+esc(c.it.base)+'</b><i>'+pct(c.it.p)+'</i>'+(show2?'<span>'+fmtC(c.it.v)+'</span>':''):'')+'</div>'}).join('')}
 function heatCoins(){return MT.bin.filter(function(x){return x.quote==='USDT'}).sort(function(a,b){return b.vol-a.vol}).slice(0,40)}
+function pfLoad(){return LS.g('radar_pf',[])}
+function pfSave(a){LS.s('radar_pf',a)}
+function pfPrice(kind,sym){
+if(kind==='coin'){var l=MT.live[sym];if(l)return l.v;
+var b=MT.bin.filter(function(x){return x.sym===sym})[0];return b?b.v:null}
+var q=stPool().filter(function(x){return x.k===sym||x.disp===sym})[0];return q?q.v:null}
+function renderPf(){var a=pfLoad(),body=$('#pfBody');if(!body)return;
+if(!a.length){body.innerHTML='<p class="hint">Henüz kayıt yok. Coin/hisse, adet ve alış fiyatı ekle; güncel değer ve kâr/zarar burada görünür.</p>';return}
+body.innerHTML=a.map(function(x,i){var v=pfPrice(x.kind,x.sym);var cur=v==null?null:v*x.amt;var cost=x.buy*x.amt;
+var pl=cur!=null&&cost>0?((cur-cost)/cost*100):null;
+return '<div class="kv"><span>'+esc(x.sym)+' <i style="font:700 10px var(--mono);color:var(--ink3);font-style:normal">'+nf(x.amt,4)+' adet · alış '+nf(x.buy,2)+'</i></span>'+
+'<b>'+(cur!=null?fmtC(cur)+' '+(x.cur||'₺'):'—')+' <i class="'+cls(pl)+'" style="font-style:normal">'+(pl==null?'':pct(pl))+'</i> <span data-pfd="'+i+'" role="button" tabindex="0" style="color:var(--dn)" title="Sil">✕</span></b></div>'}).join('')}
 function syncMarketBars(){
 $('#mktBarCrypto').hidden=MT.tab!=='crypto';
 $('#mktBarStocks').hidden=MT.tab!=='stocks';
@@ -1341,10 +1374,16 @@ function stopSpeak(){try{if(window.speechSynthesis)speechSynthesis.cancel()}catc
 $('#nSpeak').textContent='🔊 Dinle';var b=$('#briefSpeak');b.textContent='🔊';b.classList.remove('on')}
 function speak(text,btn,kind){if(!window.speechSynthesis){toast('Tarayıcı sesli okumayı desteklemiyor','warn');return}
 if(speaking===kind){stopSpeak();return}
-stopSpeak();var u=new SpeechSynthesisUtterance(text);u.lang='tr-TR';u.rate=1;
+stopSpeak();var u=new SpeechSynthesisUtterance(text);u.lang='tr-TR'; u.rate=Number(($('#nRate')||{}).value||1); var vv=$('#nVoice');if(vv&&vv.value){var vc=speechSynthesis.getVoices().filter(function(x){return x.voiceURI===vv.value})[0];if(vc)u.voice=vc}
 u.onend=u.onerror=function(){if(speaking===kind)stopSpeak()};
 speaking=kind;if(kind==='news')btn.textContent='⏹ Durdur';else{btn.textContent='⏹';btn.classList.add('on')}
 speechSynthesis.speak(u)}
+function fillVoices(){var vv=$('#nVoice');if(!vv||!window.speechSynthesis)return;
+var vs=speechSynthesis.getVoices()||[],tr=vs.filter(function(x){return (x.lang||'').indexOf('tr')===0});
+var list=tr.length?tr:vs.slice(0,8);
+vv.innerHTML='<option value="">Varsayılan ses</option>'+list.map(function(x){return '<option value="'+esc(x.voiceURI)+'">'+esc(String(x.name).slice(0,22))+'</option>'}).join('');
+vv.style.display=list.length?'':'none'}
+if(window.speechSynthesis&&speechSynthesis.onvoiceschanged!==undefined)speechSynthesis.onvoiceschanged=fillVoices;
 function copyTxt(t){if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(function(){toast('Bağlantı kopyalandı')}).catch(function(){prompt('Bağlantı:',t)});else prompt('Bağlantı:',t)}
 /* ================= RADYO ================= */
 function buildStations(){STATIONS.length=0;
@@ -1591,6 +1630,20 @@ $('#cq').addEventListener('input',function(e){MT.cq=e.target.value;MT.clim=100;r
 $$('#cfSeg button').forEach(function(b){b.addEventListener('click',function(){MT.cf=b.dataset.f;MT.clim=100;renderMarket()})});
 $('#csSel').addEventListener('change',function(e){MT.cs=e.target.value;renderMarket()});
 $('#cMore').addEventListener('click',function(){MT.clim=10000;renderMarket()});
+$('#pfAdd').addEventListener('click',function(){
+var kind=$('#pfKind').value,raw=$('#pfSym').value.trim().toLocaleUpperCase('tr'),amt=Number($('#pfAmt').value),buy=Number($('#pfBuy').value);
+if(!raw||!isFinite(amt)||amt<=0||!isFinite(buy)||buy<=0){toast('Sembol, adet ve alış fiyatı gir','warn');return}
+var sym=raw,cur='₺';
+if(kind==='coin'){var m=MT.bin.filter(function(x){return (x.sym===raw||x.base===raw)&&x.quote==='TRY'})[0]||MT.bin.filter(function(x){return x.sym===raw||x.base===raw})[0];
+if(!m){toast('Coin bulunamadı: '+raw+' (örn. BTC, ETH)','warn');return}
+sym=m.sym;cur=m.quote==='TRY'?'₺':'$'}else{
+var q=stPool().filter(function(x){return x.k===raw||x.disp===raw})[0];
+if(!q){toast('Hisse bulunamadı: '+raw+' (örn. THYAO, AAPL)','warn');return}
+sym=q.k;cur=q.grp==='bist'?'₺':'$'}
+var a=pfLoad();a.push({kind:kind,sym:sym,amt:amt,buy:buy,cur:cur});pfSave(a);
+$('#pfSym').value='';$('#pfAmt').value='';$('#pfBuy').value='';
+renderPf();toast('💼 Eklendi: '+esc(sym))});
+$('#goldPrim').addEventListener('input',function(e){GPRIM=Number(e.target.value);$('#gpVal').textContent='%'+GPRIM;LS.s('radar_gold_prim',GPRIM);if(MT.tab==='fx')renderMarket()});
 $('#stq').addEventListener('input',function(e){MT.stq=e.target.value;renderMarket()});
 $$('#stmSeg button').forEach(function(b){b.addEventListener('click',function(){MT.stMkt=b.dataset.m;renderMarket()})});
 $$('#stDirSeg button').forEach(function(b){b.addEventListener('click',function(){MT.stDir=b.dataset.d;renderMarket()})});
@@ -1605,8 +1658,8 @@ $('#expSaved2').addEventListener('click',exportSaved);
 $('#expCsv').addEventListener('click',exportCSV);
 $('#copyLink').addEventListener('click',function(){copyTxt(filterURL())});
 $('#wipe').addEventListener('click',function(){ask('Geçmiş sıfırlansın mı?','Okundu, beğeni ve kayıtlar silinir. Geri alınamaz.',function(){
-S.read.clear();S.liked.clear();S.savedSet.clear();LS.d('radar_read');LS.d('radar_liked');LS.d('radar_saved');
-renderFeed();renderSaved();toast('Geçmiş temizlendi')})});
+S.read.clear();S.liked.clear();S.savedSet.clear();S.later.clear();LS.d('radar_read');LS.d('radar_liked');LS.d('radar_saved');LS.d('radar_later');
+renderFeed();renderSaved();renderLater();toast('Geçmiş temizlendi')})});
 $('#trSwap').addEventListener('click',function(){var f=$('#trFrom'),t=$('#trTo');if(f.value==='auto'){toast('Otomatik algılama çevrilemez','warn');return}var a=f.value;f.value=t.value;t.value=a});
 $('#trGo').addEventListener('click',doTranslate);
 $('#sentGo').addEventListener('click',sentiment);
@@ -1665,6 +1718,7 @@ if(el=t.closest('[data-ai]')){var ac=el.closest('.nc');var ai=ac?((findNews(ac.d
 if(el=t.closest('.act')){var c2=el.closest('.nc');if(!c2)return;var l=c2.dataset.link;
 if(el.classList.contains('sv')){toggleSave(l);el.classList.toggle('on',S.savedSet.has(l));if(cur&&cur.link===l)updateNSave();if(S.view==='saved')renderSaved()}
 else if(el.classList.contains('lk'))toggleLike(l,el);
+else if(el.classList.contains('lt')){toggleLater(l);el.classList.toggle('on',S.later.has(l));if(S.view==='saved')renderLater()}
 return}
 if(el=t.closest('.nc')){var nn=findNews(el.dataset.link);if(nn)openNews(nn);return}
 if(el=t.closest('[data-f]')){var nm=el.dataset.f;S.fav.has(nm)?S.fav.delete(nm):S.fav.add(nm);LS.s('radar_fav',Array.from(S.fav));renderRadio();return}
@@ -1676,16 +1730,26 @@ if(el=t.closest('tr[data-stk]')){openStock(el.dataset.stk);return}
 if(el=t.closest('th[data-s]')){MT.cs=el.dataset.s;renderMarket();return}
 if(el=t.closest('.tc[data-sym]')){openCoin(el.dataset.sym);return}
 if(el=t.closest('.ht[data-hk]')){openStock(el.dataset.hk);return}
+if(el=t.closest('[data-pfd]')){var pa=pfLoad();pa.splice(+el.dataset.pfd,1);pfSave(pa);renderPf();return}
 if(el=t.closest('[data-rn]')){var nm=el.dataset.rn;for(var ri=0;ri<STATIONS.length;ri++){if(STATIONS[ri].n===nm){play(ri);break}}return}
 if(el=t.closest('[data-favrow]')){var pp=el.dataset.favrow.split('|');if(pp[0]==='coin')openCoin(pp[1]);else openStock(pp[1]);return}
 });
 addEventListener('keydown',function(e){
-var ae=document.activeElement;
-if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='k'){e.preventDefault();openPal()}
-else if(e.key==='Escape'){closePal();closeM();hidePop()}
-else if(e.key==='/'&&ae&&!/INPUT|TEXTAREA|SELECT/.test(ae.tagName)){e.preventDefault();openPal()}
-else if((e.key==='Enter'||e.key===' ')&&ae&&ae.getAttribute&&ae.getAttribute('role')==='button'){e.preventDefault();ae.click()}
-else if(e.key==='Enter'&&ae&&ae.classList&&ae.classList.contains('nc')){e.preventDefault();var n=findNews(ae.dataset.link);if(n)openNews(n)}});
+var ae=document.activeElement,typing=ae&&/INPUT|TEXTAREA|SELECT/.test(ae.tagName);
+if((e.ctrlKey||e.metaKey)&&String(e.key).toLowerCase()==='k'){e.preventDefault();openPal();return}
+if(e.key==='Escape'){closePal();closeM();hidePop();return}
+if(typing)return;
+var cards=$$('#newsGrid .nc');
+if(e.key==='j'||e.key==='k'){if(!cards.length)return;e.preventDefault();
+var i=cards.indexOf(ae),n2=e.key==='j'?Math.min(cards.length-1,i+1):Math.max(0,i<0?0:i-1);
+cards[n2].focus();cards[n2].scrollIntoView({block:'center',behavior:'auto'});return}
+if(ae&&ae.classList&&ae.classList.contains('nc')){var lk=ae.dataset.link;
+if(e.key==='o'||e.key==='Enter'){e.preventDefault();var n3=findNews(lk);if(n3)openNews(n3);return}
+if(e.key==='s'){e.preventDefault();toggleSave(lk);var b2=$('.sv',ae);if(b2)b2.classList.toggle('on',S.savedSet.has(lk));return}
+if(e.key==='l'||e.key===' '){e.preventDefault();var b3=$('.lk',ae);toggleLike(lk,b3);return}
+if(e.key==='t'){e.preventDefault();toggleLater(lk);var b4=$('.lt',ae);if(b4)b4.classList.toggle('on',S.later.has(lk));return}}
+if(e.key==='/'){e.preventDefault();openPal();return}
+if((e.key==='Enter'||e.key===' ')&&ae&&ae.getAttribute&&ae.getAttribute('role')==='button'){e.preventDefault();ae.click()}});
 addEventListener('scroll',function(){hidePop()},{passive:true,capture:true});
 addEventListener('scroll',function(){var y=scrollY||pageYOffset||0;
 if(innerWidth>900){if(!tightOn&&y>140)tightOn=true;else if(tightOn&&y<60)tightOn=false;
@@ -1713,7 +1777,7 @@ buildStations();
 applyTheme();hello();tickClock();renderPrefs();renderAbout();
 $('#trFrom').innerHTML=LANGS.map(function(l){return '<option value="'+l[0]+'">'+l[1]+'</option>'}).join('');
 $('#trTo').innerHTML=LANGS.filter(function(l){return l[0]!=='auto'}).map(function(l){return '<option value="'+l[0]+'"'+(l[0]==='en'?' selected':'')+'>'+l[1]+'</option>'}).join('');
-$('#plVol').value=S.vol;
+$('#plVol').value=S.vol;$('#goldPrim').value=GPRIM;$('#gpVal').textContent='%'+GPRIM;fillVoices();
 $('#cityNow').textContent=CITY.n;fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();
 if(!wgDone){wgDone=true;widgets()}
 if(S.view!=='market')Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad()]).then(function(){renderRail();renderFav()});
