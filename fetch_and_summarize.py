@@ -108,6 +108,19 @@ def ntfy(topic, title, msg, tags="", priority=3):
     except Exception as e:
         print(f"  ! Ntfy hatası ({topic}): {e}", file=sys.stderr)
 
+TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
+TG_CHAT = os.environ.get("TELEGRAM_CHAT", "").strip()
+
+
+def tg_send(text):
+    if not TG_TOKEN or not TG_CHAT: return
+    try:
+        requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
+                      json={"chat_id": TG_CHAT, "text": text[:4000],
+                            "disable_web_page_preview": True}, timeout=10)
+    except Exception as e:
+        print(f"  ! Telegram hatası: {e}", file=sys.stderr)
+
 
 def clean_json_response(text):
     """AI'nın JSON cevabını temizler; iç içe veya birden fazla JSON varsa sadece ilk geçerli nesneyi döndürür."""
@@ -632,7 +645,7 @@ def main():
                 ntfy("radar-piyasa-x8f2", "📈 Piyasa Alarmı",
                      f"{asset_name} %{abs(asset['change_pct']):.2f} {yon}!", "chart_with_upwards_trend")
                 alerts_sent[asset_name] = today
-
+                tg_send(f"📈 Piyasa Alarmı: {asset_name} %{abs(asset['change_pct']):.2f} {yon}!")
     new_by_cat = {}
     for it in need_summary:
         if it.get("summary") and "tam metnine ulaşılamadı" not in it["summary"]:
@@ -640,7 +653,7 @@ def main():
     for cat_id, items in new_by_cat.items():
         ntfy(f"radar-{cat_id}-x8f2", f"📰 {items[0]['cat']} Gündemi",
              f"{len(items)} yeni haber eklendi.", "newspaper")
-
+        tg_send(f"📰 {items[0]['cat']} Gündemi: {len(items)} yeni haber eklendi.")
     out = {
         "updated": datetime.now(timezone.utc).isoformat(),
         "meta": {
