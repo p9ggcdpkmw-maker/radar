@@ -557,7 +557,7 @@ body.compact .grid{gap:10px}
 <div class="hours" id="mkHours"></div>
 <h3 class="st">Yaşam &amp; Araçlar</h3>
 <div class="wgs">
-<div class="wg wide" id="wgWeather"><div class="wgh">☀️ Hava · Çorlu</div><div class="wgb skb"></div></div>
+<div class="wg wide" id="wgWeather"><div class="wgh">☀️ Hava · <span id="wxName">Çorlu</span></div><div class="wgb skb"></div></div>
 <div class="wg" id="wgAir"><div class="wgh">🌫️ Hava Kalitesi</div><div class="wgb skb"></div></div>
 <div class="wg" id="wgSun"><div class="wgh">🌅 Gün Işığı</div><div class="wgb skb"></div></div>
 <div class="wg" id="wgPray"><div class="wgh">🕌 Namaz Vakitleri</div><div class="wgb skb"></div></div>
@@ -594,6 +594,7 @@ body.compact .grid{gap:10px}
 <div class="row col"><span>Yazı boyutu <b id="fsVal2">100%</b></span><input type="range" id="fontRange2" min="85" max="130" step="5" aria-label="Yazı boyutu"></div>
 <div class="row"><span>Görselleri gizle</span><button class="sw" id="swImg" aria-label="Görselleri gizle"></button></div>
 <div class="row"><span>Hareketi azalt</span><button class="sw" id="swMotion" aria-label="Hareketi azalt"></button></div>
+<div class="row col"><span>Hava şehri <b id="cityNow">Çorlu</b></span><div class="cvr"><input id="cityIn" placeholder="Şehir adı yaz…"><button class="btn gh" id="cityGo">Bul</button></div></div>
 </div>
 <div class="cp"><div class="cph">📰 Filtreler</div>
 <div class="row"><span>Sadece son 12 saat</span><button class="sw" id="sw12" aria-label="Son 12 saat filtresi"></button></div>
@@ -750,6 +751,7 @@ var cur=null,hls=null,sleepT=0,curSt=-1,mIdx=0,playTok=0,wd=0,attOk=null,attErr=
 var palIdx=0,palRows=[],cfFn=null,FXR=null,CVR=null,wgDone=false,speaking=null,lastErrT=0,tightOn=false;
 var STATIONS=[],OFF=new Set(LS.g('radar_radio_off',[])),EXTRA=[];
 (function(){var ex=LS.g('radar_radio_extra',[]);if(Array.isArray(ex))ex.forEach(function(x){if(x&&x.n&&Array.isArray(x.urls)&&x.urls.length)EXTRA.push(x)})})();
+var CITY=LS.g('radar_city',{n:'Çorlu',la:LAT,lo:LON});
 var MT={tab:'genel',wk:{},wkOK:false,wkFail:0,wkAsOf:0,bin:[],binTS:0,binOK:false,binFail:0,ws:null,wsExtra:null,ticks:{},live:{},
 cg:null,fng:null,cf:'TRY',cs:'vol',cq:'',clim:100,cfav:new Set(LS.g('radar_cfav',[])),
 stq:'',stSort:'vol',stMkt:'all',stDir:'all',stfav:new Set(LS.g('radar_stfav',[])),
@@ -1238,8 +1240,8 @@ function sessions(){var z=zparts(TZ);return{bist:sess(TZ,10,0,18,0),us:sess('Ame
 fx:{open:z.w,label:z.w?'24 saat · hafta içi':'hafta sonu',hours:'Pzt–Cum'},crypto:{open:true,label:'kesintisiz',hours:'7/24'}}}
 /* ================= YAŞAM WIDGET'LARI ================= */
 function wgb(id){return $('#'+id+' .wgb')}
-function widgets(){
-jget('https://api.open-meteo.com/v1/forecast?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone='+encodeURIComponent(TZ)+'&forecast_days=7',11000).then(function(d){
+function widgets(){var wn=$('#wxName');if(wn)wn.textContent=CITY.n;
+jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone='+encodeURIComponent(TZ)+'&forecast_days=7',11000).then(function(d){
 var c=d.current||{},hr=d.hourly||{},dy=d.daily||{},w=wx(c.weather_code);
 var h='<div class="wgn"><div class="wt">'+Math.round(c.temperature_2m||0)+'°</div><div class="wm"><b>'+w[1]+' '+w[0]+'</b>Hissedilen '+Math.round(c.apparent_temperature||0)+'° · nem %'+Math.round(c.relative_humidity_2m||0)+' · rüzgâr '+Math.round(c.wind_speed_10m||0)+' km/s</div></div>';
 var now=Date.now(),cnt=0,hs='';
