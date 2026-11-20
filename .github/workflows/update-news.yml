@@ -51,7 +51,7 @@ jobs:
           cp news.json "archive/${DATE}.json"
           python - <<'PY'
           import json, glob, os
-          KEEP = 60
+          KEEP = 180
           files = [f for f in glob.glob("archive/*.json")
                    if os.path.basename(f) != "index.json"]
           files.sort(key=lambda f: os.path.basename(f)[:-5], reverse=True)
