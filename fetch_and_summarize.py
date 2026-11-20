@@ -117,7 +117,19 @@ def clean_json_response(text):
     text = text.strip()
     match = re.search(r'\{.*\}', text, re.DOTALL)
     return match.group(0) if match else text
-
+    
+def extractive_summary(text, max_chars=280):
+    """AI hiç yanıt vermezse: gövdenin ilk cümlelerini tarafsız özet olarak kullan."""
+    t = re.sub(r"\s+", " ", (text or "")).strip()
+    if len(t) < 40:
+        return ""
+    sentences = re.split(r"(?<=[.!?…])\s+", t)
+    out = sentences[0]
+    if len(sentences) > 1 and len(out) + len(sentences[1]) + 1 <= max_chars:
+        out += " " + sentences[1]
+    if len(out) > max_chars:
+        out = out[:max_chars].rsplit(" ", 1)[0] + "…"
+    return out
 
 def ask_ai(prompt, is_json=True):
     global LAST_AI_MODEL
@@ -499,9 +511,26 @@ def main():
             chunk = need_summary[i:i+3]
             summaries = summarize_batch(chunk)
             batch_generated_at = datetime.now(timezone.utc).isoformat(timespec="seconds")
+            
             for it in chunk:
                 res = summaries.get(it["id"], {})
-                it["summary"] = res.get("summary", "Bu haberin tam metnine ulaşılamadı.")
+                summ = (res.get("summary") or "").strip()
+                if not summ or "oluşturulamadı" in summ:
+                    fb = extractive_summary(it.get("text") or it.get("rss_desc", ""))
+                    if fb:
+                        it["summary"], it["score"], it["tone"] = fb, 5, "nötr"
+                        it["why_important"], it["bias_score"] = "", None
+                        it["ai"] = {
+                            "model": "extractive",
+                            "temperature": AI_TEMPERATURE,
+                            "prompt_version": AI_PROMPT_VER,
+                            "generated_at": batch_generated_at,
+                            "method": "extractive-fallback (AI yanıt vermedi)",
+                            "source_urls": [it["link"]],
+                        }
+                        continue
+                    summ = "Bu haberin tam metnine ulaşılamadı."
+                it["summary"] = summ
                 it["score"] = res.get("score", 5)
                 it["tone"] = res.get("tone", "nötr")
                 it["why_important"] = res.get("why_important", "")
