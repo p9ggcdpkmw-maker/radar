@@ -675,10 +675,10 @@ body.compact .grid{gap:10px}
 <button class="mx" data-close aria-label="Kapat">✕</button>
 <div class="mk" id="nKicker"></div><h2 class="mt" id="nTitle"></h2>
 <div class="mm" id="nMeta"></div><div class="mb" id="nBias"></div><div class="mw" id="nWhy"></div>
-<div class="ma"><button class="btn pri" id="nSpeak">🔊 Dinle</button><button class="btn gh" id="nSave">📌 Kaydet</button><button class="btn gh" id="nShare">↗ Paylaş</button>
+<div class="ma"><button class="btn pri" id="nSpeak">🔊 Dinle</button><button class="btn gh" id="nSave">📌 Kaydet</button><button class="btn gh" id="nShare">↗ Paylaş</button><button class="btn gh" id="nRead">📖 Okuma modu</button>
 <select class="sel sm" id="nRate" aria-label="Okuma hızı"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select>
 <select class="sel sm" id="nVoice" aria-label="Ses seçimi"></select></div>
-<p class="mbody" id="nBody"></p><div class="tl" id="nTL"></div>
+<p class="mbody" id="nBody"></p><div class="mbody" id="readBox" hidden style="border-top:1px dashed var(--ln2);padding-top:14px;margin-top:4px"></div><div class="tl" id="nTL"></div>
 <a class="btn pri w" id="nLink" target="_blank" rel="noopener">Kaynakta oku ↗</a>
 </div></div>
 <div class="modal" id="mCoin" role="dialog" aria-modal="true"><div class="moc sm">
@@ -1349,6 +1349,7 @@ if(bh){bb.className='mb show';bb.innerHTML=bh+'<span>Dil analizi '+Number(n.bias
 var wh=$('#nWhy');if(n.why_important){wh.className='mw show';wh.innerHTML='💡 <b>Neden önemli?</b><br>'+esc(n.why_important)}else wh.className='mw';
 $('#nBody').textContent=n.summary||'Bu haber için özet hazırlanmadı. Kaynakta tamamını okuyabilirsin.';
 $('#nLink').href=safeUrl(n.link);
+$('#readBox').hidden=true;$('#nRead').textContent='📖 Okuma modu';
 updateNSave();timeline(n);stopSpeak();openM('#mNews');renderFeed()}
 function timeline(n){var box=$('#nTL'),rows=[{s:n.source,l:n.link,t:n.pubDate}];
 (n.other_sources||[]).forEach(function(o){if(o&&o.link)rows.push({s:o.source,l:o.link,t:o.pubDate})});
@@ -1682,6 +1683,18 @@ $('#archSel').addEventListener('change',function(e){applyArch(e.target.value)});
 $('#archSelM').addEventListener('change',function(e){applyArch(e.target.value)});
 $('#nSpeak').addEventListener('click',function(){if(!cur)return;speak(cur.title+'. '+(cur.why_important?'Neden önemli? '+cur.why_important+'. ':'')+(cur.summary||''),$('#nSpeak'),'news')});
 $('#nSave').addEventListener('click',function(){if(!cur)return;toggleSave(cur.link);updateNSave();renderFeed()});
+function readMode(){var box=$('#readBox');if(!cur||!box)return;
+if(!box.hidden){box.hidden=true;$('#nRead').textContent='📖 Okuma modu';return}
+box.hidden=false;$('#nRead').textContent='⏳ Yükleniyor…';box.textContent='';
+fetch(PROXY+encodeURIComponent(cur.link),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(html){
+var doc=new DOMParser().parseFromString(html,'text/html');
+var ps=$$('p',doc).map(function(p){return (p.textContent||'').replace(/\s+/g,' ').trim()})
+.filter(function(t){return t.length>60}).slice(0,12);
+if(!ps.length)throw 0;
+box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+'</p>'}).join('');
+$('#nRead').textContent='📖 Okuma modunu kapat'}).catch(function(){
+box.hidden=true;$('#nRead').textContent='📖 Okuma modu';toast('Okuma modu bu kaynak için açılamadı','warn')})}
+$('#nRead').addEventListener('click',readMode);
 $('#nShare').addEventListener('click',function(){if(!cur)return;var d={title:cur.title,text:(cur.summary||'').slice(0,180),url:cur.link};
 if(navigator.share){navigator.share(d).catch(function(e){if(e&&e.name!=='AbortError')copyTxt(cur.link)});return}copyTxt(cur.link)});
 $('#cFav').addEventListener('click',function(){var kind=MT.detailKind,key=MT.detailKey;if(!key)return;
