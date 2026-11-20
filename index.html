@@ -25,6 +25,10 @@ html[data-theme=light]{--void:#EFEAE0;--bg:#FAF7F2;--sf:#FFF;--sf2:#F5F2EB;--ov:
 --ln:#E4DDD1;--ln2:#D3C9B8;--ink:#16181D;--ink2:#5C6472;--ink3:#8A93A3;
 --pri:#4F46E5;--pri2:#7C3AED;--cy:#0891B2;--up:#0E9F6E;--dn:#DC2626;--warn:#B45309;--gold:#A9761B;--mag:#DB2777;
 --sh1:0 2px 10px rgba(80,66,44,.09);--sh2:0 18px 44px rgba(80,66,44,.16)}
+html[data-theme=sepia]{--void:#E7DCC3;--bg:#F3EAD3;--sf:#FBF6E9;--sf2:#EFE5CC;--ov:#FFFDF6;--scrim:rgba(60,48,30,.44);
+--ln:#DDD0B4;--ln2:#C9B995;--ink:#3E3223;--ink2:#6B5B45;--ink3:#8A7A61;
+--pri:#8A5A2B;--pri2:#A4713B;--cy:#0E7C86;--up:#2E7D32;--dn:#B3261E;--warn:#8A6D1A;--gold:#8A6D1A;--mag:#8E3B5C;
+--sh1:0 2px 10px rgba(90,70,40,.10);--sh2:0 18px 44px rgba(90,70,40,.18)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:auto}
 html,body{overscroll-behavior-y:none}
@@ -46,6 +50,7 @@ body.lock{overflow:hidden}
 .aur i:nth-child(2){width:38vw;height:38vw;right:-8vw;top:6vh;background:radial-gradient(circle,var(--mag),transparent 66%);animation-delay:-9s;opacity:.26}
 .aur i:nth-child(3){width:44vw;height:44vw;left:34vw;bottom:-22vw;background:radial-gradient(circle,var(--cy),transparent 66%);animation-delay:-16s;opacity:.2}
 html[data-theme=light] .aur i{opacity:.15}
+html[data-theme=sepia] .aur i{opacity:.12}
 @keyframes drift{to{transform:translate3d(5vw,4vh,0) scale(1.14)}}
 body.nomotion .aur i{animation:none}
 body.nomotion *{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -489,7 +494,7 @@ body.compact .grid{gap:10px}
 </nav>
 <div class="sctl">
 <h4>Görünüm</h4>
-<div class="seg sm" id="themeSegSide"><button data-theme="auto" title="Sistem">🖥️</button><button data-theme="light" title="Açık">☀️</button><button data-theme="dark" title="Koyu">🌙</button></div>
+<div class="seg sm" id="themeSegSide"><button data-theme="auto" title="Sistem">🖥️</button><button data-theme="light" title="Açık">☀️</button><button data-theme="sepia" title="Sepia">📜</button><button data-theme="dark" title="Koyu">🌙</button></div>
 <div class="seg sm" id="densSegSide"><button data-d="comf">Rahat</button><button data-d="comp">Sıkı</button></div>
 <div class="srow"><span>Yazı <b id="fsVal">100%</b></span></div>
 <input type="range" id="fontRange" min="85" max="130" step="5" style="width:100%;accent-color:var(--pri)" aria-label="Yazı boyutu">
@@ -590,7 +595,7 @@ body.compact .grid{gap:10px}
 <h2 class="vt" style="margin-bottom:14px">Menü</h2>
 <div class="mcols">
 <div class="cp"><div class="cph">🎨 Görünüm</div>
-<div class="row"><span>Tema</span><div class="seg sm" id="themeSeg"><button data-theme="auto">🖥️ Sistem</button><button data-theme="light">☀️ Açık</button><button data-theme="dark">🌙 Koyu</button></div></div>
+<div class="row"><span>Tema</span><div class="seg sm" id="themeSeg"><button data-theme="auto">🖥️ Sistem</button><button data-theme="light">☀️ Açık</button><button data-theme="sepia">📜 Sepia</button><button data-theme="dark">🌙 Koyu</button></div></div>
 <div class="row"><span>Yoğunluk</span><div class="seg sm" id="densSeg"><button data-d="comf">Rahat</button><button data-d="comp">Sıkı</button></div></div>
 <div class="row col"><span>Yazı boyutu <b id="fsVal2">100%</b></span><input type="range" id="fontRange2" min="85" max="130" step="5" aria-label="Yazı boyutu"></div>
 <div class="row"><span>Görselleri gizle</span><button class="sw" id="swImg" aria-label="Görselleri gizle"></button></div>
@@ -771,7 +776,7 @@ return '<span class="badge '+b[0]+'" title="AI dil analizi '+v+'/10 · kesin de�
 var mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
 function applyTheme(){var dark=S.theme==='dark'||(S.theme==='auto'&&!!(mq&&mq.matches));
 document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-var mt=$('meta[name=theme-color]');if(mt)mt.content=dark?'#0B1020':'#FAF7F2';
+var mt=$('meta[name=theme-color]');if(mt)mt.content=dark?'#0B1020':S.theme==='sepia'?'#F3EAD3':'#FAF7F2';
 document.body.classList.toggle('noimg',S.noimg);document.body.classList.toggle('compact',S.dens==='comp');
 document.body.classList.toggle('nomotion',S.nomotion);
 document.documentElement.style.setProperty('--fs',String(S.fs/100));
