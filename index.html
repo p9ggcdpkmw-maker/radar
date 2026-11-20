@@ -232,7 +232,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .mkt-bar .inp:focus{border-color:var(--pri)}
 .tblwrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:var(--r3)}
 .tbl{width:100%;min-width:560px;border-collapse:collapse;border:1px solid var(--ln);background:var(--sf)}
-.tbl.st7{min-width:700px}
+.tbl.st9{min-width:840px}
 .tbl th{font:900 10px var(--sans);letter-spacing:1.1px;text-transform:uppercase;color:var(--ink3);text-align:right;padding:10px 12px;background:var(--sf2);cursor:pointer;white-space:nowrap;user-select:none}
 .tbl th:first-child,.tbl td:first-child{text-align:left}
 .tbl th.l,.tbl td.l{text-align:left}
@@ -983,6 +983,10 @@ return{sym:x.symbol,base:x.symbol.slice(0,x.symbol.length-q.length),quote:q,v:+x
 vol:+x.quoteVolume,hi:+x.highPrice,lo:+x.lowPrice,tr:+x.count}});
 MT.binTS=Date.now();MT.binOK=true;MT.binFail=0;
 }).catch(function(){MT.binFail++;if(MT.binFail>=3)MT.binOK=false})}
+function pctS(v){return v==null||!isFinite(v)?'—':pct(v)}
+function cgMktLoad(){return jget('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=volume_desc&per_page=250&page=1&price_change_percentage=1h%2C24h%2C7d%2C30d',12000).then(function(d){
+MT.cgm={};(Array.isArray(d)?d:[]).forEach(function(c){if(c&&c.symbol)MT.cgm[String(c.symbol).toUpperCase()]={h1:c.price_change_percentage_1h_in_currency,d7:c.price_change_percentage_7d_in_currency,d30:c.price_change_percentage_30d_in_currency}});
+MT.cgmTS=Date.now();}).catch(function(){})}
 function cgLoad(){return jget('https://api.coingecko.com/api/v3/global',10000).then(function(d){MT.cg=d.data||null}).catch(function(){})}
 function fngLoad(){return jget('https://api.alternative.me/fng/?limit=1',8000).then(function(d){MT.fng=(d.data||[])[0]||null}).catch(function(){})}
 function setBinChip(live){var c=$('#mkBin');if(!c)return;
@@ -1024,11 +1028,12 @@ q=q.slice();q.sort(function(a,b){
 var fa=MT.cfav.has(a.sym)?0:1,fb=MT.cfav.has(b.sym)?0:1;if(fa!==fb)return fa-fb;
 if(MT.cs==='chg')return b.p-a.p;if(MT.cs==='price')return b.v-a.v;return b.vol-a.vol});
 return q}
-function coinRow(x){var live=MT.live[x.sym],v=live?live.v:x.v,p=live?live.p:x.p;
+function coinRow(x){var live=MT.live[x.sym],v=live?live.v:x.v,p=live?live.p:x.p,cm=MT.cgm[x.base.toUpperCase()]||{};
 return '<tr data-sym="'+x.sym+'"><td class="l"><span class="cn"><i style="background:'+(x.quote==='TRY'?'var(--gold)':'var(--cy)')+'"></i>'+esc(x.base)+
 '<span style="color:var(--ink3);font:700 10px var(--mono)">/'+x.quote+'</span></span></td>'+
 '<td class="cv">'+fmtC(v)+(x.quote==='TRY'?' ₺':' $')+'</td>'+
 '<td class="cp '+cls(p)+'">'+arw(p)+' '+pct(p)+'</td>'+
+'<td class="'+cls(cm.h1)+'">'+pctS(cm.h1)+'</td><td class="'+cls(cm.d7)+'">'+pctS(cm.d7)+'</td><td class="'+cls(cm.d30)+'">'+pctS(cm.d30)+'</td>'+
 '<td>'+vol(x.vol)+(x.quote==='TRY'?' ₺':' $')+'</td>'+
 '<td>'+hlBar(v,x.lo,x.hi)+'</td>'+
 '<td><span class="stx'+(MT.cfav.has(x.sym)?' on':'')+'" role="button" tabindex="0" data-fav="'+x.sym+'">'+(MT.cfav.has(x.sym)?'★':'☆')+'</span></td></tr>'}
@@ -1067,7 +1072,7 @@ var head='<div class="strip">'+
 (MT.cg?'<div class="scard"><b>BTC payı</b><span>%'+nf(MT.cg.market_cap_percentage&&MT.cg.market_cap_percentage.btc,1)+'</span><i>ETH %'+nf(MT.cg.market_cap_percentage&&MT.cg.market_cap_percentage.eth,1)+'</i></div>':'')+
 (MT.fng?'<div class="scard"><b>Korku &amp; Açgözlülük</b><span>'+esc(MT.fng.value)+'</span><i>'+esc(MT.fng.value_classification||'')+'</i></div>':'')+
 '<div class="scard"><b>Listelenen çift</b><span>'+MT.bin.length+'</span><i>Binance 24s</i></div></div>';
-var tbl='<div class="tblwrap"><table class="tbl"><thead><tr><th class="l">Coin</th><th data-s="price">Fiyat ⇅</th><th data-s="chg">%24s ⇅</th><th data-s="vol">Hacim(24s) ⇅</th><th class="l">Gün aralığı</th><th>★</th></tr></thead><tbody>'+
+var tbl='<div class="tblwrap"><table class="tbl st9"><thead><tr><th class="l">Coin</th><th data-s="price">Fiyat ⇅</th><th data-s="chg">%24s ⇅</th><th>1s</th><th>7g</th><th>30g</th><th data-s="vol">Hacim(24s) ⇅</th><th class="l">Gün aralığı</th><th>★</th></tr></thead><tbody>'+
 show.map(coinRow).join('')+'</tbody></table></div>'+
 '<p class="hint">Fiyatlar Binance\'ten gelir. TRY çiftleri ₺, diğerleri $ gösterilir. ★ favoriler üste çıkar. Satır tıkla → detay.</p>';
 return head+tbl}
@@ -1187,12 +1192,13 @@ $('#cPrice').textContent=(isCoin?fmtC(v):price(v))+cs;
 $('#cChg').innerHTML=(p!=null?'<span class="pill '+cls(p)+'">'+arw(p)+' '+pct(p)+'</span>':'')+' <span style="color:var(--ink3)">'+(isCoin?'24 saat':'günlük değişim')+'</span>';
 var cv=$('#cSpark'),series=isCoin?(MT.ticks[r.sym]||[]):(r.s||[]);
 if(series.length>2){cv.style.display='block';spark(cv,series)}else{cv.style.display='none'}
-var st;
+var cm2=MT.cgm[(r.base||'').toUpperCase()]||{},st;
 if(isCoin){st='<div class="kv"><span>24s en yüksek</span><b>'+fmtC(r.hi)+'</b></div>'+
 '<div class="kv"><span>24s en düşük</span><b>'+fmtC(r.lo)+'</b></div>'+
 '<div class="kv"><span>Gün aralığı</span><b>'+hlBar(v,r.lo,r.hi)+'</b></div>'+
 '<div class="kv"><span>24s hacim</span><b>'+vol(r.vol)+' '+r.quote+'</b></div>'+
 '<div class="kv"><span>24s işlem sayısı</span><b>'+vol(r.tr)+'</b></div>'+
+'<div class="kv"><span>1s / 7g / 30g</span><b>'+pctS(cm2.h1)+' · '+pctS(cm2.d7)+' · '+pctS(cm2.d30)+'</b></div>'+
 '<div class="kv"><span>Kaynak</span><b>Binance · '+(live?'canlı':'60 sn')+'</b></div>'}
 else{st='<div class="kv"><span>Hacim</span><b>'+((r.vol||0)>0?vol(r.vol)+cs:'—')+'</b></div>'+
 '<div class="kv"><span>Piyasa değeri</span><b>'+cap2(r.mcap,r.grp)+'</b></div>'+
@@ -1212,11 +1218,11 @@ MT.detail=null;MT.detailKind='stk';MT.detailKey=k;
 fillDetail(q,'stk');openM('#mCoin')}
 function mkTickers(){if(S.view!=='market'||document.hidden)return;
 var age=Date.now()-MT.binTS;
-Promise.all([age>60000?binLoad():Promise.resolve(),wkLoad()]).then(renderMarket)}
+Promise.all([age>60000?binLoad():Promise.resolve(),wkLoad(),(Date.now()-(MT.cgmTS||0))>600000?cgMktLoad():Promise.resolve()]).then(renderMarket)}
 function mkEnter(){renderMarket();
 loadArch(12).then(function(){renderMarket()});
 if(!wgDone){wgDone=true;widgets()}
-Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad()]).then(renderMarket);
+Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad(),cgMktLoad()]).then(renderMarket);
 wsSet(null);
 clearInterval(MT.timer);MT.timer=setInterval(mkTickers,10000)}
 function mkLeave(){clearInterval(MT.timer);MT.timer=0;MT.detail=null;
@@ -1562,8 +1568,8 @@ $('#catsL').addEventListener('click',function(){$('#cats').scrollBy({left:-220,b
 $('#catsR').addEventListener('click',function(){$('#cats').scrollBy({left:220,behavior:'smooth'})});
 $('#cats').addEventListener('scroll',catArrows,{passive:true});
 $$('#mkTabs button').forEach(function(b){b.addEventListener('click',function(){MT.tab=b.dataset.m;MT.clim=100;renderMarket()})});
-$('#mkRefresh').addEventListener('click',function(){toast('Piyasa yenileniyor…');Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad()]).then(renderMarket)});
-$('#cq').addEventListener('input',function(e){MT.cq=e.target.value;MT.clim=100;renderMarket()});
+$('#mkRefresh').addEventListener('click',function(){toast('Piyasa yenileniyor…');Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad(),cgMktLoad()]).then(renderMarket)});
+$('#cq').addEventListener('input',function(e){MT.cq=e.target.value;MT.clim=100;renderMarket()})
 $$('#cfSeg button').forEach(function(b){b.addEventListener('click',function(){MT.cf=b.dataset.f;MT.clim=100;renderMarket()})});
 $('#csSel').addEventListener('change',function(e){MT.cs=e.target.value;renderMarket()});
 $('#cMore').addEventListener('click',function(){MT.clim=10000;renderMarket()});
