@@ -568,7 +568,7 @@ body.compact .grid{gap:10px}
 </div>
 <h3 class="st">Yaşam &amp; Araçlar</h3>
 <div class="wgs">
-<div class="wg wide" id="wgWeather"><div class="wgh">☀️ Hava · <span id="wxName">Çorlu</span></div><div class="wgb skb"></div></div>
+<div class="wg wide" id="wgWeather"><div class="wgh">☀️ Hava · <span id="wxName">Çorlu</span> <button class="btn gh" id="wxRetry" style="margin-left:auto;font-size:11px;padding:2px 8px" hidden>↻ Tekrar dene</button></div><div class="wgb skb"></div></div>
 <div class="wg" id="wgAir"><div class="wgh">🌫️ Hava Kalitesi</div><div class="wgb skb"></div></div>
 <div class="wg" id="wgSun"><div class="wgh">🌅 Gün Işığı</div><div class="wgb skb"></div></div>
 <div class="wg" id="wgPray"><div class="wgh">🕌 Namaz Vakitleri</div><div class="wgb skb"></div></div>
@@ -1279,7 +1279,7 @@ function sessions(){var z=zparts(TZ);return{bist:sess(TZ,10,0,18,0),us:sess('Ame
 fx:{open:z.w,label:z.w?'24 saat · hafta içi':'hafta sonu',hours:'Pzt–Cum'},crypto:{open:true,label:'kesintisiz',hours:'7/24'}}}
 /* ================= YAŞAM WIDGET'LARI ================= */
 function wgb(id){return $('#'+id+' .wgb')}
-function widgets(){var wn=$('#wxName');if(wn)wn.textContent=CITY.n;
+function widgets(retry){var wn=$('#wxName');if(wn)wn.textContent=CITY.n;var rb=$('#wxRetry');if(rb)rb.hidden=!retry;
 jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone='+encodeURIComponent(TZ)+'&forecast_days=7',11000).then(function(d){
 var c=d.current||{},hr=d.hourly||{},dy=d.daily||{},w=wx(c.weather_code);
 var h='<div class="wgn"><div class="wt">'+Math.round(c.temperature_2m||0)+'°</div><div class="wm"><b>'+w[1]+' '+w[0]+'</b>Hissedilen '+Math.round(c.apparent_temperature||0)+'° · nem %'+Math.round(c.relative_humidity_2m||0)+' · rüzgâr '+Math.round(c.wind_speed_10m||0)+' km/s</div></div>';
@@ -1300,8 +1300,12 @@ wgb('wgSun').className='wgb';wgb('wgSun').innerHTML='<div class="kv"><span>🌅 
 '<div class="kv"><span>Gün uzunluğu</span><b>'+Math.floor(len/36e5)+' sa '+Math.round(len%36e5/6e4)+' dk</b></div>'+
 '<div class="bar" style="margin-top:10px"><i style="left:0;width:'+(p*100)+'%;background:linear-gradient(90deg,var(--gold),var(--warn))"></i></div>'+
 '<p class="hint">'+(Date.now()<A?'Gün henüz başlamadı':Date.now()>B?'Gün battı':'Günün %'+Math.round(p*100)+"'i geçti")+'</p>'}
-}).catch(function(){wgb('wgWeather').className='wgb';wgb('wgWeather').innerHTML='<p class="hint">Hava servisi yanıt vermedi.</p>';
-$('#railWx').innerHTML='<p class="hint">Hava verisi alınamadı.</p>'});
+}).catch(function(){
+    wgb('wgWeather').className='wgb';
+    wgb('wgWeather').innerHTML='<p class="hint">Hava servisi yanıt vermedi.</p>';
+    $('#railWx').innerHTML='<p class="hint">Hava verisi alınamadı.</p>';
+    if(rb) rb.hidden = false; // Hata olursa "Tekrar dene" butonunu göster
+});
 jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=european_aqi,pm2_5,pm10&timezone='+encodeURIComponent(TZ),10000).then(function(d){
 var c=d.current||{},a=Number(c.european_aqi||0);
 var lv=a<=20?['İyi','var(--up)']:a<=40?['Orta','#84CC16']:a<=60?['Hassas','var(--warn)']:a<=80?['Kötü','#F97316']:['Çok kötü','var(--dn)'];
@@ -1666,6 +1670,10 @@ $('#trSwap').addEventListener('click',function(){var f=$('#trFrom'),t=$('#trTo')
 $('#trGo').addEventListener('click',doTranslate);
 $('#sentGo').addEventListener('click',sentiment);
 $('#cityGo').addEventListener('click',citySet);
+$('#wxRetry').addEventListener('click',function(){
+    toast('Hava durumu güncelleniyor...');
+    widgets(true);
+});
 $('#cityIn').addEventListener('keydown',function(e){if(e.key==='Enter')citySet()});
 $('#btnPalette').addEventListener('click',openPal);
 $('#palette').addEventListener('click',function(e){if(e.target===$('#palette'))closePal()});
