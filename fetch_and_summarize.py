@@ -110,13 +110,32 @@ def ntfy(topic, title, msg, tags="", priority=3):
 
 
 def clean_json_response(text):
+    """AI'nın JSON cevabını temizler; iç içe veya birden fazla JSON varsa sadece ilk geçerli nesneyi döndürür."""
     text = text.strip()
     if text.startswith("```json"): text = text[7:]
     elif text.startswith("```"): text = text[3:]
     if text.endswith("```"): text = text[:-3]
     text = text.strip()
+    # İlk { ... } bloğunu bul
     match = re.search(r'\{.*\}', text, re.DOTALL)
-    return match.group(0) if match else text
+    if not match:
+        return text
+    json_str = match.group(0)
+    # İç içe JSON varsa sadece ilkini al
+    try:
+        json.loads(json_str)
+        return json_str
+    except json.JSONDecodeError:
+        # Geçersizse, ilk geçerli JSON nesnesini bul
+        depth = 0
+        for i, char in enumerate(json_str):
+            if char == '{':
+                depth += 1
+            elif char == '}':
+                depth -= 1
+                if depth == 0:
+                    return json_str[:i+1]
+        return json_str
     
 def extractive_summary(text, max_chars=280):
     """AI hiç yanıt vermezse: gövdenin ilk cümlelerini tarafsız özet olarak kullan."""
