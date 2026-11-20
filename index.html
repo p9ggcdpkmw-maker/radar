@@ -1254,7 +1254,7 @@ var lo=mins.length?Math.min.apply(null,mins):0,hi=maxs.length?Math.max.apply(nul
 h+='<div class="wd"><span>'+(i===0?'Bugün':new Date(t).toLocaleDateString('tr-TR',{weekday:'short'}))+'</span><i style="font-style:normal">'+ww[1]+'</i>'+
 '<div class="bar"><i style="left:'+a+'%;width:'+Math.max(6,b-a)+'%;background:linear-gradient(90deg,var(--cy),var(--warn))"></i></div><b>'+Math.round(mins[i])+'° / '+Math.round(maxs[i])+'°</b></div>'});
 wgb('wgWeather').className='wgb';wgb('wgWeather').innerHTML=h;
-$('#railWx').innerHTML='<div class="wgn"><div class="wt">'+Math.round(c.temperature_2m||0)+'°</div><div class="wm"><b>'+w[1]+' '+w[0]+'</b>Çorlu · nem %'+Math.round(c.relative_humidity_2m||0)+'</div></div>';
+$('#railWx').innerHTML='<div class="wgn"><div class="wt">'+Math.round(c.temperature_2m||0)+'°</div><div class="wm"><b>'+w[1]+' '+w[0]+'<b>'+w[1]+' '+w[0]+'</b>'+esc(CITY.n)+' · nem %'+Math.round(c.relative_humidity_2m||0)+'</div></div>';
 var sr=(dy.sunrise||[])[0],ss=(dy.sunset||[])[0];
 if(sr&&ss){var A=new Date(sr).getTime(),B=new Date(ss).getTime(),len=Math.max(1,B-A),p=clamp((Date.now()-A)/len,0,1);
 wgb('wgSun').className='wgb';wgb('wgSun').innerHTML='<div class="kv"><span>🌅 Doğuş</span><b>'+hhmm(sr)+'</b></div><div class="kv"><span>🌇 Batış</span><b>'+hhmm(ss)+'</b></div>'+
@@ -1274,7 +1274,7 @@ var t=(d.data&&d.data.timings)||{},map=[['İmsak','Fajr'],['Güneş','Sunrise'],
 var nm=new Date().getHours()*60+new Date().getMinutes(),nx=-1;
 map.forEach(function(m,i){var v=String(t[m[1]]||'').split(':'),mm=(+v[0])*60+(+v[1]);if(nx<0&&mm>nm)nx=i});
 wgb('wgPray').className='wgb';wgb('wgPray').innerHTML=map.map(function(m,i){
-return '<div class="kv'+(i===nx?' now':'')+'"><span>'+m[0]+(i===nx?' · sıradaki':'')+'</span><b>'+esc(String(t[m[1]]||'—').slice(0,5))+'</b></div>'}).join('')+'<p class="hint">Diyanet yöntemi · Çorlu</p>'
+return '<div class="kv'+(i===nx?' now':'')+'"><span>'+m[0]+(i===nx?' · sıradaki':'')+'</span><b>'+esc(String(t[m[1]]||'—').slice(0,5))+'</b></div>'}).join('')+'<p class="hint">Diyanet yöntemi · '+esc(CITY.n)+'</p>'
 }).catch(function(){wgb('wgPray').className='wgb';wgb('wgPray').innerHTML='<p class="hint">Vakit servisi yanıt vermedi.</p>'});
 converterFill()}
 function converterFill(){
@@ -1444,6 +1444,12 @@ $('#player').classList.toggle('playing',on);
 $('#plToggle').textContent=on?'❚❚':'▶';
 if(curSt>=0&&!radioBusy)$('#plState').textContent=on?(S.muted?'sessiz · çalıyor':'canlı çalıyor'):'duraklatıldı';
 if(S.view==='radio')renderRadio()}
+function citySet(){var q=$('#cityIn').value.trim();if(!q)return;
+jget('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(q)+'&count=1&language=tr',8000).then(function(d){
+var r=(d.results||[])[0];if(!r){toast('Şehir bulunamadı','warn');return}
+CITY={n:r.name,la:r.latitude,lo:r.longitude};LS.s('radar_city',CITY);
+$('#cityNow').textContent=CITY.n;$('#cityIn').value='';widgets();toast('📍 '+esc(CITY.n))
+}).catch(function(){toast('Şehir araması başarısız','err')})}
 function measure(){var tb=$('#tabbar'),pl=$('#player');
 var tH=(tb&&getComputedStyle(tb).display!=='none')?tb.offsetHeight:0;
 var pH=(pl&&pl.classList.contains('on'))?pl.offsetHeight:0;
@@ -1594,6 +1600,8 @@ renderFeed();renderSaved();toast('Geçmiş temizlendi')})});
 $('#trSwap').addEventListener('click',function(){var f=$('#trFrom'),t=$('#trTo');if(f.value==='auto'){toast('Otomatik algılama çevrilemez','warn');return}var a=f.value;f.value=t.value;t.value=a});
 $('#trGo').addEventListener('click',doTranslate);
 $('#sentGo').addEventListener('click',sentiment);
+$('#cityGo').addEventListener('click',citySet);
+$('#cityIn').addEventListener('keydown',function(e){if(e.key==='Enter')citySet()});
 $('#btnPalette').addEventListener('click',openPal);
 $('#palette').addEventListener('click',function(e){if(e.target===$('#palette'))closePal()});
 $('#paIn').addEventListener('input',function(e){palFill(e.target.value);S.q=e.target.value.trim();S.limit=24;renderTrends();renderFeed()});
@@ -1695,7 +1703,7 @@ applyTheme();hello();tickClock();renderPrefs();renderAbout();
 $('#trFrom').innerHTML=LANGS.map(function(l){return '<option value="'+l[0]+'">'+l[1]+'</option>'}).join('');
 $('#trTo').innerHTML=LANGS.filter(function(l){return l[0]!=='auto'}).map(function(l){return '<option value="'+l[0]+'"'+(l[0]==='en'?' selected':'')+'>'+l[1]+'</option>'}).join('');
 $('#plVol').value=S.vol;
-fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();
+$('#cityNow').textContent=CITY.n;fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();
 if(!wgDone){wgDone=true;widgets()}
 if(S.view!=='market')Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad()]).then(function(){renderRail();renderFav()});
 setInterval(function(){if(!S.arch&&!document.hidden)loadData()},3e5);
