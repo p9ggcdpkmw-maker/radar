@@ -235,7 +235,24 @@ def fetch_text_and_image(url):
         r.raise_for_status()
         text = trafilatura.extract(r.content, include_comments=False) or ""
         soup = BeautifulSoup(r.content, "html.parser")
-        og = soup.find("meta", property="og:image")
+        og = (soup.find("meta", property="og:image")
+              or soup.find("meta", attrs={"name": "twitter:image"})
+              or soup.find("meta", attrs={"name": "twitter:image:src"})
+              or soup.find("meta", attrs={"itemprop": "image"})
+              or soup.find("meta", attrs={"name": "image"}))
+        if og is None:
+            ld = soup.find("script", type="application/ld+json")
+            if ld:
+                try:
+                    data = json.loads(ld.string or "")
+                    if isinstance(data, list): data = data[0] if data else {}
+                    img = data.get("image") if isinstance(data, dict) else None
+                    if isinstance(img, list): img = img[0] if img else None
+                    if isinstance(img, dict): img = img.get("url")
+                    if isinstance(img, str) and img.startswith("http"):
+                        og_image = img
+                except Exception:
+                    pass
         if og and og.get("content"):
             og_image = og["content"].strip()
             parsed = urlparse(url)
