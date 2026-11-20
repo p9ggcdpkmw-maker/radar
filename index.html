@@ -1305,7 +1305,6 @@ wgb('wgSun').className='wgb';wgb('wgSun').innerHTML='<div class="kv"><span>🌅 
     wgb('wgWeather').innerHTML='<p class="hint">Hava servisi yanıt vermedi.</p>';
     $('#railWx').innerHTML='<p class="hint">Hava verisi alınamadı.</p>';if(rb)rb.hidden=false});
     if(rb) rb.hidden = false; // Hata olursa "Tekrar dene" butonunu göster
-});
 jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=european_aqi,pm2_5,pm10&timezone='+encodeURIComponent(TZ),10000).then(function(d){
 var c=d.current||{},a=Number(c.european_aqi||0);
 var lv=a<=20?['İyi','var(--up)']:a<=40?['Orta','#84CC16']:a<=60?['Hassas','var(--warn)']:a<=80?['Kötü','#F97316']:['Çok kötü','var(--dn)'];
