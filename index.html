@@ -421,6 +421,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .pai span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pai em{font:800 10.5px var(--mono);font-style:normal;color:var(--ink3)}
 .pai.sel{background:color-mix(in srgb,var(--pri) 16%,transparent)}
+#paList mark{background:color-mix(in srgb,var(--cy) 32%,transparent);color:var(--ink);border-radius:4px;padding:0 1px}
 .paf{padding:10px 16px;border-top:1px solid var(--ln);font:700 10.5px var(--sans);color:var(--ink3);display:flex;gap:12px}
 .paf kbd{font:700 10px var(--mono);border:1px solid var(--ln2);border-radius:4px;padding:1px 4px}
 .pop{position:fixed;z-index:400;display:none;max-width:325px;padding:13px 15px;border-radius:var(--r2);border:1px solid var(--ln2);background:var(--ov);box-shadow:var(--sh2);font:600 12.5px/1.6 var(--sans)}
@@ -1443,10 +1444,13 @@ document.documentElement.style.setProperty('--pl',pH+'px')}
 /* ================= PALET ================= */
 function openPal(){$('#palette').classList.add('on');document.body.classList.add('lock');$('#paIn').value=S.q;palFill(S.q);$('#paIn').focus()}
 function closePal(){$('#palette').classList.remove('on');document.body.classList.remove('lock')}
+function hl(text,q){var raw=String(text||'');if(!q)return esc(raw);
+var i=raw.toLocaleLowerCase('tr').indexOf(q);if(i<0)return esc(raw);
+return esc(raw.slice(0,i))+'<mark>'+esc(raw.slice(i,i+q.length))+'</mark>'+esc(raw.slice(i+q.length))}
 function palFill(q){var s=String(q||'').toLocaleLowerCase('tr');
 palRows=NEWS.filter(function(n){return !s||[n.title,n.source,n.summary].some(function(x){return x&&String(x).toLocaleLowerCase('tr').indexOf(s)>=0})}).slice(0,40);palIdx=0;
 $('#paList').innerHTML=palRows.length?palRows.map(function(n,i){var c=CATS[n.catId]||{c:'#64748B'};
-return '<div class="pai'+(i===0?' sel':'')+'" data-i="'+i+'"><i style="background:'+c.c+'"></i><span>'+esc(n.title)+'</span><em>★'+(n.score||5)+'</em></div>'}).join(''):'<div class="pai"><span>Eşleşme yok</span></div>'}
+return '<div class="pai'+(i===0?' sel':'')+'" data-i="'+i+'"><i style="background:'+c.c+'"></i></i><span>'+hl(n.title,s)+'</span><em>★'+(n.score||5)+'</em></div>'}).join(''):'<div class="pai"><span>Eşleşme yok</span></div>'}
 function palMove(d){if(!palRows.length)return;palIdx=(palIdx+d+palRows.length)%palRows.length;
 $$('#paList .pai').forEach(function(e,i){e.classList.toggle('sel',i===palIdx)});
 var el=$$('#paList .pai')[palIdx];if(el)el.scrollIntoView({block:'nearest'})}
