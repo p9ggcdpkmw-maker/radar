@@ -570,6 +570,7 @@ body.compact .grid{gap:10px}
 </section>
 <section class="view" id="v-radio">
 <h2 class="vt">Canlı Radyo</h2><p class="vs">Sekme değiştirsen de yayın devam eder. ★ ile favorilere ekle.</p>
+<div class="pulse" id="recentRow" style="margin-top:10px"></div>
 <div class="radios" id="radioGrid" style="margin-top:14px"></div>
 <div class="legal" id="radioHealth"><b>🩺 Kanal sağlığı:</b> <span id="rhStat">henüz test edilmedi</span>
 <div><button class="btn gh" id="rTest">▶ Testi çalıştır</button><button class="btn dg" id="rHide" hidden>✗ Çalışmayanları gizle</button><button class="btn gh" id="rShow" hidden>Gizlenenleri geri getir</button></div>
@@ -1397,7 +1398,7 @@ toast('⚠️ '+esc(s.n)+' şu an açılamadı — tüm mirrorlar denendi','err'
 renderRadio();renderHealth()}
 function play(i){var a=$('#audio'),s=STATIONS[i];if(!s)return;
 if(curSt===i&&!a.paused){a.pause();return}
-curSt=i;mIdx=0;playTok++;radioBusy=true;
+curSt=i;mIdx=0;playTok++;radioBusy=true;pushRecent(s.n);
 $('#plName').textContent=s.n;$('#plState').textContent='bağlanıyor…';
 $('#player').classList.add('on');measure();
 attempt(s,playTok);renderRadio()}
@@ -1439,6 +1440,10 @@ LS.s('radar_radio_extra',EXTRA);
 res.innerHTML='Bitti: <b>'+added+' kanal eklendi</b>, '+dead+' aday çalışmıyor (eklenmedi).'+(added?' Yeni kanallar listede ★ ile favorilenebilir.':'');
 btn.disabled=false;renderRadio();renderHealth();
 if(added)toast('🧪 '+added+' yeni çalışan kanal eklendi')}
+function pushRecent(n){var r=LS.g('radar_radio_recent',[]);r=[n].concat(r.filter(function(x){return x!==n})).slice(0,5);LS.s('radar_radio_recent',r);renderRecent()}
+function renderRecent(){var r=LS.g('radar_radio_recent',[]),box=$('#recentRow');if(!box)return;
+if(!r.length){box.innerHTML='';box.style.display='none';return}
+box.style.display='';box.innerHTML='<span style="font:900 10px var(--sans);letter-spacing:1.2px;color:var(--ink3);align-self:center">SON:</span>'+r.map(function(n){return '<div class="trend" role="button" tabindex="0" data-rn="'+esc(n)+'">📻 '+esc(n)+'</div>'}).join('')}
 function plSync(){var a=$('#audio'),on=!a.paused;
 $('#player').classList.toggle('playing',on);
 $('#plToggle').textContent=on?'❚❚':'▶';
