@@ -1671,6 +1671,7 @@ if(el=t.closest('tr[data-stk]')){openStock(el.dataset.stk);return}
 if(el=t.closest('th[data-s]')){MT.cs=el.dataset.s;renderMarket();return}
 if(el=t.closest('.tc[data-sym]')){openCoin(el.dataset.sym);return}
 if(el=t.closest('.ht[data-hk]')){openStock(el.dataset.hk);return}
+if(el=t.closest('[data-rn]')){var nm=el.dataset.rn;for(var ri=0;ri<STATIONS.length;ri++){if(STATIONS[ri].n===nm){play(ri);break}}return}
 if(el=t.closest('[data-favrow]')){var pp=el.dataset.favrow.split('|');if(pp[0]==='coin')openCoin(pp[1]);else openStock(pp[1]);return}
 });
 addEventListener('keydown',function(e){
@@ -1716,7 +1717,7 @@ setInterval(function(){hello();checkStale()},6e4);
 setInterval(tickClock,10000);
 setInterval(function(){if(curSt>=0&&STATIONS[curSt]&&reallyPlaying()){var n=STATIONS[curSt].n;
 MT.playedOk.add(n);if(MT.rtest[n]!=='ok'){MT.rtest[n]='ok';if(S.view==='radio'){renderRadio();renderHealth()}}}},2000);
-measure();setTimeout(measure,300);setTimeout(measure,1200);
+renderRecent();measure();setTimeout(measure,300);setTimeout(measure,1200);
 if('serviceWorker'in navigator&&location.protocol!=='file:'){
 var go=function(){navigator.serviceWorker.register('sw.js').catch(function(){})};
 document.readyState==='complete'?go():addEventListener('load',go)}}
