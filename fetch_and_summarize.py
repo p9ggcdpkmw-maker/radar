@@ -22,6 +22,9 @@ if not GROQ_KEY and not GEMINI_KEY:
 
 AI_MODEL_GROQ   = os.environ.get("AI_MODEL_GROQ", "openai/gpt-oss-120b").strip()
 AI_MODEL_GEMINI = os.environ.get("AI_MODEL_GEMINI", "gemini-3.5-flash-lite").strip()
+CF_KEY  = os.environ.get("CF_API_TOKEN", "").strip()
+CF_ACCT = os.environ.get("CF_ACCOUNT_ID", "").strip()
+AI_MODEL_CF = os.environ.get("AI_MODEL_CF", "@cf/qwen/qwen3-30b-a3b-fp8").strip()
 AI_TEMPERATURE  = float(os.environ.get("AI_TEMPERATURE", "0.2"))
 AI_PROMPT_VER   = os.environ.get("AI_PROMPT_VER", "v1.3").strip()
 SITE_URL        = os.environ.get("SITE_URL", "https://p9ggcdpkmw-maker.github.io/radar/").strip().rstrip("/") + "/"
@@ -599,13 +602,13 @@ import atexit
 AI_PACE = float(os.environ.get("AI_PACE_SECONDS", "10"))
 AI_TEXT_LIMIT = int(os.environ.get("AI_TEXT_LIMIT", "700"))
 EVENT_CLUSTER = os.environ.get("EVENT_CLUSTER", "0").strip() == "1"
-AI_STATS = {"groq": 0, "gemini": 0, "bos": 0, "groq429": 0, "bekleme": 0.0, "_uyari": 0}
+AI_STATS = {"groq": 0, "gemini": 0, "cf": 0, "bos": 0, "groq429": 0, "bekleme": 0.0, "_uyari": 0}
 GROQ_KAPALI = False
 
 
 def _radar_ai_ozeti():
-    print("AI özeti → Groq: {} · Gemini: {} · boş cevap: {} · Groq 429: {} · beklenen: {:.0f} sn".format(
-        AI_STATS["groq"], AI_STATS["gemini"], AI_STATS["bos"],
+        print("AI özeti → Groq: {} · Gemini: {} · Cloudflare: {} · boş cevap: {} · Groq 429: {} · beklenen: {:.0f} sn".format(
+        AI_STATS["groq"], AI_STATS["gemini"], AI_STATS["cf"], AI_STATS["bos"],
         AI_STATS["groq429"], AI_STATS["bekleme"]))
 
 
@@ -683,6 +686,23 @@ def ask_ai(prompt, is_json=True):
                 return resp.json()["choices"][0]["message"]["content"]
             except Exception as e:
                 print(f"  ! Gemini hatası: {e}", file=sys.stderr)
+                time.sleep(3)
+    if CF_KEY and CF_ACCT:
+        for attempt in range(2):
+            try:
+                body = {"model": AI_MODEL_CF, "max_tokens": 1600,
+                        "messages": [{"role": "user", "content": prompt}]}
+                resp = requests.post(
+                    f"https://api.cloudflare.com/client/v4/accounts/{CF_ACCT}/ai/v1/chat/completions",
+                    headers={"Authorization": f"Bearer {CF_KEY}"}, json=body, timeout=90)
+                if resp.status_code == 429:
+                    time.sleep(10); continue
+                resp.raise_for_status()
+                LAST_AI_MODEL = AI_MODEL_CF
+                AI_STATS["cf"] += 1
+                return resp.json()["choices"][0]["message"]["content"]
+            except Exception as e:
+                print(f"  ! Cloudflare hatası: {e}", file=sys.stderr)
                 time.sleep(3)
 
     AI_STATS["bos"] += 1
