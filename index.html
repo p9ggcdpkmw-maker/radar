@@ -1338,6 +1338,7 @@ function updateNSave(){if(!cur)return;var on=S.savedSet.has(cur.link),b=$('#nSav
 b.className='btn '+(on?'pri':'gh');b.textContent=on?'📌 Kaydedildi':'📌 Kaydet'}
 function openNews(n){cur=n;
 if(S.autoRead){S.read.add(n.link);LS.s('radar_read',Array.from(S.read))}
+if(S.later.has(n.link)){S.later.delete(n.link);LS.s('radar_later',Array.from(S.later));renderLater()}
 var c=CATS[n.catId]||{l:'Haber',c:'var(--pri)'};
 $('#nKicker').textContent=c.l;$('#nKicker').style.color=c.c;$('#nTitle').textContent=n.title||'';
 var others=(n.other_sources||[]).map(function(s){return '<a href="'+esc(safeUrl(s.link))+'" target="_blank" rel="noopener">'+esc(s.source||'kaynak')+'</a>'}).join(', ');
