@@ -112,14 +112,17 @@ TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TG_CHAT = os.environ.get("TELEGRAM_CHAT", "").strip()
 
 
-def tg_send(text):
+def tg_send(text, retry=2):
     if not TG_TOKEN or not TG_CHAT: return
-    try:
-        requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
-                      json={"chat_id": TG_CHAT, "text": text[:4000],
-                            "disable_web_page_preview": True}, timeout=10)
-    except Exception as e:
-        print(f"  ! Telegram hatası: {e}", file=sys.stderr)
+    for attempt in range(retry):
+        try:
+            requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
+                          json={"chat_id": TG_CHAT, "text": text[:4000],
+                                "disable_web_page_preview": True}, timeout=10)
+            return
+        except Exception as e:
+            print(f"  ! Telegram hatası ({attempt+1}/{retry}): {e}", file=sys.stderr)
+            if attempt < retry-1: time.sleep(3)
 
 
 def clean_json_response(text):
