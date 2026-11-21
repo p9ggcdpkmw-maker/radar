@@ -837,9 +837,9 @@ x.beginPath();x.moveTo(X(0),Y(v[0]));v.forEach(function(n,i){x.lineTo(X(i),Y(n))
 x.beginPath();x.moveTo(X(0),Y(v[0]));v.forEach(function(n,i){x.lineTo(X(i),Y(n))});x.strokeStyle=c;x.lineWidth=1.7;x.lineJoin='round';x.stroke();
 x.beginPath();x.arc(X(v.length-1),Y(v[v.length-1]),2.4,0,7);x.fillStyle=c;x.fill()}
 function redrawSparks(){$$('canvas[data-spark]').forEach(function(cv){try{spark(cv,JSON.parse(cv.dataset.spark),cv.dataset.color||null)}catch(e){}})}
-function jget(u,ms){var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||9000);
 function jpost(u,body,opt){opt=opt||{};var c=new AbortController(),t=setTimeout(function(){c.abort()},opt.ms||10000);
 return fetch(u,{method:'POST',signal:c.signal,cache:'no-store',headers:opt.headers||{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('HTTP '+r.status);return r.json().catch(function(){return{}})}).catch(function(e){clearTimeout(t);throw e})}
+function jget(u,ms){var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||9000);
 return fetch(u,{signal:c.signal,cache:'no-store'}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).catch(function(e){clearTimeout(t);throw e})}
 function rebuildHist(){HIST={};if(!ARCH)return;
 ARCH.forEach(function(a){var d=a.data,push=function(k,v){if(v==null||!isFinite(v))return;(HIST[k]=HIST[k]||[]).push({t:a.date,v:Number(v)})};
