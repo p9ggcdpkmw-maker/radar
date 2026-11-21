@@ -948,7 +948,9 @@ LS.set('radar_age_12h',false);LS.set('radar_bias_filter',false);$('#paIn').value
 $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')});renderCats()}
 syncCtl();S.limit=24;renderTrends();renderFeed()}
 function toggleSave(l){S.savedSet.has(l)?S.savedSet.delete(l):S.savedSet.add(l);LS.s('radar_saved',Array.from(S.savedSet));renderSaved()}
+trackUsage('Kaydet')
 function toggleLater(l){S.later.has(l)?S.later.delete(l):S.later.add(l);LS.s('radar_later',Array.from(S.later));renderLater()}
+trackUsage('Sonra oku')
 function trackUsage(action){var u=LS.g('radar_usage',{});u[action]=(u[action]||0)+1;LS.s('radar_usage',u)}
 function renderUsage(){var u=LS.g('radar_usage',{}),box=$('#usageBox');if(!box)return;
 if(!Object.keys(u).length){box.innerHTML='<p class="hint">Kullanım verisi yok.</p>';return}
@@ -1366,6 +1368,7 @@ $('#cvO').textContent=isFinite(v)?nf(v,v>=1000?2:4)+' '+t:'—'}
 function updateNSave(){if(!cur)return;var on=S.savedSet.has(cur.link),b=$('#nSave');
 b.className='btn '+(on?'pri':'gh');b.textContent=on?'📌 Kaydedildi':'📌 Kaydet'}
 function openNews(n){cur=n;
+trackUsage('Haber açıldı')                     
 if(S.autoRead){S.read.add(n.link);LS.s('radar_read',Array.from(S.read))}
 if(S.later.has(n.link)){S.later.delete(n.link);LS.s('radar_later',Array.from(S.later));renderLater()}
 var c=CATS[n.catId]||{l:'Haber',c:'var(--pri)'};
@@ -1736,6 +1739,7 @@ $('#nRead').textContent='📖 Okuma modunu kapat'}).catch(function(){
 box.hidden=true;$('#nRead').textContent='📖 Okuma modu';toast('Okuma modu bu kaynak için açılamadı','warn')})}
 $('#nRead').addEventListener('click',readMode);
 $('#podcastPlay').addEventListener('click',function(){
+trackUsage('Podcast')
 if(!NEWS||!NEWS.length){toast('Haber yok','warn');return}
 $('#podcastStatus').textContent='⏳ AI sesi hazırlanıyor…';
 var top10=NEWS.slice(0,10).map(function(n,i){return (i+1)+'. '+n.title+'. '+n.summary}).join(' ');
