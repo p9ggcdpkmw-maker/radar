@@ -487,7 +487,7 @@ def fetch_weather():
         r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=41.1601&longitude=27.8055&current_weather=true", timeout=10)
         r.raise_for_status()
         cw = r.json().get("current_weather", {})
-                return {"temp": cw.get("temperature"), "desc": WEATHER_DESC.get(cw.get("weathercode"), "Bilinmiyor"), "city": "Çorlu"}
+        return {"temp": cw.get("temperature"), "desc": WEATHER_DESC.get(cw.get("weathercode"), "Bilinmiyor"), "city": "Çorlu"}
     except Exception:
         return None
 
