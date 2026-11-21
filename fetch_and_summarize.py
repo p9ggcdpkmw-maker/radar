@@ -686,8 +686,27 @@ def main():
     for cat_id, items in new_by_cat.items():
         ntfy(f"radar-{cat_id}-x8f2", f"📰 {items[0]['cat']} Gündemi",
              f"{len(items)} yeni haber eklendi.", "newspaper")
-        tg_send(f"📰 {items[0]['cat']} Gündemi: {len(items)} yeni haber eklendi.")
+                tg_send(f"📰 {items[0]['cat']} Gündemi: {len(items)} yeni haber eklendi.")
+    bd_date = ""
+    if new_by_cat:
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        try:
+            with open("news.json", "r", encoding="utf-8") as f:
+                bd_date = (json.load(f).get("meta") or {}).get("bd_sent_date", "")
+        except Exception:
+            bd_date = ""
+        if bd_date != today:
+            flat = [it for items in new_by_cat.values() for it in items]
+            flat.sort(key=lambda x: x.get("score", 5), reverse=True)
+            body = ("<h2>📰 RADAR Günlük Özet</h2><ul>" + "".join(
+                "<li><b>%s</b>: %s — %s</li>" % (
+                    _xml_escape(it.get("cat", "")), _xml_escape(it.get("title", "")),
+                    _xml_escape(it.get("summary", "")[:140]))
+                for it in flat[:10]) + "</ul>")
+            bd_send("📰 RADAR Günlük Özet", body)
+            bd_date = today
     out = {
+
         "updated": datetime.now(timezone.utc).isoformat(),
         "meta": {
             "generated_at": final_generated_at,
