@@ -601,6 +601,8 @@ body.compact .grid{gap:10px}
 <h3 class="st">🎙️ Podcast <em>Bugünün özeti sesli</em></h3>
 <h3 class="st">📅 Yaklaşan Etkinlikler <em>son 7 gün</em></h3>
 <div class="grid" id="eventsGrid"></div>
+<h3 class="st">📈 Kullanım İstatistikleri <em>bu cihazda</em></h3>
+<div class="cp" id="usageBox"></div>
 <div class="cp" id="podcastBox">
 <button class="btn pri w" id="podcastPlay">▶️ Bugünün özetini dinle</button>
 <p class="hint" id="podcastStatus">Hazır. Tıkla, AI sesiyle bugünün en önemli 10 haberini dinle.</p>
@@ -947,6 +949,11 @@ $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone
 syncCtl();S.limit=24;renderTrends();renderFeed()}
 function toggleSave(l){S.savedSet.has(l)?S.savedSet.delete(l):S.savedSet.add(l);LS.s('radar_saved',Array.from(S.savedSet));renderSaved()}
 function toggleLater(l){S.later.has(l)?S.later.delete(l):S.later.add(l);LS.s('radar_later',Array.from(S.later));renderLater()}
+function trackUsage(action){var u=LS.g('radar_usage',{});u[action]=(u[action]||0)+1;LS.s('radar_usage',u)}
+function renderUsage(){var u=LS.g('radar_usage',{}),box=$('#usageBox');if(!box)return;
+if(!Object.keys(u).length){box.innerHTML='<p class="hint">Kullanım verisi yok.</p>';return}
+box.innerHTML=Object.entries(u).sort(function(a,b){return b[1]-a[1]}).map(function(e){
+return '<div class="kv"><span>'+esc(e[0])+'</span><b>'+e[1]+' kez</b></div>'}).join('')}
 function renderEvents(){var box=$('#eventsGrid');if(!box)return;
 var now=Date.now(),week=7*864e5;
 var events=NEWS.filter(function(n){var t=new Date(n.published||n.timestamp).getTime();return t>now&&t<now+week}).slice(0,5);
