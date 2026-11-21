@@ -682,7 +682,7 @@ def main():
     for it in need_summary:
         if it.get("summary") and "tam metnine ulaşılamadı" not in it["summary"]:
             new_by_cat.setdefault(it["catId"], []).append(it)
-        for cat_id, items in new_by_cat.items():
+    for cat_id, items in new_by_cat.items():
         ntfy(f"radar-{cat_id}-x8f2", f"📰 {items[0]['cat']} Gündemi",
              f"{len(items)} yeni haber eklendi.", "newspaper")
         tg_send(f"📰 {items[0]['cat']} Gündemi: {len(items)} yeni haber eklendi.")
