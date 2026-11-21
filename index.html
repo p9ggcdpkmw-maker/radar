@@ -628,6 +628,11 @@ body.compact .grid{gap:10px}
 <a href="https://ntfy.sh/radar-piyasa-x8f2" target="_blank" rel="noopener">Piyasa</a>
 </div>
 </div>
+<div class="cp"><div class="cph">📧 Email Bülteni</div>
+<div class="row col"><span>Haftalık özet email adresine gelsin</span><input id="nlEmail" type="email" placeholder="ornek@mail.com"></div>
+<button class="btn pri w" id="nlSub">Abone ol</button>
+<p class="hint">Buttondown üzerinden. İstediğin zaman abonelikten çıkabilirsin.</p>
+</div>
 <div class="cp"><div class="cph">💰 Kuyumcu primi</div>
 <div class="row col"><span>Tahmini işçilik primi <b id="gpVal">%3</b></span><input type="range" id="goldPrim" min="0" max="15" step="0.5"></div>
 <p class="hint">Hesaplanan altın çeşitlerinin yanına kuyumcu satış tahmini ekler. Gerçek kuyumcu fiyatı değildir; piyasa/şehir farkı içermez.</p>
@@ -774,6 +779,7 @@ var palIdx=0,palRows=[],cfFn=null,FXR=null,CVR=null,wgDone=false,speaking=null,l
 var STATIONS=[],OFF=new Set(LS.g('radar_radio_off',[])),EXTRA=[];
 (function(){var ex=LS.g('radar_radio_extra',[]);if(Array.isArray(ex))ex.forEach(function(x){if(x&&x.n&&Array.isArray(x.urls)&&x.urls.length)EXTRA.push(x)})})();
 var CITY=LS.g('radar_city',{n:'Çorlu',la:LAT,lo:LON});
+var BTDN_TOKEN=LS.g('radar_buttondown_token','');
 var MT={tab:'genel',wk:{},wkOK:false,wkFail:0,wkAsOf:0,bin:[],binTS:0,binOK:false,binFail:0,ws:null,wsExtra:null,ticks:{},live:{},
 cg:null,fng:null,cf:'TRY',cs:'vol',cq:'',clim:100,cfav:new Set(LS.g('radar_cfav',[])),
 stq:'',stSort:'vol',stMkt:'all',stDir:'all',stfav:new Set(LS.g('radar_stfav',[])),
@@ -1635,6 +1641,12 @@ $('#cq').addEventListener('input',function(e){MT.cq=e.target.value;MT.clim=100;r
 $$('#cfSeg button').forEach(function(b){b.addEventListener('click',function(){MT.cf=b.dataset.f;MT.clim=100;renderMarket()})});
 $('#csSel').addEventListener('change',function(e){MT.cs=e.target.value;renderMarket()});
 $('#cMore').addEventListener('click',function(){MT.clim=10000;renderMarket()});
+$('#nlSub').addEventListener('click',function(){
+var email=$('#nlEmail').value.trim();
+if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Geçerli email gir','warn');return}
+jpost('https://api.buttondown.com/v1/subscribers',{email:email},{
+headers:{'Authorization':'Token '+BTDN_TOKEN,'Content-Type':'application/json'}
+}).then(function(){toast('✅ Abone olundu: '+email);$('#nlEmail').value=''}).catch(function(){toast('Abonelik başarısız','err')})});
 $('#pfAdd').addEventListener('click',function(){
 var kind=$('#pfKind').value,raw=$('#pfSym').value.trim().toLocaleUpperCase('tr'),amt=Number($('#pfAmt').value),buy=Number($('#pfBuy').value);
 if(!raw||!isFinite(amt)||amt<=0||!isFinite(buy)||buy<=0){toast('Sembol, adet ve alış fiyatı gir','warn');return}
