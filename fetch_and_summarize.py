@@ -254,7 +254,17 @@ def fetch_category(cat, cache):
     deduped.sort(key=lambda i: i["pubDate"], reverse=True)
     return deduped[:20]
 
+import time as _time
+_last_fetch = 0
 
+
+def fetch_text_and_image(url, timeout=15):
+    global _last_fetch
+    now = _time.time()
+    if now - _last_fetch < 0.5:
+        _time.sleep(0.5 - (now - _last_fetch))
+    _last_fetch = _time.time()
+    
 def fetch_text_and_image(url):
     text, og_image = "", None
     try:
