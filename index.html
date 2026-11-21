@@ -1322,7 +1322,7 @@ var lo=mins.length?Math.min.apply(null,mins):0,hi=maxs.length?Math.max.apply(nul
 h+='<div class="wd"><span>'+(i===0?'Bugün':new Date(t).toLocaleDateString('tr-TR',{weekday:'short'}))+'</span><i style="font-style:normal">'+ww[1]+'</i>'+
 '<div class="bar"><i style="left:'+a+'%;width:'+Math.max(6,b-a)+'%;background:linear-gradient(90deg,var(--cy),var(--warn))"></i></div><b>'+Math.round(mins[i])+'° / '+Math.round(maxs[i])+'°</b></div>'});
 wgb('wgWeather').className='wgb';wgb('wgWeather').innerHTML=h;if(rb)rb.hidden=true;
-$('#railWx').innerHTML='<div class="wgn"><div class="wt">'+Math.round(c.temperature_2m||0)+'°</div><div class="wm"><b>'+w[1]+' '+w[0]+'<b>'+w[1]+' '+w[0]+'</b>'+esc(CITY.n)+' · nem %'+Math.round(c.relative_humidity_2m||0)+'</div></div>';
+$('#railWx').innerHTML='<div class="wgn"><div class="wt">'+Math.round(c.temperature_2m||0)+'°</div><div class="wm"><b>'+w[1]+' '+w[0]+'</b>'+esc(CITY.n)+' · nem %'+Math.round(c.relative_humidity_2m||0)+'</div></div>';
 var sr=(dy.sunrise||[])[0],ss=(dy.sunset||[])[0];
 if(sr&&ss){var A=new Date(sr).getTime(),B=new Date(ss).getTime(),len=Math.max(1,B-A),p=clamp((Date.now()-A)/len,0,1);
 wgb('wgSun').className='wgb';wgb('wgSun').innerHTML='<div class="kv"><span>🌅 Doğuş</span><b>'+hhmm(sr)+'</b></div><div class="kv"><span>🌇 Batış</span><b>'+hhmm(ss)+'</b></div>'+
