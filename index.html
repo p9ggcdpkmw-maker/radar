@@ -637,10 +637,10 @@ body.compact .grid{gap:10px}
 <a href="https://ntfy.sh/radar-piyasa-x8f2" target="_blank" rel="noopener">Piyasa</a>
 </div>
 </div>
-<div class="cp"><div class="cph">📧 Email Bülteni</div>
 <div class="row col"><span>Haftalık özet email adresine gelsin</span><input id="nlEmail" type="email" placeholder="ornek@mail.com"></div>
+<div class="row col"><span>API token (opsiyonel)</span><input id="nlToken" type="password" placeholder="Boş bırak: açık form kullanılır"></div>
 <button class="btn pri w" id="nlSub">Abone ol</button>
-<p class="hint">Buttondown üzerinden. İstediğin zaman abonelikten çıkabilirsin.</p>
+<p class="hint">Buttondown üzerinden. Token boşsa herkese açık abonelik formu kullanılır. İstediğin zaman çıkabilirsin.</p>
 </div>
 <div class="cp"><div class="cph">💰 Kuyumcu primi</div>
 <div class="row col"><span>Tahmini işçilik primi <b id="gpVal">%3</b></span><input type="range" id="goldPrim" min="0" max="15" step="0.5"></div>
@@ -789,6 +789,7 @@ var STATIONS=[],OFF=new Set(LS.g('radar_radio_off',[])),EXTRA=[];
 (function(){var ex=LS.g('radar_radio_extra',[]);if(Array.isArray(ex))ex.forEach(function(x){if(x&&x.n&&Array.isArray(x.urls)&&x.urls.length)EXTRA.push(x)})})();
 var CITY=LS.g('radar_city',{n:'Çorlu',la:LAT,lo:LON});
 var BTDN_TOKEN=LS.g('radar_buttondown_token','');
+var BD_USER='BURAYA_KULLANICI_ADIN';
 var MT={tab:'genel',wk:{},wkOK:false,wkFail:0,wkAsOf:0,bin:[],binTS:0,binOK:false,binFail:0,ws:null,wsExtra:null,ticks:{},live:{},
 cg:null,fng:null,cf:'TRY',cs:'vol',cq:'',clim:100,cfav:new Set(LS.g('radar_cfav',[])),
 stq:'',stSort:'vol',stMkt:'all',stDir:'all',stfav:new Set(LS.g('radar_stfav',[])),
@@ -837,6 +838,8 @@ x.beginPath();x.moveTo(X(0),Y(v[0]));v.forEach(function(n,i){x.lineTo(X(i),Y(n))
 x.beginPath();x.arc(X(v.length-1),Y(v[v.length-1]),2.4,0,7);x.fillStyle=c;x.fill()}
 function redrawSparks(){$$('canvas[data-spark]').forEach(function(cv){try{spark(cv,JSON.parse(cv.dataset.spark),cv.dataset.color||null)}catch(e){}})}
 function jget(u,ms){var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||9000);
+function jpost(u,body,opt){opt=opt||{};var c=new AbortController(),t=setTimeout(function(){c.abort()},opt.ms||10000);
+return fetch(u,{method:'POST',signal:c.signal,cache:'no-store',headers:opt.headers||{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('HTTP '+r.status);return r.json().catch(function(){return{}})}).catch(function(e){clearTimeout(t);throw e})}
 return fetch(u,{signal:c.signal,cache:'no-store'}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).catch(function(e){clearTimeout(t);throw e})}
 function rebuildHist(){HIST={};if(!ARCH)return;
 ARCH.forEach(function(a){var d=a.data,push=function(k,v){if(v==null||!isFinite(v))return;(HIST[k]=HIST[k]||[]).push({t:a.date,v:Number(v)})};
@@ -848,7 +851,7 @@ return jget(p+'?t='+Date.now(),12000).then(function(d){
 NEWS=Array.isArray(d.items)?d.items:[];META=d.meta||null;BRIEF=d.briefings||{};
 MK=d.market||null;CR=Array.isArray(d.crypto)?d.crypto:[];ST=Array.isArray(d.stocks)?d.stocks:[];
 rebuildHist();booting=false;S.limit=24;
-renderCats();renderFeed();renderBrief();renderTrends();renderRail();renderMarket();renderSaved();renderLater();renderEvents();checkStale();renderAbout();
+renderCats();renderFeed();renderBrief();renderTrends();renderRail();renderMarket();renderSaved();renderLater();renderEvents();renderUsage();checkStale();renderAbout();
 $('#sideMeta').textContent=(META&&META.model?String(META.model).split('/').pop():'—')+' · '+NEWS.length+' haber';
 }).catch(function(e){booting=false;
 $('#newsGrid').innerHTML='<div class="empty"><b>📡</b><p>Veri alınamadı: '+esc(e.message)+'. Bağlantını kontrol edip biraz sonra tekrar dene.</p></div>';
@@ -947,10 +950,8 @@ else if(k==='all'){S.q='';S.tone='all';S.cat='all';S.saved=false;S.h12=false;S.b
 LS.set('radar_age_12h',false);LS.set('radar_bias_filter',false);$('#paIn').value='';
 $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')});renderCats()}
 syncCtl();S.limit=24;renderTrends();renderFeed()}
-function toggleSave(l){S.savedSet.has(l)?S.savedSet.delete(l):S.savedSet.add(l);LS.s('radar_saved',Array.from(S.savedSet));renderSaved()}
-trackUsage('Kaydet')
-function toggleLater(l){S.later.has(l)?S.later.delete(l):S.later.add(l);LS.s('radar_later',Array.from(S.later));renderLater()}
-trackUsage('Sonra oku')
+function toggleSave(l){trackUsage('Kaydet');S.savedSet.has(l)?S.savedSet.delete(l):S.savedSet.add(l);LS.s('radar_saved',Array.from(S.savedSet));renderSaved();renderUsage()}
+function toggleLater(l){trackUsage('Sonra oku');S.later.has(l)?S.later.delete(l):S.later.add(l);LS.s('radar_later',Array.from(S.later));renderLater();renderUsage()}
 function trackUsage(action){var u=LS.g('radar_usage',{});u[action]=(u[action]||0)+1;LS.s('radar_usage',u)}
 function renderUsage(){var u=LS.g('radar_usage',{}),box=$('#usageBox');if(!box)return;
 if(!Object.keys(u).length){box.innerHTML='<p class="hint">Kullanım verisi yok.</p>';return}
@@ -1320,7 +1321,7 @@ var lo=mins.length?Math.min.apply(null,mins):0,hi=maxs.length?Math.max.apply(nul
 (dy.time||[]).forEach(function(t,i){var ww=wx(dy.weather_code[i]),a=(mins[i]-lo)/rg*100,b=(maxs[i]-lo)/rg*100;
 h+='<div class="wd"><span>'+(i===0?'Bugün':new Date(t).toLocaleDateString('tr-TR',{weekday:'short'}))+'</span><i style="font-style:normal">'+ww[1]+'</i>'+
 '<div class="bar"><i style="left:'+a+'%;width:'+Math.max(6,b-a)+'%;background:linear-gradient(90deg,var(--cy),var(--warn))"></i></div><b>'+Math.round(mins[i])+'° / '+Math.round(maxs[i])+'°</b></div>'});
-wgb('wgWeather').className='wgb';wgb('wgWeather').innerHTML=h;
+wgb('wgWeather').className='wgb';wgb('wgWeather').innerHTML=h;if(rb)rb.hidden=true;
 $('#railWx').innerHTML='<div class="wgn"><div class="wt">'+Math.round(c.temperature_2m||0)+'°</div><div class="wm"><b>'+w[1]+' '+w[0]+'<b>'+w[1]+' '+w[0]+'</b>'+esc(CITY.n)+' · nem %'+Math.round(c.relative_humidity_2m||0)+'</div></div>';
 var sr=(dy.sunrise||[])[0],ss=(dy.sunset||[])[0];
 if(sr&&ss){var A=new Date(sr).getTime(),B=new Date(ss).getTime(),len=Math.max(1,B-A),p=clamp((Date.now()-A)/len,0,1);
@@ -1332,7 +1333,6 @@ wgb('wgSun').className='wgb';wgb('wgSun').innerHTML='<div class="kv"><span>🌅 
     wgb('wgWeather').className='wgb';
     wgb('wgWeather').innerHTML='<p class="hint">Hava servisi yanıt vermedi.</p>';
     $('#railWx').innerHTML='<p class="hint">Hava verisi alınamadı.</p>';if(rb)rb.hidden=false});
-    if(rb) rb.hidden = false; // Hata olursa "Tekrar dene" butonunu göster
 jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=european_aqi,pm2_5,pm10&timezone='+encodeURIComponent(TZ),10000).then(function(d){
 var c=d.current||{},a=Number(c.european_aqi||0);
 var lv=a<=20?['İyi','var(--up)']:a<=40?['Orta','#84CC16']:a<=60?['Hassas','var(--warn)']:a<=80?['Kötü','#F97316']:['Çok kötü','var(--dn)'];
@@ -1558,7 +1558,7 @@ $$('#sideNav .nav-i,#tabbar .tb').forEach(function(b){b.classList.toggle('on',b.
 $('#app').dataset.rail=v==='feed'?'1':'0';
 if(v==='market')mkEnter();else mkLeave();
 if(v==='radio'){renderRadio();renderHealth();if(!MT.radioAuto){MT.radioAuto=true;setTimeout(testAll,500)}}
-if(v==='saved')renderSaved();
+if(v==='saved'){renderSaved();renderUsage()}
 if(v==='feed'){renderCats();renderFeed()}
 scrollTo({top:0,behavior:'auto'});syncUrl();measure()}
 function hello(){var h=new Date().getHours(),g='İyi geceler',i='🌙';
@@ -1667,9 +1667,14 @@ $('#cMore').addEventListener('click',function(){MT.clim=10000;renderMarket()});
 $('#nlSub').addEventListener('click',function(){
 var email=$('#nlEmail').value.trim();
 if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Geçerli email gir','warn');return}
-jpost('https://api.buttondown.com/v1/subscribers',{email:email},{
-headers:{'Authorization':'Token '+BTDN_TOKEN,'Content-Type':'application/json'}
-}).then(function(){toast('✅ Abone olundu: '+email);$('#nlEmail').value=''}).catch(function(){toast('Abonelik başarısız','err')})});
+var tokEl=$('#nlToken'),tok=tokEl?tokEl.value.trim():'';
+if(tok){LS.s('radar_buttondown_token',tok);BTDN_TOKEN=tok}
+if(BTDN_TOKEN){
+jpost('https://api.buttondown.com/v1/subscribers',{email:email},{headers:{'Authorization':'Token '+BTDN_TOKEN,'Content-Type':'application/json'}}).then(function(){toast('✅ Abone olundu: '+email);$('#nlEmail').value=''}).catch(function(){toast('Abonelik başarısız (token?)','err')});
+}else{
+var fd=new URLSearchParams();fd.append('email',email);
+fetch('https://buttondown.com/api/emails/embed-subscribe/'+BD_USER,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:fd.toString()}).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);toast('✅ Abone olundu: '+email);$('#nlEmail').value=''}).catch(function(){toast('Abonelik başarısız','err')});
+}});
 $('#pfAdd').addEventListener('click',function(){
 var kind=$('#pfKind').value,raw=$('#pfSym').value.trim().toLocaleUpperCase('tr'),amt=Number($('#pfAmt').value),buy=Number($('#pfBuy').value);
 if(!raw||!isFinite(amt)||amt<=0||!isFinite(buy)||buy<=0){toast('Sembol, adet ve alış fiyatı gir','warn');return}
