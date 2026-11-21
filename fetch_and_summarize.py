@@ -273,9 +273,8 @@ def fetch_text_and_image(url, timeout=15):
     if now - _last_fetch < 0.5:
         _time.sleep(0.5 - (now - _last_fetch))
     _last_fetch = _time.time()
-    
-def fetch_text_and_image(url):
     text, og_image = "", None
+
     try:
         r = requests.get(url, headers=HEADERS, timeout=12)
         r.raise_for_status()
@@ -488,7 +487,7 @@ def fetch_weather():
         r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=41.1601&longitude=27.8055&current_weather=true", timeout=10)
         r.raise_for_status()
         cw = r.json().get("current_weather", {})
-        return {"temp": cw.get("temperature"), "desc": WEATHER_DESC.get(cw.get("weathercode"), "Bilinmiyor")}
+                return {"temp": cw.get("temperature"), "desc": WEATHER_DESC.get(cw.get("weathercode"), "Bilinmiyor"), "city": "Çorlu"}
     except Exception:
         return None
 
@@ -683,10 +682,10 @@ def main():
     for it in need_summary:
         if it.get("summary") and "tam metnine ulaşılamadı" not in it["summary"]:
             new_by_cat.setdefault(it["catId"], []).append(it)
-    for cat_id, items in new_by_cat.items():
+        for cat_id, items in new_by_cat.items():
         ntfy(f"radar-{cat_id}-x8f2", f"📰 {items[0]['cat']} Gündemi",
              f"{len(items)} yeni haber eklendi.", "newspaper")
-                tg_send(f"📰 {items[0]['cat']} Gündemi: {len(items)} yeni haber eklendi.")
+        tg_send(f"📰 {items[0]['cat']} Gündemi: {len(items)} yeni haber eklendi.")
     bd_date = ""
     if new_by_cat:
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
