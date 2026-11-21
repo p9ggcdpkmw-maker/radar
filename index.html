@@ -1333,13 +1333,13 @@ wgb('wgSun').className='wgb';wgb('wgSun').innerHTML='<div class="kv"><span>🌅 
     wgb('wgWeather').className='wgb';
     wgb('wgWeather').innerHTML='<p class="hint">Hava servisi yanıt vermedi.</p>';
     $('#railWx').innerHTML='<p class="hint">Hava verisi alınamadı.</p>';if(rb)rb.hidden=false});
-jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+LAT+'&longitude='+LON+'&current=european_aqi,pm2_5,pm10&timezone='+encodeURIComponent(TZ),10000).then(function(d){
+jget('https://air-quality-api.open-meteo.com/v1/air-quality?latitude='+CITY.la+'&longitude='+CITY.lo+'&current=european_aqi,pm2_5,pm10&timezone='+encodeURIComponent(TZ),10000).then(function(d){
 var c=d.current||{},a=Number(c.european_aqi||0);
 var lv=a<=20?['İyi','var(--up)']:a<=40?['Orta','#84CC16']:a<=60?['Hassas','var(--warn)']:a<=80?['Kötü','#F97316']:['Çok kötü','var(--dn)'];
 wgb('wgAir').className='wgb';wgb('wgAir').innerHTML='<div class="aqi"><div class="aqn" style="background:'+lv[1]+'">'+Math.round(a)+'</div><div class="aql"><b>'+lv[0]+'</b><span>Avrupa AQI</span></div></div>'+
 '<div class="kv" style="margin-top:10px"><span>PM2.5</span><b>'+nf(c.pm2_5,1)+' µg/m³</b></div><div class="kv"><span>PM10</span><b>'+nf(c.pm10,1)+' µg/m³</b></div>'
 }).catch(function(){wgb('wgAir').className='wgb';wgb('wgAir').innerHTML='<p class="hint">Hava kalitesi verisi alınamadı.</p>'});
-jget('https://api.aladhan.com/v1/timings?latitude='+LAT+'&longitude='+LON+'&method=13',10000).then(function(d){
+jget('https://api.aladhan.com/v1/timings?latitude='+CITY.la+'&longitude='+CITY.lo+'&method=13',10000).then(function(d){
 var t=(d.data&&d.data.timings)||{},map=[['İmsak','Fajr'],['Güneş','Sunrise'],['Öğle','Dhuhr'],['İkindi','Asr'],['Akşam','Maghrib'],['Yatsı','Isha']];
 var nm=new Date().getHours()*60+new Date().getMinutes(),nx=-1;
 map.forEach(function(m,i){var v=String(t[m[1]]||'').split(':'),mm=(+v[0])*60+(+v[1]);if(nx<0&&mm>nm)nx=i});
@@ -1710,9 +1710,6 @@ $('#trGo').addEventListener('click',doTranslate);
 $('#sentGo').addEventListener('click',sentiment);
 $('#cityGo').addEventListener('click',citySet);
 $('#wxRetry').addEventListener('click',function(){toast('Hava güncelleniyor…');widgets(true)});
-$('#wxRetry').addEventListener('click',function(){
-    toast('Hava durumu güncelleniyor...');
-    widgets(true);
 });
 $('#cityIn').addEventListener('keydown',function(e){if(e.key==='Enter')citySet()});
 $('#btnPalette').addEventListener('click',openPal);
