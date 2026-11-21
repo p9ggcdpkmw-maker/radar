@@ -40,6 +40,7 @@ jobs:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT: ${{ secrets.TELEGRAM_CHAT }}
           BUTTONDOWN_TOKEN: ${{ secrets.BUTTONDOWN_TOKEN }}
+          NTFY_TOKEN: ${{ secrets.NTFY_TOKEN }}
           AI_TEMPERATURE: ${{ vars.AI_TEMPERATURE || '0.2' }}
           AI_PROMPT_VER: ${{ vars.AI_PROMPT_VER || 'v1.3' }}
           SITE_URL: ${{ vars.SITE_URL || 'https://p9ggcdpkmw-maker.github.io/radar/' }}
