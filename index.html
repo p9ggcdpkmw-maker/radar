@@ -1858,10 +1858,11 @@ MT.playedOk.add(n);if(MT.rtest[n]!=='ok'){MT.rtest[n]='ok';if(S.view==='radio'){
 renderRecent();measure();setTimeout(measure,300);setTimeout(measure,1200);
 if('serviceWorker'in navigator&&location.protocol!=='file:'){
 var go=function(){navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('SW kayıt hatası:', e)})};
-document.readyState==='complete'?go():addEventListener('load',go)}
+document.readyState==='complete'?go():addEventListener('load',go)}}
 bindEvents();
 init();
 })();
+
 </script>
 </body>
 </html>
