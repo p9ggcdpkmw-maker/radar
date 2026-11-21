@@ -97,16 +97,25 @@ def write_atomic(path, text):
     os.replace(tmp, path)
 
 
+NTFY_TOKEN = os.environ.get("NTFY_TOKEN", "").strip()
+
+
 def ntfy(topic, title, msg, tags="", priority=3):
     if not topic: return
+    payload = {
+        "topic": topic, "title": title, "message": msg,
+        "tags": tags.split(",") if tags else [], "priority": priority
+    }
+    headers = {"Authorization": f"Bearer {NTFY_TOKEN}"} if NTFY_TOKEN else {}
     try:
-        res = requests.post("https://ntfy.sh/", json={
-            "topic": topic, "title": title, "message": msg,
-            "tags": tags.split(",") if tags else [], "priority": priority
-        }, timeout=10)
+        res = requests.post("https://ntfy.sh/", json=payload, headers=headers, timeout=10)
+        if res.status_code in (401, 403) and NTFY_TOKEN:
+            print(f"  ! Ntfy token reddetti ({topic}) — tokensiz deneniyor.", file=sys.stderr)
+            res = requests.post("https://ntfy.sh/", json=payload, timeout=10)
         res.raise_for_status()
     except Exception as e:
         print(f"  ! Ntfy hatası ({topic}): {e}", file=sys.stderr)
+
 
 TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TG_CHAT = os.environ.get("TELEGRAM_CHAT", "").strip()
