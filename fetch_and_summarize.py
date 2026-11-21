@@ -110,6 +110,17 @@ def ntfy(topic, title, msg, tags="", priority=3):
 
 TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TG_CHAT = os.environ.get("TELEGRAM_CHAT", "").strip()
+BTDN_TOKEN = os.environ.get("BUTTONDOWN_TOKEN", "").strip()
+
+
+def bd_send(subject, body):
+    if not BTDN_TOKEN: return
+    try:
+        requests.post("https://api.buttondown.com/v1/emails",
+                      json={"subject": subject, "body": body, "type": "regular"},
+                      headers={"Authorization": f"Token {BTDN_TOKEN}"}, timeout=10)
+    except Exception as e:
+        print(f"  ! Buttondown hatası: {e}", file=sys.stderr)
 
 
 def tg_send(text, retry=2):
