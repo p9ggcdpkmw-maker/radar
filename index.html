@@ -957,12 +957,14 @@ function renderUsage(){var u=LS.g('radar_usage',{}),box=$('#usageBox');if(!box)r
 if(!Object.keys(u).length){box.innerHTML='<p class="hint">Kullanım verisi yok.</p>';return}
 box.innerHTML=Object.entries(u).sort(function(a,b){return b[1]-a[1]}).map(function(e){
 return '<div class="kv"><span>'+esc(e[0])+'</span><b>'+e[1]+' kez</b></div>'}).join('')}
+var EVKEY=['festival','konser','fuar','sergi','tiyatro','maç','turnuva','vizyon','etkinlik','sahne','prömiyer','bienal','karnaval'];
 function renderEvents(){var box=$('#eventsGrid');if(!box)return;
 var now=Date.now(),week=7*864e5;
-var events=NEWS.filter(function(n){var t=new Date(n.published||n.timestamp).getTime();return t>now&&t<now+week}).slice(0,5);
-if(!events.length){box.innerHTML='<div class="empty"><b>📅</b><p>Yaklaşan etkinlik yok.</p></div>';return}
-box.innerHTML=events.map(function(n){var d=new Date(n.published||n.timestamp);
-return '<div class="nc" data-link="'+esc(n.link)+'"><div class="nci"><i>📅</i></div><div class="nct"><b>'+esc(n.title)+'</b><p>'+d.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',hour:'2-digit',minute:'2-digit'})+'</p></div></div>'}).join('')}
+var events=NEWS.filter(function(n){var t=new Date(n.pubDate).getTime();if(!(t>now-week&&t<now+week))return false;
+var s=(n.title+' '+(n.summary||'')).toLocaleLowerCase('tr');return EVKEY.some(function(k){return s.indexOf(k)>=0})}).slice(0,6);
+if(!events.length){box.innerHTML='<div class="empty"><b>📅</b><p>Bu hafta etkinlik haberi yok.</p></div>';return}
+box.innerHTML=events.map(function(n){var d=new Date(n.pubDate);
+return '<div class="nc" data-link="'+esc(n.link)+'"><div class="ncb"><div class="nct"><span class="dot" style="background:var(--warn)"></span><span class="src">Etkinlik</span></div><h3 class="nch">'+esc(n.title)+'</h3><div class="ncf"><span>'+d.toLocaleDateString('tr-TR',{day:'2-digit',month:'long'})+' · '+ago(n.pubDate)+'</span></div></div></div>'}).join('')}
 function renderLater(){var a=NEWS.filter(function(n){return S.later.has(n.link)});
 var lc=$('#laterCount');if(lc)lc.textContent=a.length+' haber';
 if(!S.later.size){$('#laterGrid').innerHTML='<div class="empty"><b>🕑</b><p>Listen boş. Haber kartındaki 🕑 simgesine bas, burada birikir.</p></div>';return}
