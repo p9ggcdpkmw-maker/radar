@@ -598,6 +598,13 @@ body.compact .grid{gap:10px}
 <div class="grid" id="savedGrid"></div>
 <h3 class="st">🕑 Sonra Okunacaklar <em id="laterCount"></em></h3>
 <div class="grid" id="laterGrid"></div>
+<h3 class="st">🎙️ Podcast <em>Bugünün özeti sesli</em></h3>
+<h3 class="st">📅 Yaklaşan Etkinlikler <em>son 7 gün</em></h3>
+<div class="grid" id="eventsGrid"></div>
+<div class="cp" id="podcastBox">
+<button class="btn pri w" id="podcastPlay">▶️ Bugünün özetini dinle</button>
+<p class="hint" id="podcastStatus">Hazır. Tıkla, AI sesiyle bugünün en önemli 10 haberini dinle.</p>
+</div>
 </section>
 <section class="view" id="v-menu">
 <h2 class="vt" style="margin-bottom:14px">Menü</h2>
@@ -839,7 +846,7 @@ return jget(p+'?t='+Date.now(),12000).then(function(d){
 NEWS=Array.isArray(d.items)?d.items:[];META=d.meta||null;BRIEF=d.briefings||{};
 MK=d.market||null;CR=Array.isArray(d.crypto)?d.crypto:[];ST=Array.isArray(d.stocks)?d.stocks:[];
 rebuildHist();booting=false;S.limit=24;
-renderCats();renderFeed();renderBrief();renderTrends();renderRail();renderMarket();renderSaved();checkStale();renderAbout();
+renderCats();renderFeed();renderBrief();renderTrends();renderRail();renderMarket();renderSaved();renderLater();renderEvents();checkStale();renderAbout();
 $('#sideMeta').textContent=(META&&META.model?String(META.model).split('/').pop():'—')+' · '+NEWS.length+' haber';
 }).catch(function(e){booting=false;
 $('#newsGrid').innerHTML='<div class="empty"><b>📡</b><p>Veri alınamadı: '+esc(e.message)+'. Bağlantını kontrol edip biraz sonra tekrar dene.</p></div>';
@@ -940,6 +947,12 @@ $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone
 syncCtl();S.limit=24;renderTrends();renderFeed()}
 function toggleSave(l){S.savedSet.has(l)?S.savedSet.delete(l):S.savedSet.add(l);LS.s('radar_saved',Array.from(S.savedSet));renderSaved()}
 function toggleLater(l){S.later.has(l)?S.later.delete(l):S.later.add(l);LS.s('radar_later',Array.from(S.later));renderLater()}
+function renderEvents(){var box=$('#eventsGrid');if(!box)return;
+var now=Date.now(),week=7*864e5;
+var events=NEWS.filter(function(n){var t=new Date(n.published||n.timestamp).getTime();return t>now&&t<now+week}).slice(0,5);
+if(!events.length){box.innerHTML='<div class="empty"><b>📅</b><p>Yaklaşan etkinlik yok.</p></div>';return}
+box.innerHTML=events.map(function(n){var d=new Date(n.published||n.timestamp);
+return '<div class="nc" data-link="'+esc(n.link)+'"><div class="nci"><i>📅</i></div><div class="nct"><b>'+esc(n.title)+'</b><p>'+d.toLocaleDateString('tr-TR',{day:'2-digit',month:'long',hour:'2-digit',minute:'2-digit'})+'</p></div></div>'}).join('')}
 function renderLater(){var a=NEWS.filter(function(n){return S.later.has(n.link)});
 var lc=$('#laterCount');if(lc)lc.textContent=a.length+' haber';
 if(!S.later.size){$('#laterGrid').innerHTML='<div class="empty"><b>🕑</b><p>Listen boş. Haber kartındaki 🕑 simgesine bas, burada birikir.</p></div>';return}
@@ -1715,6 +1728,14 @@ box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+
 $('#nRead').textContent='📖 Okuma modunu kapat'}).catch(function(){
 box.hidden=true;$('#nRead').textContent='📖 Okuma modu';toast('Okuma modu bu kaynak için açılamadı','warn')})}
 $('#nRead').addEventListener('click',readMode);
+$('#podcastPlay').addEventListener('click',function(){
+if(!NEWS||!NEWS.length){toast('Haber yok','warn');return}
+$('#podcastStatus').textContent='⏳ AI sesi hazırlanıyor…';
+var top10=NEWS.slice(0,10).map(function(n,i){return (i+1)+'. '+n.title+'. '+n.summary}).join(' ');
+var u=new SpeechSynthesisUtterance(top10);u.lang='tr-TR';u.rate=1.1;
+u.onstart=function(){$('#podcastStatus').textContent='🔊 Çalıyor… ('+Math.ceil(top10.length/15)+' sn)'};
+u.onend=function(){$('#podcastStatus').textContent='✅ Bitti. Tekrar dinlemek için tıkla.'};
+speechSynthesis.speak(u)});
 $('#nShare').addEventListener('click',function(){if(!cur)return;var d={title:cur.title,text:(cur.summary||'').slice(0,180),url:cur.link};
 if(navigator.share){navigator.share(d).catch(function(e){if(e&&e.name!=='AbortError')copyTxt(cur.link)});return}copyTxt(cur.link)});
 $('#cFav').addEventListener('click',function(){var kind=MT.detailKind,key=MT.detailKey;if(!key)return;
