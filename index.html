@@ -1773,6 +1773,8 @@ $('#plClose').addEventListener('click',function(){playTok++;clearTimeout(wd);cle
 var a=$('#audio');a.pause();a.removeAttribute('src');try{a.load()}catch(e){}
 destroyHls();curSt=-1;radioBusy=false;clearTimeout(sleepT);$('#plSleep').value='0';
 $('#player').classList.remove('on','playing');measure();renderRadio()});
+$('#plPrev').addEventListener('click',function(){stationStep(-1)});
+$('#plNext').addEventListener('click',function(){stationStep(1)});
 $('#plVol').addEventListener('input',function(e){S.vol=Number(e.target.value);$('#audio').volume=S.vol;LS.set('radar_radio_volume',S.vol)});
 $('#plSleep').addEventListener('change',function(e){clearTimeout(sleepT);var m=+e.target.value;if(!m)return;
 toast('⏱ '+m+' dk sonra duracak');sleepT=setTimeout(function(){$('#audio').pause();$('#plSleep').value='0';toast('⏱ Uyku zamanlayıcı: durduruldu')},m*6e4)});
