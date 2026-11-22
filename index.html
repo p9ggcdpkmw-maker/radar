@@ -1600,8 +1600,10 @@ function toggleMute(){S.muted=!S.muted;LS.s('radar_muted',S.muted);$('#audio').m
 var m=S.muted?'🔇':'🔊';$('#btnMute').textContent=m;$('#btnMuteM').textContent=m;
 plSync();toast(S.muted?'Tüm sesler kapatıldı':'Ses açık')}
 /* ================= MENÜ ================= */
-function renderPrefs(){$('#prefs').innerHTML=Object.keys(CATS).map(function(k){var on=!S.prefs||S.prefs.indexOf(k)>=0;
-return '<div class="pref'+(on?' on':'')+'" role="button" tabindex="0" data-k="'+k+'"><i style="background:'+CATS[k].c+'"></i>'+CATS[k].l+'<span class="bx">✓</span></div>'}).join('')}
+var PREFS_OPEN=LS.g('radar_prefs_open',false);
+function renderPrefs(){var box=$('#prefs');box.innerHTML=ORDER.filter(function(k){return k!=='all'}).map(function(k){var on=!S.prefs||S.prefs.indexOf(k)>=0;
+return '<div class="pref'+(on?' on':'')+'" role="button" tabindex="0" data-k="'+k+'"><i style="background:'+CATS[k].c+'"></i>'+CATS[k].l+'<span class="bx">✓</span></div>'}).join('');
+box.hidden=!PREFS_OPEN;var st=$('#prefsState');if(st)st.textContent=PREFS_OPEN?'açık':'kapalı'}
 function togglePref(k){var c=S.prefs?S.prefs.slice():Object.keys(CATS);
 c.indexOf(k)>=0?c=c.filter(function(x){return x!==k}):c.push(k);
 if(!c.length){toast('En az bir kategori seçili olmalı','warn');return}
