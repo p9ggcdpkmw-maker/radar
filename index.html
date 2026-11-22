@@ -1658,6 +1658,7 @@ bindSw('swRead',function(){return S.autoRead},function(v){S.autoRead=v;LS.set('r
 bindSw('swBias',function(){return S.biasOff},function(v){S.biasOff=v;LS.set('radar_bias_filter',v)});
 bindSw('swAlert',function(){return S.alert},function(v){S.alert=v;LS.s('radar_alert_on',v);MT.alr={};
 if(v&&'Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(function(){})});
+$('#prefsToggle').addEventListener('click',function(){PREFS_OPEN=!PREFS_OPEN;LS.s('radar_prefs_open',PREFS_OPEN);renderPrefs()});
 $('#thRange').addEventListener('input',function(e){S.th=Number(e.target.value);$('#thVal').textContent='%'+S.th;LS.s('radar_alert_th',S.th);MT.alr={}});
 $$('#briefTabs button').forEach(function(b){b.addEventListener('click',function(){S.brief=b.dataset.b;stopSpeak();renderBrief()})});
 $('#briefAI').addEventListener('click',function(e){e.stopPropagation();showAI($('#briefAI'),{model:META&&META.model,temperature:META&&META.temperature,prompt_version:META&&META.prompt_version,generated_at:META&&META.generated_at,method:'günlük analiz'})});
