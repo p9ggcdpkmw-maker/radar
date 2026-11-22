@@ -1539,6 +1539,7 @@ navigator.mediaSession.setActionHandler('seekforward',null);
 navigator.mediaSession.setActionHandler('seekto',null);
 }catch(e){}}
 function plSync(){var a=$('#audio'),on=!a.paused;
+if('mediaSession'in navigator){try{navigator.mediaSession.playbackState=on?'playing':'paused'}catch(e){}}
 $('#player').classList.toggle('playing',on);
 $('#plToggle').textContent=on?'❚❚':'▶';
 if(curSt>=0&&!radioBusy)$('#plState').textContent=on?(S.muted?'sessiz · çalıyor':'canlı çalıyor'):'duraklatıldı';
