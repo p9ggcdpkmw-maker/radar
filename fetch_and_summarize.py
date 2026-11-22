@@ -120,6 +120,7 @@ def ntfy(topic, title, msg, tags="", priority=3):
 TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TG_CHAT = os.environ.get("TELEGRAM_CHAT", "").strip()
 BTDN_TOKEN = os.environ.get("BUTTONDOWN_TOKEN", "").strip()
+TG_SESSIZ = os.environ.get("TG_SESSIZ", "0").strip() == "0"
 
 
 def bd_send(subject, body):
@@ -132,13 +133,14 @@ def bd_send(subject, body):
         print(f"  ! Buttondown hatası: {e}", file=sys.stderr)
 
 
-def tg_send(text, retry=2):
+def tg_send(text, retry=2, silent=False):
     if not TG_TOKEN or not TG_CHAT: return
     for attempt in range(retry):
         try:
             requests.post(f"https://api.telegram.org/bot{TG_TOKEN}/sendMessage",
                           json={"chat_id": TG_CHAT, "text": text[:4000],
-                                "disable_web_page_preview": True}, timeout=10)
+                                "disable_web_page_preview": True,
+                                "disable_notification": silent}, timeout=10)
             return
         except Exception as e:
             print(f"  ! Telegram hatası ({attempt+1}/{retry}): {e}", file=sys.stderr)
@@ -682,10 +684,13 @@ def main():
     for it in need_summary:
         if it.get("summary") and "tam metnine ulaşılamadı" not in it["summary"]:
             new_by_cat.setdefault(it["catId"], []).append(it)
+        if new_by_cat:
+        total = sum(len(v) for v in new_by_cat.values())
+        parts = " · ".join(f"{v[0]['cat']}: {len(v)}" for v in new_by_cat.values())
+        tg_send(f"📰 RADAR Güncelleme — {total} yeni haber\n{parts}", silent=TG_SESSIZ)
     for cat_id, items in new_by_cat.items():
         ntfy(f"radar-{cat_id}-x8f2", f"📰 {items[0]['cat']} Gündemi",
              f"{len(items)} yeni haber eklendi.", "newspaper")
-        tg_send(f"📰 {items[0]['cat']} Gündemi: {len(items)} yeni haber eklendi.")
     bd_date = ""
     if new_by_cat:
         today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
