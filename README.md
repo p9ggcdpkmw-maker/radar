@@ -1,11 +1,16 @@
 # 📡 RADAR
 
-**Yapay zekâ ile özetlenmiş haber akışı + canlı piyasa terminali + radyo. Sunucu yok, aylık cost 0 ₺.**
+**Yapay zekâ ile özetlenmiş haber akışı + canlı piyasa terminali + radyo + Telegram botu. 
+Sunucu yok, aylık cost 0 ₺.**
 
 [![Haber Botu](https://github.com/p9ggcdpkmw-maker/radar/actions/workflows/update-news.yml/badge.svg)](https://github.com/p9ggcdpkmw-maker/radar/actions/workflows/update-news.yml)
 🔗 **Canlı:** https://p9ggcdpkmw-maker.github.io/radar/
 
-GitHub Actions saatte bir değil **2 saatte bir** haberleri toplar, Groq ile özetler/puanlar, sonucu statik dosya olarak GitHub Pages'e yazar. Piyasa katmanı ise tarayıcıdan + Cloudflare worker'dan **canlı** akar. Kurulumdan sonra bakım gerektirmez; bir şey bozulursa site kendi kendini ihbar eder.
+GitHub Actions **3 saatte bir** (`cron: 0 */3 * * *`) haberleri toplar, 
+Groq ile özetler/puanlar, sonucu statik dosya olarak GitHub Pages'e yazar. 
+Piyasa katmanı tarayıcıdan + Cloudflare worker'dan **canlı** akar. 
+Telegram botu (`bot.py`) komutlara cevap verir. 
+Kurulumdan sonra bakım gerektirmez; bir şey bozulursa site kendi kendini ihbar eder.
 
 ---
 
@@ -14,58 +19,78 @@ GitHub Actions saatte bir değil **2 saatte bir** haberleri toplar, Groq ile öz
 ### 📰 Haber
 - 6 kategoride Türkçe RSS taraması (Gündem, Ekonomi, Teknoloji, Bilim, Dünya, Ücretsiz Oyun)
 - Her habere: **özet**, **önem puanı (1-10)**, **duygu tonu**, **"Neden önemli?"**, **sansasyonel dil skoru (0-10)**
-- Başlık kümelemesi: aynı olayı veren kaynaklar tek kartta (`+N kaynak`)
+- Başlık kümelemesi: aynı olayı veren kaynaklar tek kartta (`+N kaynak`) + opsiyonel **AI olay kümeleme** (`EVENT_CLUSTER=1`)
 - **🧵 Olay örgüsü**: haberi ilk kim verdi, diğerleri kaç dakika sonra geçti
-- Günün Analizi (4 sekme) + **sesli okuma** + AI şeffaflık etiketi (model/sıcaklık/prompt/zeit)
-- Sonsuz kaydırma, Ctrl+K arama paleti, ton & sansasyonel filtreleri, son 12 saat filtresi
-- İlgi alanı kişiselleştirme, kaydet/beğen/okundu, **günlük arşiv** (son 60 gün)
-- **Bayat veri uyarısı**: bot çalışmazsa site sessizce eski haber göstermez, bağırır
+- Günün Analizi (4 sekme) + **sesli okuma** + AI şeffaflık etiketi (model/sıcaklık/prompt/zaman)
+- **📖 Okuma modu**: haberin tam metnini proxy üzerinden çekip reklamsız/temiz okuma
+- Sonsuz kaydırma, **Ctrl+K arama paleti** (eşleşen metin vurgulu), ton & sansasyonel filtreleri, son 12 saat filtresi
+- İlgi alanı kişiselleştirme, kaydet / beğen / okundu / **🕑 sonra oku** (okuyunca listeden kendi çıkar)
+- **🗄️ Günlük arşiv: son 180 gün** (otomatik budanır) + **📊 Duygu Trendi** (son 7 günün ton dağılımı)
+- **🎙️ Podcast**: günün en önemli 10 haberini tarayıcı TTS sesiyle dinle (hız/ses seçilebilir)
+- **📅 Yaklaşan Etkinlikler**: başlıkta etkinlik anahtar kelimesi (konser, fuar, maç…) geçen haftalık haberler
+- **📈 Kullanım İstatistikleri**: haber açma/kaydetme/podcast sayaçları (yalnızca bu cihazda)
+- Bayat veri uyarısı: bot çalışmazsa site sessizce eski haber göstermez, bağırır
 - Filtreli bağlantı kopyalama, kaydedilenleri JSON dışa aktarma
-- Duygu Trendi: arşivden son 7 günün olumlu/nötr/olumsuz dağılımı
+- Klavye kısayolları: `j/k` gez, `o/Enter` aç, `s` kaydet, `l` beğen, `t` sonra oku, `/` ara
 
 ### 📈 Piyasa Terminali
-- **Kripto (canlı):** Binance WebSocket ile tik tik BTC/ETH + REST ile **~1.400 çift**; arama, TRY/USDT filtresi, hacim/değişim/fiyat sıralama, favoriler, canlı detay modalı
+- **Kripto (canlı):** Binance WebSocket ile tik tik BTC/ETH + REST ile **~1.400 çift**; arama, TRY/USDT filtresi, hacim/değişim/fiyat sıralama, favoriler, canlı detay modalı, **1s/7g/30g değişim sütunları**
 - **Hisseler:** TradingView scanner'dan **BIST + ABD hacme göre ilk 50** (Cloudflare worker üzerinden), endeksler (BIST 100, S&P 500, Dow, Nasdaq 100); pazar/yön/sıralama filtreleri, favoriler, **CSV dışa aktarma (Excel uyumlu)**
-- **Döviz & Altın:** USD/EUR/GBP/CHF/JPY + 9 altın-gümüş çeşidi (gramdan hesaplanır)
+- **💼 Portföyüm**: coin/hisse + adet + alış fiyatı ekle; güncel değer ve kâr/zarar anlık hesaplanır (bu cihazda saklanır)
+- **Döviz & Altın:** USD/EUR/GBP/CHF/JPY + 9 altın-gümüş çeşidi (gramdan hesaplanır) + **kuyumcu primi tahmini** (ayarlanabilir işçilik yüzdesi)
 - **Isı haritaları:** kripto treemap'i (hacim bazlı) + hisse ısı ızgarası, tıklayınca detay
 - Küresel kapitalizasyon, BTC hakimiyeti, **Korku & Açgözlülük göstergesi**
 - Piyasa saatleri: BIST/ABD/döviz/kripto açık-kapalı + kapanışa geri sayım
-- Veri kaynağı etiketleri: `CANLI · tik`, `worker · 30 sn`, `~15 dk`, `bot · 2 saat` — ne izlediğini her zaman bilirsin
+- Veri kaynağı etiketleri: `CANLI · tik`, `worker · 30 sn`, `~15 dk`, `bot · 3 saat` — ne izlediğini her zaman bilirsin
 - Tarayıcı içi fiyat alarmı (eşik ayarlı) + ntfy push bildirimleri
 
 ### 🌤️ Yaşam Widget'ları
-Hava (7 gün + saatlik), hava kalitesi (AQI/PM2.5), gün doğumu-batışı, namaz vakitleri (Diyanet), çoklu döviz çevirici — hepsi Çorlu konumuna sabit, anahtarsız açık API'ler.
+Hava (7 gün + saatlik), hava kalitesi (AQI/PM2.5), gün doğumu-batışı, namaz vakitleri (Diyanet), çoklu döviz çevirici.
+**📍 Şehir seçici:** varsayılan Çorlu; Menü'den şehir yazınca hava + AQI + namaz vakitleri birlikte taşınır (bot `/weather` Çorlu sabit kalır).
 
 ### 📻 Radyo & Araçlar
-- 7 istasyon, **kalıcı çalar çubuğu** (sekme değiştirsen de çalar), favoriler, uyku zamanlayıcı, HLS proxy
-- Çeviri aracı (MyMemory → Lingva yedeği), gece/gündüz/otomatik tema, yoğunluk & yazı boyutu, PWA (ana ekrana kurulum + offline)
+- 10 istasyon + **🧪 aday kanal testi** (çalışanları kalıcı listeye ekler), **kalıcı çalar çubuğu**, favoriler, uyku zamanlayıcı, HLS proxy, **son çalınan 5 kanal** şeridi, kanal sağlığı paneli
+- Çeviri aracı (MyMemory → Lingva yedeği)
+- Tema: koyu / açık / **sepia** / sistem · yoğunluk (rahat-sıkı) · yazı boyutu · görsel/hareket azaltma
+- PWA: ana ekrana kurulum + **offline** (service worker v5: ağ öncelikli, çevrimdışı fallback sayfası)
+
+### 📬 Bot, bildirimler & bülten
+- **Telegram botu (`bot.py`):** `/news` `/markets` `/weather` `/games` `/corlu` `/stats` `/categories` `/about` — veriyi **canlı siteden** çeker (yerel dosya yedek)
+- **Kategori bildirimleri:** her turda kategoriler için Telegram + ntfy mesajı; **📈 Piyasa Alarmı** %2 harekette (ntfy + Telegram)
+- **ntfy güvenliği:** `NTFY_TOKEN` ile Bearer auth; token reddedilirse tokensiz dener (bildirim kopmaz)
+- **📧 Email bülteni (Buttondown):** siteden abonelik (token boşsa herkese açık embed form, kullanıcı: `ramazan`); bot **günde 1 kez** günlük özet email'i gönderir (spam korumalı)
+- **Telegram retry:** gönderim hatasında 2 deneme + 3 sn bekleme
 
 ---
 
 ## 🏗️ Mimari
 
 ```
-┌─ GitHub Actions (2 saatte bir) ────────────────────────────┐
-│ icons.py            → 5 PWA ikonu (bağımlılıksız)          │
-│ fetch_and_summarize.py                                     │
-│   RSS → kümeleme → Groq (yedek: Gemini) → özet/puan/ton    │
-│   → news.json + feed*.xml + archive/YYYY-MM-DD.json        │
-│   → ntfy bildirimleri (kategori + piyasa %2 eşik)          │
-└──────────────────────────┬─────────────────────────────────┘
+┌─ GitHub Actions (3 saatte bir) ───────────────────────────┐
+│ icons.py            → 5 PWA ikonu (bağımlılıksız)         │
+│ fetch_and_summarize.py                                    │
+│   RSS → kümeleme → Groq (yedek Gemini/CF) → özet/puan/ton │
+│   → news.json + feed*.xml + archive/YYYY-MM-DD.json       │
+│   → ntfy + Telegram bildirimleri + günlük email özeti     │
+└──────────────────────────┬────────────────────────────────┘
                            ▼ commit
               GitHub Pages (statik barındırma)
                            ▲
-┌─ Tarayıcı ───────────────┴─────────────────────────────────┐
-│ index.html (tek dosya: HTML+CSS+JS)                        │
-│   ├─ Binance WebSocket  → kripto tikleri (doğrudan)        │
-│   ├─ radar-market worker→ hisse/endeks/döviz/metal (30 sn) │
-│   ├─ Open-Meteo/Aladhan → yaşam widget'ları (doğrudan)     │
-│   └─ news.json + archive → haber, arşiv, sparkline geçmişi │
-└────────────────────────────────────────────────────────────┘
-Cloudflare Workers: radar-market (veri toplayıcı) · radar-hls-proxy (radyo CORS)
+┌─ Tarayıcı ───────────────┴────────────────────────────────┐
+│ index.html (tek dosya: HTML+CSS+JS)                       │
+│   ├─ Binance WebSocket  → kripto tikleri (doğrudan)       │
+│   ├─ radar-market worker→ hisse/endeks/döviz/metal (30 sn)│
+│   ├─ Open-Meteo/Aladhan → yaşam widget'ları (şehir-aware) │
+│   └─ news.json + archive → haber, arşiv, sparkline geçmişi│
+└───────────────────────────────────────────────────────────┘
+┌─ bot.py (Telegram polling) ──┐   Cloudflare Workers:
+│ 10 komut · canlı site verisi │   radar-market (veri) · radar-hls-proxy (CORS)
+└──────────────────────────────┘
 ```
 
-**Yedeklilik zinciri:** Groq 429 verirse `retry-after` kadar bekler → günlük kota biterse o turda kapanır → Gemini dener → o da olmazsa haber önbelleğe yazılmaz, **sonraki turda otomatik yeniden denenir**. Piyasa tarafında: TradingView ölürse Yahoo, Yahoo ölürse er-api, worker ölürse bot verisi gösterilir; etiket her zaman gerçek kaynağı yazar.
+**Yedeklilik zinciri:** Groq 429 verirse `retry-after` kadar bekler → günlük kota biterse o turda kapanır → Gemini → Cloudflare → hiçbiri olmazsa **extractive fallback** (metnin ilk cümleleri tarafsız özet olarak) → o da olmazsa haber önbelleğe yazılmaz, sonraki turda yeniden denenir. 
+Piyasa tarafında: TradingView ölürse Yahoo, Yahoo ölürse er-api, worker ölürse bot verisi; etiket her zaman gerçek kaynağı yazar. 
+RSS çekiminde 0.5 sn rate-limit (ban koruması).
 
 ---
 
@@ -73,7 +98,7 @@ Cloudflare Workers: radar-market (veri toplayıcı) · radar-hls-proxy (radyo CO
 
 | Veri | Kaynak | Gecikme | Anahtar |
 |---|---|---|---|
-| Haber özetleri | Groq `gpt-oss-120b` (yedek Gemini) | 2 saatte bir | ✅ Secrets |
+| Haber özetleri | Groq `gpt-oss-120b` (yedek Gemini/CF) | 3 saatte bir | ✅ Secrets |
 | Kripto fiyatları | Binance WS + REST | **~1 sn** | gerekmez |
 | BIST/ABD hisseleri | TradingView scanner (worker) | ~15 dk | gerekmez |
 | Endeksler | TradingView / Yahoo (worker) | ~15 dk | gerekmez |
@@ -83,6 +108,7 @@ Cloudflare Workers: radar-market (veri toplayıcı) · radar-hls-proxy (radyo CO
 | Namaz vakitleri | Aladhan (Diyanet metodu) | günlük | gerekmez |
 | Küresel kripto metrikleri | CoinGecko Global | ~1 dk | gerekmez |
 | Korku & Açgözlülük | alternative.me | günlük | gerekmez |
+| Email bülteni | Buttondown API | anlık | ✅ Secrets |
 
 ---
 
@@ -92,14 +118,18 @@ Cloudflare Workers: radar-market (veri toplayıcı) · radar-hls-proxy (radyo CO
 2. **Settings → Secrets and variables → Actions → Secrets:**
    - `GROQ_API_KEY` (zorunlu) — [console.groq.com](https://console.groq.com)
    - `GEMINI_API_KEY` (yedek, önerilir)
-   - `NTFY_TOPIC` (hata bildirimleri, isteğe bağlı)
+   - `TELEGRAM_TOKEN` + `TELEGRAM_CHAT` (bot bildirimleri ve komut botu)
+   - `NTFY_TOPIC` + `NTFY_TOKEN` (push bildirimleri, token opsiyonel ama önerilir)
+   - `BUTTONDOWN_TOKEN` (günlük email özeti; site aboneliği tokensiz de çalışır)
 3. **Variables** (isteğe bağlı, hepsinin kodda varsayılanı var):
    `AI_TEMPERATURE` · `AI_PROMPT_VER` · `SITE_URL` · `AI_PACE_SECONDS` (10) · `AI_TEXT_LIMIT` (700) · `EVENT_CLUSTER` (0 = kapalı)
-4. Cloudflare'da iki worker kur (kodları projeye ait, panoda `radar-market` ve `radar-hls-proxy`):
+4. Cloudflare'da iki worker kur (panoda `radar-market` ve `radar-hls-proxy`):
    - `radar-market` → `index.html` içindeki `MKT_URL` satırına kendi worker adresini yaz (`.../market` ile bitmeli)
 5. **Actions → RADAR Haber Botu → Run workflow** → 2-3 dk sonra site dolu.
+6. Telegram botu için: `bot.py`'yi token'la çalıştır (PC) veya **Render**'a kur (aşağıda).
 
-> Ücretsiz Groq kotası: 8.000 token/dk · 200.000 token/gün. Bot 2 saatte bir ~15-25 bin token harcar → rahat sığar. Kota dolarsa cron'u `'0 */4 * * *'` yap.
+> Ücretsiz Groq kotası: 8.000 token/dk · 200.000 token/gün. Bot 3 saatte bir ~15-25 bin token harcar → rahat sığar. 
+Kota dolarsa cron'u `'0 */6 * * *'` yap.
 
 ---
 
@@ -107,12 +137,13 @@ Cloudflare Workers: radar-market (veri toplayıcı) · radar-hls-proxy (radyo CO
 
 | Dosya | Görev |
 |---|---|
-| `index.html` | Tüm arayüz (tek dosya: HTML+CSS+JS) + alttaki yama blokları |
-| `fetch_and_summarize.py` | Haber motoru, AI, kümeleme, RSS üretimi, bildirimler |
+| `index.html` | Tüm arayüz (tek dosya: HTML+CSS+JS) |
+| `fetch_and_summarize.py` | Haber motoru, AI, kümeleme, RSS, bildirimler, email özeti |
+| `bot.py` | Telegram komut botu (10 komut, canlı site verisi) |
 | `icons.py` | PWA ikonları (standart kütüphane, deterministik) |
 | `sw.js` / `manifest.json` | Offline önbellek (v5) ve kurulum manifesti |
 | `news.json` | Canlı akış verisi (bot yazar) |
-| `archive/` | Günlük snapshot'lar, son 60 gün (otomatik budanır) |
+| `archive/` | Günlük snapshot'lar, **son 180 gün** (otomatik budanır) |
 | `feed.xml`, `feed-*.xml` | RSS çıktıları (7 adet) |
 | `.github/workflows/update-news.yml` | Zamanlayıcı + commit zinciri |
 
@@ -120,10 +151,19 @@ Cloudflare Workers: radar-market (veri toplayıcı) · radar-hls-proxy (radyo CO
 
 ## 🩺 Bakım / sağlık kontrolü
 
-- **Bot logu:** en sonda `AI özeti → Groq: N · Gemini: 0 · boş cevap: 0` görmelisin. `boş cevap > 0` ise kota/sağlık sorunu var.
+- **Actions:** son koşu yeşil mi; log sonunda `news.json başarıyla yazıldı.` + `AI özeti → Groq: N · Gemini: 0 · boş cevap: 0` gör. `boş cevap > 0` ise kota/sağlık sorunu.
+- **Bot:** `/stats` → toplam haber, son güncelleme, model, AI çağrı sayaçları; `/categories` → kategori dağılımı.
 - **Site:** Piyasa üstündeki çipler → `hisseler: worker 30 sn` (yeşil) ve `kripto: CANLI · tik`. Griyse worker'ı kontrol et.
 - **Bayat veri:** akışın üstünde `⚠️ Veri X saat önce` uyarısı çıkıyorsa Actions'a bak.
 - **RSS aboneliği:** `.../radar/feed.xml` + kategori başına `feed-<id>.xml`.
+
+---
+
+## 🧭 Sırada (yol haritası)
+
+- [ ] **Render kurulumu:** `bot.py` 7/24 ayakta → `/stats` ve diğer komutlar PC kapalıyken de cevap versin
+- [ ] **Service worker güncelleme banner'ı:** yeni sürüm düşünce "🔄 Yeni içerik var — Yenile" bildirimi
+- [ ] ntfy tarafında tek özet konu seçeneği (şu an kategori kategori)
 
 ---
 
@@ -132,15 +172,13 @@ Cloudflare Workers: radar-market (veri toplayıcı) · radar-hls-proxy (radyo CO
 - Özetler ve puanlar **AI ürünüdür**, hata içerebilir; her haberin kaynak bağlantısı her zaman görünür.
 - Sansasyon skoru bir **dil** değerlendirmesidir; doğruluk/güvenilirlik ölçmez.
 - BIST verisi ücretsiz kaynaklarda **~15 dk gecikmelidir**; ABD kapanış sonrası son değer kalır. Bu bir yatırım tavsiyesi aracı değildir.
-- Çeyrek/ata altın **gram fiyatından hesaplanır**; kuyumcu işçilik primi dahil değildir.
+- Çeyrek/ata altın **gram fiyatından hesaplanır**; kuyumcu primi tahminidir, gerçek kuyumcu fiyatı değildir.
 - Kripto `USDT` çiftleri ile aracı uygulamaların `USD` fiyatları makas/USDT farkı nedeniyle ±%0,5 sapabilir.
 - Piyasa saatleri resmî tatilleri içermez.
+- Podcast/okuma sesi tarayıcının TTS motoruna bağlıdır; ses kalitesi cihaza göre değişir.
+- Etkinlik listesi başlık anahtar kelimesiyle **tahmin** eder; kaçırma/yanılma olabilir.
 - RSS kaynaklarının telif hakları ilgili yayıncılara aittir; RADAR yalnızca özet + bağlantı sunar. Radyo yayınları yayıncıların kamuya açık akışlarıdır.
 
 ---
 
-*Tek kişilik bir "haber + piyasa terminali" hobisi olarak başladı; hâlâ tek dosya, hâlâ 0 ₺ sunucu. 📡*
-```
-
----
-
+*Tek kişilik bir "haber + piyasa terminali" hobisi olarak başladı; hâlâ tek dosya arayüz, hâlâ 0 ₺ sunucu. 📡*
