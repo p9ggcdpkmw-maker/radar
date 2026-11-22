@@ -684,7 +684,7 @@ def main():
     for it in need_summary:
         if it.get("summary") and "tam metnine ulaşılamadı" not in it["summary"]:
             new_by_cat.setdefault(it["catId"], []).append(it)
-        if new_by_cat:
+    if new_by_cat:
         total = sum(len(v) for v in new_by_cat.values())
         parts = " · ".join(f"{v[0]['cat']}: {len(v)}" for v in new_by_cat.values())
         tg_send(f"📰 RADAR Güncelleme — {total} yeni haber\n{parts}", silent=TG_SESSIZ)
