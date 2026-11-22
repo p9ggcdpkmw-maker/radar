@@ -671,15 +671,19 @@ def main():
     w_data = fetch_weather()
 
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        alarm_lines = []
     for asset in (c_data + s_data):
         if abs(asset.get("change_pct", 0) or 0) >= 2.0:
             asset_name = asset["label"]
             if alerts_sent.get(asset_name) != today:
                 yon = "yükseldi" if asset["change_pct"] > 0 else "düştü"
-                ntfy("radar-piyasa-x8f2", "📈 Piyasa Alarmı",
-                     f"{asset_name} %{abs(asset['change_pct']):.2f} {yon}!", "chart_with_upwards_trend")
                 alerts_sent[asset_name] = today
-                tg_send(f"📈 Piyasa Alarmı: {asset_name} %{abs(asset['change_pct']):.2f} {yon}!")
+                alarm_lines.append(f"{asset_name} %{abs(asset['change_pct']):.2f} {yon}")
+    if alarm_lines:
+        ntfy("radar-piyasa-x8f2", "📈 Piyasa Alarmı",
+             f"{len(alarm_lines)} enstrüman ±%2 eşiğinde:\n" + "\n".join(alarm_lines),
+             "chart_with_upwards_trend")
+        tg_send(f"📈 Piyasa Alarmı — {len(alarm_lines)} hareket\n" + "\n".join(alarm_lines))
     new_by_cat = {}
     for it in need_summary:
         if it.get("summary") and "tam metnine ulaşılamadı" not in it["summary"]:
