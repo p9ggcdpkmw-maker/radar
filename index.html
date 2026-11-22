@@ -1528,9 +1528,16 @@ function renderRecent(){var r=LS.g('radar_radio_recent',[]),box=$('#recentRow');
 if(!r.length){box.innerHTML='';box.style.display='none';return}
 box.style.display='';box.innerHTML='<span style="font:900 10px var(--sans);letter-spacing:1.2px;color:var(--ink3);align-self:center">SON:</span>'+r.map(function(n){return '<div class="trend" role="button" tabindex="0" data-rn="'+esc(n)+'">📻 '+esc(n)+'</div>'}).join('')}
 function stationStep(d){if(!STATIONS.length)return;var i=curSt<0?(d>0?0:STATIONS.length-1):(curSt+d+STATIONS.length)%STATIONS.length;play(i);toast('📻 '+esc(STATIONS[i].n))}
-function mediaSync(s){if(!('mediaSession'in navigator))return;try{navigator.mediaSession.metadata=new MediaMetadata({title:s.n,artist:'RADAR Radyo · canlı',album:'RADAR'});
+function mediaSync(s){if(!('mediaSession'in navigator))return;try{
+navigator.mediaSession.metadata=new MediaMetadata({title:s.n,artist:'RADAR Radyo · canlı',album:'RADAR',artwork:[{src:'icon-192.png',sizes:'192x192',type:'image/png'},{src:'icon-512.png',sizes:'512x512',type:'image/png'}]});
+navigator.mediaSession.setActionHandler('play',function(){var a=$('#audio');if(curSt<0)play(0);else a.play().catch(function(){})});
+navigator.mediaSession.setActionHandler('pause',function(){$('#audio').pause()});
 navigator.mediaSession.setActionHandler('previoustrack',function(){stationStep(-1)});
-navigator.mediaSession.setActionHandler('nexttrack',function(){stationStep(1)});}catch(e){}}
+navigator.mediaSession.setActionHandler('nexttrack',function(){stationStep(1)});
+navigator.mediaSession.setActionHandler('seekbackward',null);
+navigator.mediaSession.setActionHandler('seekforward',null);
+navigator.mediaSession.setActionHandler('seekto',null);
+}catch(e){}}
 function plSync(){var a=$('#audio'),on=!a.paused;
 $('#player').classList.toggle('playing',on);
 $('#plToggle').textContent=on?'❚❚':'▶';
