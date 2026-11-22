@@ -670,8 +670,8 @@ def main():
     s_data = fetch_stocks(old_stocks)
     w_data = fetch_weather()
 
-    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-        alarm_lines = []
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    alarm_lines = []
     for asset in (c_data + s_data):
         if abs(asset.get("change_pct", 0) or 0) >= 2.0:
             asset_name = asset["label"]
