@@ -1884,8 +1884,16 @@ if(!box.hidden){box.hidden=true;$('#nRead').textContent='📖 Okuma modu';return
 box.hidden=false;$('#nRead').textContent='⏳ Yükleniyor…';box.textContent='';
 fetch(PROXY+encodeURIComponent(cur.link),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(html){
 var doc=new DOMParser().parseFromString(html,'text/html');
-var ps=$$('p',doc).map(function(p){return (p.textContent||'').replace(/\s+/g,' ').trim()})
-.filter(function(t){return t.length>60}).slice(0,12);
+$$('script,style,noscript,nav,footer,aside,form,iframe,button,[class*="related"],[class*="ilgili"],[class*="author"],[class*="yazar"],[class*="bio"],[class*="social"],[class*="sosyal"],[class*="share"],[class*="paylas"],[class*="comment"],[class*="yorum"],[class*="tags"],[class*="etiket"],[class*="breadcrumb"],[class*="sidebar"],[class*="widget"],[class*="newsletter"],[class*="bulten"],[class*="promo"],[class*="reklam"],[class*="advert"],[id*="related"],[id*="author"],[id*="comments"],[id*="sidebar"]',doc).forEach(function(n){n.remove()});
+var root=doc.querySelector('article')||doc.querySelector('[class*="content"]')||doc.querySelector('[class*="detail"]')||doc.querySelector('main')||doc.body;
+var brand=String(cur.source||'').toLocaleLowerCase('tr').split(' ')[0].replace(/[^a-zçğıöşü0-9]/gi,'');
+var BOIL=['okuyucuları ile paylaşır','okuyucularıyla paylaşır','takip etmekten','zevk alan','öğrendiklerini','yazarı','editörü','muhabiri','mezunu','bizi takip','takip edin','abone ol','bülten','google news','google haberler','telegram','twitter','instagram','facebook','youtube','tiktok','linkedin','whatsapp','sosyal medya','ilginizi çekebilir','ayrıca bakınız','önceki haber','sonraki haber','sıradaki haber','okumaya devam','tıklayın','tıklayarak','kaynak:','fotoğraf:','getty images','reuters'];
+var ps=$$('p',root).map(function(p){return (p.textContent||'').replace(/\s+/g,' ').trim()}).filter(function(t){
+if(t.length<60)return false;
+var low=t.toLocaleLowerCase('tr');
+if(BOIL.some(function(k){return low.indexOf(k)>=0}))return false;
+if(brand&&low.indexOf(brand)>=0&&t.length<260&&!/\d/.test(t))return false;
+return true}).slice(0,14);
 if(!ps.length)throw 0;
 box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+'</p>'}).join('');
 $('#nRead').textContent='📖 Okuma modunu kapat'}).catch(function(){
