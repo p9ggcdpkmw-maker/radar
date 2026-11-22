@@ -792,7 +792,7 @@ var STATIONS=[],OFF=new Set(LS.g('radar_radio_off',[])),EXTRA=[];
 (function(){var ex=LS.g('radar_radio_extra',[]);if(Array.isArray(ex))ex.forEach(function(x){if(x&&x.n&&Array.isArray(x.urls)&&x.urls.length)EXTRA.push(x)})})();
 var CITY=LS.g('radar_city',{n:'Çorlu',la:LAT,lo:LON});
 var BTDN_TOKEN=LS.g('radar_buttondown_token','');
-var BD_USER='ramazan';
+var BD_USER='radarhaber';
 var MT={tab:'genel',wk:{},wkOK:false,wkFail:0,wkAsOf:0,bin:[],binTS:0,binOK:false,binFail:0,ws:null,wsExtra:null,ticks:{},live:{},
 cg:null,fng:null,cf:'TRY',cs:'vol',cq:'',clim:100,cfav:new Set(LS.g('radar_cfav',[])),
 stq:'',stSort:'vol',stMkt:'all',stDir:'all',stfav:new Set(LS.g('radar_stfav',[])),
