@@ -670,7 +670,7 @@ def main():
     s_data = fetch_stocks(old_stocks)
     w_data = fetch_weather()
 
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     alarm_lines = []
     for asset in (c_data + s_data):
         if abs(asset.get("change_pct", 0) or 0) >= 2.0:
@@ -691,13 +691,12 @@ def main():
     if new_by_cat:
         total = sum(len(v) for v in new_by_cat.values())
         parts = " · ".join(f"{v[0]['cat']}: {len(v)}" for v in new_by_cat.values())
-        tg_send(f"📰 RADAR Güncelleme — {total} yeni haber\n{parts}", silent=TG_SESSIZ)
+        tg_send(f"📰 RADAR Güncelleme — {total} yeni haber\n{parts}")
     for cat_id, items in new_by_cat.items():
         ntfy(f"radar-{cat_id}-x8f2", f"📰 {items[0]['cat']} Gündemi",
              f"{len(items)} yeni haber eklendi.", "newspaper")
     bd_date = ""
     if new_by_cat:
-        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         try:
             with open("news.json", "r", encoding="utf-8") as f:
                 bd_date = (json.load(f).get("meta") or {}).get("bd_sent_date", "")
@@ -714,20 +713,18 @@ def main():
             bd_send("📰 RADAR Günlük Özet", body)
             bd_date = today
     out = {
-
         "updated": datetime.now(timezone.utc).isoformat(),
         "meta": {
             "generated_at": final_generated_at,
             "model": LAST_AI_MODEL or "unknown",
             "temperature": AI_TEMPERATURE,
             "prompt_version": AI_PROMPT_VER,
-                        "item_count": len(all_items),
+            "item_count": len(all_items),
             "bd_sent_date": bd_date,
             "groq_calls": AI_STATS["groq"],
             "gemini_calls": AI_STATS["gemini"],
             "cf_calls": AI_STATS["cf"],
         },
-
         "briefings": briefings,
         "briefings_generated_at": briefings_at,
         "items": all_items,
