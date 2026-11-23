@@ -1460,7 +1460,9 @@ if(!ev||!ev.length){box.innerHTML='';return}
 box.innerHTML='<div class="mth3">⚽ Olaylar</div>'+ev.map(function(e){var tag=e.kind==='goal'?'GOL':e.kind==='pen'?'PEN':e.kind==='og'?'K.KALE':e.kind==='yellow'?'🟨':e.kind==='red'?'🟥':'⇄';
 return '<div class="mtev '+(e.side||'')+'"><span class="mn">'+esc(e.min||'—')+'</span><span class="mp">'+esc(e.player||'')+(e.assist?' <span style="color:var(--ink3)">· asist '+esc(e.assist)+'</span>':'')+'</span><span class="mt2">'+tag+'</span></div>'}).join('')}
 function renderMtQ(q){var box=$('#mtQ');if(!box)return;
-if(!q||(!q.h.length&&!q.a.length)){box.innerHTML='';return}
+if(SC.sport!=='basketball'){box.innerHTML='';return}
+var sumQ=function(a){return (a||[]).reduce(function(x,y){return x+y},0)};
+if(!q||(!q.h.length&&!q.a.length)||(!sumQ(q.h)&&!sumQ(q.a))){box.innerHTML='';return}
 var n=Math.max(q.h.length,q.a.length),head='<th></th>';for(var i=0;i<n;i++)head+='<th>Q'+(i+1)+'</th>';
 box.innerHTML='<div class="mth3">🏀 Çeyrekler</div><table class="mtq"><tr>'+head+'<th>T</th></tr>'+
 '<tr><td>'+esc(mtLabel('home'))+'</td>'+q.h.map(function(v){return '<td>'+v+'</td>'}).join('')+'<td><b>'+(SC.detail&&SC.detail.m.hs!=null?SC.detail.m.hs:'—')+'</b></td></tr>'+
@@ -1471,7 +1473,7 @@ var row=function(s){return l[s].map(function(x){return '<div class="mtl"><span>'
 box.innerHTML='<div class="mth3">⭐ '+esc(mtLabel('home'))+'</div>'+row('home')+'<div class="mth3">⭐ '+esc(mtLabel('away'))+'</div>'+row('away')}
 function renderMtStats(st){var box=$('#mtStats');if(!box)return;
 if(!st||!st.length){box.innerHTML='';return}
-var NAME={possessionPct:'Topla oynama %',totalShots:'Şut',shotsOnTarget:'İsabetli şut',cornerKicks:'Korner',foulsCommitted:'Faul',offsides:'Ofsayt',yellowCards:'Sarı kart'};
+var NAME={possession:'Topla oynama %',possessionPct:'Topla oynama %',shots:'Şut',totalShots:'Şut',shotsOnTarget:'İsabetli şut',cornerKicks:'Korner',foulsCommitted:'Faul',offsides:'Ofsayt',yellowCards:'Sarı kart',saves:'Kurtarış',passes:'Pas'};
 box.innerHTML='<div class="mth3">📊 İstatistik</div>'+st.map(function(s){var h=parseFloat(String(s.h).replace('%',''))||0,a=parseFloat(String(s.a).replace('%',''))||0,t=(h+a)||1;
 return '<div class="mts"><div class="lb"><span>'+esc(s.h||'—')+'</span><span>'+esc(NAME[s.k]||s.k)+'</span><span>'+esc(s.a||'—')+'</span></div><div class="bb"><i class="h" style="width:'+(h/t*100).toFixed(0)+'%"></i><i class="a" style="width:'+(a/t*100).toFixed(0)+'%"></i></div></div>'}).join('')}
 function scDetail(){if(!SC.detail)return;
