@@ -763,6 +763,11 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div class="hv" id="mtScore" style="font-size:34px">—</div>
 <div class="hd" id="mtState" style="margin-bottom:12px"></div>
 <div id="mtInfo" style="margin-top:12px"></div>
+<div id="mtLoad" class="hint" hidden>⏳ Maç detayı yükleniyor…</div>
+<div id="mtEv"></div>
+<div id="mtQ"></div>
+<div id="mtLead"></div>
+<div id="mtStats"></div>
 <div class="ma" style="margin-top:16px"><button class="btn gh" id="mtFavH">★</button><button class="btn gh" id="mtFavA">★</button></div>
 </div></div>  
 <div class="modal" id="mConfirm" role="dialog" aria-modal="true"><div class="moc sm">
@@ -1424,9 +1429,38 @@ $('#mtState').innerHTML='<span class="pill '+(found.m.state==='in'?'dn':found.m.
 $('#mtInfo').innerHTML='<div class="kv"><span>Başlangıç</span><b>'+new Date(found.m.start).toLocaleString('tr-TR')+'</b></div>'+(found.m.venue?'<div class="kv"><span>Stadyum</span><b>'+esc(found.m.venue)+'</b></div>':'')+'<div class="kv"><span>Lig</span><b>'+esc(found.l.name)+'</b></div>';
 $('#mtFavH').textContent=(SC.fav.has(found.m.home)?'★ ':'☆ ')+found.m.home;
 $('#mtFavA').textContent=(SC.fav.has(found.m.away)?'★ ':'☆ ')+found.m.away;
-openM('#mMatch')}
+openM('#mMatch');scDetail()}
 function scToggleFav(team){SC.fav.has(team)?SC.fav.delete(team):SC.fav.add(team);LS.s('radar_sc_fav',Array.from(SC.fav));renderScores();renderLiveRow();
 if(SC.detail){$('#mtFavH').textContent=(SC.fav.has(SC.detail.m.home)?'★ ':'☆ ')+SC.detail.m.home;$('#mtFavA').textContent=(SC.fav.has(SC.detail.m.away)?'★ ':'☆ ')+SC.detail.m.away}}
+var MATCH_URL=SCORES_URL.replace('/scores','/match');
+function mtLabel(side){if(!SC.detail)return'';return side==='home'?SC.detail.m.home:side==='away'?SC.detail.m.away:''}
+function renderMtEvents(ev){var box=$('#mtEv');if(!box)return;
+if(!ev||!ev.length){box.innerHTML='';return}
+box.innerHTML='<div class="mth3">⚽ Olaylar</div>'+ev.map(function(e){var tag=e.kind==='goal'?'GOL':e.kind==='pen'?'PEN':e.kind==='og'?'K.KALE':e.kind==='yellow'?'🟨':e.kind==='red'?'🟥':'⇄';
+return '<div class="mtev '+(e.side||'')+'"><span class="mn">'+esc(e.min||'—')+'</span><span class="mp">'+esc(e.player||'')+(e.assist?' <span style="color:var(--ink3)">· asist '+esc(e.assist)+'</span>':'')+'</span><span class="mt2">'+tag+'</span></div>'}).join('')}
+function renderMtQ(q){var box=$('#mtQ');if(!box)return;
+if(!q||(!q.h.length&&!q.a.length)){box.innerHTML='';return}
+var n=Math.max(q.h.length,q.a.length),head='<th></th>';for(var i=0;i<n;i++)head+='<th>Q'+(i+1)+'</th>';
+box.innerHTML='<div class="mth3">🏀 Çeyrekler</div><table class="mtq"><tr>'+head+'<th>T</th></tr>'+
+'<tr><td>'+esc(mtLabel('home'))+'</td>'+q.h.map(function(v){return '<td>'+v+'</td>'}).join('')+'<td><b>'+(SC.detail&&SC.detail.m.hs!=null?SC.detail.m.hs:'—')+'</b></td></tr>'+
+'<tr><td>'+esc(mtLabel('away'))+'</td>'+q.a.map(function(v){return '<td>'+v+'</td>'}).join('')+'<td><b>'+(SC.detail&&SC.detail.m.as!=null?SC.detail.m.as:'—')+'</b></td></tr></table>'}
+function renderMtLead(l){var box=$('#mtLead');if(!box)return;
+if(!l||(!l.home.length&&!l.away.length)){box.innerHTML='';return}
+var row=function(s){return l[s].map(function(x){return '<div class="mtl"><span>'+esc(x.n)+'</span><b>'+esc(x.c)+' '+esc(x.v)+'</b></div>'}).join('')};
+box.innerHTML='<div class="mth3">⭐ '+esc(mtLabel('home'))+'</div>'+row('home')+'<div class="mth3">⭐ '+esc(mtLabel('away'))+'</div>'+row('away')}
+function renderMtStats(st){var box=$('#mtStats');if(!box)return;
+if(!st||!st.length){box.innerHTML='';return}
+var NAME={possessionPct:'Topla oynama %',totalShots:'Şut',shotsOnTarget:'İsabetli şut',cornerKicks:'Korner',foulsCommitted:'Faul',offsides:'Ofsayt',yellowCards:'Sarı kart'};
+box.innerHTML='<div class="mth3">📊 İstatistik</div>'+st.map(function(s){var h=parseFloat(String(s.h).replace('%',''))||0,a=parseFloat(String(s.a).replace('%',''))||0,t=(h+a)||1;
+return '<div class="mts"><div class="lb"><span>'+esc(s.h||'—')+'</span><span>'+esc(NAME[s.k]||s.k)+'</span><span>'+esc(s.a||'—')+'</span></div><div class="bb"><i class="h" style="width:'+(h/t*100).toFixed(0)+'%"></i><i class="a" style="width:'+(a/t*100).toFixed(0)+'%"></i></div></div>'}).join('')}
+function scDetail(){if(!SC.detail)return;
+['#mtEv','#mtQ','#mtLead','#mtStats'].forEach(function(s){var e=$(s);if(e)e.innerHTML=''});
+var box=$('#mtLoad'),m=SC.detail.m,l=SC.detail.l;box.hidden=false;box.textContent='⏳ Maç detayı yükleniyor…';
+jget(MATCH_URL+'?sport='+SC.sport+'&lg='+encodeURIComponent(l.id)+'&id='+encodeURIComponent(m.id)+'&t='+Date.now(),12000).then(function(d){
+box.hidden=true;SC.lineups=d.lineups||null;SC.preInfo=d.info||null;
+renderMtEvents(d.events);renderMtQ(d.linescores);renderMtLead(d.leaders);renderMtStats(d.stats);
+if(d.info&&(d.info.venue||d.info.referee)){var mi=$('#mtInfo');if(mi)mi.innerHTML=mi.innerHTML+(d.info.referee?'<div class="kv"><span>Hakem</span><b>'+esc(d.info.referee)+'</b></div>':'')+(d.info.attendance?'<div class="kv"><span>Seyirci</span><b>'+esc(String(d.info.attendance))+'</b></div>':'')}
+}).catch(function(){box.hidden=false;box.textContent='⚠️ Detay alınamadı — skor ve durum yukarıda.'})}
 function scLoad(force){var key=SC.sport+'|'+SC.date;
 if(SC.loading)return Promise.resolve();
 if(!force&&SC.data&&SC.dataKey===key&&(Date.now()-SC.ts)<45000)return Promise.resolve();
