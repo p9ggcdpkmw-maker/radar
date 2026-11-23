@@ -698,7 +698,7 @@ def main():
     if new_by_cat:
         total = sum(len(v) for v in new_by_cat.values())
         parts = " · ".join(f"{v[0]['cat']}: {len(v)}" for v in new_by_cat.values())
-        tg_send(f"📰 RADAR Güncelleme — {total} yeni haber\n{parts}")
+        tg_send(f"📰 RADAR Güncelleme — {total} yeni haber\n{parts}", silent=TG_SESSIZ)
     for cat_id, items in new_by_cat.items():
         ntfy(f"radar-{cat_id}-x8f2", f"📰 {items[0]['cat']} Gündemi",
              f"{len(items)} yeni haber eklendi.", "newspaper")
