@@ -529,6 +529,19 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 .mts .bb i{display:block;height:100%}
 .mts .bb i.h{background:var(--pri)}
 .mts .bb i.a{background:var(--mag);margin-left:auto}
+.pitch{position:relative;margin:8px 0 4px;border-radius:var(--r2);border:1px solid var(--ln);background:linear-gradient(180deg,color-mix(in srgb,var(--up) 7%,var(--sf)),var(--sf));overflow:hidden;height:300px}
+.pitch .half{position:absolute;left:8%;right:8%;top:50%;height:1px;background:var(--ln2)}
+.pitch .circ{position:absolute;left:50%;top:50%;width:56px;height:56px;transform:translate(-50%,-50%);border:1px solid var(--ln2);border-radius:50%}
+.pdot{position:absolute;transform:translate(-50%,-50%);text-align:center;width:64px}
+.pdot i{display:grid;place-items:center;width:26px;height:26px;margin:0 auto 3px;border-radius:50%;font:800 11px var(--mono);color:#fff;font-style:normal;box-shadow:0 2px 8px rgba(0,0,0,.35)}
+.pdot b{display:block;font:700 9.5px var(--sans);color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pdot.home i{background:var(--pri)}
+.pdot.away i{background:var(--mag)}
+.lsub{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.lsub span{font:700 10.5px var(--mono);padding:3px 8px;border-radius:99px;border:1px solid var(--ln);background:var(--sf2);color:var(--ink2)}
+.formb{display:inline-flex;gap:3px}
+.formb i{width:16px;height:16px;border-radius:4px;display:grid;place-items:center;font:800 9px var(--mono);font-style:normal;color:#fff}
+.formb i.W{background:var(--up)}.formb i.D{background:var(--ink3)}.formb i.L{background:var(--dn)}
 </style>
 </head>
 <body>
@@ -789,6 +802,9 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div id="mtQ"></div>
 <div id="mtLead"></div>
 <div id="mtStats"></div>
+<div id="mtLine"></div>
+<div id="mtPre"></div>
+<div class="ma" style="margin-top:14px"><button class="btn gh" id="mtRemind">🔔 Hatırlat</button><button class="btn gh" id="mtIcs">📅 Takvime ekle</button><button class="btn gh" id="mtShare2">↗ Paylaş</button></div>
 <div class="ma" style="margin-top:16px"><button class="btn gh" id="mtFavH">★</button><button class="btn gh" id="mtFavA">★</button></div>
 </div></div>  
 <div class="modal" id="mConfirm" role="dialog" aria-modal="true"><div class="moc sm">
@@ -1476,12 +1492,68 @@ if(!st||!st.length){box.innerHTML='';return}
 var NAME={possession:'Topla oynama %',possessionPct:'Topla oynama %',shots:'Şut',totalShots:'Şut',shotsOnTarget:'İsabetli şut',cornerKicks:'Korner',foulsCommitted:'Faul',offsides:'Ofsayt',yellowCards:'Sarı kart',saves:'Kurtarış',passes:'Pas'};
 box.innerHTML='<div class="mth3">📊 İstatistik</div>'+st.map(function(s){var h=parseFloat(String(s.h).replace('%',''))||0,a=parseFloat(String(s.a).replace('%',''))||0,t=(h+a)||1;
 return '<div class="mts"><div class="lb"><span>'+esc(s.h||'—')+'</span><span>'+esc(NAME[s.k]||s.k)+'</span><span>'+esc(s.a||'—')+'</span></div><div class="bb"><i class="h" style="width:'+(h/t*100).toFixed(0)+'%"></i><i class="a" style="width:'+(a/t*100).toFixed(0)+'%"></i></div></div>'}).join('')}
+function pitchRows(formation){var rows=[1];String(formation||'').split('-').forEach(function(n){var k=parseInt(n,10);if(k>0)rows.push(k)});if(rows.reduce(function(a,b){return a+b},0)!==11)rows=[1,4,4,2];return rows}
+function pitchDots(side,lu){var xi=(lu.xi||[]).slice().sort(function(a,b){return (a.fp||0)-(b.fp||0)}).slice(0,11);
+var rows=pitchRows(lu.formation),out=[],i=0;
+for(var r=0;r<rows.length&&i<xi.length;r++){var size=rows[r];
+for(var c=0;c<size&&i<xi.length;c++,i++){var x=((c+1)/(size+1))*84+8;
+var yb=10+(rows.length>1?(r/(rows.length-1))*35:0);
+out.push({x:x,y:side==='away'?yb:90-yb,p:xi[i]})}}
+return out}
+function renderMtLine(lu){var box=$('#mtLine');if(!box)return;
+if(!lu||(!lu.home&&!lu.away)){box.innerHTML='<div class="mth3">📋 Kadro</div><p class="hint">Kadro verisi bu maç için yok veya henüz açıklanmadı.</p>';return}
+var html='<div class="mth3">📋 Kadro</div><div class="pitch"><div class="half"></div><div class="circ"></div>';
+['away','home'].forEach(function(sd){var L=lu[sd];if(!L)return;
+pitchDots(sd,L).forEach(function(d){html+='<div class="pdot '+sd+'" style="left:'+d.x.toFixed(1)+'%;top:'+d.y.toFixed(1)+'%"><i>'+esc(d.p.n||'')+'</i><b>'+esc(String(d.p.nm||'').split(' ').pop())+'</b></div>'})});
+html+='</div>';
+['home','away'].forEach(function(sd){var L=lu[sd];if(!L)return;
+html+='<div style="margin-top:8px"><b style="font:800 12px var(--sans)">'+esc(mtLabel(sd))+'</b> <span class="chip">'+esc(L.formation||'—')+'</span>'+(L.coach?' <span class="hint" style="display:inline">· '+esc(L.coach)+'</span>':'');
+if(L.subs&&L.subs.length)html+='<div class="lsub">'+L.subs.map(function(s){return '<span>'+esc(s.n||'')+' '+esc(s.nm||'')+'</span>'}).join('')+'</div>';
+html+='</div>'});
+box.innerHTML=html}
+function formBadges(f){var s=String(f||'').toUpperCase().slice(0,5);if(!s)return'<span class="hint">—</span>';
+return '<span class="formb">'+s.split('').map(function(ch){return (ch==='W'||ch==='D'||ch==='L')?'<i class="'+ch+'">'+ch+'</i>':''}).join('')+'</span>'}
+function renderMtPre(pre){var box=$('#mtPre');if(!box)return;
+if(!pre||(!pre.form.home&&!pre.form.away&&!pre.h2h.length&&!pre.odds)){box.innerHTML='';return}
+var h='<div class="mth3">🔮 Ön Bilgi</div>';
+if(pre.form.home||pre.form.away){h+='<div class="kv"><span>Form · '+esc(mtLabel('home'))+'</span><b>'+formBadges(pre.form.home)+'</b></div>';
+h+='<div class="kv"><span>Form · '+esc(mtLabel('away'))+'</span><b>'+formBadges(pre.form.away)+'</b></div>'}
+if(pre.h2h&&pre.h2h.length)h+='<div class="kv"><span>Son karşılaşmalar</span><b style="text-align:right">'+pre.h2h.map(function(g){return esc(g.h)+' '+(g.hs!=null?g.hs+'-'+g.as:'?')+' '+esc(g.a)}).join(' · ')+'</b></div>';
+if(pre.odds)h+='<div class="kv"><span>Tahmin</span><b>'+esc(pre.odds)+'</b></div>';
+box.innerHTML=h}
+function remindKey(){return SC.detail?(SC.detail.l.id+'|'+SC.detail.m.id):''}
+function renderMtActions(){var b=$('#mtRemind');if(!b||!SC.detail)return;
+var R=LS.g('radar_remind',{});b.textContent=R[remindKey()]?'🔕 Hatırlatma':'🔔 Hatırlat'}
+function scheduleReminders(){var R=LS.g('radar_remind',{}),now=Date.now();if(!window._remH)window._remH={};
+Object.keys(R).forEach(function(k){var rec=R[k];if(!rec)return;var fire=rec.at-900000;
+if(fire<now-60000){delete R[k];LS.s('radar_remind',R);return}
+if(window._remH[k])return;
+if(fire<=now){window._remH[k]=1;toast('🔔 Başlamak üzere: '+rec.label);
+try{if('Notification'in window&&Notification.permission==='granted')new Notification('RADAR · Maç başlıyor',{body:rec.label})}catch(e){}}
+else window._remH[k]=setTimeout(function(){window._remH[k]=1;toast('🔔 Başlamak üzere: '+rec.label);
+try{if('Notification'in window&&Notification.permission==='granted')new Notification('RADAR · Maç başlıyor',{body:rec.label})}catch(e){}},fire-now)})}
+function remindSet(){var R=LS.g('radar_remind',{}),k=remindKey();if(!k||!SC.detail)return;
+if(R[k]){delete R[k];toast('🔕 Hatırlatma kaldırıldı')}
+else{R[k]={at:new Date(SC.detail.m.start).getTime(),label:SC.detail.m.home+' – '+SC.detail.m.away};
+toast('🔔 Maçtan 15 dk önce haber vereceğim (sayfa açıksa)');
+if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(function(){})}
+LS.s('radar_remind',R);renderMtActions();scheduleReminders()}
+function icsStamp(ms){return new Date(ms).toISOString().replace(/[-:]/g,'').split('.')[0]+'Z'}
+function mtIcs(){if(!SC.detail)return;var m=SC.detail.m,start=new Date(m.start).getTime();
+var ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//RADAR//TR','BEGIN:VEVENT','UID:'+m.id+'@radar',
+'DTSTAMP:'+icsStamp(Date.now()),'DTSTART:'+icsStamp(start),'DTEND:'+icsStamp(start+7200000),
+'SUMMARY:'+(m.home+' - '+m.away),'LOCATION:'+((m.venue||'').replace(/,/g,'\\,')),'DESCRIPTION:'+SC.detail.l.name,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+var blob=new Blob([ics],{type:'text/calendar'});var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='radar-mac.ics';
+document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);toast('📅 Takvim dosyası indirildi')}
+function mtShare(){if(!SC.detail)return;var m=SC.detail.m;
+var txt=m.home+' '+(m.hs!=null?m.hs:'-')+(m.as!=null?':'+m.as:'')+' '+m.away+' · '+SC.detail.l.name+' · '+(m.state==='in'?(m.clock||'CANLI'):m.state==='post'?'MS':hhmm(m.start));
+if(navigator.share){navigator.share({title:'RADAR Saha',text:txt,url:location.href}).catch(function(){copyTxt(txt)});return}copyTxt(txt)}
 function scDetail(){if(!SC.detail)return;
-['#mtEv','#mtQ','#mtLead','#mtStats'].forEach(function(s){var e=$(s);if(e)e.innerHTML=''});
+['#mtEv','#mtQ','#mtLead','#mtStats','#mtLine','#mtPre'].forEach(function(s){var e=$(s);if(e)e.innerHTML=''});
 var box=$('#mtLoad'),m=SC.detail.m,l=SC.detail.l;box.hidden=false;box.textContent='⏳ Maç detayı yükleniyor…';
 jget(MATCH_URL+'?sport='+SC.sport+'&lg='+encodeURIComponent(l.id)+'&id='+encodeURIComponent(m.id)+'&t='+Date.now(),12000).then(function(d){
 box.hidden=true;SC.lineups=d.lineups||null;SC.preInfo=d.info||null;
-renderMtEvents(d.events);renderMtQ(d.linescores);renderMtLead(d.leaders);renderMtStats(d.stats);
+renderMtEvents(d.events);renderMtQ(d.linescores);renderMtLead(d.leaders);renderMtStats(d.stats);renderMtLine(d.lineups);renderMtPre(d.pre);renderMtActions();
 if(d.info&&(d.info.venue||d.info.referee)){var mi=$('#mtInfo');if(mi)mi.innerHTML=mi.innerHTML+(d.info.referee?'<div class="kv"><span>Hakem</span><b>'+esc(d.info.referee)+'</b></div>':'')+(d.info.attendance?'<div class="kv"><span>Seyirci</span><b>'+esc(String(d.info.attendance))+'</b></div>':'')}
 }).catch(function(){box.hidden=false;box.textContent='⚠️ Detay alınamadı — skor ve durum yukarıda.'})}
 function scLoad(force){var key=SC.sport+'|'+SC.date;
@@ -1924,6 +1996,9 @@ $('#scLeague').addEventListener('change',function(e){SC.league=e.target.value;re
 $('#scFavOnly').addEventListener('click',function(){SC.favOnly=!SC.favOnly;renderScores()});
 $('#mtFavH').addEventListener('click',function(){if(SC.detail)scToggleFav(SC.detail.m.home)});
 $('#mtFavA').addEventListener('click',function(){if(SC.detail)scToggleFav(SC.detail.m.away)});
+$('#mtRemind').addEventListener('click',remindSet);
+$('#mtIcs').addEventListener('click',mtIcs);
+$('#mtShare2').addEventListener('click',mtShare);
 $('#cityGo').addEventListener('click',citySet);
 $('#wxRetry').addEventListener('click',function(){toast('Hava güncelleniyor…');widgets(true)});
 $('#cityIn').addEventListener('keydown',function(e){if(e.key==='Enter')citySet()});
@@ -2087,7 +2162,7 @@ setInterval(tickClock,10000);
 setInterval(function(){if(curSt>=0&&STATIONS[curSt]&&reallyPlaying()){var n=STATIONS[curSt].n;
 MT.playedOk.add(n);if(MT.rtest[n]!=='ok'){MT.rtest[n]='ok';if(S.view==='radio'){renderRadio();renderHealth()}}}},2000);
 renderRecent();measure();setTimeout(measure,300);setTimeout(measure,1200);
-scInit();
+scInit();scheduleReminders();
 setInterval(function(){if(!document.hidden&&(S.view==='scores'||S.view==='feed'))scLoad(false)},45000);
 if('serviceWorker'in navigator&&location.protocol!=='file:'){
 var go=function(){navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('SW kayıt hatası:', e)})};
