@@ -48,7 +48,7 @@ jobs:
           AI_TEXT_LIMIT: ${{ vars.AI_TEXT_LIMIT || '700' }}
           EVENT_CLUSTER: ${{ vars.EVENT_CLUSTER || '0' }}
 
-      - name: Arşiv snapshot oluştur (son 60 gün)
+      - name: Arşiv snapshot oluştur (son 180 gün)
         run: |
           DATE=$(date -u +%F)
           mkdir -p archive
@@ -86,7 +86,19 @@ jobs:
 
       - name: Hata bildirimi
         if: failure()
+        env:
+          TG_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TG_CHAT: ${{ secrets.TELEGRAM_CHAT }}
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
         run: |
-          curl -s -d "RADAR Botu başarısız: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
-            -H "Title: RADAR HATA" -H "Tags: warning" \
-            "https://ntfy.sh/${{ secrets.NTFY_TOPIC }}" || true
+          MSG="🚨 RADAR Botu başarısız: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          if [ -n "$NTFY_TOPIC" ]; then
+            curl -s -d "$MSG" -H "Title: RADAR HATA" -H "Tags: warning" \
+              "https://ntfy.sh/$NTFY_TOPIC" || true
+          fi
+          if [ -n "$TG_TOKEN" ] && [ -n "$TG_CHAT" ]; then
+            curl -s -X POST "https://api.telegram.org/bot$TG_TOKEN/sendMessage" \
+              --data-urlencode "chat_id=$TG_CHAT" \
+              --data-urlencode "text=$MSG" \
+              --data-urlencode "disable_web_page_preview=true" || true
+          fi
