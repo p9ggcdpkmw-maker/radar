@@ -189,43 +189,7 @@ def extractive_summary(text, max_chars=280):
     if len(out) > max_chars:
         out = out[:max_chars].rsplit(" ", 1)[0] + "…"
     return out
-
-def ask_ai(prompt, is_json=True):
-    global LAST_AI_MODEL
-    if GROQ_KEY:
-        for attempt in range(2):
-            try:
-                body = {"model": AI_MODEL_GROQ, "max_tokens": 4000, "temperature": AI_TEMPERATURE,
-                        "messages": [{"role": "user", "content": prompt}], "reasoning_effort": "low"}
-                if is_json: body["response_format"] = {"type": "json_object"}
-                resp = requests.post("https://api.groq.com/openai/v1/chat/completions",
-                                     headers={"Authorization": f"Bearer {GROQ_KEY}"}, json=body, timeout=45)
-                if resp.status_code == 429: break
-                resp.raise_for_status()
-                LAST_AI_MODEL = AI_MODEL_GROQ
-                return resp.json()["choices"][0]["message"]["content"]
-            except Exception as e:
-                print(f"  ! Groq hatası: {e}", file=sys.stderr)
-                time.sleep(1)
-    if GEMINI_KEY:
-        for attempt in range(2):
-            try:
-                body = {"model": AI_MODEL_GEMINI, "max_tokens": 4000, "temperature": AI_TEMPERATURE,
-                        "messages": [{"role": "user", "content": prompt}]}
-                if is_json: body["response_format"] = {"type": "json_object"}
-                resp = requests.post("https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
-                                     headers={"Authorization": f"Bearer {GEMINI_KEY}"}, json=body, timeout=60)
-                if resp.status_code == 429:
-                    time.sleep(10); continue
-                resp.raise_for_status()
-                LAST_AI_MODEL = AI_MODEL_GEMINI
-                return resp.json()["choices"][0]["message"]["content"]
-            except Exception as e:
-                print(f"  ! Gemini hatası: {e}", file=sys.stderr)
-                time.sleep(3)
-    return ""
-
-
+    
 def fetch_category(cat, cache):
     items = []
     now_utc = datetime.now(timezone.utc)
@@ -314,51 +278,6 @@ def fetch_text_and_image(url, timeout=15):
     except Exception:
         pass
     return text[:MAX_TEXT_LENGTH], og_image
-
-
-def summarize_batch(items):
-    if not items: return {}
-    lines = []
-    for it in items:
-        content = it.get("text") or BeautifulSoup(it.get("rss_desc", ""), "html.parser").get_text()
-        if not content:
-            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | Durum: METİN YOK.")
-        else:
-            lines.append(f"ID: {it['id']} | Başlık: {it['title']} | İçerik: {content[:1500]}")
-    prompt = (
-        "Aşağıdaki haberleri Türkçe, 2-3 cümlelik tarafsız bir dille özetle. "
-        "Her haber için şu 5 alanı doldur:\n"
-        "1. 'summary': Tarafsız özet.\n"
-        "2. 'score': 1-10 arası ÖNEM puanı (10 = herkesi ilgilendiren büyük gelişme, 1 = önemsiz detay).\n"
-        "3. 'tone': 'pozitif', 'nötr' veya 'negatif'.\n"
-        "4. 'why_important': Bu haberi neden okumalıyız? (1 çarpıcı cümle).\n"
-        "5. 'bias_score': 0-10 arası DİL puanı. 0 = tarafsız/bilgilendirici, 10 = aşırı sansasyonel, manipülatif veya tık tuzağı (clickbait). "
-        "Bu puan haberin önemini değil, kullanılan dilin abartısını ölçer.\n"
-        "Çıktıyı KESİNLİKLE şu JSON formatında ver:\n"
-        '{"summaries": [{"id": "haber_id", "summary": "özet", "score": 8, "tone": "nötr", "why_important": "cümle", "bias_score": 3}]}\n'
-        "Metin yoksa o haberi listeye ekleme.\n\n" + "\n".join(lines)
-    )
-    raw = ask_ai(prompt)
-    try:
-        arr = json.loads(clean_json_response(raw)).get("summaries", [])
-        result = {}
-        for item in arr:
-            iid = item.get("id")
-            if not iid: continue
-            tone = item.get("tone")
-            if tone not in ("pozitif", "nötr", "negatif"): tone = "nötr"
-            result[iid] = {
-                "summary": item.get("summary") or "Özet oluşturulamadı.",
-                "score": clamp_int(item.get("score"), 1, 10, 5),
-                "tone": tone,
-                "why_important": item.get("why_important", ""),
-                "bias_score": clamp_int(item.get("bias_score"), 0, 10, None),
-            }
-        return result
-    except Exception as e:
-        print(f"JSON Ayrıştırma Hatası: {e}", file=sys.stderr)
-        return {}
-
 
 def generate_daily_briefings(all_news):
     if not all_news: return {}
@@ -488,10 +407,10 @@ def fetch_stocks(old_stocks=None):
 
 def fetch_weather():
     try:
-        r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=41.1601&longitude=27.8055&current_weather=true", timeout=10)
+        r = requests.get("https://api.open-meteo.com/v1/forecast?latitude=41.1601&longitude=27.8055&current=temperature_2m,weather_code", timeout=10)
         r.raise_for_status()
-        cw = r.json().get("current_weather", {})
-        return {"temp": cw.get("temperature"), "desc": WEATHER_DESC.get(cw.get("weathercode"), "Bilinmiyor"), "city": "Çorlu"}
+        cw = r.json().get("current", {})
+        return {"temp": cw.get("temperature_2m"), "desc": WEATHER_DESC.get(cw.get("weather_code"), "Bilinmiyor"), "city": "Çorlu"}
     except Exception:
         return None
 
@@ -521,35 +440,6 @@ def load_cache():
     except Exception:
         pass
     return cache, briefings, alerts, old_market, old_crypto, old_stocks, briefings_at
-
-
-def cluster_items(all_items):
-    """Benzer başlıkları tek haberde toplar (çok kaynaklı olay)."""
-    seen_urls = set()
-    clusters = []
-    for it in all_items:
-        if it["link"] in seen_urls: continue
-        norm_title = " ".join(re.sub(r'[^\w\s]', '', tr_lower(it["title"])).split())
-        found_cluster = None
-        for cluster in clusters:
-            sm = difflib.SequenceMatcher(None, norm_title, cluster["norm_title"])
-            if sm.real_quick_ratio() > 0.75 and sm.quick_ratio() > 0.75 and sm.ratio() > 0.75:
-                found_cluster = cluster
-                break
-        if found_cluster:
-            found_cluster["sources"].append({"source": it["source"], "link": it["link"]})
-        else:
-            clusters.append({"item": it, "norm_title": norm_title,
-                             "sources": [{"source": it["source"], "link": it["link"]}]})
-        seen_urls.add(it["link"])
-    final_items = []
-    for c in clusters:
-        it = c["item"]
-        if len(c["sources"]) > 1:
-            it["other_sources"] = c["sources"][1:]
-        final_items.append(it)
-    return final_items
-
 
 def main():
     global LAST_AI_MODEL
