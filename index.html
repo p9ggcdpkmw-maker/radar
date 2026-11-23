@@ -1501,7 +1501,7 @@ var yb=10+(rows.length>1?(r/(rows.length-1))*35:0);
 out.push({x:x,y:side==='away'?yb:90-yb,p:xi[i]})}}
 return out}
 function renderMtLine(lu){var box=$('#mtLine');if(!box)return;
-if(!lu||(!lu.home&&!lu.away)){box.innerHTML='<div class="mth3">📋 Kadro</div><p class="hint">Kadro verisi bu maç için yok veya henüz açıklanmadı.</p>';return}
+if(!lu||(!lu.home&&!lu.away)){box.innerHTML='<div class="mth3">📋 Kadro</div><p class="hint">Kadro verisi bu maç için yok veya henüz açıklanmadı.'+(SC.dbgKeys?' <span style="opacity:.55">[anahtarlar: '+esc(SC.dbgKeys)+']</span>':'')+'</p>';return}
 var html='<div class="mth3">📋 Kadro</div><div class="pitch"><div class="half"></div><div class="circ"></div>';
 ['away','home'].forEach(function(sd){var L=lu[sd];if(!L)return;
 pitchDots(sd,L).forEach(function(d){html+='<div class="pdot '+sd+'" style="left:'+d.x.toFixed(1)+'%;top:'+d.y.toFixed(1)+'%"><i>'+esc(d.p.n||'')+'</i><b>'+esc(String(d.p.nm||'').split(' ').pop())+'</b></div>'})});
@@ -1552,7 +1552,7 @@ function scDetail(){if(!SC.detail)return;
 ['#mtEv','#mtQ','#mtLead','#mtStats','#mtLine','#mtPre'].forEach(function(s){var e=$(s);if(e)e.innerHTML=''});
 var box=$('#mtLoad'),m=SC.detail.m,l=SC.detail.l;box.hidden=false;box.textContent='⏳ Maç detayı yükleniyor…';
 jget(MATCH_URL+'?sport='+SC.sport+'&lg='+encodeURIComponent(l.id)+'&id='+encodeURIComponent(m.id)+'&t='+Date.now(),12000).then(function(d){
-box.hidden=true;SC.lineups=d.lineups||null;SC.preInfo=d.info||null;
+box.hidden=true;SC.lineups=d.lineups||null;SC.preInfo=d.info||null;SC.dbgKeys=d.debugKeys||null;
 renderMtEvents(d.events);renderMtQ(d.linescores);renderMtLead(d.leaders);renderMtStats(d.stats);renderMtLine(d.lineups);renderMtPre(d.pre);renderMtActions();
 if(d.info&&(d.info.venue||d.info.referee)){var mi=$('#mtInfo');if(mi)mi.innerHTML=mi.innerHTML+(d.info.referee?'<div class="kv"><span>Hakem</span><b>'+esc(d.info.referee)+'</b></div>':'')+(d.info.attendance?'<div class="kv"><span>Seyirci</span><b>'+esc(String(d.info.attendance))+'</b></div>':'')}
 }).catch(function(){box.hidden=false;box.textContent='⚠️ Detay alınamadı — skor ve durum yukarıda.'})}
