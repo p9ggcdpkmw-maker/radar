@@ -47,6 +47,8 @@ jobs:
           AI_PACE_SECONDS: ${{ vars.AI_PACE_SECONDS || '10' }}
           AI_TEXT_LIMIT: ${{ vars.AI_TEXT_LIMIT || '700' }}
           EVENT_CLUSTER: ${{ vars.EVENT_CLUSTER || '0' }}
+          TG_SESSIZ: ${{ vars.TG_SESSIZ || '1' }}
+
 
       - name: Arşiv snapshot oluştur (son 180 gün)
         run: |
