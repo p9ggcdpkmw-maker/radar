@@ -110,8 +110,8 @@ def ntfy(topic, title, msg, tags="", priority=3):
     try:
         res = requests.post("https://ntfy.sh/", json=payload, headers=headers, timeout=10)
         if res.status_code in (401, 403) and NTFY_TOKEN:
-            print(f"  ! Ntfy token reddetti ({topic}) — tokensiz deneniyor.", file=sys.stderr)
-            res = requests.post("https://ntfy.sh/", json=payload, timeout=10)
+            print(f"  ! Ntfy token reddetti ({topic}) — güvenlik nedeniyle tokensiz deneme YAPILMADI.", file=sys.stderr)
+            return
         res.raise_for_status()
     except Exception as e:
         print(f"  ! Ntfy hatası ({topic}): {e}", file=sys.stderr)
@@ -120,15 +120,16 @@ def ntfy(topic, title, msg, tags="", priority=3):
 TG_TOKEN = os.environ.get("TELEGRAM_TOKEN", "").strip()
 TG_CHAT = os.environ.get("TELEGRAM_CHAT", "").strip()
 BTDN_TOKEN = os.environ.get("BUTTONDOWN_TOKEN", "").strip()
-TG_SESSIZ = os.environ.get("TG_SESSIZ", "0").strip() == "0"
+TG_SESSIZ = os.environ.get("TG_SESSIZ", "1").strip() == "1"
 
 
 def bd_send(subject, body):
     if not BTDN_TOKEN: return
     try:
-        requests.post("https://api.buttondown.com/v1/emails",
-                      json={"subject": subject, "body": body, "type": "regular"},
-                      headers={"Authorization": f"Token {BTDN_TOKEN}"}, timeout=10)
+        resp = requests.post("https://api.buttondown.com/v1/emails",
+                             json={"subject": subject, "body": body, "type": "regular"},
+                             headers={"Authorization": f"Token {BTDN_TOKEN}"}, timeout=10)
+        resp.raise_for_status()
     except Exception as e:
         print(f"  ! Buttondown hatası: {e}", file=sys.stderr)
 
@@ -143,7 +144,8 @@ def tg_send(text, retry=2, silent=False):
                                 "disable_notification": silent}, timeout=10)
             return
         except Exception as e:
-            print(f"  ! Telegram hatası ({attempt+1}/{retry}): {e}", file=sys.stderr)
+            err_msg = str(e).replace(TG_TOKEN, "***TOKEN***") if TG_TOKEN else str(e)
+            print(f"  ! Telegram hatası ({attempt+1}/{retry}): {err_msg}", file=sys.stderr)
             if attempt < retry-1: time.sleep(3)
 
 
@@ -451,11 +453,11 @@ def fetch_market(old_market=None):
         gold_usd_oz = r.json().get("price")
     except Exception:
         if old_market and not gold_usd_oz: return old_market
-    gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else (old_market.get("gold_gram_try") if old_market else None)
-    return {"usdtry": round(usdtry, 2) if usdtry else (old_market.get("usdtry") if old_market else None),
-            "eurtry": round(eurtry, 2) if eurtry else (old_market.get("eurtry") if old_market else None),
+    old_market = old_market or {}
+    gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else old_market.get("gold_gram_try")
+    return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
+            "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
             "gold_gram_try": gold_gram_try}
-
 
 def fetch_crypto(old_crypto=None):
     cryptos = []
@@ -588,7 +590,12 @@ def main():
             it["text"] = txt
             if img and not it.get("image"): it["image"] = img
 
+    MAX_AI_SUMMARIES = int(os.environ.get("MAX_AI_SUMMARIES", "40"))
     if need_summary:
+        if len(need_summary) > MAX_AI_SUMMARIES:
+            need_summary.sort(key=lambda x: x.get("pubDate", ""), reverse=True)
+            print(f"  ! AI kota koruması: {len(need_summary)} haberden sadece en yeni {MAX_AI_SUMMARIES} tanesi özetlenecek.")
+            need_summary = need_summary[:MAX_AI_SUMMARIES]
         print(f"Özetleniyor ve Puanlanıyor ({len(need_summary)} haber)...")
         for i in range(0, len(need_summary), 3):
             chunk = need_summary[i:i+3]
