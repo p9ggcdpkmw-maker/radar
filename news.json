@@ -1,13 +1,13 @@
 {
-  "updated": "2026-11-23T21:42:00.482343+00:00",
+  "updated": "2026-11-23T21:44:17.432294+00:00",
   "meta": {
-    "generated_at": "2026-11-23T21:41:58+00:00",
+    "generated_at": "2026-11-23T21:44:14+00:00",
     "model": "openai/gpt-oss-120b",
     "temperature": 0.2,
     "prompt_version": "v1.3",
-    "item_count": 79,
-    "bd_sent_date": "2026-11-23",
-    "groq_calls": 8,
+    "item_count": 77,
+    "bd_sent_date": "",
+    "groq_calls": 1,
     "gemini_calls": 0,
     "cf_calls": 0
   },
@@ -280,9 +280,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2102000/ogrenci-telefon-cocuk-telefon-getty-2103734.jpg",
       "summary": "Danimarka, gelecek eğitim-öğretim yılından itibaren ilkokul ve ortaokullarda cep telefonu ve internet erişimli kişisel cihazların kullanımını yasaklayacak, okul ağlarında içerik filtreleme uygulanacak.",
       "score": 8,
-      "tone": "nötr",
-      "why_important": "Öğrencilerin dijital dikkat dağınıklığını azaltmayı hedefliyor.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -292,7 +289,10 @@
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/danimarkada-okullarda-cep-telefonu-kullanimi-yasaklaniyor-964234.html"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Öğrencilerin dijital dikkat dağınıklığını azaltmayı hedefliyor.",
+      "bias_score": 2
     },
     {
       "id": "teknoloji_5",
@@ -305,9 +305,6 @@
       "image": "https://www.donanimhaber.com/images/images/haber/213286/1200x675suno-ya-yeni-rakip-cikti-ace-music-v1-ilk-siraya-yerlesti.jpg",
       "summary": "ACE Music v1, yapılan kör dinleme testlerinde Suno'yu geride bırakarak yapay zekâ destekli müzik üretiminde birincilik elde etti ve kullanıcıların şarkıları MIDI olarak dışa aktarmasına olanak tanıyor.",
       "score": 8,
-      "tone": "nötr",
-      "why_important": "Yapay zekâ müzik üretimindeki liderlik değişimi sektörel rekabeti etkileyebilir.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -317,7 +314,10 @@
         "source_urls": [
           "https://www.donanimhaber.com/suno-ya-yeni-rakip-cikti-ace-music-v1-ilk-siraya-yerlesti--213286"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Yapay zekâ müzik üretimindeki liderlik değişimi sektörel rekabeti etkileyebilir.",
+      "bias_score": 2
     },
     {
       "id": "teknoloji_6",
@@ -391,7 +391,7 @@
         }
       ],
       "event_count": 3,
-      "event_title": "Binance 1.1B crypto theft",
+      "event_title": "Binance 1.1 billion crypto theft",
       "summary": "ABD Adalet Bakanlığı, Kuzey Koreli siber aktörlerin Binance üzerinden çaldığı 1,1 milyar doların üzerindeki kripto varlıkların geri alınması için dava açtı ve bu çerçevede 2,9 milyar doların üzerindeki kripto fonların dondurulması, el konulması veya iade edilmesi çalışmalarını sürdürüyor.",
       "score": 8,
       "ai": {
@@ -434,31 +434,6 @@
       "bias_score": 3
     },
     {
-      "id": "dunya_4",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "2026 yılı yeniden değerleme oranı belli oldu",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/ekonomi/2026-yili-yeniden-degerleme-orani-belli-oldu-964240.html",
-      "pubDate": "2026-11-23T21:18:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1536000/parahesap-1537313.jpg",
-      "summary": "2026 yılı için yeniden değerleme oranı %27,83 olarak belirlendi ve bu oran aynı zamanda 2026 son geçici vergi dönemi için uygulanacak.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Vergi yükümlülüklerini etkileyen bir oran değişikliği.",
-      "bias_score": 1,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-23T21:41:21+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/ekonomi/2026-yili-yeniden-degerleme-orani-belli-oldu-964240.html"
-        ]
-      }
-    },
-    {
       "id": "ekonomi_51",
       "cat": "Ekonomi",
       "catId": "ekonomi",
@@ -467,11 +442,27 @@
       "link": "https://www.ekonomim.com/ekonomi/yuzde-2783-oranindaki-yeniden-degerleme-orani-yururlugu-girdi-haberi-932940",
       "pubDate": "2026-11-23T21:13:00+00:00",
       "image": "https://img.ekonomim.com/storage/files/images/2026/10/01/siber-guvenlik-baskanligina-atamalar-resmi-gazetede-plrg_cover.jpg",
+      "other_sources": [
+        {
+          "source": "Bloomberg HT",
+          "link": "https://www.bloomberght.com/yeniden-degerleme-orani-yuzde-27-83-olarak-belirlendi-3795497",
+          "pubDate": "2026-11-23T21:11:02+00:00"
+        },
+        {
+          "source": "Anadolu Ajansı",
+          "link": "https://www.aa.com.tr/tr/ekonomi/yeniden-degerleme-orani-bu-yil-icin-yuzde-27-83-olarak-belirlendi/4135168",
+          "pubDate": "2026-11-23T21:13:35+00:00"
+        },
+        {
+          "source": "TRT Haber",
+          "link": "https://www.trthaber.com/haber/ekonomi/2026-yili-yeniden-degerleme-orani-belli-oldu-964240.html",
+          "pubDate": "2026-11-23T21:18:00+00:00"
+        }
+      ],
+      "event_count": 4,
+      "event_title": "Revaluation rate 27.83 percent",
       "summary": "Resmî Gazete'de yayımlanan tebliğe göre, 1 Ocak 2027'den itibaren vergi, harç ve cezalara uygulanacak yeniden değerleme oranı %27,83 olarak belirlendi ve yılın son geçici vergi döneminde de geçerli olacak.",
       "score": 7,
-      "tone": "nötr",
-      "why_important": "Vergi yükümlülüklerinde önemli bir artışa işaret ediyor.",
-      "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -481,40 +472,10 @@
         "source_urls": [
           "https://www.ekonomim.com/ekonomi/yuzde-2783-oranindaki-yeniden-degerleme-orani-yururlugu-girdi-haberi-932940"
         ]
-      }
-    },
-    {
-      "id": "ekonomi_0",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Yeniden değerleme oranı yüzde 27,83 olarak belirlendi",
-      "source": "Bloomberg HT",
-      "link": "https://www.bloomberght.com/yeniden-degerleme-orani-yuzde-27-83-olarak-belirlendi-3795497",
-      "pubDate": "2026-11-23T21:11:02+00:00",
-      "image": "https://geoim.bloomberght.com/l/2026/11/24/ver1795468423/3795497/jpg/1280x720",
-      "other_sources": [
-        {
-          "source": "Anadolu Ajansı",
-          "link": "https://www.aa.com.tr/tr/ekonomi/yeniden-degerleme-orani-bu-yil-icin-yuzde-27-83-olarak-belirlendi/4135168",
-          "pubDate": "2026-11-23T21:13:35+00:00"
-        }
-      ],
-      "event_count": 2,
-      "summary": "Hazine ve Maliye Bakanlığı, Gelir İdaresi Başkanlığı tarafından hazırlanan tebliğle 2026 yılı için yeniden değerleme oranını %27,83 olarak belirledi ve bu oran yıl sonu geçici vergi döneminde de uygulanacak.",
-      "score": 7,
+      },
       "tone": "nötr",
-      "why_important": "Vergi hesaplamalarında kullanılan temel oranı güncelliyor.",
-      "bias_score": 1,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-23T21:41:09+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bloomberght.com/yeniden-degerleme-orani-yuzde-27-83-olarak-belirlendi-3795497"
-        ]
-      }
+      "why_important": "Vergi yükümlülüklerinde önemli bir artışa işaret ediyor.",
+      "bias_score": 1
     },
     {
       "id": "ekonomi_3",
@@ -602,9 +563,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/10/26/celikte-kuresel-rekabet-kizisti-ortak-cozum-arayisi-basladi-n6qd_cover.jpg",
       "summary": "Küresel çelik talebi düşerken üretim kapasitesi artıyor; OECD 2026 sonunda 700 Mt'yi aşacak kapasite fazlasına karşı ticaret önlemleri ve sübvansiyon denetimi talep ediyor.",
       "score": 7,
-      "tone": "nötr",
-      "why_important": "Aşırı kapasite fiyatları ve istihdamı etkileyebilir.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -614,7 +572,10 @@
         "source_urls": [
           "https://www.ekonomim.com/emtia/celikte-700-milyon-tonluk-alarm-zili-kapasite-fazlasina-karsi-onlem-cagrisi-haberi-932944"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Aşırı kapasite fiyatları ve istihdamı etkileyebilir.",
+      "bias_score": 2
     },
     {
       "id": "bilim_8",
@@ -752,9 +713,6 @@
       "image": "https://www.donanimhaber.com/images/images/haber/213265/1200x675cin-de-yapay-zeka-tokenlari-icin-yeni-donem-basliyor.jpg",
       "summary": "Çin, yapay zekâ tokenlarının ölçüm ve ücretlendirmesi için yeni standartlar geliştirmeyi planlıyor; bu sayede token fabrikaları aracılığıyla ortak bir pazar oluşturulması ve düşük kaliteli hizmetlerin önlenmesi hedefleniyor.",
       "score": 7,
-      "tone": "nötr",
-      "why_important": "Standartlar, yapay zekâ hizmetlerinin kalite ve fiyat şeffaflığını artırabilir.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -764,7 +722,10 @@
         "source_urls": [
           "https://www.donanimhaber.com/cin-de-yapay-zeka-tokenlari-icin-yeni-donem-basliyor--213265"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Standartlar, yapay zekâ hizmetlerinin kalite ve fiyat şeffaflığını artırabilir.",
+      "bias_score": 2
     },
     {
       "id": "dunya_13",
@@ -1002,9 +963,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2498000/bati-seria-el-halil-aa-2498936.jpg",
       "summary": "ABD'li Demokrat Kongre üyesi Joaquin Castro, Batı Şeria'daki yerleşimci şiddetini \"korkunç\" olarak nitelendirerek, yerleşim faaliyetlerine karşı 80 destekçili bir yasa tasarısı sundu.",
       "score": 7,
-      "tone": "negatif",
-      "why_important": "Bölgedeki gerilim ve uluslararası politika etkileri açısından kritik bir gelişme.",
-      "bias_score": 4,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1014,7 +972,10 @@
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/abdli-kongre-uyesi-bati-seriadaki-durumu-korkunc-olarak-nitelendirdi-964233.html"
         ]
-      }
+      },
+      "tone": "negatif",
+      "why_important": "Bölgedeki gerilim ve uluslararası politika etkileri açısından kritik bir gelişme.",
+      "bias_score": 4
     },
     {
       "id": "teknoloji_8",
@@ -1052,9 +1013,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/24/bilgi-fisi-donemi-bitiyor-resme-gazetede-yayimlandi-oerg_cover.jpg",
       "summary": "Gelir İdaresi, Vergi Usul Kanunu'na değişiklik yaparak 'Bilgi Fişi' tanımını kaldırdı ve ödeme cihazlarından doğrudan e‑Belge düzenlenmesini mümkün kıldı.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Vergi süreçlerinde dijitalleşme ve denetim kolaylığı sağlanıyor.",
-      "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1064,7 +1022,10 @@
         "source_urls": [
           "https://www.ekonomim.com/ekonomi/bilgi-fisi-donemi-bitiyor-resme-gazetede-yayimlandi-haberi-932942"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Vergi süreçlerinde dijitalleşme ve denetim kolaylığı sağlanıyor.",
+      "bias_score": 1
     },
     {
       "id": "ekonomi_53",
@@ -1127,9 +1088,6 @@
       "image": "https://ares.shiftdelete.net/static/img/content/26-11/23/ios-27-iphone-ekranlari-apple-kapak-2311.webp",
       "summary": "iOS 27.3 güncellemesi, Apple Music, Safari, Sağlık, Apple TV, Fitness+ ve Freeform uygulamalarına yeni özellikler ekleyerek özellikle Sağlık uygulamasında önemli iyileştirmeler sunuyor.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Güncelleme, iPhone kullanıcılarının günlük uygulama deneyimini geliştirecek.",
-      "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1139,7 +1097,10 @@
         "source_urls": [
           "https://shiftdelete.net/ios-27-3-alti-uygulama-yenilikleri"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Güncelleme, iPhone kullanıcılarının günlük uygulama deneyimini geliştirecek.",
+      "bias_score": 1
     },
     {
       "id": "dunya_14",
@@ -1235,9 +1196,6 @@
       "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6b04a9078c01a1364d06b5bd.jpg",
       "summary": "Başakşehir, Çorum FK'yı 4-2 yenerek önemli bir galibiyet elde etti, ancak maçta yaşanan sakatlıklar ve yüksek maliyet nedeniyle sezonun sonuna yaklaştığını belirtti.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Takımın sezon hedefleri ve oyuncu sağlığı açısından kritik bir durum.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1247,7 +1205,10 @@
         "source_urls": [
           "https://www.hurriyet.com.tr/sporarena/nuri-sahin-mac-sonu-acikladi-sezonu-kapatti-43388606"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Takımın sezon hedefleri ve oyuncu sağlığı açısından kritik bir durum.",
+      "bias_score": 2
     },
     {
       "id": "dunya_6",
@@ -1385,9 +1346,6 @@
       "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/24/thumbs_b_c_37acbe8a785a258ca56c95e126d59c75.jpg",
       "summary": "Katar Başbakanı Al Sani, Orta Doğu'nun yeni bir ABD-İran gerilimini kaldıramayacağını belirterek, ABD ve İran arasında diplomatik diyalogun sürdürülmesinin önemine vurgu yaptı.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Bölgesel istikrar ve büyük güçler arasındaki ilişkilerin geleceğini etkileyebilir.",
-      "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1397,7 +1355,10 @@
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/katar-basbakani-ve-disisleri-bakani-al-sani-orta-dogu-yeni-bir-abd-iran-gerilimini-kaldiramaz/4135177"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Bölgesel istikrar ve büyük güçler arasındaki ilişkilerin geleceğini etkileyebilir.",
+      "bias_score": 3
     },
     {
       "id": "ekonomi_58",
@@ -1731,9 +1692,6 @@
       "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/24/thumbs_b_c_d5b29de55666f585acb0728b54eb0738.jpg",
       "summary": "Suudi Arabistan, Cazan ve Abha şehirlerinde erken uyarı sistemini devreye alırken, bu bölgelerdeki tehditlerin \"geçtiği\" bildirildi; sistemin detayları açıklanmadı.",
       "score": 5,
-      "tone": "nötr",
-      "why_important": "Ülkenin güvenlik önlemleri ve bölgedeki çatışma dinamikleri hakkında bilgi verir.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1743,7 +1701,10 @@
         "source_urls": [
           "https://www.aa.com.tr/tr/dunya/suudi-arabistanin-cazan-ve-abha-kentlerinde-erken-uyari-sistemi-devreye-alindi/4135170"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Ülkenin güvenlik önlemleri ve bölgedeki çatışma dinamikleri hakkında bilgi verir.",
+      "bias_score": 2
     },
     {
       "id": "ekonomi_52",
@@ -1756,9 +1717,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/24/dayaniklilik-ve-guc-tek-alette-bime-darbeli-matkap-geliyor-bim-29-kasim-5-aralik-viw6_cover.gif",
       "summary": "BİM, 29 Kasım-5 Aralık tarihleri arasında ev ve tamirat işlerine yönelik güçlü motorlu ve uygun fiyatlı bir darbeli matkap satışa sunacak.",
       "score": 5,
-      "tone": "pozitif",
-      "why_important": "Evde küçük tamiratları daha hızlı ve ekonomik yapma imkanı sağlıyor.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1768,7 +1726,10 @@
         "source_urls": [
           "https://www.ekonomim.com/foto-galeri/aktuel/dayaniklilik-ve-guc-tek-alette-bime-darbeli-matkap-geliyor-bim-29-kasim-5-aralik-s1-galeri-932941"
         ]
-      }
+      },
+      "tone": "pozitif",
+      "why_important": "Evde küçük tamiratları daha hızlı ve ekonomik yapma imkanı sağlıyor.",
+      "bias_score": 2
     },
     {
       "id": "gundem_59",
@@ -1914,9 +1875,6 @@
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2444000/trump-reuters-2444271.jpg",
       "summary": "Trump, Huang'ın Nvidia CEO'su olarak geri dönmesini savunarak, hatalı muhakemeler dışında bir sorun olmadığını ve Çin liderinin de aynı görüşte olduğunu belirtti.",
       "score": 5,
-      "tone": "nötr",
-      "why_important": "Teknoloji liderliği ve uluslararası şirket yönetimi konusundaki spekülasyonları içeriyor.",
-      "bias_score": 4,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1926,7 +1884,10 @@
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/trump-huangi-ceoluk-gorevine-dondurmek-icin-nvidiayi-ikna-ettim-964235.html"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Teknoloji liderliği ve uluslararası şirket yönetimi konusundaki spekülasyonları içeriyor.",
+      "bias_score": 4
     },
     {
       "id": "dunya_15",
@@ -1964,9 +1925,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/24/bimden-aralik-ayinin-ilk-haftasina-ozel-yeni-katalog-iste-indirimli-urunler-bim-1-7-aralik-p4y1_cover.gif",
       "summary": "BİM, 1‑7 Aralık tarihleri arasında yeni bir aktüel katalog yayımlayarak süt, peynir, sucuk, çikolata gibi ürünlerde indirimli fiyatlar sundu.",
       "score": 4,
-      "tone": "nötr",
-      "why_important": "Tüketiciler haftalık alışveriş planlarını buna göre yapabilir.",
-      "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1976,7 +1934,10 @@
         "source_urls": [
           "https://www.ekonomim.com/foto-galeri/aktuel/bimden-aralik-ayinin-ilk-haftasina-ozel-yeni-katalog-iste-indirimli-urunler-bim-1-7-aralik-s1-galeri-932943"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Tüketiciler haftalık alışveriş planlarını buna göre yapabilir.",
+      "bias_score": 1
     },
     {
       "id": "ekonomi_54",
@@ -2037,18 +1998,18 @@
   "market": {
     "usdtry": 50.58,
     "eurtry": 55.52,
-    "gold_gram_try": 5908.44
+    "gold_gram_try": 5907.46
   },
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 3100340,
-      "change_pct": 0.662270579069594
+      "price": 3100496,
+      "change_pct": 0.657667474840945
     },
     {
       "label": "Ethereum",
-      "price": 87028,
-      "change_pct": -0.016633595849800238
+      "price": 87076,
+      "change_pct": 0.019066855151130428
     }
   ],
   "stocks": [
