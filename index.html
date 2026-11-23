@@ -435,7 +435,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .pop .pr{display:flex;justify-content:space-between;gap:12px;margin-bottom:4px}
 .pop .pr b{font:800 11.5px var(--mono);text-align:right;word-break:break-all}
 .pop .pr span{color:var(--ink3);font-weight:700}
-.toasts{position:fixed;right:16px;bottom:calc(var(--tab) + var(--pl) + 16px);z-index:500;display:flex;flex-direction:column;gap:9px;align-items:flex-end;pointer-events:none}
+.toasts{position:fixed;right:16px;bottom:calc(var(--tab) + var(--pl) + 70px);z-index:500;display:flex;flex-direction:column;gap:9px;align-items:flex-end;pointer-events:none}
 .toast{pointer-events:auto;max-width:325px;padding:12px 15px;border-radius:var(--r2);border:1px solid var(--ln2);border-left:3px solid var(--up);background:var(--ov);box-shadow:var(--sh2);font:700 12.5px/1.5 var(--sans);animation:tin .24s ease}
 .toast.warn{border-left-color:var(--warn)}.toast.err{border-left-color:var(--dn)}
 @keyframes tin{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
@@ -503,6 +503,11 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 .scscore i{font-style:normal;color:var(--ink3)}
 .trend.live{border-color:color-mix(in srgb,var(--dn) 40%,var(--ln));background:color-mix(in srgb,var(--dn) 10%,var(--sf));color:var(--ink)}
 .trend.live b{color:var(--dn)}
+/* ---- YUKARI ÇIK ---- */
+#toTop{position:fixed;right:16px;bottom:calc(var(--tab) + var(--pl) + 16px);z-index:80;width:46px;height:46px;border-radius:50%;border:1px solid var(--ln2);background:color-mix(in srgb,var(--sf) 92%,transparent);backdrop-filter:blur(10px);color:var(--ink);font-size:18px;cursor:pointer;box-shadow:var(--sh2);opacity:0;pointer-events:none;transform:translateY(10px);transition:opacity .2s,transform .2s;display:grid;place-items:center}
+#toTop.show{opacity:1;pointer-events:auto;transform:none}
+#toTop:hover{border-color:var(--pri);color:var(--pri)}
+@media (max-width:900px){#toTop{right:12px}}
 </style>
 </head>
 <body>
@@ -511,12 +516,12 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <aside class="side">
 <div class="brand"><span class="mark"></span><span class="bt">RADAR<small>akıllı gündem</small></span></div>
 <nav class="nav" id="sideNav" aria-label="Ana gezinme">
-<button class="nav-i on" data-view="feed"><span>🏠</span>Akış</button>
-<button class="nav-i" data-view="market"><span>📈</span>Piyasa</button>
-<button class="nav-i" data-view="radio"><span>📻</span>Radyo</button>
-<button class="nav-i" data-view="scores"><span>🏟️</span>Skorlar</button>
-<button class="nav-i" data-view="saved"><span>📌</span>Kayıt</button>
-<button class="nav-i" data-view="menu"><span>⚙️</span>Menü</button>
+<button class="nav-i on" data-view="feed"><span>📡</span>Tarama</button>
+<button class="nav-i" data-view="market"><span>📈</span>Nabız</button>
+<button class="nav-i" data-view="radio"><span>📻</span>Dalga</button>
+<button class="nav-i" data-view="scores"><span>🏟️</span>Saha</button>
+<button class="nav-i" data-view="saved"><span>🗄️</span>Kasa</button>
+<button class="nav-i" data-view="menu"><span>⚙️</span>Konsol</button>
 </nav>
 <div class="sctl">
 <h4>Görünüm</h4>
@@ -567,7 +572,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div id="ioSentinel" aria-hidden="true"></div>
 </section>
 <section class="view" id="v-market">
-<div class="mh"><div><h2 class="vt">Piyasa</h2><p class="vs" id="mkStatus">—</p></div>
+<div class="mh"><div><h2 class="vt">RADAR Nabız</h2><p class="vs" id="mkStatus">—</p></div>
 <div class="mhr"><span class="srcc" id="mkSrc">veri: bot</span><span class="srcc" id="mkBin">kripto: —</span><button class="btn gh" id="mkRefresh">↻ Yenile</button></div></div>
 <div class="seg wide" id="mkTabs">
 <button class="on" data-m="genel">Genel</button><button data-m="crypto">Kripto</button><button data-m="stocks">Hisseler</button><button data-m="fx">Döviz &amp; Altın</button><button data-m="heat">Isı Haritası</button>
@@ -607,7 +612,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 </div>
 </section>
 <section class="view" id="v-scores">
-<div class="mh"><div><h2 class="vt">Skorlar</h2><p class="vs" id="scStatus">—</p></div>
+<div class="mh"><div><h2 class="vt">RADAR Saha</h2><p class="vs" id="scStatus">—</p></div>
 <div class="mhr"><span class="srcc" id="scSrc"><span class="pd"></span>—</span><button class="btn gh" id="scRefresh">↻ Yenile</button></div></div>
 <div class="scbar">
 <div class="scdate"><button class="pib" id="scPrev" aria-label="Önceki gün">‹</button><input type="date" id="scDate" class="scdatein" aria-label="Tarih"><button class="pib" id="scNext" aria-label="Sonraki gün">›</button><button class="btn gh" id="scToday" style="height:34px;padding:0 12px;font-size:11.5px">Bugün</button></div>
@@ -623,7 +628,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <p class="hint">Skorlar ESPN'den gelir; canlı maçlar ~45 sn'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.</p>
 </section>
 <section class="view" id="v-radio">
-<h2 class="vt">Canlı Radyo</h2><p class="vs">Sekme değiştirsen de yayın devam eder. ★ ile favorilere ekle.</p>
+<h2 class="vt">RADAR Dalga</h2><p class="vs">Sekme değiştirsen de yayın devam eder. ★ ile favorilere ekle.</p>
 <div class="pulse" id="recentRow" style="margin-top:10px"></div>
 <div class="radios" id="radioGrid" style="margin-top:14px"></div>
 <div class="legal" id="radioHealth"><b>🩺 Kanal sağlığı:</b> <span id="rhStat">henüz test edilmedi</span>
@@ -637,7 +642,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <p class="legal">⚖️ Yayınlar ilgili kurumların kamuya açık akışlarıdır. RADAR yalnızca arayüzdür; telif ve lisans hakları yayıncılara aittir.</p>
 </section>
 <section class="view" id="v-saved">
-<div class="mh"><div><h2 class="vt">Kaydedilenler</h2><p class="vs" id="savedSub">—</p></div><button class="btn gh" id="expSaved">⬇ JSON indir</button></div>
+<div class="mh"><div><h2 class="vt">RADAR Kasa</h2><p class="vs" id="savedSub">—</p></div><button class="btn gh" id="expSaved">⬇ JSON indir</button></div>
 <div class="grid" id="savedGrid"></div>
 <h3 class="st">🕑 Sonra Okunacaklar <em id="laterCount"></em></h3>
 <div class="grid" id="laterGrid"></div>
@@ -652,7 +657,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div class="cp" id="usageBox"></div>
 </section>
 <section class="view" id="v-menu">
-<h2 class="vt" style="margin-bottom:14px">Menü</h2>
+<h2 class="vt" style="margin-bottom:14px">RADAR Konsol</h2>
 <div class="mcols">
 <div class="cp"><div class="cph">🎨 Görünüm</div>
 <div class="row"><span>Tema</span><div class="seg sm" id="themeSeg"><button data-theme="auto">🖥️ Sistem</button><button data-theme="light">☀️ Açık</button><button data-theme="sepia">📜 Sepia</button><button data-theme="dark">🌙 Koyu</button></div></div>
@@ -714,12 +719,12 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 </aside>
 </div>
 <nav class="tabbar" id="tabbar" aria-label="Alt gezinme">
-<button class="tb on" data-view="feed"><i>🏠</i>Akış</button>
-<button class="tb" data-view="market"><i>📈</i>Piyasa</button>
-<button class="tb" data-view="radio"><i>📻</i>Radyo</button>
-<button class="tb" data-view="scores"><i>🏟️</i>Skorlar</button>
-<button class="tb" data-view="saved"><i>📌</i>Kayıt</button>
-<button class="tb" data-view="menu"><i>⚙️</i>Menü</button>
+<button class="tb on" data-view="feed"><i>📡</i>Tarama</button>
+<button class="tb" data-view="market"><i>📈</i>Nabız</button>
+<button class="tb" data-view="radio"><i>📻</i>Dalga</button>
+<button class="tb" data-view="scores"><i>🏟️</i>Saha</button>
+<button class="tb" data-view="saved"><i>🗄️</i>Kasa</button>
+<button class="tb" data-view="menu"><i>⚙️</i>Konsol</button>
 </nav>
 <div class="player" id="player">
 <button class="plb" id="plToggle" aria-label="Oynat/duraklat">▶</button>
@@ -769,6 +774,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div class="pal-l" id="paList"></div>
 <div class="paf"><span><kbd>↑↓</kbd> gez</span><span><kbd>↵</kbd> aç</span><span><kbd>esc</kbd> kapat</span></div>
 </div></div>
+<button id="toTop" aria-label="Yukarı çık" title="Yukarı çık">↑</button>
 <div class="pop" id="pop"></div><div class="toasts" id="toasts" aria-live="polite"></div>
 <script>
 (function(){
@@ -1732,10 +1738,10 @@ var PREFS_OPEN=LS.g('radar_prefs_open',false);
 function renderPrefs(){var box=$('#prefs');box.innerHTML=ORDER.filter(function(k){return k!=='all'}).map(function(k){var on=!S.prefs||S.prefs.indexOf(k)>=0;
 return '<div class="pref'+(on?' on':'')+'" role="button" tabindex="0" data-k="'+k+'"><i style="background:'+CATS[k].c+'"></i>'+CATS[k].l+'<span class="bx">✓</span></div>'}).join('');
 box.hidden=!PREFS_OPEN;var st=$('#prefsState');if(st)st.textContent=PREFS_OPEN?'açık':'kapalı'}
-function togglePref(k){var c=S.prefs?S.prefs.slice():Object.keys(CATS);
+function togglePref(k){var base=ORDER.filter(function(x){return x!=='all'});var c=S.prefs?S.prefs.slice():base.slice();
 c.indexOf(k)>=0?c=c.filter(function(x){return x!==k}):c.push(k);
 if(!c.length){toast('En az bir kategori seçili olmalı','warn');return}
-S.prefs=c.length===Object.keys(CATS).length?null:c;
+S.prefs=c.length===base.length?null:c;
 S.prefs?LS.s('radar_prefs',S.prefs):LS.d('radar_prefs');
 renderPrefs();renderFeed()}
 function renderAbout(){$('#about').innerHTML='<p><b>RADAR</b> · sunucusuz haber &amp; piyasa terminali.</p>'+
@@ -1786,6 +1792,7 @@ bindSw('swRead',function(){return S.autoRead},function(v){S.autoRead=v;LS.set('r
 bindSw('swBias',function(){return S.biasOff},function(v){S.biasOff=v;LS.set('radar_bias_filter',v)});
 bindSw('swAlert',function(){return S.alert},function(v){S.alert=v;LS.s('radar_alert_on',v);MT.alr={};
 if(v&&'Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(function(){})});
+$('#toTop').addEventListener('click',function(){scrollTo({top:0,behavior:S.nomotion?'auto':'smooth'})});
 $('#prefsToggle').addEventListener('click',function(){PREFS_OPEN=!PREFS_OPEN;LS.s('radar_prefs_open',PREFS_OPEN);renderPrefs()});
 $('#thRange').addEventListener('input',function(e){S.th=Number(e.target.value);$('#thVal').textContent='%'+S.th;LS.s('radar_alert_th',S.th);MT.alr={}});
 $$('#briefTabs button').forEach(function(b){b.addEventListener('click',function(){S.brief=b.dataset.b;stopSpeak();renderBrief()})});
@@ -1989,7 +1996,8 @@ addEventListener('scroll',function(){hidePop()},{passive:true,capture:true});
 addEventListener('scroll',function(){var y=scrollY||pageYOffset||0;
 if(innerWidth>900){if(!tightOn&&y>140)tightOn=true;else if(tightOn&&y<60)tightOn=false;
 $('#topbar').classList.toggle('tight',tightOn)}
-else if(tightOn){tightOn=false;$('#topbar').classList.remove('tight')}},{passive:true});
+else if(tightOn){tightOn=false;$('#topbar').classList.remove('tight')}
+var tt=$('#toTop');if(tt)tt.classList.toggle('show',y>600)},{passive:true});
 addEventListener('resize',function(){catArrows();redrawSparks();measure();
 if(MT.tab==='heat'&&S.view==='market')treemap(heatCoins());
 if(innerWidth<=900&&tightOn){tightOn=false;$('#topbar').classList.remove('tight')}});
