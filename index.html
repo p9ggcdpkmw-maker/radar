@@ -1304,7 +1304,7 @@ return idx+stars+'<div class="gh2">Hisseler<span>'+rows.length+' / '+all.length+
 '<p class="hint">Liste işlem hacmine göre sıralıdır (TradingView ilk 50 + Yahoo + bot yedeği). BIST verisi ~15 dk gecikmeli olabilir. Satıra tıkla → detay. ★ favoriler üste çıkar.</p>'}
 function rowHTML(r){var h=r.h&&r.h.length>1?r.h:[];
 var bd=r.liveNow?' <span class="up">CANLI</span>':'';
-var vr=(r.alis!=null)?'<div class="mrv">'+price(r.alis)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
+var vr=(r.al!=null)?'<div class="mrv">'+price(r.al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
 return '<div class="mr"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
 '<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>'+vr+
 '<div class="mrp">'+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'}
@@ -1387,7 +1387,7 @@ function renderMarket(){var pane=$('#mkPane');if(!pane)return;
 var ses=sessions(),wrap=$('.tblwrap',pane),sl=wrap?wrap.scrollLeft:0;
 $('#mkStatus').textContent='BIST '+(ses.bist.open?'açık':'kapalı')+' · ABD '+(ses.us.open?'açık':'kapalı')+' · kripto 7/24';
 var sc=$('#mkSrc');sc.className='srcc'+(MT.wkOK?' live':'');
-sc.innerHTML='<span class="pd"></span>'+(MT.wkOK?'worker 30 sn':(MK&&MK.market_open?('altın: Haremaltın CANLI '+(MK.updated_at||'')):(MK&&MK.updated_at?('altın: kapanış '+(MK.updated_at||'')):'bot')));
+sc.innerHTML='<span class="pd"></span>'+(MT.ha&&MT.ha.src==='haremaltin'?('Haremaltın · '+(MT.ha.open?'CANLI '+MT.ha.at:'kapanış '+MT.ha.at)):(MT.wkOK?'worker 30 sn':'bot'));
 setBinChip(!!(MT.ws&&MT.ws.readyState===1));
 syncMarketBars();
 if(MT.tab==='genel')pane.innerHTML=mGen();
@@ -1988,7 +1988,7 @@ S.prefs?LS.s('radar_prefs',S.prefs):LS.d('radar_prefs');
 renderPrefs();renderFeed()}
 function renderAbout(){$('#about').innerHTML='<p><b>RADAR</b> · sunucusuz haber &amp; piyasa terminali.</p>'+
 '<p style="margin-top:8px">Model: <code>'+esc(META&&META.model||'—')+'</code><br>Haber: <code>'+NEWS.length+'</code> · Kripto çifti: <code>'+MT.bin.length+'</code><br>Üretim: <code>'+(META&&META.generated_at?new Date(META.generated_at).toLocaleString('tr-TR'):'—')+'</code></p>'+
-'<p style="margin-top:8px">Özetler AI ürünüdür, hata içerebilir; kaynak bağlantısı her zaman verilir. Kripto verisi Binance\'ten canlıdır. Hisseler ücretsiz kaynaklardan ~15 dk gecikmelidir. Altın çeşitleri gram fiyattan <b>hesaplanır</b>; kuyumcu fiyatı farklıdır. Piyasa saatleri resmî tatilleri içermez.</p>'}
+'<p style="margin-top:8px">Özetler AI ürünüdür, hata içerebilir; kaynak bağlantısı her zaman verilir. Kripto verisi Binance\'ten canlıdır. Hisseler ücretsiz kaynaklardan ~15 dk gecikmelidir. Altın &amp; gümüş çeşitleri <b>Haremaltın.com</b> üzerinden canlı gelir (alış/satış); piyasa kapalıyken son kapanış gösterilir. Kuyumcu tahmini işçilik primiyle hesaplanır, gerçek kuyumcu fiyatı değildir. Piyasa saatleri resmî tatilleri içermez.</p>'}
 function exportSaved(){var items=NEWS.filter(function(n){return S.savedSet.has(n.link)});
 var missing=Array.from(S.savedSet).filter(function(l){return !NEWS.some(function(n){return n.link===l})});
 if(!items.length&&!missing.length){toast('Kaydedilmiş haber yok','warn');return}
@@ -2156,6 +2156,7 @@ box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+
 '<div class="ma" style="margin:6px 0 0"><button class="btn gh" id="rdClean">🤖 AI ile daha da sadeleştir</button></div>';
 $('#rdClean').addEventListener('click',aiClean);
 $('#nRead').textContent='📖 Okuma modunu kapat';
+}).catch(function(){
 box.hidden=true;$('#nRead').textContent='📖 Okuma modu';toast('Okuma modu bu kaynak için açılamadı','warn')})}
 function aiClean(){var box=$('#readBox');if(!box||!cur)return;
 var key='radar_clean_'+cur.link;
@@ -2165,7 +2166,7 @@ $('#rdClean').addEventListener('click',aiClean)};
 var cached=LS.g(key,null);
 if(cached&&cached.text&&Date.now()-cached.at<7*864e5){draw(cached.text);toast('✨ Önbellekten sadeleştirildi');return}
 var b=$('#rdClean');b.disabled=true;b.textContent='⏳ Sadeleştiriliyor…';
-var raw=$$('p',box).map(function(p){return p.textContent}).filter(function(t){return t&&t.indexOf('AI ile')<0}).join('\n\n');
+var raw=$$('p',box).map(function(p){return p.textContent}).filter(function(t){return t&&t.indexOf('AI ile')<0}).join('\n');
 jpost(CLEAN_URL,{text:raw},{ms:45000}).then(function(d){if(!d||!d.clean)throw 0;
 LS.s(key,{text:d.clean,at:Date.now()});draw(d.clean);toast('✨ Sadeleştirildi (7 gün önbellek)')}).catch(function(){
 b.disabled=false;b.textContent='🤖 AI ile daha da sadeleştir';toast('Sadeleştirme başarısız — worker/GROQ secret kontrol','warn')})}
