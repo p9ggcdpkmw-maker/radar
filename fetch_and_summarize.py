@@ -376,47 +376,71 @@ def fetch_market(old_market=None):
         if old_market and not gold_usd_oz: return old_market
     old_market = old_market or {}
 
-    # --- HAREMALTIN: detay sayfaları (ID'ler sabit: priceAlis/priceSatis) ---
+    # --- HAREMALTIN: ANA SAYFA (tek istek, tüm metaller) ---
     ist = timezone(timedelta(hours=3))
     now_ist = datetime.now(ist)
     market_open = (now_ist.weekday() < 5 and 9.5 <= now_ist.hour + now_ist.minute / 60 <= 18)
     updated_at = now_ist.strftime("%H:%M")
 
-    METALS = {"GRAM": "gram_altin", "CEYREK": "ceyrek_altin", "YARIM": "yarim_altin",
-              "TAM": "tam_altin", "CUMHURIYET": "cumhuriyet_altin", "ONS": "ons_altin",
-              "XAUXAG": "gram_gumus"}
-    metals = {}
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    for birim, key in METALS.items():
-        try:
-            r = requests.get(f"https://www.haremaltin.com/grafik?tip=altin&birim={birim}",
-                             headers=headers, timeout=8)
-            r.raise_for_status()
-            soup = BeautifulSoup(r.text, "html.parser")
-        a = soup.find("span", id="priceAlis")
-        s = soup.find("span", id="priceSatis")
-        if not a or not s:
-            print(f"  ! {key}: priceAlis/priceSatis yok", file=sys.stderr); continue
-        try:
-            alis_str = a.get_text(strip=True).replace(",", ".").replace("₺", "").replace("TL", "")
-            satis_str = s.get_text(strip=True).replace(",", ".").replace("₺", "").replace("TL", "")
-            if alis_str == '-' or satis_str == '-' or not alis_str or not satis_str:
-                print(f"  ! {key}: fiyat '-' veya boş, atlanıyor", file=sys.stderr); continue
-            alis = float(alis_str)
-            satis = float(satis_str)
-        except ValueError as e:
-            print(f"  ! {key}: float dönüşüm hatası ({e}), atlanıyor", file=sys.stderr)
-            continue
-            ch = soup.find(string=re.compile(r"%\s*-?\d+[.,]?\d*"))
-            pct = 0.0
-            if ch:
-                m = re.search(r"-?\d+[.,]\d+", ch)
-                if m: pct = float(m.group().replace(",", "."))
-            metals[key] = {"alis": alis, "satis": satis, "change_pct": pct}
-        except Exception as e:
-            print(f"  ! {key}: {e}", file=sys.stderr)
+    METAL_MAP = {
+        "gram altin": "gram_altin",
+        "ceyrek altin": "ceyrek_altin",
+        "yarim altin": "yarim_altin",
+        "tam altin": "tam_altin",
+        "cumhuriyet": "cumhuriyet_altin",
+        "ons altin": "ons_altin",
+        "gram gumus": "gram_gumus"
+    }
 
-    def mval(k): return metals.get(k) or old_market.get(k) or {}
+    metals = {}
+    try:
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+        r = requests.get("https://www.haremaltin.com/", headers=headers, timeout=8)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        
+        for tr in soup.find_all("tr"):
+            tds = tr.find_all("td")
+            if len(tds) < 4:
+                continue
+            name = tds[0].get_text(strip=True).lower().replace("ı", "i").replace("ü", "u")
+            key = None
+            for keyword, metal_key in METAL_MAP.items():
+                if keyword in name:
+                    key = metal_key
+                    break
+            if not key or key in metals:
+                continue
+            
+            alis_str = tds[1].get_text(strip=True).replace(".", "").replace(",", ".").replace("₺", "").replace("TL", "")
+            satis_str = tds[2].get_text(strip=True).replace(".", "").replace(",", ".").replace("₺", "").replace("TL", "")
+            
+            # '-' veya boş kontrolü
+            if alis_str == '-' or satis_str == '-' or not alis_str or not satis_str:
+                continue
+            
+            try:
+                alis = float(alis_str)
+                satis = float(satis_str)
+            except ValueError:
+                continue
+            
+            # Değişim yüzdesi
+            change_pct = 0.0
+            for td in tds[3:]:
+                txt = td.get_text(strip=True)
+                m = re.search(r"%\s*(-?\d+[.,]\d+)", txt)
+                if m:
+                    change_pct = float(m.group(1).replace(",", "."))
+                    break
+            
+            metals[key] = {"alis": alis, "satis": satis, "change_pct": change_pct}
+    except Exception as e:
+        print(f"  ! Haremaltın ana sayfa hatası: {e}", file=sys.stderr)
+
+    def mval(k): 
+        val = metals.get(k)
+        return val if val else (old_market.get(k) if isinstance(old_market.get(k), dict) else {})
 
     g = mval("gram_altin")
     return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
