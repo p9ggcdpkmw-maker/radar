@@ -965,6 +965,17 @@ ARCH.forEach(function(a){var d=a.data,push=function(k,v){if(v==null||!isFinite(v
 if(d.market){push('USD/TRY',d.market.usdtry);push('EUR/TRY',d.market.eurtry);push('Gram Altın',d.market.gold_gram_try)}
 (d.crypto||[]).forEach(function(c){push(c.label,c.price)});(d.stocks||[]).forEach(function(s){push(s.label,s.price)})})}
 function hist(k){return (HIST[k]||[]).map(function(p){return p.v})}
+var DL_DONE=false;
+function deepLink(){if(DL_DONE)return;var p=new URLSearchParams(location.search);
+var nl=p.get('news'),mid=p.get('match'),sym=p.get('sym');
+if(!nl&&!mid&&!sym)return;DL_DONE=true;
+if(nl){var it=findNews(nl);if(it){setView('feed');openNews(it)}}
+else if(mid){var sp=p.get('sport'),dt=p.get('date');
+if(sp&&['football','basketball','volleyball'].indexOf(sp)>=0)SC.sport=sp;
+if(dt&&/^\d{8}$/.test(dt))SC.date=dt;
+setView('scores');scLoad(true).then(function(){scOpen(mid)})}
+else if(sym){setView('market');setTimeout(function(){if(MT.bin.some(function(x){return x.sym===sym}))openCoin(sym);else openStock(sym)},2500)}
+try{var u=new URL(location.href);u.searchParams.delete('news');u.searchParams.delete('match');u.searchParams.delete('sym');history.replaceState(null,'',u.toString())}catch(e){}}
 function loadData(path){var p=path||S.arch||'news.json';
 return jget(p+'?t='+Date.now(),12000).then(function(d){
 NEWS=Array.isArray(d.items)?d.items:[];META=d.meta||null;BRIEF=d.briefings||{};
@@ -972,6 +983,7 @@ MK=d.market||null;CR=Array.isArray(d.crypto)?d.crypto:[];ST=Array.isArray(d.stoc
 rebuildHist();booting=false;S.limit=24;
 renderCats();renderFeed();renderBrief();renderTrends();renderRail();renderMarket();renderSaved();renderLater();renderEvents();renderUsage();checkStale();renderAbout();
 $('#sideMeta').textContent=(META&&META.model?String(META.model).split('/').pop():'—')+' · '+NEWS.length+' haber';
+deepLink();
 }).catch(function(e){booting=false;
 $('#newsGrid').innerHTML='<div class="empty"><b>📡</b><p>Veri alınamadı: '+esc(e.message)+'. Bağlantını kontrol edip biraz sonra tekrar dene.</p></div>';
 toast('Veri alınamadı','err')})}
