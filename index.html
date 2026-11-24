@@ -657,7 +657,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div class="mhr"><span class="srcc" id="scSrc"><span class="pd"></span>—</span><button class="btn gh" id="scRefresh">↻ Yenile</button></div></div>
 <div class="scbar">
 <div class="scdate"><button class="pib" id="scPrev" aria-label="Önceki gün">‹</button><input type="date" id="scDate" class="scdatein" aria-label="Tarih"><button class="pib" id="scNext" aria-label="Sonraki gün">›</button><button class="btn gh" id="scToday" style="height:34px;padding:0 12px;font-size:11.5px">Bugün</button></div>
-<div class="seg sm" id="scSport"><button data-s="football" class="on">⚽ Futbol</button><button data-s="basketball">🏀 Basket</button></div>
+<div class="seg sm" id="scSport"><button data-s="football" class="on">⚽ Futbol</button><button data-s="basketball">🏀 Basket</button><button data-s="volleyball">🏐 Voleybol</button></div>
 </div>
 <div class="scbar2">
 <div class="seg sm" id="scStatusSeg"><button data-t="all" class="on">Tümü</button><button data-t="in">🔴 Canlı</button><button data-t="post">Bitti</button><button data-t="pre">Başlamadı</button></div>
@@ -665,6 +665,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <select class="sel sm" id="scLeague" aria-label="Lig"><option value="all">Lig: Tümü</option></select>
 <button class="btn gh" id="scFavOnly" style="height:34px;padding:0 12px;font-size:11.5px">★ Takımlarım</button>
 </div>
+<p class="hint" id="scVbNote" hidden style="margin:0 0 8px">🏐 Voleybol kapsamı dardır: TheSportsDB uluslararası fikstürü. Canlı dakika ve diziliş verisi yok; skorlar çoğunlukla maç sonunda güncellenir.</p>
 <div id="scHero"></div>
 <div class="strip" id="scSum" style="margin:0 0 10px"></div>
 <div id="scList"></div>
@@ -1486,7 +1487,7 @@ $$('#scStatusSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.
 var fo=$('#scFavOnly');if(fo)fo.classList.toggle('pri',SC.favOnly);
 var sel=$('#scLeague');if(sel){var opts='<option value="all">Lig: Tümü</option>'+((SC.data&&SC.data.leagues)||[]).map(function(l){return '<option value="'+esc(l.id)+'">'+esc(l.flag+' '+l.name)+'</option>'}).join('');if(sel.innerHTML!==opts)sel.innerHTML=opts;sel.value=SC.league}
 var src=$('#scSrc');if(src){var age=SC.ts?Math.round((Date.now()-SC.ts)/1000):null;src.className='srcc'+(SC.data&&!SC.err?' live':'');src.innerHTML='<span class="pd"></span>'+(SC.err?'hata':SC.data?(age<5?'az önce':age+' sn önce'):'—')}
-var rows=scMatches();renderScHero();renderScSum();var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
+var rows=scMatches();renderScHero();renderScSum();var vbN=$('#scVbNote');if(vbN)vbN.hidden=SC.sport!=='volleyball';var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
 if(SC.loading&&!SC.data){box.innerHTML=new Array(7).join('x').split('x').map(function(){return '<div class="skb" style="margin-bottom:8px"></div>'}).join('');return}
 if(SC.err&&!SC.data){box.innerHTML='<div class="empty"><b>📡</b><p>Skor verisi alınamadı: '+esc(SC.err)+'</p><button class="btn gh" data-scretry style="margin-top:10px">↻ Tekrar dene</button></div>';return}
 if(!rows.length){box.innerHTML='<div class="empty"><b>🏟️</b><p>'+(SC.status==='in'?'Şu an canlı maç yok.':SC.favOnly?'Favori takımlarının maçı yok.':'Bu günde bu filtreyle maç yok.')+'</p></div>';return}
@@ -1593,6 +1594,8 @@ function mtShare(){if(!SC.detail)return;var m=SC.detail.m;
 var txt=m.home+' '+(m.hs!=null?m.hs:'-')+(m.as!=null?':'+m.as:'')+' '+m.away+' · '+SC.detail.l.name+' · '+(m.state==='in'?(m.clock||'CANLI'):m.state==='post'?'MS':hhmm(m.start));
 if(navigator.share){navigator.share({title:'RADAR Saha',text:txt,url:location.href}).catch(function(){copyTxt(txt)});return}copyTxt(txt)}
 function scDetail(){if(!SC.detail)return;
+if(SC.sport==='volleyball'){['#mtEv','#mtQ','#mtLead','#mtStats','#mtLine','#mtPre'].forEach(function(s){var e=$(s);if(e)e.innerHTML=''});
+var vb=$('#mtLoad');if(vb){vb.hidden=false;vb.textContent='🏐 Voleybol için olay/diziliş detayı şu an yok — skor ve durum yukarıda.'}return}
 ['#mtEv','#mtQ','#mtLead','#mtStats','#mtLine','#mtPre'].forEach(function(s){var e=$(s);if(e)e.innerHTML=''});
 var box=$('#mtLoad'),m=SC.detail.m,l=SC.detail.l;box.hidden=false;box.textContent='⏳ Maç detayı yükleniyor…';
 jget(MATCH_URL+'?sport='+SC.sport+'&lg='+encodeURIComponent(l.id)+'&id='+encodeURIComponent(m.id)+'&t='+Date.now(),12000).then(function(d){
