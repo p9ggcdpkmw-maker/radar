@@ -1,23 +1,23 @@
 {
-  "updated": "2026-11-24T23:05:29.264657+00:00",
+  "updated": "2026-11-24T23:39:29.588031+00:00",
   "meta": {
-    "generated_at": "2026-11-24T23:05:27+00:00",
+    "generated_at": "2026-11-24T23:39:20+00:00",
     "model": "openai/gpt-oss-120b",
     "temperature": 0.2,
     "prompt_version": "v1.3",
-    "item_count": 80,
+    "item_count": 81,
     "bd_sent_date": "2026-11-24",
     "groq_calls": 4,
     "gemini_calls": 0,
     "cf_calls": 0
   },
   "briefings": {
-    "genel": "Bu hafta haberlerde askeri bir kaza, yapay zekâ ve otomotiv sektöründeki gelişmeler, Gazze'de soğuk hava dalgası tehdidi, ABD bankacılık kârındaki düşüş ve Türkiye Cumhuriyet Merkez Bankası'nın döviz satışı gibi geniş bir yelpazede olaylar yer alıyor. Ayrıca Voyager 1'in uzaydaki iletişim sorunu ve önemli bir bilim insanının vefatı da duyuruldu.",
-    "teknoloji": "AI Günlükleri başlığı altında Anthropic'in 81 milyar dolarlık halka arzı, Levent Alpöge'nin Claude modeliyle Riemann hipotezine yaklaşımı ve Nvidia CEO'su Jensen Huang'ın geri dönüşü gibi yapay zekâ alanındaki çarpıcı gelişmeler bildirildi. AB'de elektrikli otomobillerin toplam otomobil pazarının %30'una yükselmesi, sürdürülebilir ulaşımda önemli bir artışı gösteriyor.",
-    "ekonomi": "Uber ve Nuro, Lucid Gravity SUV'lerle San Francisco'da sürücüsüz robotaksi testlerine başladı; 2027'nin ilk çeyreğinde ticari hizmet hedefleniyor. Nvidia hisseleri CEO dönüşüyle %31,5 artarken, Nasdaq ve S&P 500 de yükseldi, bu da AI yatırımlarına güvenin artığını gösteriyor. ABD bankacılık sektörü net kârını %5,9 düşürerek 84,8 milyar dolara geriledi; düşüş tek seferlik kazançların eksikliği ve artan zararlarla ilişkilendirildi. TCMB, fon krizinden bu yana toplam 28 milyar dolar döviz satışı yaparak rezervlerini 141,9 milyar dolardan 11,2 milyar dolara indirdi.",
-    "gundem": "Eskişehir'de AS-532 askeri helikopterin çarpması sonucu beş asker hayatını kaybetti; bu olay askeri güvenlik ve uçuş prosedürleri konularında gündeme oturdu. Gazze'de 1,76 milyon çadırlı Filistinli, yaklaşan soğuk hava dalgası ve sağanak yağış nedeniyle yeni bir insani felaket riskiyle karşı karşıya; uluslararası yardım ve iklim etkileri tartışılıyor. Voyager 1, 26 milyar kilometrede iletişim arızası yaşadı; uzay araştırmalarının uzun vadeli sürdürülebilirliği ve teknik zorlukları gündemde."
+    "genel": "Bu hafta haberlerde hem ulusal hem de uluslararası alanda ciddi kayıplar ve riskler öne çıktı: Eskişehir'de askeri helikopter kazası beş asker ölümüne yol açtı, İngiltere'de aşırı sıcaklıklardan 5.258 ölüm gerçekleşti ve Gazze'de çadırlarda yaşayan 1,76 milyon insan yeni bir soğuk hava dalgası tehdidiyle karşı karşıya. Ayrıca, ABD bankacılık sektörünün net karı %5,9 düşerken, Türkiye Cumhuriyet Merkez Bankası fon krizinden bu yana 28 milyar dolar döviz satışı yaptı.",
+    "teknoloji": "Teknoloji haberlerinde yapay zeka ve otomotiv sektöründe önemli gelişmeler var. Anthropic, 81 milyar dolarlık halka arzla rekor kırdı; Nvidia CEO'su Jensen Huang görevine geri dönerek hisse düşüşünü durdurdu ve Nvidia hisseleri %31,5 artış gösterdi. AB'de elektrikli otomobillerin pazar payı %30'a yükseldi. Ayrıca, Uber ve Nuro, Lucid Gravity SUV'lerle San Francisco Körfez Bölgesi'nde sürücüsüz robotaksi testlerine başladı.",
+    "ekonomi": "Ekonomi alanında iki ana trend görülüyor: ABD bankacılık sektörünün karının %5,9 düşmesi ve Nvidia hisselerinin %31,5 artması gibi finansal dalgalanmalar. Türkiye Cumhuriyet Merkez Bankası, fon krizinden bu yana 28 milyar dolar döviz satışı yaparak rezervlerini azaltmış. Ayrıca, AB'de elektrikli araç satışları %61,4 artarak toplam otomobil pazarının %30'unu oluşturmuş.",
+    "gundem": "Gündem haberleri, iklim ve sağlık krizlerine odaklanıyor. İngiltere'de aşırı sıcaklıklara bağlı 5.258 ölüm, 2016'dan bu yana en yüksek rakam olarak kayıtlara geçti. Gazze'de çadırlarda yaşayan 1,76 milyon kişi, yaklaşan soğuk hava dalgası ve sağanak yağış nedeniyle yeni bir insani felaket riskiyle karşı karşıya."
   },
-  "briefings_generated_at": "2026-11-24T23:05:27+00:00",
+  "briefings_generated_at": "2026-11-24T23:39:20+00:00",
   "items": [
     {
       "id": "bilim_4",
@@ -43,6 +43,31 @@
       "tone": "negatif",
       "why_important": "Ülkenin savunma gücünü etkileyen bir askeri kaza oldu.",
       "bias_score": 1
+    },
+    {
+      "id": "gundem_53",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "İngiltere'de bu yaz aşırı sıcaklığa bağlı 5 binden fazla kişi öldü",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/ingilterede-bu-yaz-asiri-sicakliga-bagli-5-binden-fazla-kisi-oldu/4136528",
+      "pubDate": "2026-11-24T23:15:52+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_23e2a6c35bf3b3c03dac538937feb2f0.jpg",
+      "summary": "UKHSA raporuna göre, Mayıs‑Eylül 2026 döneminde İngiltere'de aşırı sıcaklıklara bağlı 5.258 ölüm gerçekleşti ve bu, 2016'dan bu yana en yüksek rakam oldu.",
+      "score": 9,
+      "tone": "negatif",
+      "why_important": "İklim değişikliğinin halk sağlığı üzerindeki artan etkisini gösteriyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-24T23:39:08+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/ingilterede-bu-yaz-asiri-sicakliga-bagli-5-binden-fazla-kisi-oldu/4136528"
+        ]
+      }
     },
     {
       "id": "teknoloji_13",
@@ -88,9 +113,6 @@
       "event_count": 2,
       "summary": "Gazze'de çadırlarda yaşayan 1,76 milyon kişi, yaklaşan soğuk hava dalgası ve sağanak yağış nedeniyle yeni bir insani felaket riskiyle karşı karşıya.",
       "score": 9,
-      "tone": "negatif",
-      "why_important": "İnsani yardım ve uluslararası müdahale ihtiyacı artıyor.",
-      "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -100,7 +122,10 @@
         "source_urls": [
           "https://www.trthaber.com/haber/dunya/gazzede-cadirlarda-yasayan-filistinliler-yeni-soguk-hava-dalgasinin-tehdidi-altinda-964379.html"
         ]
-      }
+      },
+      "tone": "negatif",
+      "why_important": "İnsani yardım ve uluslararası müdahale ihtiyacı artıyor.",
+      "bias_score": 3
     },
     {
       "id": "ekonomi_6",
@@ -153,7 +178,7 @@
       "bias_score": 1
     },
     {
-      "id": "bilim_9",
+      "id": "bilim_13",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Hikmet Çetin 89 yaşında hayatını kaybetti",
@@ -188,9 +213,6 @@
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/nvidiada-u-donusu-piyasalara-nefes-aldirdi-0l87_cover.jpg",
       "summary": "Jensen Huang'ın CEO'luğa geri dönmesi Nvidia hisselerini %31,5 artırdı, Nasdaq ve S&P 500 de sırasıyla %6,5 ve %4,7 yükseldi; bu, yapay zeka yatırımlarına güvenin artmasıyla risk iştahının canlanmasını gösteriyor.",
       "score": 8,
-      "tone": "nötr",
-      "why_important": "Yatırımcıların piyasa beklentileri ve risk algısı değişiyor.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -200,7 +222,10 @@
         "source_urls": [
           "https://www.ekonomim.com/ekonomi/nvidiada-u-donusu-piyasalara-nefes-aldirdi-haberi-933180"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Yatırımcıların piyasa beklentileri ve risk algısı değişiyor.",
+      "bias_score": 2
     },
     {
       "id": "ekonomi_1",
@@ -328,6 +353,31 @@
       "bias_score": 3
     },
     {
+      "id": "dunya_5",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "NYT: ABD istihbarat teşkilatında bazı gizli olmayan bilgiler sızdırıldı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/nyt-abd-istihbarat-teskilatinda-bazi-gizli-olmayan-bilgiler-sizdirildi-964377.html",
+      "pubDate": "2026-11-24T21:23:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2494000/cia-2494104.jpg",
+      "summary": "New York Times, ABD istihbaratının açık kaynaklı analiz sistemine siber bir ihlal olduğunu ve bazı gizli olmayan bilgilerin sızdırıldığını bildirdi; gizli bilgilerin etkilenmediği iddia edildi.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "İstihbarat sistemlerindeki güvenlik açıkları uluslararası güvenliği etkileyebilir.",
+      "bias_score": 4,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-24T23:38:56+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/nyt-abd-istihbarat-teskilatinda-bazi-gizli-olmayan-bilgiler-sizdirildi-964377.html"
+        ]
+      }
+    },
+    {
       "id": "bilim_6",
       "cat": "Bilim",
       "catId": "bilim",
@@ -378,6 +428,50 @@
       "bias_score": 1
     },
     {
+      "id": "bilim_5",
+      "cat": "Bilim",
+      "catId": "bilim",
+      "title": "41 ilin valisi değişti, 14 vali merkeze çekildi",
+      "source": "BBC Türkçe",
+      "link": "https://www.bbc.com/turkce/articles/cmge3q17n44xo?at_medium=RSS&at_campaign=rss",
+      "pubDate": "2026-11-24T23:09:00+00:00",
+      "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/aabe/live/41cfbcb0-e85a-11f1-9b85-e50d1e9de678.jpg",
+      "other_sources": [
+        {
+          "source": "TRT Haber",
+          "link": "https://www.trthaber.com/haber/gundem/41-ilin-valisi-degisti-14-vali-merkeze-cekildi-964375.html",
+          "pubDate": "2026-11-24T20:57:00+00:00"
+        },
+        {
+          "source": "Ekonomim",
+          "link": "https://www.ekonomim.com/gundem/cok-sayida-valinin-ili-degisti-14-vali-merkeze-cekildi-haberi-933167",
+          "pubDate": "2026-11-24T21:09:00+00:00"
+        },
+        {
+          "source": "Diken",
+          "link": "https://www.diken.com.tr/14-vali-merkeze-cekildi-41-ilin-valisi-degisti/?utm_source=rss&utm_medium=rss&utm_campaign=14-vali-merkeze-cekildi-41-ilin-valisi-degisti",
+          "pubDate": "2026-11-24T22:32:18+00:00"
+        }
+      ],
+      "event_count": 4,
+      "event_title": "Vali değişiklikleri",
+      "summary": "Cumhurbaşkanlığı kararıyla 41 ilin valisi değiştirildi, 14 vali merkeze alındı; AFAD Başkanı yeni bir ilçe valisi oldu, Ağrı Valisi AFAD Başkanlığına getirildi.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Vali atamaları yerel yönetim ve afet yönetimini etkiler.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-24T23:38:56+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bbc.com/turkce/articles/cmge3q17n44xo?at_medium=RSS&at_campaign=rss"
+        ]
+      }
+    },
+    {
       "id": "gundem_84",
       "cat": "Gündem",
       "catId": "gundem",
@@ -388,9 +482,6 @@
       "image": "https://www.diken.com.tr/wp-content/uploads/2024/02/2024-06-02-lira-enflasyon-canva-2.png",
       "summary": "Fon vurgunu mağdurlarına 1 milyon TL'ye kadar ara ödemelerin 27 Kasım'a kadar tamamlanması hedefleniyor ve ilgili kurumlar hukuki süreçleri sürdürüyor.",
       "score": 7,
-      "tone": "nötr",
-      "why_important": "Fon vurgunu mağdurlarının alacakları ödeniyor.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -400,10 +491,13 @@
         "source_urls": [
           "https://www.diken.com.tr/fon-vurgunu-ara-odemelerin-27-kasima-kadar-tamamlanmasi-hedefleniyor/?utm_source=rss&utm_medium=rss&utm_campaign=fon-vurgunu-ara-odemelerin-27-kasima-kadar-tamamlanmasi-hedefleniyor"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Fon vurgunu mağdurlarının alacakları ödeniyor.",
+      "bias_score": 2
     },
     {
-      "id": "gundem_54",
+      "id": "gundem_55",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Mısır Dışişleri Bakanı Abdulati: ABD ile İran arasındaki arabuluculuk çalışmalarına katkı sunuyoruz",
@@ -461,7 +555,7 @@
       "bias_score": 2
     },
     {
-      "id": "gundem_166",
+      "id": "gundem_167",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Deniz Gül ameliyat olacak",
@@ -536,7 +630,7 @@
       "bias_score": 2
     },
     {
-      "id": "gundem_56",
+      "id": "gundem_57",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Süper Lig'den 9 kulüp PFDK'ye sevk edildi",
@@ -594,14 +688,6 @@
       "link": "https://www.trthaber.com/haber/gundem/bahceliden-sehit-askerlerimiz-icin-bassagligi-mesaji-964371.html",
       "pubDate": "2026-11-24T20:28:00+00:00",
       "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2466000/devlet-bahceliaa-2467387.jpg",
-      "other_sources": [
-        {
-          "source": "TRT Haber",
-          "link": "https://www.trthaber.com/haber/gundem/kabine-uyelerinden-sehit-askerlerimiz-icin-bassagligi-mesaji-964365.html",
-          "pubDate": "2026-11-24T19:51:00+00:00"
-        }
-      ],
-      "event_count": 2,
       "summary": "Eskişehir'de Türk Hava Kuvvetleri'ne ait bir helikopterin eğitim uçuşu sırasında kaza yapması sonucu 5 asker şehit oldu ve MHP Genel Başkanı Bahçeli ailelerine ve milletimize başsağlığı diledi.",
       "score": 7,
       "ai": {
@@ -652,15 +738,6 @@
       "link": "https://www.ekonomim.com/dunya/nyt-cia-ve-dni-siber-saldiriya-ugradi-askeri-bilgiler-sizdi-haberi-933161",
       "pubDate": "2026-11-24T20:10:00+00:00",
       "image": "https://img.ekonomim.com/storage/files/images/2026/11/24/nyt-cia-ve-dni-siber-saldiriya-ugradi-askeri-bilgiler-sizdi-gou1_cover.jpg",
-      "other_sources": [
-        {
-          "source": "TRT Haber",
-          "link": "https://www.trthaber.com/haber/dunya/nyt-abd-istihbarat-teskilatinda-bazi-gizli-olmayan-bilgiler-sizdirildi-964377.html",
-          "pubDate": "2026-11-24T21:23:00+00:00"
-        }
-      ],
-      "event_count": 2,
-      "event_title": "CIA/DNI siber güvenlik ihlali haberleri",
       "summary": "The New York Times reported that the CIA and the DNI experienced a cyber breach that exposed some non‑classified information.",
       "score": 7,
       "ai": {
@@ -703,7 +780,7 @@
       "bias_score": 2
     },
     {
-      "id": "bilim_8",
+      "id": "bilim_9",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Ulaştırma Bakanı: HGS'yle ilgili usulsüz bütün ödemeleri geri iade ettireceğiz",
@@ -711,6 +788,15 @@
       "link": "https://www.bbc.com/turkce/articles/ck62pgp2vm1qo?at_medium=RSS&at_campaign=rss",
       "pubDate": "2026-11-24T19:45:46+00:00",
       "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/07bc/live/870fe6a0-e6a3-11f1-bfed-bd519a72ac4c.jpg",
+      "other_sources": [
+        {
+          "source": "TRT Haber",
+          "link": "https://www.trthaber.com/haber/ekonomi/uraloglundan-hgs-aciklamasi-usulune-uygun-yapilmamis-odemeler-iade-edilecek-964366.html",
+          "pubDate": "2026-11-24T19:57:00+00:00"
+        }
+      ],
+      "event_count": 2,
+      "event_title": "HGS ödemeleri iade",
       "summary": "Ulaştırma Bakanı Abdulkadir Uraloğlu, HGS üzerinden usulsüz yapılan ödemelerin geri iade edilmesi için yasal takipleri durduracaklarını ve 2025 yılı için 25 bin dosyayı incelediklerini duyurdu.",
       "score": 7,
       "ai": {
@@ -853,7 +939,7 @@
       "bias_score": 3
     },
     {
-      "id": "bilim_5",
+      "id": "bilim_8",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Fatma Betül Sayan Kaya'nın ev hapsi kararıyla tahliyesine tepkiler ne oldu?",
@@ -953,31 +1039,6 @@
       "bias_score": 1
     },
     {
-      "id": "dunya_16",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Uraloğlu'ndan HGS açıklaması: Usulüne uygun yapılmamış ödemeler iade edilecek",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/ekonomi/uraloglundan-hgs-aciklamasi-usulune-uygun-yapilmamis-odemeler-iade-edilecek-964366.html",
-      "pubDate": "2026-11-24T19:57:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2426000/hgs-2426763.jpg",
-      "summary": "Ulaştırma Bakanı Uraloğlu, HGS ödemelerinin usulsüz yapılması durumunda 15 gün içinde cezasız, 45 gün içinde ise kat cezayla iade edileceğini açıkladı.",
-      "score": 6,
-      "tone": "nötr",
-      "why_important": "Sürücüler ve sistem kullanıcıları için ödeme prosedürleri netleşiyor.",
-      "bias_score": 1,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-24T23:05:02+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/ekonomi/uraloglundan-hgs-aciklamasi-usulune-uygun-yapilmamis-odemeler-iade-edilecek-964366.html"
-        ]
-      }
-    },
-    {
       "id": "bilim_3",
       "cat": "Bilim",
       "catId": "bilim",
@@ -1053,7 +1114,7 @@
       "bias_score": 2
     },
     {
-      "id": "gundem_55",
+      "id": "gundem_56",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "Valiler Kararnamesi Resmi Gazete'de",
@@ -1075,70 +1136,6 @@
       },
       "tone": "nötr",
       "why_important": "Vali atamaları yönetim ve bölgesel politikaları etkiler.",
-      "bias_score": 2
-    },
-    {
-      "id": "ekonomi_56",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Çok sayıda valinin ili değişti, 14 vali merkeze çekildi",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/gundem/cok-sayida-valinin-ili-degisti-14-vali-merkeze-cekildi-haberi-933167",
-      "pubDate": "2026-11-24T21:09:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/09/12/2027-2029-butce-cagrisi-ve-butce-hazirlama-rehberi-resmi-gazetede-anog_cover.jpg",
-      "other_sources": [
-        {
-          "source": "TRT Haber",
-          "link": "https://www.trthaber.com/haber/gundem/41-ilin-valisi-degisti-14-vali-merkeze-cekildi-964375.html",
-          "pubDate": "2026-11-24T20:57:00+00:00"
-        },
-        {
-          "source": "Diken",
-          "link": "https://www.diken.com.tr/14-vali-merkeze-cekildi-41-ilin-valisi-degisti/?utm_source=rss&utm_medium=rss&utm_campaign=14-vali-merkeze-cekildi-41-ilin-valisi-degisti",
-          "pubDate": "2026-11-24T22:32:18+00:00"
-        }
-      ],
-      "event_count": 3,
-      "event_title": "valilerde atama ve merkeze çekilme",
-      "summary": "Cumhurbaşkanı Erdoğan'ın imzasıyla yayımlanan kararla 59 vali ve üst düzey bürokratın görev yeri değişti; 14 vali merkeze çekildi, 27 vali başka bir ilde göreve başladı, 15 yeni vali atandı.",
-      "score": 6,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-24T21:37:09+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/gundem/cok-sayida-valinin-ili-degisti-14-vali-merkeze-cekildi-haberi-933167"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Vali atamaları yerel yönetim politikalarını ve bölgesel uygulamaları etkileyebilir.",
-      "bias_score": 2
-    },
-    {
-      "id": "gundem_151",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "İSTANBUL 16. AĞIR CEZA MAHKEMESİ",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/resmi-ilanlar/istanbul-16-agir-ceza-mahkemesi-43389751",
-      "pubDate": "2026-11-24T21:00:00+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6b05abaf3516f14679ccc83b.jpg",
-      "summary": "İstanbul 16. Ağır Ceza Mahkemesi, Ercan Kural'ı mahkum ederken Mınoo Torabı Golsfid'in hükmünün açıklanmasını geri bırakmış ve Yüksel Akın'a beraat kararı vermiştir.",
-      "score": 6,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-24T21:37:57+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.hurriyet.com.tr/resmi-ilanlar/istanbul-16-agir-ceza-mahkemesi-43389751"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Mahkeme kararları, ilgili kişilerin yasal durumunu belirler.",
       "bias_score": 2
     },
     {
@@ -1292,7 +1289,7 @@
       "bias_score": 2
     },
     {
-      "id": "bilim_14",
+      "id": "bilim_15",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Futbolun yeni genç yıldızı 16 yaşındaki JJ Gabriel'i neler bekliyor?",
@@ -1317,7 +1314,7 @@
       "bias_score": 2
     },
     {
-      "id": "gundem_165",
+      "id": "gundem_166",
       "cat": "Gündem",
       "catId": "gundem",
       "title": "PFDK sevkleri açıklandı! Beşiktaş, Galatasaray ve Fenerbahçeli yöneticiler sevk edildi",
@@ -1327,9 +1324,6 @@
       "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6b060764596435f32018f633.jpg",
       "summary": "Türkiye Futbol Federasyonu, Beşiktaş, Galatasaray, Fenerbahçe ve diğer kulüplerin yöneticilerini çeşitli nedenlerle Profesyonel Futbol Disiplin Kurulu'na sevk etti.",
       "score": 6,
-      "tone": "nötr",
-      "why_important": "Kulüp yöneticilerinin disiplin süreci kamuoyunu ilgilendiriyor.",
-      "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1339,7 +1333,10 @@
         "source_urls": [
           "https://www.hurriyet.com.tr/sporarena/pfdk-sevkleri-aciklandi-besiktas-galatasaray-ve-fenerbahceli-yoneticiler-sevk-edildi-43390028"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Kulüp yöneticilerinin disiplin süreci kamuoyunu ilgilendiriyor.",
+      "bias_score": 3
     },
     {
       "id": "ekonomi_4",
@@ -1648,22 +1645,16 @@
       "title": "Son dakika deprem mi oldu? Az önce deprem nerede oldu? İstanbul, Ankara, İzmir ve il il AFAD son depremler 25 Kasım 2026",
       "source": "NTV",
       "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-25-kasim-2026-1752436",
-      "pubDate": "2026-11-24T23:00:00+00:00",
+      "pubDate": "2026-11-24T23:30:00+00:00",
       "image": "https://images.ntv.com.tr/images/477a4d82-9d42-44a3-8135-f2a9ec017f8a.jpg",
       "other_sources": [
-        {
-          "source": "NTV",
-          "link": "https://www.ntv.com.tr/turkiye/son-dakika-muglada-deprem-mi-oldu-az-once-deprem-muglada-nerede-oldu-mugla-deprem-kandilli-ve-afad-son-depremler-listesi-24-kasim-2026-1752420",
-          "pubDate": "2026-11-24T16:00:00+00:00"
-        },
         {
           "source": "NTV",
           "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-24-kasim-2026-1752265",
           "pubDate": "2026-11-24T20:30:00+00:00"
         }
       ],
-      "event_count": 3,
-      "event_title": "son dakika deprem bildirimi",
+      "event_count": 2,
       "summary": "AFAD ve Kandilli Rasathanesi, İstanbul, Ankara, İzmir ve diğer illerde son depremleri kaydetti; haber, depremlerin konumu ve büyüklüğü hakkında bilgi veriyor.",
       "score": 5,
       "ai": {
@@ -1691,9 +1682,6 @@
       "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6b05fc9f596435f32018f5ef.jpg",
       "summary": "Aston Villa teknik direktörü Unai Emery, Galatasaray karşısındaki mağlubiyet sonrası takımının baskılı oyununu ve taraftar desteğini övdü, aynı zamanda hakemi eleştirdi.",
       "score": 5,
-      "tone": "nötr",
-      "why_important": "Maç sonrası teknik direktörün değerlendirmesi taktik analiz için önemli.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -1703,7 +1691,10 @@
         "source_urls": [
           "https://www.hurriyet.com.tr/sporarena/galatasaray-aston-villa-maci-sonrasi-emeryden-itiraf-durduramadik-43390007"
         ]
-      }
+      },
+      "tone": "nötr",
+      "why_important": "Maç sonrası teknik direktörün değerlendirmesi taktik analiz için önemli.",
+      "bias_score": 2
     },
     {
       "id": "dunya_9",
@@ -1931,6 +1922,31 @@
       "bias_score": 3
     },
     {
+      "id": "bilim_1",
+      "cat": "Bilim",
+      "catId": "bilim",
+      "title": "Son dakika Muğla'da deprem mi oldu? Az önce deprem Muğla'da nerede oldu? Muğla deprem Kandilli ve AFAD son depremler listesi 24 Kasım 2026",
+      "source": "NTV",
+      "link": "https://www.ntv.com.tr/turkiye/son-dakika-muglada-deprem-mi-oldu-az-once-deprem-muglada-nerede-oldu-mugla-deprem-kandilli-ve-afad-son-depremler-listesi-24-kasim-2026-1752420",
+      "pubDate": "2026-11-24T16:00:00+00:00",
+      "image": "https://images.ntv.com.tr/images/477a4d82-9d42-44a3-8135-f2a9ec017f8a.jpg",
+      "summary": "Muğla'da son saatlerde bir sarsıntı kaydedildi; Kandilli ve AFAD verilerine göre deprem büyüklüğü ve etkilenen ilçeler henüz netleşmedi.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "Deprem haberleri halkın güvenliğini ve acil durum hazırlıklarını etkiler.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-24T23:38:56+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ntv.com.tr/turkiye/son-dakika-muglada-deprem-mi-oldu-az-once-deprem-muglada-nerede-oldu-mugla-deprem-kandilli-ve-afad-son-depremler-listesi-24-kasim-2026-1752420"
+        ]
+      }
+    },
+    {
       "id": "bilim_10",
       "cat": "Bilim",
       "catId": "bilim",
@@ -2006,7 +2022,7 @@
       "bias_score": 4
     },
     {
-      "id": "bilim_13",
+      "id": "bilim_14",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Papa Francesco: 'Şeytanı üç kez gördüm'",
@@ -2082,7 +2098,7 @@
     }
   ],
   "weather": {
-    "temp": 0.9,
+    "temp": 0.6,
     "desc": "Açık",
     "city": "Çorlu"
   },
@@ -2097,19 +2113,22 @@
     "cumhuriyet_altin": {},
     "ons_altin": {},
     "gram_gumus": {},
-    "market_open": false,
-    "updated_at": "02:05"
+    "has_altin": {},
+    "y22_altin": {},
+    "source": "spot",
+    "market_open": true,
+    "updated_at": "02:39"
   },
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 3034929,
-      "change_pct": -2.2098662542246927
+      "price": 3031333,
+      "change_pct": -2.3529213140600858
     },
     {
       "label": "Ethereum",
-      "price": 85201,
-      "change_pct": -1.7940094837116436
+      "price": 85048,
+      "change_pct": -1.7902944295354009
     }
   ],
   "stocks": [
