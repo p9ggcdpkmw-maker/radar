@@ -687,6 +687,8 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 </section>
 <section class="view" id="v-saved">
 <div class="mh"><div><h2 class="vt">RADAR Kasa</h2><p class="vs" id="savedSub">—</p></div><button class="btn gh" id="expSaved">⬇ JSON indir</button></div>
+<h3 class="st">⭐ Takip Listesi <em>Faz 4: Telegram kişisel bildirimlerine bağlanacak</em></h3>
+<div class="cp" id="favUnivBox" style="margin-bottom:14px"></div>
 <div class="grid" id="savedGrid"></div>
 <h3 class="st">🕑 Sonra Okunacaklar <em id="laterCount"></em></h3>
 <div class="grid" id="laterGrid"></div>
@@ -786,7 +788,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <button class="mx" data-close aria-label="Kapat">✕</button>
 <div class="mk" id="nKicker"></div><h2 class="mt" id="nTitle"></h2>
 <div class="mm" id="nMeta"></div><div class="mb" id="nBias"></div><div class="mw" id="nWhy"></div>
-<div class="ma"><button class="btn pri" id="nSpeak">🔊 Dinle</button><button class="btn gh" id="nSave">📌 Kaydet</button><button class="btn gh" id="nShare">↗ Paylaş</button><button class="btn gh" id="nRead">📖 Okuma modu</button>
+<div class="ma"><button class="btn pri" id="nSpeak">🔊 Dinle</button><button class="btn gh" id="nSave">📌 Kaydet</button><button class="btn gh" id="nShare">↗ Paylaş</button><button class="btn gh" id="nRead">📖 Okuma modu</button><button class="btn gh" id="nFollowSrc">★ Kaynağı takip et</button>
 <select class="sel sm" id="nRate" aria-label="Okuma hızı"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select>
 <select class="sel sm" id="nVoice" aria-label="Ses seçimi"></select></div>
 <p class="mbody" id="nBody"></p><div class="mbody" id="readBox" hidden style="border-top:1px dashed var(--ln2);padding-top:14px;margin-top:4px"></div><div class="tl" id="nTL"></div>
@@ -1423,6 +1425,27 @@ return{open:z.w&&now>=o&&now<c,label:z.w?(now<o?'açılışa '+(o-now)+' dk':now
 hours:('0'+oh).slice(-2)+':'+('0'+om).slice(-2)+'–'+('0'+ch).slice(-2)+':'+('0'+cm).slice(-2)}}
 function sessions(){var z=zparts(TZ);return{bist:sess(TZ,10,0,18,0),us:sess('America/New_York',9,30,16,0),
 fx:{open:z.w,label:z.w?'24 saat · hafta içi':'hafta sonu',hours:'Pzt–Cum'},crypto:{open:true,label:'kesintisiz',hours:'7/24'}}}
+/* ================= EVRENSEL FAVORİ ================= */
+var FV={all:function(){return LS.g('radar_fav_univ',[])},
+save:function(a){LS.s('radar_fav_univ',a)},
+has:function(t,id){return FV.all().some(function(x){return x.t===t&&x.id===id})},
+toggle:function(t,id,label){var a=FV.all(),i=-1;
+a.forEach(function(x,k){if(x.t===t&&x.id===id)i=k});
+if(i>=0){a.splice(i,1);toast('☆ Takipten çıkıldı: '+esc(label))}
+else{a.push({t:t,id:id,label:label||id});toast('★ Takibe alındı: '+esc(label))}
+FV.save(a);renderFavUniv();return i<0},
+del:function(t,id){FV.save(FV.all().filter(function(x){return !(x.t===t&&x.id===id)}));renderFavUniv()}};
+function fvSyncTeam(team,added){var a=FV.all(),i=-1;a.forEach(function(x,k){if(x.t==='team'&&x.id===team)i=k});
+if(added&&i<0)a.push({t:'team',id:team,label:team});
+if(!added&&i>=0)a.splice(i,1);
+FV.save(a);renderFavUniv()}
+function renderFavUniv(){var box=$('#favUnivBox');if(!box)return;
+var a=FV.all(),T={team:'🏟️ Takım',src:'📰 Kaynak',kw:'🔑 Kelime',coin:'🪙 Coin',hisse:'📈 Hisse',radyo:'📻 Radyo'};
+var h='<div class="cph">⭐ Takip edilenler <em>'+a.length+'</em></div>';
+if(!a.length)h+='<p class="hint">Henüz takip yok. Haber modalında "★ Kaynağı takip et", Saha\'da takım yıldızı, ya da aşağıya kelime ekle.</p>';
+else h+=a.map(function(x){return '<div class="kv"><span>'+(T[x.t]||x.t)+' · '+esc(x.label)+'</span><b><span data-fvdel="'+esc(x.t)+'|'+esc(x.id)+'" role="button" tabindex="0" style="color:var(--dn);cursor:pointer">✕</span></b></div>'}).join('');
+h+='<div class="cvr" style="margin-top:10px"><input id="fvKw" placeholder="Kelime/konu ekle: yapay zeka, faiz…"><button class="btn gh" id="fvKwAdd">🔑 Ekle</button></div>';
+box.innerHTML=h}
 /* ================= SKORLAR ================= */
 var SC={sport:LS.g('radar_sc_sport','football'),date:'',status:'all',q:'',league:'all',favOnly:false,data:null,dataKey:'',ts:0,loading:false,err:null,fav:new Set(LS.g('radar_sc_fav',[])),collapsed:{},flash:{},prev:{},detail:null};
 function scPad(n){return (n<10?'0':'')+n}
@@ -1512,7 +1535,7 @@ $('#mtInfo').innerHTML='<div class="kv"><span>Başlangıç</span><b>'+new Date(f
 $('#mtFavH').textContent=(SC.fav.has(found.m.home)?'★ ':'☆ ')+found.m.home;
 $('#mtFavA').textContent=(SC.fav.has(found.m.away)?'★ ':'☆ ')+found.m.away;
 openM('#mMatch');scDetail()}
-function scToggleFav(team){SC.fav.has(team)?SC.fav.delete(team):SC.fav.add(team);LS.s('radar_sc_fav',Array.from(SC.fav));renderScores();renderLiveRow();
+function scToggleFav(team){var added=!SC.fav.has(team);SC.fav.has(team)?SC.fav.delete(team):SC.fav.add(team);fvSyncTeam(team,added);LS.s('radar_sc_fav',Array.from(SC.fav));renderScores();renderLiveRow();
 if(SC.detail){$('#mtFavH').textContent=(SC.fav.has(SC.detail.m.home)?'★ ':'☆ ')+SC.detail.m.home;$('#mtFavA').textContent=(SC.fav.has(SC.detail.m.away)?'★ ':'☆ ')+SC.detail.m.away}}
 var MATCH_URL=SCORES_URL.replace('/scores','/match');
 function mtLabel(side){if(!SC.detail)return'';return side==='home'?SC.detail.m.home:side==='away'?SC.detail.m.away:''}
@@ -1688,7 +1711,8 @@ var wh=$('#nWhy');if(n.why_important){wh.className='mw show';wh.innerHTML='💡 
 $('#nBody').textContent=n.summary||'Bu haber için özet hazırlanmadı. Kaynakta tamamını okuyabilirsin.';
 $('#nLink').href=safeUrl(n.link);
 $('#readBox').hidden=true;$('#nRead').textContent='📖 Okuma modu';
-updateNSave();timeline(n);stopSpeak();openM('#mNews');renderFeed()}
+updateNSave();var fs=$('#nFollowSrc');if(fs){var fon=FV.has('src',n.source||'');fs.textContent=fon?'★ Takip ediliyor':'★ Kaynağı takip et';fs.classList.toggle('pri',fon)}
+timeline(n);stopSpeak();openM('#mNews');renderFeed()}
 function timeline(n){var box=$('#nTL'),rows=[{s:n.source,l:n.link,t:n.pubDate}];
 (n.other_sources||[]).forEach(function(o){if(o&&o.link)rows.push({s:o.source,l:o.link,t:o.pubDate})});
 if(rows.length<2){box.className='tl';box.innerHTML='';return}
@@ -1877,7 +1901,7 @@ $('#app').dataset.rail=v==='feed'?'1':'0';
 if(v==='market')mkEnter();else mkLeave();
 if(v==='radio'){renderRadio();renderHealth();if(!MT.radioAuto){MT.radioAuto=true;setTimeout(testAll,500)}}
 if(v==='scores')scEnter();
-if(v==='saved'){renderSaved();renderUsage()}
+if(v==='saved'){renderSaved();renderUsage();renderFavUniv()}
 if(v==='feed'){renderCats();renderFeed()}
 scrollTo({top:0,behavior:'auto'});syncUrl();measure()}
 function hello(){var h=new Date().getHours(),g='İyi geceler',i='🌙';
@@ -2049,6 +2073,9 @@ $('#mtShare2').addEventListener('click',mtShare);
 $('#cityGo').addEventListener('click',citySet);
 $('#wxRetry').addEventListener('click',function(){toast('Hava güncelleniyor…');widgets(true)});
 $('#cityIn').addEventListener('keydown',function(e){if(e.key==='Enter')citySet()});
+$('#nFollowSrc').addEventListener('click',function(){if(!cur)return;var on=FV.toggle('src',cur.source||'Kaynak',cur.source||'Kaynak');
+$('#nFollowSrc').textContent=on?'★ Takip ediliyor':'★ Kaynağı takip et';$('#nFollowSrc').classList.toggle('pri',on)});
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target&&e.target.id==='fvKw'){var b=$('#fvKwAdd');if(b)b.click()}});
 $('#btnPalette').addEventListener('click',openPal);
 $('#palette').addEventListener('click',function(e){if(e.target===$('#palette'))closePal()});
 $('#paIn').addEventListener('input',function(e){palFill(e.target.value);S.q=e.target.value.trim();S.limit=24;renderTrends();renderFeed()});
@@ -2153,6 +2180,8 @@ if(el=t.closest('[data-scretry]')){scLoad(true);return}
 if(el=t.closest('[data-live]')){var mid=el.dataset.live;setView('scores');SC.status='in';renderScores();scOpen(mid);return}
 if(el=t.closest('[data-gotoscores]')){setView('scores');return}
 if(el=t.closest('[data-scm]')){scOpen(el.dataset.scm);return}
+if(el=t.closest('[data-fvdel]')){var fp=el.dataset.fvdel.split('|');FV.del(fp[0],fp[1]);return}
+if(el=t.closest('#fvKwAdd')){var fi=$('#fvKw'),fv=fi?fi.value.trim():'';if(!fv){toast('Kelime gir','warn');return}FV.toggle('kw',fv.toLocaleLowerCase('tr'),fv);if(fi)fi.value='';return}
 if(el=t.closest('[data-favrow]')){var pp=el.dataset.favrow.split('|');if(pp[0]==='coin')openCoin(pp[1]);else openStock(pp[1]);return}
 });
 addEventListener('keydown',function(e){
