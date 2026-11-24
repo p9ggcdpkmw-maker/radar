@@ -1444,7 +1444,7 @@ return '<div class="scm'+(SC.flash[m.id]?' '+SC.flash[m.id]:'')+'" data-scm="'+e
 '<span class="scteams"><b>'+esc(m.home)+'<span class="scfav'+(fH?' on':'')+'" data-scf="'+esc(m.home)+'" role="button" tabindex="0" aria-label="Favori">'+(fH?'★':'☆')+'</span></b>'+
 '<b>'+esc(m.away)+'<span class="scfav'+(fA?' on':'')+'" data-scf="'+esc(m.away)+'" role="button" tabindex="0" aria-label="Favori">'+(fA?'★':'☆')+'</span></b>'+
 (scMicroRaw(m)?'<span class="scmicro">'+scMicroRaw(m)+'</span>':'')+'</span>'+
-'<span class="scscore">'+(m.hs==null?'–':m.hs)+'<i>:</i>'+(m.as==null?'–':m.as)+'</span></div>'}
+'<span class="scscore">'+(m.state==='pre'?'–':(m.hs==null?'–':m.hs))+'<i>:</i>'+(m.state==='pre'?'–':(m.as==null?'–':m.as))+'</span></div>'}
 function cdTxt(t){var d=new Date(t).getTime()-Date.now();if(!(d>0))return'';var h=Math.floor(d/36e5),m=Math.floor((d%36e5)/6e4);return h>0?(h+' sa '+m+' dk'):(m+' dk')}
 function scMicroRaw(m){var mi=m.micro;if(!mi)return'';
 var L=[],R=[];
@@ -1469,7 +1469,7 @@ var m=best.m,l=best.l;
 var state=m.state==='in'?'<span class="pill dn">'+esc(m.clock||'CANLI')+'</span>':m.state==='post'?'<span class="pill fl">MS</span>':'<span class="pill up">'+hhmm(m.start)+(cdTxt(m.start)?' · '+cdTxt(m.start):'')+'</span>';
 box.innerHTML='<div class="schero" data-scm="'+esc(m.id)+'" role="button" tabindex="0">'+
 '<div class="schk">'+esc(l.flag)+' '+esc(l.name)+' · Günün Maçı</div>'+
-'<div class="scht">'+esc(m.home)+' <b>'+(m.hs==null?'–':m.hs)+' : '+(m.as==null?'–':m.as)+'</b> '+esc(m.away)+'</div>'+
+'<div class="scht">'+esc(m.home)+' <b>'+(m.state==='pre'?'–':(m.hs==null?'–':m.hs))+' : '+(m.state==='pre'?'–':(m.as==null?'–':m.as))+'</b> '+esc(m.away)+'</div>'+
 '<div class="schs">'+state+(m.venue?'<span style="color:var(--ink3)">· '+esc(m.venue)+'</span>':'')+'<span style="margin-left:auto;color:var(--pri)">Detay ›</span></div>'+
 (scMicroRaw(m)?'<span class="scmicro" style="margin-top:6px">'+scMicroRaw(m)+'</span>':'')+
 '</div>'}
