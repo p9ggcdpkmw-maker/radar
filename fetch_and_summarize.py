@@ -8,6 +8,7 @@ from email.utils import format_datetime
 from urllib.parse import urlparse
 from xml.sax.saxutils import escape as _xml_escape
 import concurrent.futures
+import re
 import requests
 import trafilatura
 from bs4 import BeautifulSoup
