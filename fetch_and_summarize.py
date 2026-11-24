@@ -375,37 +375,54 @@ def fetch_market(old_market=None):
         if old_market and not gold_usd_oz: return old_market
     old_market = old_market or {}
 
-    # --- HAREMALTIN ENTEGRASYONU (altın + gümüş + platin + paladyum, tek istekte) ---
-    metals = {}
-    try:
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-        r = requests.get("https://www.haremaltin.com/", headers=headers, timeout=8)
-        r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
-        METAL_KEYS = {"gram altin": "gold_gram_try", "gram gumus": "silver_gram_try",
-                      "gram platin": "platinum_gram_try", "gram paladyum": "palladium_gram_try"}
-        for s in soup.find_all(string=re.compile(r"Gram\s+(Altın|Gümüş|Platin|Paladyum)", re.IGNORECASE)):
-            key = METAL_KEYS.get(s.strip().lower().replace("ı", "i").replace("ü", "u"))
-            if not key: continue
-            row = s.find_parent("tr")
-            if not row: continue
-            cells = row.find_all("td")
-            if len(cells) >= 3:
-                price_str = cells[2].get_text(strip=True).replace(",", ".").replace(" TL", "").replace("₺", "")
-                try: metals[key] = float(price_str)
-                except ValueError: pass
-    except Exception as e:
-        print(f"  ! Haremaltın okuma hatası, eski veri kullanılıyor: {e}", file=sys.stderr)
+    # --- HAREMALTIN: detay sayfaları (ID'ler sabit: priceAlis/priceSatis) ---
+    ist = timezone(timedelta(hours=3))
+    now_ist = datetime.now(ist)
+    market_open = (now_ist.weekday() < 5 and 9.5 <= now_ist.hour + now_ist.minute / 60 <= 18)
+    updated_at = now_ist.strftime("%H:%M")
 
-    def mval(k): return metals.get(k) or old_market.get(k)
+    METALS = {"GRAM": "gram_altin", "CEYREK": "ceyrek_altin", "YARIM": "yarim_altin",
+              "TAM": "tam_altin", "CUMHURIYET": "cumhuriyet_altin", "ONS": "ons_altin",
+              "XAUXAG": "gram_gumus"}
+    metals = {}
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+    for birim, key in METALS.items():
+        try:
+            r = requests.get(f"https://www.haremaltin.com/grafik?tip=altin&birim={birim}",
+                             headers=headers, timeout=8)
+            r.raise_for_status()
+            soup = BeautifulSoup(r.text, "html.parser")
+            a = soup.find("span", id="priceAlis")
+            s = soup.find("span", id="priceSatis")
+            if not a or not s:
+                print(f"  ! {key}: priceAlis/priceSatis yok", file=sys.stderr); continue
+            alis = float(a.get_text(strip=True).replace(",", "."))
+            satis = float(s.get_text(strip=True).replace(",", "."))
+            ch = soup.find(string=re.compile(r"%\s*-?\d+[.,]?\d*"))
+            pct = 0.0
+            if ch:
+                m = re.search(r"-?\d+[.,]\d+", ch)
+                if m: pct = float(m.group().replace(",", "."))
+            metals[key] = {"alis": alis, "satis": satis, "change_pct": pct}
+        except Exception as e:
+            print(f"  ! {key}: {e}", file=sys.stderr)
+
+    def mval(k): return metals.get(k) or old_market.get(k) or {}
     # ---------------------------------------------------------------------------
 
+    g = mval("gram_altin")
     return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
-        "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
-        "gold_gram_try": mval("gold_gram_try"),
-        "silver_gram_try": mval("silver_gram_try"),
-        "platinum_gram_try": mval("platinum_gram_try"),
-        "palladium_gram_try": mval("palladium_gram_try")}
+            "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
+            "gold_gram_try": (g.get("satis") if g else old_market.get("gold_gram_try")),
+            "gram_altin": g,
+            "ceyrek_altin": mval("ceyrek_altin"),
+            "yarim_altin": mval("yarim_altin"),
+            "tam_altin": mval("tam_altin"),
+            "cumhuriyet_altin": mval("cumhuriyet_altin"),
+            "ons_altin": mval("ons_altin"),
+            "gram_gumus": mval("gram_gumus"),
+            "market_open": market_open,
+            "updated_at": updated_at}
 
 def fetch_crypto(old_crypto=None):
     cryptos = []
