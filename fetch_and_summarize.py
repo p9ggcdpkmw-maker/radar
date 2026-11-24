@@ -405,9 +405,6 @@ def fetch_market(old_market=None):
             "silver_gram_try": mval("silver_gram_try"),
             "platinum_gram_try": mval("platinum_gram_try"),
             "palladium_gram_try": mval("palladium_gram_try")}
-    gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else old_market.get("gold_gram_try")
-    return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
-            "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
             "gold_gram_try": gold_gram_try}
 
 def fetch_crypto(old_crypto=None):
