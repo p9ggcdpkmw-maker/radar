@@ -2148,7 +2148,7 @@ if(!ps.length)throw 0;
 box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+'</p>'}).join('')+
 '<div class="ma" style="margin:6px 0 0"><button class="btn gh" id="rdClean">🤖 AI ile daha da sadeleştir</button></div>';
 $('#rdClean').addEventListener('click',aiClean);
-$('#nRead').textContent='📖 Okuma modunu kapat'})
+$('#nRead').textContent='📖 Okuma modunu kapat';
 box.hidden=true;$('#nRead').textContent='📖 Okuma modu';toast('Okuma modu bu kaynak için açılamadı','warn')})}
 function aiClean(){var box=$('#readBox');if(!box||!cur)return;
 var key='radar_clean_'+cur.link;
