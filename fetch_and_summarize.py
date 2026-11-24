@@ -361,100 +361,55 @@ def write_feeds(all_items):
     # --- HAREMALTIN: detay sayfaları (ID'ler sabit: priceAlis/priceSatis) ---
 
 def fetch_market(old_market=None):
-    usdtry = eurtry = gold_usd_oz = None
+    usdtry = eurtry = None
     try:
         r = requests.get("https://open.er-api.com/v6/latest/USD", timeout=10)
         rates = r.json().get("rates", {})
         usdtry = rates.get("TRY")
         if usdtry and rates.get("EUR"): eurtry = usdtry / rates.get("EUR")
     except Exception:
-        if old_market: return old_market
-    try:
-        r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
-        gold_usd_oz = r.json().get("price")
-    except Exception:
-        if old_market and not gold_usd_oz: return old_market
+        pass
     old_market = old_market or {}
-
-    # --- HAREMALTIN: ANA SAYFA (tek istek, tüm metaller) ---
     ist = timezone(timedelta(hours=3))
     now_ist = datetime.now(ist)
     market_open = (now_ist.weekday() < 5 and 9.5 <= now_ist.hour + now_ist.minute / 60 <= 18)
     updated_at = now_ist.strftime("%H:%M")
-
-    METAL_MAP = {
-        "gram altin": "gram_altin",
-        "ceyrek altin": "ceyrek_altin",
-        "yarim altin": "yarim_altin",
-        "tam altin": "tam_altin",
-        "cumhuriyet": "cumhuriyet_altin",
-        "ons altin": "ons_altin",
-        "gram gumus": "gram_gumus"
-    }
-
+    HA_MAP = [("gram altin", "gram_altin"), ("ceyrek altin", "ceyrek_altin"),
+              ("yarim altin", "yarim_altin"), ("tam altin", "tam_altin"),
+              ("cumhuriyet", "cumhuriyet_altin"), ("ons", "ons_altin"),
+              ("gram gumus", "gram_gumus"), ("22 ayar", "y22_altin"), ("has altin", "has_altin")]
     metals = {}
     try:
-        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-        r = requests.get("https://www.haremaltin.com/", headers=headers, timeout=8)
+        r = requests.get("https://www.haremaltin.com/", headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
         r.raise_for_status()
-        soup = BeautifulSoup(r.text, "html.parser")
-        
-        for tr in soup.find_all("tr"):
-            tds = tr.find_all("td")
-            if len(tds) < 4:
-                continue
-            name = tds[0].get_text(strip=True).lower().replace("ı", "i").replace("ü", "u")
-            key = None
-            for keyword, metal_key in METAL_MAP.items():
-                if keyword in name:
-                    key = metal_key
-                    break
-            if not key or key in metals:
-                continue
-            
-            alis_str = tds[1].get_text(strip=True).replace(".", "").replace(",", ".").replace("₺", "").replace("TL", "")
-            satis_str = tds[2].get_text(strip=True).replace(".", "").replace(",", ".").replace("₺", "").replace("TL", "")
-            
-            # '-' veya boş kontrolü
-            if alis_str == '-' or satis_str == '-' or not alis_str or not satis_str:
-                continue
-            
-            try:
-                alis = float(alis_str)
-                satis = float(satis_str)
-            except ValueError:
-                continue
-            
-            # Değişim yüzdesi
-            change_pct = 0.0
-            for td in tds[3:]:
-                txt = td.get_text(strip=True)
-                m = re.search(r"%\s*(-?\d+[.,]\d+)", txt)
-                if m:
-                    change_pct = float(m.group(1).replace(",", "."))
-                    break
-            
-            metals[key] = {"alis": alis, "satis": satis, "change_pct": change_pct}
+        html = r.text
+        norm = html.lower().replace("ı", "i").replace("İ", "i").replace("ü", "u").replace("ö", "o").replace("ş", "s").replace("ç", "c").replace("ğ", "g")
+        for label, key in HA_MAP:
+            m = re.search(r">\s*" + label.replace(" ", r"\s+") + r"\s*<", norm)
+            if not m: continue
+            seg = html[m.start():m.start() + 600]
+            nums = re.findall(r"\d{1,3}(?:\.\d{3})+,\d{2}|\d+,\d{2}|\d+\.\d{2}", seg)
+            if len(nums) < 2: continue
+            def num(t): return float(t.replace(".", "").replace(",", ".")) if "," in t else float(t)
+            alis, satis = num(nums[0]), num(nums[1])
+            if not (alis > 0 and satis > 0): continue
+            pm = re.search(r"%\s*(-?\d+[.,]\d+)", seg)
+            metals[key] = {"alis": alis, "satis": satis, "change_pct": float(pm.group(1).replace(",", ".")) if pm else 0.0}
     except Exception as e:
         print(f"  ! Haremaltın ana sayfa hatası: {e}", file=sys.stderr)
-
-    def mval(k): 
-        val = metals.get(k)
-        return val if val else (old_market.get(k) if isinstance(old_market.get(k), dict) else {})
-
+    def mval(k):
+        v = metals.get(k)
+        if v: return v
+        ov = old_market.get(k)
+        return ov if isinstance(ov, dict) else {}
     g = mval("gram_altin")
     return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
             "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
-            "gold_gram_try": (g.get("satis") if g else old_market.get("gold_gram_try")),
-            "gram_altin": g,
-            "ceyrek_altin": mval("ceyrek_altin"),
-            "yarim_altin": mval("yarim_altin"),
-            "tam_altin": mval("tam_altin"),
-            "cumhuriyet_altin": mval("cumhuriyet_altin"),
-            "ons_altin": mval("ons_altin"),
-            "gram_gumus": mval("gram_gumus"),
-            "market_open": market_open,
-            "updated_at": updated_at}
+            "gold_gram_try": (g.get("satis") if g.get("satis") else old_market.get("gold_gram_try")),
+            "gram_altin": g, "ceyrek_altin": mval("ceyrek_altin"), "yarim_altin": mval("yarim_altin"),
+            "tam_altin": mval("tam_altin"), "cumhuriyet_altin": mval("cumhuriyet_altin"),
+            "ons_altin": mval("ons_altin"), "gram_gumus": mval("gram_gumus"),
+            "market_open": market_open, "updated_at": updated_at}
     # ---------------------------------------------------------------------------
 
     g = mval("gram_altin")
