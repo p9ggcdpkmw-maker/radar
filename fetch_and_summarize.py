@@ -358,23 +358,6 @@ def write_feeds(all_items):
         count += 1
     print(f"{count} RSS dosyası yazıldı.")
 
-
-def fetch_market(old_market=None):
-    usdtry = eurtry = gold_usd_oz = None
-    try:
-        r = requests.get("https://open.er-api.com/v6/latest/USD", timeout=10)
-        rates = r.json().get("rates", {})
-        usdtry = rates.get("TRY")
-        if usdtry and rates.get("EUR"): eurtry = usdtry / rates.get("EUR")
-    except Exception:
-        if old_market: return old_market
-    try:
-        r = requests.get("https://api.gold-api.com/price/XAU", timeout=10)
-        gold_usd_oz = r.json().get("price")
-    except Exception:
-        if old_market and not gold_usd_oz: return old_market
-    old_market = old_market or {}
-
     # --- HAREMALTIN: detay sayfaları (ID'ler sabit: priceAlis/priceSatis) ---
 
 def fetch_market(old_market=None):
