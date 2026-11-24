@@ -3,7 +3,7 @@ RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi
 """
 import json, os, re, sys, time
 import difflib
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from email.utils import format_datetime
 from urllib.parse import urlparse
 from xml.sax.saxutils import escape as _xml_escape
@@ -413,7 +413,7 @@ def fetch_market(old_market=None):
     g = mval("gram_altin")
     return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
             "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
-            "gold_gram_try": (g.get("satis") if g else old_market.get("gold_gram_try")),
+            "gold_gram_try": (g.get("satis") if (g and g.get("satis")) else (old_market.get("gold_gram_try") if not isinstance(old_market.get("gold_gram_try"), dict) else None)),
             "gram_altin": g,
             "ceyrek_altin": mval("ceyrek_altin"),
             "yarim_altin": mval("yarim_altin"),
