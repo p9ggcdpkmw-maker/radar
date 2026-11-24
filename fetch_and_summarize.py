@@ -373,6 +373,38 @@ def fetch_market(old_market=None):
     except Exception:
         if old_market and not gold_usd_oz: return old_market
     old_market = old_market or {}
+
+    # --- HAREMALTIN ENTEGRASYONU (altın + gümüş + platin + paladyum, tek istekte) ---
+    metals = {}
+    try:
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
+        r = requests.get("https://www.haremaltin.com/", headers=headers, timeout=8)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        METAL_KEYS = {"gram altin": "gold_gram_try", "gram gumus": "silver_gram_try",
+                      "gram platin": "platinum_gram_try", "gram paladyum": "palladium_gram_try"}
+        for s in soup.find_all(string=re.compile(r"Gram\s+(Altın|Gümüş|Platin|Paladyum)", re.IGNORECASE)):
+            key = METAL_KEYS.get(s.strip().lower().replace("ı", "i").replace("ü", "u"))
+            if not key: continue
+            row = s.find_parent("tr")
+            if not row: continue
+            cells = row.find_all("td")
+            if len(cells) >= 3:
+                price_str = cells[2].get_text(strip=True).replace(",", ".").replace(" TL", "").replace("₺", "")
+                try: metals[key] = float(price_str)
+                except ValueError: pass
+    except Exception as e:
+        print(f"  ! Haremaltın okuma hatası, eski veri kullanılıyor: {e}", file=sys.stderr)
+
+    def mval(k): return metals.get(k) or old_market.get(k)
+    # ---------------------------------------------------------------------------
+
+    return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
+            "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
+            "gold_gram_try": mval("gold_gram_try"),
+            "silver_gram_try": mval("silver_gram_try"),
+            "platinum_gram_try": mval("platinum_gram_try"),
+            "palladium_gram_try": mval("palladium_gram_try")}
     gold_gram_try = round(gold_usd_oz / 31.1034768 * usdtry, 2) if (usdtry and gold_usd_oz) else old_market.get("gold_gram_try")
     return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
             "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
