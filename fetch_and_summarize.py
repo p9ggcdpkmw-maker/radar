@@ -372,7 +372,7 @@ def fetch_market(old_market=None):
     old_market = old_market or {}
     ist = timezone(timedelta(hours=3))
     now_ist = datetime.now(ist)
-    market_open = (now_ist.weekday() < 5 and 9.5 <= now_ist.hour + now_ist.minute / 60 <= 18)
+    market_open = now_ist.weekday() < 5
     updated_at = now_ist.strftime("%H:%M")
     HA_UNITS = [("KULCEALTIN", "gram_altin"), ("ALTIN", "has_altin"), ("ONS", "ons_altin"),
                 ("CEYREK", "ceyrek_altin"), ("YARIM", "yarim_altin"), ("TAM", "tam_altin"),
@@ -388,7 +388,6 @@ def fetch_market(old_market=None):
         return float(m.group(1).replace(",", ".")) if m else 0.0
     metals, src = {}, "spot"
     hdr = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    # 1) detay sayfaları (birim kodları düzeltildi: KULCEALTIN = Gram Altın)
     for birim, key in HA_UNITS:
         try:
             r = requests.get(f"https://www.haremaltin.com/grafik?tip=altin&birim={birim}", headers=hdr, timeout=8)
@@ -405,7 +404,6 @@ def fetch_market(old_market=None):
         src = "haremaltin"
         print(f"  · Haremaltın detay: {len(metals)} çeşit")
     else:
-        # 2) ana sayfa tablosu
         try:
             r = requests.get("https://www.haremaltin.com/", headers=hdr, timeout=8)
             r.raise_for_status()
@@ -425,7 +423,6 @@ def fetch_market(old_market=None):
         except Exception as e:
             print(f"  ! Haremaltın ana sayfa hatası: {e}", file=sys.stderr)
     if src != "haremaltin":
-        # 3) spot yedek (dürüst etiket)
         try:
             d = requests.get("https://data-asg.goldprice.org/dbXRates/TRY", timeout=8).json()
             it = (d.get("items") or [{}])[0]
@@ -448,6 +445,7 @@ def fetch_market(old_market=None):
             "ons_altin": mval("ons_altin"), "gram_gumus": mval("gram_gumus"),
             "has_altin": mval("has_altin"), "y22_altin": mval("y22_altin"),
             "source": src, "market_open": market_open, "updated_at": updated_at}
+    
 def fetch_crypto(old_crypto=None):
     cryptos = []
     try:
