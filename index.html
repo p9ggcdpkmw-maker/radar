@@ -1172,6 +1172,7 @@ function wkLoad(){return jget(MKT_URL+'?g=fx,metal,st,idx',10000).then(function(
 MT.wk={};(d.quotes||[]).forEach(function(q){if(q&&q.k&&isFinite(q.v)&&q.v>0)MT.wk[(q.grp||'?')+':'+q.k]=q});
 MT.wkOK=true;MT.wkFail=0;
 MT.wkAsOf=typeof d.as_of==='number'?d.as_of:(Date.parse(d.as_of)||Date.now());
+MT.ha=d.ha||null;
 }).catch(function(){MT.wkFail++;if(MT.wkFail>=3)MT.wkOK=false})}
 function binLoad(){return jget('https://api.binance.com/api/v3/ticker/24hr',15000).then(function(d){
 var ok=['TRY','USDT','FDUSD','USDC'];
