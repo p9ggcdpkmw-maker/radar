@@ -669,7 +669,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div id="scHero"></div>
 <div class="strip" id="scSum" style="margin:0 0 10px"></div>
 <div id="scList"></div>
-<p class="hint">Skorlar ESPN'den gelir; canlı maçlar ~45 sn'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.</p>
+<p class="hint" id="scHint">Skorlar ESPN'den gelir; canlı maçlar ~45 sn'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.</p>
 </section>
 <section class="view" id="v-radio">
 <h2 class="vt">RADAR Dalga</h2><p class="vs">Sekme değiştirsen de yayın devam eder. ★ ile favorilere ekle.</p>
@@ -836,6 +836,8 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 var MKT_URL='https://radar-market.69sygknn4y.workers.dev/market';
 var PROXY='https://radar-hls-proxy.69sygknn4y.workers.dev/?url=';
 var SCORES_URL='https://radar-scores.69sygknn4y.workers.dev/scores';
+var NOTIFY_URL='https://radar-notify.69sygknn4y.workers.dev';
+var TG_BOT_USER='Radarhaber_bot';
 var LAT=41.1601,LON=27.8055,TZ='Europe/Istanbul';
 var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
 var esc=function(s){return String(s==null?'':s).replace(/[&<>"']/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})};
@@ -1433,18 +1435,30 @@ toggle:function(t,id,label){var a=FV.all(),i=-1;
 a.forEach(function(x,k){if(x.t===t&&x.id===id)i=k});
 if(i>=0){a.splice(i,1);toast('☆ Takipten çıkıldı: '+esc(label))}
 else{a.push({t:t,id:id,label:label||id});toast('★ Takibe alındı: '+esc(label))}
-FV.save(a);renderFavUniv();return i<0},
-del:function(t,id){FV.save(FV.all().filter(function(x){return !(x.t===t&&x.id===id)}));renderFavUniv()}};
+FV.save(a);renderFavUniv();fvQueueSync();return i<0},
+del:function(t,id){FV.save(FV.all().filter(function(x){return !(x.t===t&&x.id===id)}));renderFavUniv();fvQueueSync()}};
 function fvSyncTeam(team,added){var a=FV.all(),i=-1;a.forEach(function(x,k){if(x.t==='team'&&x.id===team)i=k});
 if(added&&i<0)a.push({t:'team',id:team,label:team});
 if(!added&&i>=0)a.splice(i,1);
 FV.save(a);renderFavUniv()}
+var fvSyncT=0;
+function fvPush(silent){var code=LS.g('radar_tg_code','');if(!code)return;
+jpost(NOTIFY_URL+'/fav',{code:code,favs:FV.all()}).then(function(){if(!silent)toast('🔄 Favoriler Telegram\'a itildi')}).catch(function(){if(!silent)toast('Senkron başarısız — worker/KV açık mı?','warn')})}
+function fvQueueSync(){if(!LS.g('radar_tg_code',''))return;clearTimeout(fvSyncT);fvSyncT=setTimeout(function(){fvPush(true)},4000)}
+function fvBind(){var code=Math.random().toString(36).slice(2,8).toLocaleUpperCase('tr');
+LS.s('radar_tg_code',code);
+jpost(NOTIFY_URL+'/pair',{code:code,favs:FV.all()}).then(function(){
+window.open('https://t.me/'+TG_BOT_USER+'?start='+code,'_blank');
+toast('📲 Kod: '+code+' — Telegram\'da /start\'a bas');renderFavUniv();
+}).catch(function(){toast('Pairing başarısız — worker + KV binding kontrol','err')})}
 function renderFavUniv(){var box=$('#favUnivBox');if(!box)return;
 var a=FV.all(),T={team:'🏟️ Takım',src:'📰 Kaynak',kw:'🔑 Kelime',coin:'🪙 Coin',hisse:'📈 Hisse',radyo:'📻 Radyo'};
 var h='<div class="cph">⭐ Takip edilenler <em>'+a.length+'</em></div>';
 if(!a.length)h+='<p class="hint">Henüz takip yok. Haber modalında "★ Kaynağı takip et", Saha\'da takım yıldızı, ya da aşağıya kelime ekle.</p>';
 else h+=a.map(function(x){return '<div class="kv"><span>'+(T[x.t]||x.t)+' · '+esc(x.label)+'</span><b><span data-fvdel="'+esc(x.t)+'|'+esc(x.id)+'" role="button" tabindex="0" style="color:var(--dn);cursor:pointer">✕</span></b></div>'}).join('');
 h+='<div class="cvr" style="margin-top:10px"><input id="fvKw" placeholder="Kelime/konu ekle: yapay zeka, faiz…"><button class="btn gh" id="fvKwAdd">🔑 Ekle</button></div>';
+h+='<div class="cvr" style="margin-top:8px"><button class="btn pri" id="fvTgBind">📲 Telegram\'a bağla</button><button class="btn gh" id="fvTgSync">🔄 Favorileri senkronla</button></div>';
+h+='<p class="hint" id="fvTgState">'+(LS.g('radar_tg_code','')?'Kod: <b>'+esc(LS.g('radar_tg_code',''))+'</b> · Telegram\'da /start\'a bastıysan bağlısın. Favori değişince 🔄 ile it (4 sn içinde otomatik da gider).':'Bağlı değil. Butona bas → Telegram açılır → /start ile onayla.')+'</p>';
 box.innerHTML=h}
 /* ================= SKORLAR ================= */
 var SC={sport:LS.g('radar_sc_sport','football'),date:'',status:'all',q:'',league:'all',favOnly:false,data:null,dataKey:'',ts:0,loading:false,err:null,fav:new Set(LS.g('radar_sc_fav',[])),collapsed:{},flash:{},prev:{},detail:null};
@@ -1510,7 +1524,8 @@ $$('#scStatusSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.
 var fo=$('#scFavOnly');if(fo)fo.classList.toggle('pri',SC.favOnly);
 var sel=$('#scLeague');if(sel){var opts='<option value="all">Lig: Tümü</option>'+((SC.data&&SC.data.leagues)||[]).map(function(l){return '<option value="'+esc(l.id)+'">'+esc(l.flag+' '+l.name)+'</option>'}).join('');if(sel.innerHTML!==opts)sel.innerHTML=opts;sel.value=SC.league}
 var src=$('#scSrc');if(src){var age=SC.ts?Math.round((Date.now()-SC.ts)/1000):null;src.className='srcc'+(SC.data&&!SC.err?' live':'');src.innerHTML='<span class="pd"></span>'+(SC.err?'hata':SC.data?(age<5?'az önce':age+' sn önce'):'—')}
-var rows=scMatches();renderScHero();renderScSum();var vbN=$('#scVbNote');if(vbN)vbN.hidden=SC.sport!=='volleyball';var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
+var rows=scMatches();renderScHero();renderScSum();var vbN=$('#scVbNote');if(vbN)vbN.hidden=SC.sport!=='volleyball'; var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.'; 
+var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.'; var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.';var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
 if(SC.loading&&!SC.data){box.innerHTML=new Array(7).join('x').split('x').map(function(){return '<div class="skb" style="margin-bottom:8px"></div>'}).join('');return}
 if(SC.err&&!SC.data){box.innerHTML='<div class="empty"><b>📡</b><p>Skor verisi alınamadı: '+esc(SC.err)+'</p><button class="btn gh" data-scretry style="margin-top:10px">↻ Tekrar dene</button></div>';return}
 if(!rows.length){box.innerHTML='<div class="empty"><b>🏟️</b><p>'+(SC.status==='in'?'Şu an canlı maç yok.':SC.favOnly?'Favori takımlarının maçı yok.':'Bu günde bu filtreyle maç yok.')+'</p></div>';return}
@@ -2181,6 +2196,8 @@ if(el=t.closest('[data-live]')){var mid=el.dataset.live;setView('scores');SC.sta
 if(el=t.closest('[data-gotoscores]')){setView('scores');return}
 if(el=t.closest('[data-scm]')){scOpen(el.dataset.scm);return}
 if(el=t.closest('[data-fvdel]')){var fp=el.dataset.fvdel.split('|');FV.del(fp[0],fp[1]);return}
+if(el=t.closest('#fvTgBind')){fvBind();return}
+if(el=t.closest('#fvTgSync')){fvPush(false);return}
 if(el=t.closest('#fvKwAdd')){var fi=$('#fvKw'),fv=fi?fi.value.trim():'';if(!fv){toast('Kelime gir','warn');return}FV.toggle('kw',fv.toLocaleLowerCase('tr'),fv);if(fi)fi.value='';return}
 if(el=t.closest('[data-favrow]')){var pp=el.dataset.favrow.split('|');if(pp[0]==='coin')openCoin(pp[1]);else openStock(pp[1]);return}
 });
