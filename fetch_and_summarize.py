@@ -374,61 +374,34 @@ def fetch_market(old_market=None):
     now_ist = datetime.now(ist)
     market_open = now_ist.weekday() < 5
     updated_at = now_ist.strftime("%H:%M")
-    HA_UNITS = [("KULCEALTIN", "gram_altin"), ("ALTIN", "has_altin"), ("ONS", "ons_altin"),
-                ("CEYREK", "ceyrek_altin"), ("YARIM", "yarim_altin"), ("TAM", "tam_altin"),
-                ("CUMHURIYET", "cumhuriyet_altin"), ("AYAR22", "y22_altin"), ("GUMUS", "gram_gumus")]
-    HA_MAIN = [("gram altin", "gram_altin"), ("ceyrek altin", "ceyrek_altin"), ("yarim altin", "yarim_altin"),
-               ("tam altin", "tam_altin"), ("cumhuriyet", "cumhuriyet_altin"), ("ons", "ons_altin"),
-               ("gram gumus", "gram_gumus"), ("22 ayar", "y22_altin"), ("has altin", "has_altin")]
-    def num(t):
-        t = str(t).strip()
-        return float(t.replace(".", "").replace(",", ".")) if "," in t else float(t)
-    def pct(seg):
-        m = re.search(r"%\s*(-?\d+[.,]\d+)", seg)
-        return float(m.group(1).replace(",", ".")) if m else 0.0
-    metals, src = {}, "spot"
-    hdr = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-    for birim, key in HA_UNITS:
-        try:
-            r = requests.get(f"https://www.haremaltin.com/grafik?tip=altin&birim={birim}", headers=hdr, timeout=8)
-            r.raise_for_status()
-            a = re.search(r'id="priceAlis"[^>]*>([^<]+)<', r.text)
-            s = re.search(r'id="priceSatis"[^>]*>([^<]+)<', r.text)
-            if not a or not s: continue
-            alis, satis = num(a.group(1)), num(s.group(1))
+    KP_MAP = {"gram-altin": "gram_altin", "ceyrek-altin": "ceyrek_altin", "yarim-altin": "yarim_altin",
+              "tam-altin": "tam_altin", "cumhuriyet-altini": "cumhuriyet_altin", "ata-altin": "ata_altin",
+              "22-ayar-bilezik": "y22_altin", "gram-has-altin": "has_altin", "ons": "ons_altin",
+              "gumus": "gram_gumus"}
+    metals, src = {}, "hesap"
+    try:
+        r = requests.get("https://api.astra-dev.com.tr/api/altin", timeout=10)
+        r.raise_for_status()
+        for x in (r.json().get("altinlar") or []):
+            key = KP_MAP.get(x.get("tur"))
+            if not key: continue
+            try: alis, satis = float(x["alis"]), float(x["satis"])
+            except (TypeError, ValueError, KeyError): continue
             if not (alis > 0 and satis > 0): continue
-            metals[key] = {"alis": alis, "satis": satis, "change_pct": pct(r.text)}
-        except Exception:
-            pass
-    if len(metals) >= 3:
-        src = "haremaltin"
-        print(f"  · Haremaltın detay: {len(metals)} çeşit")
-    else:
-        try:
-            r = requests.get("https://www.haremaltin.com/", headers=hdr, timeout=8)
-            r.raise_for_status()
-            norm = r.text.replace("İ", "i").replace("I", "i").replace("ı", "i").replace("Ş", "s").replace("ş", "s").replace("Ğ", "g").replace("ğ", "g").replace("Ü", "u").replace("ü", "u").replace("Ö", "o").replace("ö", "o").replace("Ç", "c").replace("ç", "c").lower()
-            for label, key in HA_MAIN:
-                m = re.search(r">\s*" + label.replace(" ", r"\s+") + r"[^<]*<", norm)
-                if not m: continue
-                seg = norm[m.start():m.start() + 600]
-                nums = re.findall(r"\d{1,3}(?:\.\d{3})+,\d{2}|\d+,\d{2}|\d+\.\d{2}", seg)
-                if len(nums) < 2: continue
-                alis, satis = num(nums[0]), num(nums[1])
-                if not (alis > 0 and satis > 0): continue
-                metals[key] = {"alis": alis, "satis": satis, "change_pct": pct(seg)}
-            if len(metals) >= 3:
-                src = "haremaltin"
-                print(f"  · Haremaltın ana sayfa: {len(metals)} çeşit")
-        except Exception as e:
-            print(f"  ! Haremaltın ana sayfa hatası: {e}", file=sys.stderr)
-    if src != "haremaltin":
+            metals[key] = {"alis": alis, "satis": satis, "change_pct": float(x.get("degisim_yuzde") or 0)}
+        if len(metals) >= 3:
+            src = "kapalicarsi"
+            print(f"  · Kapalıçarşı canlı: {len(metals)} çeşit")
+    except Exception as e:
+        print(f"  ! Kapalıçarşı API hatası: {e}", file=sys.stderr)
+    if src != "kapalicarsi":
         try:
             d = requests.get("https://data-asg.goldprice.org/dbXRates/TRY", timeout=8).json()
             it = (d.get("items") or [{}])[0]
             gram = float(it["xauPrice"]) / 31.1035
             metals["gram_altin"] = {"alis": gram, "satis": gram, "change_pct": float(it.get("pcXau") or 0)}
-            print("  · Altın spot yedek kullanıldı (Haremaltın erişilemedi)")
+            src = "spot"
+            print("  · Altın spot yedek kullanıldı")
         except Exception as e:
             print(f"  ! spot yedek hatası: {e}", file=sys.stderr)
     def mval(k):
@@ -443,7 +416,7 @@ def fetch_market(old_market=None):
             "gram_altin": g, "ceyrek_altin": mval("ceyrek_altin"), "yarim_altin": mval("yarim_altin"),
             "tam_altin": mval("tam_altin"), "cumhuriyet_altin": mval("cumhuriyet_altin"),
             "ons_altin": mval("ons_altin"), "gram_gumus": mval("gram_gumus"),
-            "has_altin": mval("has_altin"), "y22_altin": mval("y22_altin"),
+            "has_altin": mval("has_altin"), "y22_altin": mval("y22_altin"), "ata_altin": mval("ata_altin"),
             "source": src, "market_open": market_open, "updated_at": updated_at}
     
 def fetch_crypto(old_crypto=None):
