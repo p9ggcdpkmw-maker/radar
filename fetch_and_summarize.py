@@ -393,12 +393,20 @@ def fetch_market(old_market=None):
                              headers=headers, timeout=8)
             r.raise_for_status()
             soup = BeautifulSoup(r.text, "html.parser")
-            a = soup.find("span", id="priceAlis")
-            s = soup.find("span", id="priceSatis")
-            if not a or not s:
-                print(f"  ! {key}: priceAlis/priceSatis yok", file=sys.stderr); continue
-            alis = float(a.get_text(strip=True).replace(",", "."))
-            satis = float(s.get_text(strip=True).replace(",", "."))
+        a = soup.find("span", id="priceAlis")
+        s = soup.find("span", id="priceSatis")
+        if not a or not s:
+            print(f"  ! {key}: priceAlis/priceSatis yok", file=sys.stderr); continue
+        try:
+            alis_str = a.get_text(strip=True).replace(",", ".").replace("₺", "").replace("TL", "")
+            satis_str = s.get_text(strip=True).replace(",", ".").replace("₺", "").replace("TL", "")
+            if alis_str == '-' or satis_str == '-' or not alis_str or not satis_str:
+                print(f"  ! {key}: fiyat '-' veya boş, atlanıyor", file=sys.stderr); continue
+            alis = float(alis_str)
+            satis = float(satis_str)
+        except ValueError as e:
+            print(f"  ! {key}: float dönüşüm hatası ({e}), atlanıyor", file=sys.stderr)
+            continue
             ch = soup.find(string=re.compile(r"%\s*-?\d+[.,]?\d*"))
             pct = 0.0
             if ch:
