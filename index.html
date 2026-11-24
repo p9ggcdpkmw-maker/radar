@@ -549,9 +549,10 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 .formb{display:inline-flex;gap:3px}
 .formb i{width:16px;height:16px;border-radius:4px;display:grid;place-items:center;font:800 9px var(--mono);font-style:normal;color:#fff}
 .formb i.W{background:var(--up)}.formb i.D{background:var(--ink3)}.formb i.L{background:var(--dn)}
-.pres{display:inline-flex;align-items:center;gap:5px;font:800 11px var(--mono);color:var(--up)}
-.pres i{width:8px;height:8px;border-radius:50%;background:var(--up);box-shadow:0 0 6px var(--up);animation:beat 1.6s infinite}
-.pres b{font:800 11px var(--mono)}
+.pres{display:inline-flex;align-items:center;gap:7px;height:38px;padding:0 13px;border-radius:99px;border:1px solid var(--ln2);background:var(--sf);color:var(--ink2);font:800 12.5px var(--mono)}
+.pres i{width:8px;height:8px;border-radius:50%;background:var(--up);box-shadow:0 0 6px var(--up);animation:beat 1.6s infinite;flex:0 0 auto}
+.pres b{font:800 12.5px var(--mono);color:var(--up)}
+@media (max-width:900px){.pres{height:34px;padding:0 11px}}
 #swBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tab) + var(--pl) + 14px);z-index:450;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:99px;border:1px solid var(--pri);background:var(--ov);box-shadow:var(--sh2);font:800 12.5px var(--sans);white-space:nowrap}
 </style>
 </head>
@@ -583,7 +584,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <header class="top" id="topbar">
 <div class="trow t1">
 <div class="tbrand"><span class="mark sm"></span>RADAR</div>
-<div class="mpill"><span class="clock" id="clockM">--:--</span><button class="pib" id="btnRefreshM" title="Yenile" aria-label="Yenile">↻</button><button class="pib" id="btnMuteM" title="Sesi kapat/aç" aria-label="Sesi kapat/aç">🔊</button><span class="pres" hidden></span><button class="pib" id="btnThemeM" title="Tema" aria-label="Tema değiştir">🌙</button></div>
+<div class="mpill"><span class="clock" id="clockM">--:--</span><button class="pib" id="btnRefreshM" title="Yenile" aria-label="Yenile">↻</button><button class="pib" id="btnMuteM" title="Sesi kapat/aç" aria-label="Sesi kapat/aç">🔊</button><button class="pib" id="btnThemeM" title="Tema" aria-label="Tema değiştir">🌙</button></div>
 </div>
 <div class="trow t2">
 <div class="hello"><h1 id="hello">Günaydın</h1><p id="helloSub">Bugün dünyada neler oluyor?</p></div>
