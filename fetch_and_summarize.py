@@ -383,11 +383,11 @@ def fetch_market(old_market=None):
         r = requests.get("https://www.haremaltin.com/", headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
         r.raise_for_status()
         html = r.text
-        norm = html.lower().replace("ı", "i").replace("İ", "i").replace("ü", "u").replace("ö", "o").replace("ş", "s").replace("ç", "c").replace("ğ", "g")
+        norm = html.replace("İ", "i").replace("I", "i").replace("ı", "i").replace("Ş", "s").replace("ş", "s").replace("Ğ", "g").replace("ğ", "g").replace("Ü", "u").replace("ü", "u").replace("Ö", "o").replace("ö", "o").replace("Ç", "c").replace("ç", "c").lower()
         for label, key in HA_MAP:
-            m = re.search(r">\s*" + label.replace(" ", r"\s+") + r"\s*<", norm)
+            m = re.search(r">\s*" + label.replace(" ", r"\s+") + r"[^<]*<", norm)
             if not m: continue
-            seg = html[m.start():m.start() + 600]
+            seg = norm[m.start():m.start() + 600]
             nums = re.findall(r"\d{1,3}(?:\.\d{3})+,\d{2}|\d+,\d{2}|\d+\.\d{2}", seg)
             if len(nums) < 2: continue
             def num(t): return float(t.replace(".", "").replace(",", ".")) if "," in t else float(t)
@@ -410,21 +410,6 @@ def fetch_market(old_market=None):
             "tam_altin": mval("tam_altin"), "cumhuriyet_altin": mval("cumhuriyet_altin"),
             "ons_altin": mval("ons_altin"), "gram_gumus": mval("gram_gumus"),
             "market_open": market_open, "updated_at": updated_at}
-    # ---------------------------------------------------------------------------
-
-    g = mval("gram_altin")
-    return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
-            "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
-            "gold_gram_try": (g.get("satis") if (g and g.get("satis")) else (old_market.get("gold_gram_try") if not isinstance(old_market.get("gold_gram_try"), dict) else None)),
-            "gram_altin": g,
-            "ceyrek_altin": mval("ceyrek_altin"),
-            "yarim_altin": mval("yarim_altin"),
-            "tam_altin": mval("tam_altin"),
-            "cumhuriyet_altin": mval("cumhuriyet_altin"),
-            "ons_altin": mval("ons_altin"),
-            "gram_gumus": mval("gram_gumus"),
-            "market_open": market_open,
-            "updated_at": updated_at}
 
 def fetch_crypto(old_crypto=None):
     cryptos = []
