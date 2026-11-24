@@ -549,6 +549,10 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 .formb{display:inline-flex;gap:3px}
 .formb i{width:16px;height:16px;border-radius:4px;display:grid;place-items:center;font:800 9px var(--mono);font-style:normal;color:#fff}
 .formb i.W{background:var(--up)}.formb i.D{background:var(--ink3)}.formb i.L{background:var(--dn)}
+.pres{display:inline-flex;align-items:center;gap:5px;font:800 11px var(--mono);color:var(--up)}
+.pres i{width:8px;height:8px;border-radius:50%;background:var(--up);box-shadow:0 0 6px var(--up);animation:beat 1.6s infinite}
+.pres b{font:800 11px var(--mono)}
+#swBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--tab) + var(--pl) + 14px);z-index:450;display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:99px;border:1px solid var(--pri);background:var(--ov);box-shadow:var(--sh2);font:800 12.5px var(--sans);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -579,7 +583,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <header class="top" id="topbar">
 <div class="trow t1">
 <div class="tbrand"><span class="mark sm"></span>RADAR</div>
-<div class="mpill"><span class="clock" id="clockM">--:--</span><button class="pib" id="btnRefreshM" title="Yenile" aria-label="Yenile">↻</button><button class="pib" id="btnMuteM" title="Sesi kapat/aç" aria-label="Sesi kapat/aç">🔊</button><button class="pib" id="btnThemeM" title="Tema" aria-label="Tema değiştir">🌙</button></div>
+<div class="mpill"><span class="clock" id="clockM">--:--</span><button class="pib" id="btnRefreshM" title="Yenile" aria-label="Yenile">↻</button><button class="pib" id="btnMuteM" title="Sesi kapat/aç" aria-label="Sesi kapat/aç">🔊</button><span class="pres" hidden></span><button class="pib" id="btnThemeM" title="Tema" aria-label="Tema değiştir">🌙</button></div>
 </div>
 <div class="trow t2">
 <div class="hello"><h1 id="hello">Günaydın</h1><p id="helloSub">Bugün dünyada neler oluyor?</p></div>
@@ -589,7 +593,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <select class="sel dsk" id="archSel" aria-label="Arşiv günü"><option value="">📅 Bugün</option></select>
 <button class="ib dsk" id="btnRefresh" title="Yenile" aria-label="Yenile">↻</button>
 <button class="ib dsk" id="btnMute" title="Sesi kapat/aç" aria-label="Sesi kapat/aç">🔊</button>
-<button class="ib dsk" id="btnTheme" title="Tema" aria-label="Tema değiştir">🌙</button>
+<span class="pres" hidden></span><button class="ib dsk" id="btnTheme" title="Tema" aria-label="Tema değiştir">🌙</button>
 </div>
 </div>
 </header>
@@ -829,6 +833,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div class="paf"><span><kbd>↑↓</kbd> gez</span><span><kbd>↵</kbd> aç</span><span><kbd>esc</kbd> kapat</span></div>
 </div></div>
 <button id="toTop" aria-label="Yukarı çık" title="Yukarı çık">↑</button>
+<div id="swBar" hidden>🔄 Yeni içerik hazır <button class="btn pri" id="swReload" style="padding:6px 12px;font-size:11.5px">Yenile</button></div>
 <div class="pop" id="pop"></div><div class="toasts" id="toasts" aria-live="polite"></div>
 <script>
 (function(){
@@ -2252,6 +2257,10 @@ if(window.MutationObserver){var mo=new MutationObserver(measure);mo.observe($('#
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(measure);
 addEventListener('load',measure)}
 /* ================= BAŞLAT ================= */
+var PRES_ID=LS.g('radar_pres_id','');if(!PRES_ID){PRES_ID=Math.random().toString(36).slice(2,10);LS.s('radar_pres_id',PRES_ID)}
+function presRender(n){$$('.pres').forEach(function(e){if(!(n>0)){e.hidden=true;return}
+e.hidden=false;e.innerHTML='<i></i>'+(n>1?'<b>'+n+'</b>':'');e.title=n>1?(n+' kişi çevrimiçi'):'Çevrimiçi'})}
+function presBeat(){jpost(NOTIFY_URL+'/presence',{id:PRES_ID}).then(function(){return jget(NOTIFY_URL+'/presence',8000)}).then(function(d){presRender(d.n||0)}).catch(function(){presRender(0)})}
 function init(){
 buildStations();
 applyTheme();hello();tickClock();renderPrefs();renderAbout();
@@ -2270,8 +2279,18 @@ renderRecent();measure();setTimeout(measure,300);setTimeout(measure,1200);
 scInit();scheduleReminders();
 setInterval(function(){if(!document.hidden&&(S.view==='scores'||S.view==='feed'))scLoad(false)},45000);
 if('serviceWorker'in navigator&&location.protocol!=='file:'){
-var go=function(){navigator.serviceWorker.register('sw.js').catch(function(e){console.warn('SW kayıt hatası:', e)})};
-document.readyState==='complete'?go():addEventListener('load',go)}}
+var swReg=null,swWait=null;
+var showBar=function(){var b=$('#swBar');if(b)b.hidden=false};
+var hook=function(reg){swReg=reg;
+if(reg.waiting&&navigator.serviceWorker.controller){swWait=reg.waiting;showBar()}
+reg.addEventListener('updatefound',function(){var nw=reg.installing;if(!nw)return;
+nw.addEventListener('statechange',function(){if(nw.state==='installed'&&navigator.serviceWorker.controller){swWait=nw;showBar()}})});};
+var go=function(){navigator.serviceWorker.register('sw.js').then(hook).catch(function(e){console.warn('SW kayıt hatası:', e)})};
+document.readyState==='complete'?go():addEventListener('load',go);
+navigator.serviceWorker.addEventListener('controllerchange',function(){location.reload()});
+$('#swReload').addEventListener('click',function(){var w=swWait||(swReg&&swReg.waiting);if(w)w.postMessage('SKIP_WAITING');else location.reload()});
+setInterval(function(){if(swReg&&!document.hidden)swReg.update().catch(function(){})},1800000);}
+presBeat();setInterval(presBeat,120000);}
 bindEvents();
 init();
 })();
