@@ -842,6 +842,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 var MKT_URL='https://radar-market.69sygknn4y.workers.dev/market';
 var PROXY='https://radar-hls-proxy.69sygknn4y.workers.dev/?url=';
 var SCORES_URL='https://radar-scores.69sygknn4y.workers.dev/scores';
+var CLEAN_URL='https://radar-scores.69sygknn4y.workers.dev/clean';
 var NOTIFY_URL='https://radar-notify.69sygknn4y.workers.dev';
 var TG_BOT_USER='Radarhaber_bot';
 var LAT=41.1601,LON=27.8055,TZ='Europe/Istanbul';
@@ -932,12 +933,13 @@ var b=v>=7?['bhi','⚠️ Sansasyonel']:v>=4?['bmd','⚡ Hafif abartılı']:['bl
 return '<span class="badge '+b[0]+'" title="AI dil analizi '+v+'/10 · kesin değildir">'+b[1]+'</span>'}
 var mq=window.matchMedia?matchMedia('(prefers-color-scheme: dark)'):null;
 function applyTheme(){var dark=S.theme==='dark'||(S.theme==='auto'&&!!(mq&&mq.matches));
-document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-var mt=$('meta[name=theme-color]');if(mt)mt.content=dark?'#0B1020':S.theme==='sepia'?'#F3EAD3':'#FAF7F2';
+var mode=S.theme==='sepia'?'sepia':(dark?'dark':'light');
+document.documentElement.setAttribute('data-theme',mode);
+var mt=$('meta[name=theme-color]');if(mt)mt.content=mode==='dark'?'#0B1020':mode==='sepia'?'#F3EAD3':'#FAF7F2';
 document.body.classList.toggle('noimg',S.noimg);document.body.classList.toggle('compact',S.dens==='comp');
 document.body.classList.toggle('nomotion',S.nomotion);
 document.documentElement.style.setProperty('--fs',String(S.fs/100));
-var g=dark?'☀️':'🌙';$('#btnTheme').textContent=g;$('#btnThemeM').textContent=g;
+var g=mode==='dark'?'☀️':mode==='sepia'?'🌙':'📜';$('#btnTheme').textContent=g;$('#btnThemeM').textContent=g;
 var m=S.muted?'🔇':'🔊';$('#btnMute').textContent=m;$('#btnMuteM').textContent=m;
 $('#audio').muted=S.muted;syncCtl();redrawSparks()}
 function syncCtl(){
@@ -2011,7 +2013,9 @@ function bindEvents(){
 $$('#sideNav .nav-i,#tabbar .tb').forEach(function(b){b.addEventListener('click',function(){setView(b.dataset.view)})});
 $$('[data-goto]').forEach(function(b){b.addEventListener('click',function(){setView(b.dataset.goto)})});
 $$('#themeSeg button,#themeSegSide button').forEach(function(b){b.addEventListener('click',function(){setTheme(b.dataset.theme)})});
-var thToggle=function(){setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')};
+var THEME_CYCLE=['dark','light','sepia'];
+var thToggle=function(){var cur=document.documentElement.getAttribute('data-theme');
+var i=THEME_CYCLE.indexOf(cur);setTheme(THEME_CYCLE[(i+1)%THEME_CYCLE.length])};
 $('#btnTheme').addEventListener('click',thToggle);$('#btnThemeM').addEventListener('click',thToggle);
 $$('#densSeg button,#densSegSide button').forEach(function(b){b.addEventListener('click',function(){S.dens=b.dataset.d;LS.s('radar_dens',S.dens);applyTheme()})});
 ['fontRange','fontRange2'].forEach(function(id){$('#'+id).addEventListener('input',function(e){S.fs=Number(e.target.value);LS.s('radar_fs',S.fs);applyTheme()})});
@@ -2141,9 +2145,23 @@ if(BOIL.some(function(k){return low.indexOf(k)>=0}))return false;
 if(brand&&low.indexOf(brand)>=0&&t.length<260&&!/\d/.test(t))return false;
 return true}).slice(0,14);
 if(!ps.length)throw 0;
-box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+'</p>'}).join('');
-$('#nRead').textContent='📖 Okuma modunu kapat'}).catch(function(){
+box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+'</p>'}).join('')+
+'<div class="ma" style="margin:6px 0 0"><button class="btn gh" id="rdClean">🤖 AI ile daha da sadeleştir</button></div>';
+$('#rdClean').addEventListener('click',aiClean);
+$('#nRead').textContent='📖 Okuma modunu kapat'})
 box.hidden=true;$('#nRead').textContent='📖 Okuma modu';toast('Okuma modu bu kaynak için açılamadı','warn')})}
+function aiClean(){var box=$('#readBox');if(!box||!cur)return;
+var key='radar_clean_'+cur.link;
+var draw=function(t){box.innerHTML=t.split(/\n{2,}/).map(function(p){return '<p style="margin-bottom:12px">'+esc(p.trim())+'</p>'}).filter(function(h){return h.length>12}).join('')+
+'<div class="ma" style="margin:6px 0 0"><button class="btn gh" id="rdClean">🤖 AI ile daha da sadeleştir</button></div>';
+$('#rdClean').addEventListener('click',aiClean)};
+var cached=LS.g(key,null);
+if(cached&&cached.text&&Date.now()-cached.at<7*864e5){draw(cached.text);toast('✨ Önbellekten sadeleştirildi');return}
+var b=$('#rdClean');b.disabled=true;b.textContent='⏳ Sadeleştiriliyor…';
+var raw=$$('p',box).map(function(p){return p.textContent}).filter(function(t){return t&&t.indexOf('AI ile')<0}).join('\n\n');
+jpost(CLEAN_URL,{text:raw},{ms:45000}).then(function(d){if(!d||!d.clean)throw 0;
+LS.s(key,{text:d.clean,at:Date.now()});draw(d.clean);toast('✨ Sadeleştirildi (7 gün önbellek)')}).catch(function(){
+b.disabled=false;b.textContent='🤖 AI ile daha da sadeleştir';toast('Sadeleştirme başarısız — worker/GROQ secret kontrol','warn')})}
 $('#nRead').addEventListener('click',readMode);
 $('#podcastPlay').addEventListener('click',function(){
 trackUsage('Podcast')
