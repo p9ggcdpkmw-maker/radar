@@ -401,12 +401,11 @@ def fetch_market(old_market=None):
     # ---------------------------------------------------------------------------
 
     return {"usdtry": round(usdtry, 2) if usdtry else old_market.get("usdtry"),
-            "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
-            "gold_gram_try": mval("gold_gram_try"),
-            "silver_gram_try": mval("silver_gram_try"),
-            "platinum_gram_try": mval("platinum_gram_try"),
-            "palladium_gram_try": mval("palladium_gram_try")}
-            "gold_gram_try": gold_gram_try}
+        "eurtry": round(eurtry, 2) if eurtry else old_market.get("eurtry"),
+        "gold_gram_try": mval("gold_gram_try"),
+        "silver_gram_try": mval("silver_gram_try"),
+        "platinum_gram_try": mval("platinum_gram_try"),
+        "palladium_gram_try": mval("palladium_gram_try")}
 
 def fetch_crypto(old_crypto=None):
     cryptos = []
