@@ -1,232 +1,132 @@
 {
-  "updated": "2026-11-25T13:02:31.972294+00:00",
+  "updated": "2026-11-25T15:57:19.866115+00:00",
   "meta": {
-    "generated_at": "2026-11-25T13:02:29+00:00",
+    "generated_at": "2026-11-25T15:57:15+00:00",
     "model": "openai/gpt-oss-120b",
     "temperature": 0.2,
     "prompt_version": "v1.3",
-    "item_count": 82,
+    "item_count": 85,
     "bd_sent_date": "2026-11-25",
     "groq_calls": 16,
     "gemini_calls": 0,
     "cf_calls": 0
   },
   "briefings": {
-    "genel": "Uluslararası Af Örgütü, İsrail'in Gazze'de kadın ve kız çocuklarına yönelik sistematik zararlarını belgeleyen 135 sayfalık bir rapor yayımladı. Türkiye'de Eskişehir yakınlarındaki helikopter kazasında şehit düşen askerler için Pakistan ve ABD'nin Ankara temsilcilikleri taziye mesajı yayınladı. İstanbul, Ankara ve İzmir'de 25 Kasım Kadına Yönelik Şiddete Karşı Uluslararası Mücadele Günü etkinlikleri düzenlendi, İstanbul'da bazı yollar trafiğe kapatıldı.",
-    "teknoloji": "OpenAI, ChatGPT Health özelliğini Android platformuna getirerek Health Connect entegrasyonu sayesinde kullanıcıların sağlık verilerini otomatik analiz edip sesli açıklama almasını sağladı. Avrupa Birliği, ABD ve Çin'e karşı teknoloji bağımsızlığını artırmak amacıyla yapay zeka ve kuantum bilişim şirketlerini destekleyecek 50 milyar euroluk Egemen Teknoloji Sermaye Fonu kurdu.",
-    "ekonomi": "Metilciva birikimi balıklarda sinir sistemi sorunlarına yol açabilir; özellikle hamileler ve çocuklar düşük cıva içeren balıkları tercih etmelidir. Erzincan'daki Çöpler Altın Madeni, 9 işçi ölümünün ardından üretime yeniden başladı ve Cengiz Holding'in %80 hissesini 1,49 milyar dolara almasıyla yıl sonuna 1,3 ton altın üretme hedefi belirlendi. Gümüş fiyatı ons başına 40 doların altına düşerek %70 değer kaybetti, gram fiyatı 65 TL'nin altına indi. TCMB Başkanı, mevduat stopajını %5'e düşürmeyi önerdi; bu değişiklik 1 milyon TL mevduatın net faiz getirisini 87.354 TL'den 100.590 TL'ye yükseltirken bütçeye 367 milyar TL maliyet getirebilir.",
-    "gundem": "Uluslararası Af Örgütü'nün raporu, İsrail'in Gazze'de kadın ve kız çocuklarına yönelik sistematik zararlara maruz bıraktığını belgeledi. Pakistan ve ABD'nin Ankara temsilcilikleri, Eskişehir yakınlarındaki helikopter kazasında hayatını kaybeden Türk askerleri için resmi taziye mesajları yayınladı. 25 Kasım Kadına Yönelik Şiddete Karşı Uluslararası Mücadele Günü kapsamında İstanbul, Ankara ve İzmir'de yürüyüşler ve basın açıklamaları düzenlendi, İstanbul'da bazı yollar trafiğe kapatıldı."
+    "genel": "Malatya'da 2023 depreminde 31 kişinin hayatını kaybettiği iki blokun yıkımıyla ilgili dava sonuçlandı; mahkeme müteahhite 11 yıl 6 ay hapis cezası verdi. 25 Kasım, Dominik Cumhuriyeti'nde Mirabal kardeşlerin öldürülmesi anısına kadına yönelik şiddete karşı farkındalık yaratmak amacıyla kutlanıyor. İngiltere Merkez Bankası, petrol ve doğalgaz fiyatları mevcut seviyelerde kalırsa enflasyonun daha düşük bir zirve yapacağını belirtti.",
+    "teknoloji": "Rice Üniversitesi araştırmacıları, 0,2 saniyede sentetik grafit üreten bir malzeme geliştirdi ve bu sayede elektrikli otomobillerin bataryalarının 4 dakikada şarj olmasını mümkün kıldı.",
+    "ekonomi": "BIST 100 endeksi 25 Kasım 2026'da %2,83 düşerek 10.655,74 puanda kapandı; dolar 50,68 TL, gram altın %2,42 düşerek 5.643,21 TL oldu; en çok işlem gören hisseler ASELS, AKBNK ve THYAO. ABD'de yeni konut satışları Ekim ayında %14,2 artarak yılın en yüksek seviyesine ulaştı, fiyatlar %3,2 düştü. Yatırım Finansman, yapay zekâ destekli analiz araçları ve kişiselleştirilmiş planlarla yeni nesil mobil yatırım uygulaması YaFi'yi piyasaya sürdü. Antalya Kepez Belediyesi'nde rüşvet ve ihaleye fesat karıştırma iddialarıyla 24 şüpheli gözaltına alındı ve adliyeye sevk edildi. Shein, ABD FTC'nin tüketicileri yanıltıcı uygulamalarla suçlamalarını çözmek için 100 milyon dolar ödemeyi kabul etti; bu tutar mağdur tüketicilere iade edilecek.",
+    "gundem": "25 Kasım Kadına Yönelik Şiddete Karşı Uluslararası Mücadele Günü kapsamında İstanbul, Ankara ve İzmir'de yürüyüşler ve basın açıklamaları düzenlendi; İstanbul'da bazı yollar trafiğe kapatıldı."
   },
-  "briefings_generated_at": "2026-11-25T13:02:29+00:00",
+  "briefings_generated_at": "2026-11-25T15:57:15+00:00",
   "items": [
     {
       "id": "gundem_60",
       "cat": "Gündem",
       "catId": "gundem",
-      "title": "Uluslararası Af Örgütü: İsrail Gazze'de kadınlar ve kız çocuklarını sistematik zararlara maruz bıraktı",
+      "title": "Malatya'da depremde 31 kişinin öldüğü iki blokun yıkılmasına ilişkin davada karar çıktı",
       "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/dunya/uluslararasi-af-orgutu-israil-gazzede-kadinlar-ve-kiz-cocuklarini-sistematik-zararlara-maruz-birakti/4137241",
-      "pubDate": "2026-11-25T12:08:30+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_8126fe832efb2a9666f5994b2e4f1418.jpg",
-      "summary": "Uluslararası Af Örgütü, İsrail’in Gazze’de kadın ve kız çocuklarına yönelik sistematik zararları belgeleyen 135 sayfalık bir rapor yayımladı.",
+      "link": "https://www.aa.com.tr/tr/gundem/malatyada-depremde-31-kisinin-oldugu-iki-blokun-yikilmasina-iliskin-davada-karar-cikti/4137719",
+      "pubDate": "2026-11-25T15:09:55+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_48313534dff60041c8c72c9dd9dcf127.jpg",
+      "summary": "Malatya'da 2023 depreminde 31 kişinin öldüğü blokların yıkımıyla ilgili dava sonuçlandı; mahkeme müteahhite 11 yıl 6 ay hapis cezası verdi.",
       "score": 9,
-      "tone": "negatif",
-      "why_important": "İnsan hakları ihlallerinin uluslararası farkındalığını artırır.",
-      "bias_score": 4,
+      "tone": "nötr",
+      "why_important": "Deprem sonrası sorumluluk ve güvenlik konuları toplumu etkiliyor.",
+      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:40+00:00",
+        "generated_at": "2026-11-25T15:55:28+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.aa.com.tr/tr/dunya/uluslararasi-af-orgutu-israil-gazzede-kadinlar-ve-kiz-cocuklarini-sistematik-zararlara-maruz-birakti/4137241"
+          "https://www.aa.com.tr/tr/gundem/malatyada-depremde-31-kisinin-oldugu-iki-blokun-yikilmasina-iliskin-davada-karar-cikti/4137719"
         ]
       }
     },
     {
-      "id": "ekonomi_53",
+      "id": "gundem_83",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "25 Kasım neden kadına yönelik şiddetle mücadele günü?",
+      "source": "Diken",
+      "link": "https://www.diken.com.tr/25-kasim-neden-kadina-yonelik-siddetle-mucadele-gunu/?utm_source=rss&utm_medium=rss&utm_campaign=25-kasim-neden-kadina-yonelik-siddetle-mucadele-gunu",
+      "pubDate": "2026-11-25T15:46:49+00:00",
+      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-25-mirabal-kardesler-britannica-1.jpg",
+      "summary": "25 Kasım, Dominik Cumhuriyeti'nde Mirabal kardeşlerin öldürülmesi anısına kadına yönelik şiddeti hatırlatmak ve bu konuda farkındalık yaratmak amacıyla kutlanıyor.",
+      "score": 9,
+      "tone": "nötr",
+      "why_important": "Kadına yönelik şiddetin küresel boyutu vurgulanıyor.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:54:27+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.diken.com.tr/25-kasim-neden-kadina-yonelik-siddetle-mucadele-gunu/?utm_source=rss&utm_medium=rss&utm_campaign=25-kasim-neden-kadina-yonelik-siddetle-mucadele-gunu"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_29",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "Yüksek miktarda metilcıva sinir sistemine zarar verebilir",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/saglik/yuksek-miktarda-metilciva-sinir-sistemine-zarar-verebilir-haberi-933341",
-      "pubDate": "2026-11-25T12:16:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/tonbaligi-ud4a_cover.jpg",
-      "summary": "Metilciva birikimi balıklarda sinir sistemi sorunlarına yol açabilir; özellikle hamileler ve çocuklar düşük cıva içeren balıkları tercih etmelidir.",
+      "title": "Piyasalarda günün özeti: 25 Kasım 2026 BIST 100'de değişimler ve döviz fiyatları",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/piyasalarda-gunun-ozeti-25-kasim-2026-bist-100-de-degisimler-ve-doviz-fiyatlari-pkh-3795672",
+      "pubDate": "2026-11-25T15:30:17+00:00",
+      "image": null,
+      "summary": "25 Kasım 2026'da BIST 100 endeksi %2,83 düşerek 10.655,74 puanda kapandı; dolar 50,68 TL, gram altın ise %2,42 düşerek 5.643,21 TL oldu ve en çok işlem gören hisseler ASELS, AKBNK ve THYAO oldu.",
       "score": 8,
       "tone": "negatif",
-      "why_important": "Cıva maruziyeti sağlık riskleri oluşturur ve beslenme seçimlerini etkiler.",
+      "why_important": "Borsa ve döviz hareketleri yatırımcı kararlarını doğrudan etkiler.",
       "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:14+00:00",
+        "generated_at": "2026-11-25T15:54:51+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/saglik/yuksek-miktarda-metilciva-sinir-sistemine-zarar-verebilir-haberi-933341"
+          "https://www.bloomberght.com/piyasalarda-gunun-ozeti-25-kasim-2026-bist-100-de-degisimler-ve-doviz-fiyatlari-pkh-3795672"
         ]
       }
     },
     {
-      "id": "teknoloji_85",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Sağlık Verilerinizi Yorumlayabilen ChatGPT Health, Android'e Geldi",
-      "source": "Webtekno",
-      "link": "https://www.webtekno.com/chatgpt-health-android-geldi-h229444.html",
-      "pubDate": "2026-11-25T12:00:35+00:00",
-      "image": "https://imgrosetta.webtekno.com/file/698548/698548-640xauto.jpg",
-      "summary": "OpenAI, ChatGPT Health özelliğini Android platformuna taşıyarak Health Connect entegrasyonu sayesinde kullanıcıların sağlık verilerini otomatik analiz edip sesli açıklama almasını sağladı.",
+      "id": "ekonomi_0",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "ABD'de yeni konut satışları bu yılın en yüksek seviyesine ulaştı",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/abd-de-yeni-konut-satislari-bu-yilin-en-yuksek-seviyesine-ulasti-3795671",
+      "pubDate": "2026-11-25T15:23:30+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/25/ver1795620471/3795671/jpg/1280x720",
+      "summary": "ABD'de yeni konut satışları Ekim ayında %14,2 artarak yılın en yüksek seviyesine ulaştı, fiyatlar ise %3,2 düşüş gösterdi.",
       "score": 8,
-      "tone": "pozitif",
-      "why_important": "Kişisel sağlık takibi daha erişilebilir ve pratik hale geliyor.",
+      "tone": "nötr",
+      "why_important": "Konut piyasasındaki beklenmedik yükseliş, ekonomik göstergeler ve politika kararları için önemli bir sinyal.",
       "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:05+00:00",
+        "generated_at": "2026-11-25T15:55:04+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.webtekno.com/chatgpt-health-android-geldi-h229444.html"
+          "https://www.bloomberght.com/abd-de-yeni-konut-satislari-bu-yilin-en-yuksek-seviyesine-ulasti-3795671"
         ]
       }
     },
     {
-      "id": "dunya_16",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Türkiye'deki yabancı misyonlardan şehitlerimiz için taziye mesajı",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/turkiyedeki-yabanci-misyonlardan-sehitlerimiz-icin-taziye-mesaji-964429.html",
-      "pubDate": "2026-11-25T09:52:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/eskisehir-kaza-kirimaa-2506155.jpg",
-      "summary": "Pakistan ve ABD'nin Ankara temsilcilikleri, Eskişehir yakınlarındaki helikopter kazasında hayatını kaybeden Türk askerleri için resmi taziye mesajları yayınladı.",
-      "score": 8,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T09:59:14+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/turkiyedeki-yabanci-misyonlardan-sehitlerimiz-icin-taziye-mesaji-964429.html"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Kayıplar, uluslararası ilişkilerde dayanışma mesajlarıyla gündeme geliyor.",
-      "bias_score": 1
-    },
-    {
-      "id": "bilim_12",
+      "id": "bilim_6",
       "cat": "Bilim",
       "catId": "bilim",
-      "title": "Hikmet Çetin 89 yaşında hayatını kaybetti",
-      "source": "BBC Türkçe",
-      "link": "https://www.bbc.com/turkce/articles/c9p836157vreo?at_medium=RSS&at_campaign=rss",
-      "pubDate": "2026-11-24T14:41:28+00:00",
-      "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/07bb/live/4b35dd80-e813-11f1-ab42-55d8d8278025.jpg",
-      "summary": "Hikmet Çetin, 89 yaşında, uzun siyasi kariyerinin ardından hastalığı nedeniyle hayatını kaybetti.",
-      "score": 8,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-24T15:58:40+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bbc.com/turkce/articles/c9p836157vreo?at_medium=RSS&at_campaign=rss"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Türkiye siyaset tarihindeki önemli bir figürün vefatı haberidir.",
-      "bias_score": 1
-    },
-    {
-      "id": "ekonomi_46",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "İliç'te 9 işçinin hayatını kaybettiği madende üretim yeniden başladı",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/gundem/ilicte-9-iscinin-hayatini-kaybettigi-madende-uretim-yeniden-basladi-haberi-933348",
-      "pubDate": "2026-11-25T12:44:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/ilicte-9-iscinin-oldugu-madende-uretim-yeniden-basladi-wkd7_cover.jpg",
-      "summary": "Erzincan'daki Çöpler Altın Madeni, 2024'teki 9 işçi ölümünün ardından iki yıl sonra üretime yeniden başladı ve Cengiz Holding'in %80 hissesini 1,49 milyar dolara almasıyla yıl sonuna 1,3 ton altın üretme hedefi belirlendi.",
-      "score": 8,
-      "tone": "nötr",
-      "why_important": "Altın üretimindeki artış ülke ekonomisini etkileyebilir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:01+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/gundem/ilicte-9-iscinin-hayatini-kaybettigi-madende-uretim-yeniden-basladi-haberi-933348"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_49",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Gümüşte kan kaybı sürüyor: 40 doların da altına indi",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/ekonomi/gumuste-kan-kaybi-suruyor-40-dolarin-da-altina-indi-haberi-933346",
-      "pubDate": "2026-11-25T12:33:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/gumuste-kan-kaybi-suruyor-40-dolarin-da-altina-indi-pzsq_cover.jpg",
-      "summary": "Gümüş fiyatı, Eylül 2025'ten bu yana ilk kez ons başına 40 doların altına düşerek yıllık zirvesine göre yaklaşık %70 değer kaybetti; gram fiyatı da 65 TL'nin altına indi.",
-      "score": 8,
-      "tone": "negatif",
-      "why_important": "Metalik fiyatlardaki büyük düşüş yatırım kararlarını etkileyebilir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:26+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/ekonomi/gumuste-kan-kaybi-suruyor-40-dolarin-da-altina-indi-haberi-933346"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_2",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Avrupa, ABD ve Çin'e karşı 50 milyar euroluk teknoloji fonu kuruyor",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/avrupa-birligi-50-milyar-euroluk-teknoloji-fonu-kuruyor--213365",
-      "pubDate": "2026-11-25T12:02:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213365/1200x675avrupa-birligi-50-milyar-euroluk-teknoloji-fonu-kuruyor.jpg",
-      "summary": "Avrupa Birliği, ABD ve Çin'e karşı teknoloji bağımsızlığını artırmak amacıyla 50 milyar euroluk Egemen Teknoloji Sermaye Fonu kurarak yapay zeka ve kuantum bilişim şirketlerini destekleyecek.",
-      "score": 8,
-      "tone": "nötr",
-      "why_important": "Büyük bir fon, Avrupa'nın küresel teknoloji rekabetindeki konumunu güçlendirebilir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:52+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.donanimhaber.com/avrupa-birligi-50-milyar-euroluk-teknoloji-fonu-kuruyor--213365"
-        ]
-      }
-    },
-    {
-      "id": "bilim_7",
-      "cat": "Bilim",
-      "catId": "bilim",
-      "title": "25 Kasım'da kadınlar sokağa çıkıyor: İstanbul'da bazı yollar kapatılıyor",
+      "title": "25 Kasım'da birçok ilde kadınlar sokağa çıkıyor",
       "source": "BBC Türkçe",
       "link": "https://www.bbc.com/turkce/articles/cq9vwr742gd3o?at_medium=RSS&at_campaign=rss",
-      "pubDate": "2026-11-25T09:10:44+00:00",
+      "pubDate": "2026-11-25T15:48:37+00:00",
       "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/4525/live/dbe7d300-e8af-11f1-869a-f96fd5660210.jpg",
       "summary": "25 Kasım Kadına Yönelik Şiddete Karşı Uluslararası Mücadele Günü kapsamında İstanbul, Ankara ve İzmir'de yürüyüşler ve basın açıklamaları düzenleniyor, İstanbul'da bazı yollar trafiğe kapatılıyor.",
       "score": 8,
@@ -245,254 +145,27 @@
       "bias_score": 2
     },
     {
-      "id": "ekonomi_44",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Mevduatta stopaj indirimi gündemde, 1 milyon TL'nin getirisi ne olur?",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/ekonomi/mevduatta-stopaj-indirimi-gundemde-1-milyon-tlnin-getirisi-ne-olur-haberi-933349",
-      "pubDate": "2026-11-25T12:48:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/mevduatta-stopaj-indirimi-gundemde-1-milyon-tlnin-getirisi-ne-olur-y0qk_cover.jpg",
-      "summary": "TCMB Başkanı, Türk lirasını desteklemek amacıyla mevduat stopajının yüzde 5'e düşürülmesini önerdi; bu değişiklik 1 milyon TL için net faiz getirisini 87.354 TL'den 100.590 TL'ye yükseltirken bütçeye 367 milyar TL maliyet getirebilir.",
-      "score": 8,
-      "tone": "nötr",
-      "why_important": "Stopaj indirimi tasarrufçuların getirilerini artırırken maliye politikası üzerinde büyük etkisi olur.",
-      "bias_score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T12:59:37+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/ekonomi/mevduatta-stopaj-indirimi-gundemde-1-milyon-tlnin-getirisi-ne-olur-haberi-933349"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_47",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Şirketler yapay zekayla verimlilik ararken iş gücü planlamasını yeniden yazıyor",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/sirketler/sirketler-yapay-zekayla-verimlilik-ararken-is-gucu-planlamasini-yeniden-yaziyor-haberi-933345",
-      "pubDate": "2026-11-25T12:37:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/sirketler-yapay-zekayla-verimlilik-ararken-is-gucu-planlamasini-yeniden-yaziyor-ihdi_cover.jpg",
-      "summary": "Şirketler yapay zekâ yatırımlarını artırırken, iş gücü planlamasını otomasyon ve üretken yapay zekâ etkisiyle yeniden düzenliyor.",
-      "score": 8,
-      "tone": "nötr",
-      "why_important": "İstihdam ve verimlilik dinamikleri değişiyor.",
-      "bias_score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:13+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/sirketler/sirketler-yapay-zekayla-verimlilik-ararken-is-gucu-planlamasini-yeniden-yaziyor-haberi-933345"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_1",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Intel'in yeni nesil masaüstü işlemcileri geliyor: Tarih açıklandı",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/intel-in-yeni-nesil-masaustu-islemcileri-geliyor-tarih-aciklandi--213364",
-      "pubDate": "2026-11-25T12:23:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213364/1200x675intel-in-yeni-nesil-masaustu-islemcileri-geliyor-tarih-aciklandi.jpg",
-      "summary": "Intel, yeni nesil Nova Lake masaüstü işlemcilerini tanıtmak için Şubat 2027'de Berlin'de bir etkinlik düzenleyecek; 28 çekirdekli Core Ultra 4000 modelleri ilk çeyrekte, 52 çekirdekli amiral gemisi ise yıl ortasında piyasaya çıkacak.",
-      "score": 8,
-      "tone": "nötr",
-      "why_important": "Yeni işlemciler bilgisayar performansını ve sektörel rekabeti etkileyebilir.",
-      "bias_score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:50+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.donanimhaber.com/intel-in-yeni-nesil-masaustu-islemcileri-geliyor-tarih-aciklandi--213364"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_55",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "EasyJet'in kârı yüzde 96 eridi, yakıt maliyetleri bilançoyu vurdu",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/ekonomi/easyjetin-kari-yuzde-96-eridi-yakit-maliyetleri-bilancoyu-vurdu-haberi-933337",
-      "pubDate": "2026-11-25T12:11:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/easyjetin-kari-yuzde-96-eridi-yakit-maliyetleri-bilancoyu-vurdu-x4ut_cover.jpg",
-      "summary": "EasyJet, 2026 mali yılında yakıt maliyetlerindeki artış ve diğer operasyonel giderler nedeniyle vergi öncesi kârını 658 milyon sterlinden 24 milyona düşürerek %96'lık bir kayıp yaşadı; yolcu sayısını artırmasına rağmen zarar açıklamaya devam ediyor.",
-      "score": 8,
-      "tone": "negatif",
-      "why_important": "Havayolu sektörü, enerji fiyatlarındaki dalgalanmalara karşı kırılganlığını gösteriyor.",
-      "bias_score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:28+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/ekonomi/easyjetin-kari-yuzde-96-eridi-yakit-maliyetleri-bilancoyu-vurdu-haberi-933337"
-        ]
-      }
-    },
-    {
-      "id": "bilim_11",
-      "cat": "Bilim",
-      "catId": "bilim",
-      "title": "Eski Fransa Cumhurbaşkanı Sarkozy ve eşi Carla Bruni yargılanacak",
-      "source": "BBC Türkçe",
-      "link": "https://www.bbc.com/turkce/articles/cmqj5qzzq02qo?at_medium=RSS&at_campaign=rss",
-      "pubDate": "2026-11-24T21:21:16+00:00",
-      "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/84cb/live/68cc7a10-e81e-11f1-ab42-55d8d8278025.jpg",
-      "summary": "Eski Fransa Cumhurbaşkanı Nicolas Sarkozy ve eşi Carla Bruni, Libya lideri Kaddafi'nin seçim kampanyasına mali destek iddialarıyla yargılanacak; ikili suçlamaları reddediyor.",
-      "score": 8,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-24T21:36:45+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bbc.com/turkce/articles/cmqj5qzzq02qo?at_medium=RSS&at_campaign=rss"
-        ]
-      },
-      "tone": "nötr",
-      "why_important": "Yüksek profilli bir eski liderin yargılanması hukuki ve siyasi etkiler doğurur.",
-      "bias_score": 4
-    },
-    {
       "id": "gundem_54",
       "cat": "Gündem",
       "catId": "gundem",
-      "title": "Rusya'da rafinerilerdeki onarımlar nedeniyle akaryakıt piyasasında sıkıntı yaşanıyor",
+      "title": "İngiltere Merkez Bankası, enerji fiyatlarına bağlı daha düşük enflasyon zirvesi bekliyor",
       "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/ekonomi/rusyada-rafinerilerdeki-onarimlar-nedeniyle-akaryakit-piyasasinda-sikinti-yasaniyor/4137454",
-      "pubDate": "2026-11-25T12:41:23+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_c35dff327c2118ef6a1033558d6ce085.jpg",
-      "summary": "Rusya'da bazı rafinerilerdeki onarımlar nedeniyle akaryakıt arzı sıkıntı çekiyor, eksik arz ithalatla karşılanıyor.",
-      "score": 7,
+      "link": "https://www.aa.com.tr/tr/dunya/ingiltere-merkez-bankasi-enerji-fiyatlarina-bagli-daha-dusuk-enflasyon-zirvesi-bekliyor/4137741",
+      "pubDate": "2026-11-25T15:40:27+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_1f79470129df691faa9a3ace51bd3394.jpg",
+      "summary": "İngiltere Merkez Bankası Başkanı, petrol ve doğal gaz fiyatları mevcut seviyelerde kalırsa enflasyonun beklenenden daha düşük bir zirve yapacağını söyledi.",
+      "score": 8,
       "tone": "nötr",
-      "why_important": "Enerji temini ve fiyat istikrarı etkilenebilir.",
+      "why_important": "Enflasyon beklentileri para politikası kararlarını yönlendirir.",
       "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:13+00:00",
+        "generated_at": "2026-11-25T15:54:39+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.aa.com.tr/tr/ekonomi/rusyada-rafinerilerdeki-onarimlar-nedeniyle-akaryakit-piyasasinda-sikinti-yasaniyor/4137454"
-        ]
-      }
-    },
-    {
-      "id": "gundem_84",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Raheem Sterling'e hapis cezası",
-      "source": "Diken",
-      "link": "https://www.diken.com.tr/raheem-sterlinge-hapis-cezasi/?utm_source=rss&utm_medium=rss&utm_campaign=raheem-sterlinge-hapis-cezasi",
-      "pubDate": "2026-11-25T12:34:59+00:00",
-      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-25-sterling-wikipedia.jpg",
-      "summary": "İngiliz futbolcu Raheem Sterling, tehlikeli araç kullanma ve azot oksit bulundurma suçlarından bir yıl hapse mahkum edildi, cezası 18 ay ertelendi ve 100 saat kamu hizmeti ile iki yıl trafikten men edildi.",
-      "score": 7,
-      "tone": "negatif",
-      "why_important": "Ünlü bir sporcunun cezası kamuoyunda yankı buluyor.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:26+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.diken.com.tr/raheem-sterlinge-hapis-cezasi/?utm_source=rss&utm_medium=rss&utm_campaign=raheem-sterlinge-hapis-cezasi"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_50",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Cumhurbaşkanı Erdoğan: Kadına yönelik şiddetin hiçbir bahanesi olamaz",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/gundem/cumhurbaskani-erdogan-eskisehir-ve-malatyadaki-helikopter-kazalari-arastirilacak-haberi-933342",
-      "pubDate": "2026-11-25T12:21:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/cumhurbaskani-erdogan-eskisehir-ve-malatyadaki-helikopter-kazalari-arastirilacak-35k1_cover.jpg",
-      "other_sources": [
-        {
-          "source": "TRT Haber",
-          "link": "https://www.trthaber.com/haber/gundem/cumhurbaskani-erdogan-kadina-karsi-siddetle-mucadelenin-sancaktarligini-surdurecegim-964437.html",
-          "pubDate": "2026-11-25T10:41:00+00:00"
-        },
-        {
-          "source": "Diken",
-          "link": "https://www.diken.com.tr/erdogan-kadina-yonelik-siddet-cok-net-soyluyorum-vicdansizliktir/?utm_source=rss&utm_medium=rss&utm_campaign=erdogan-kadina-yonelik-siddet-cok-net-soyluyorum-vicdansizliktir",
-          "pubDate": "2026-11-25T12:27:26+00:00"
-        }
-      ],
-      "event_count": 3,
-      "event_title": "Erdoğan Kadına yönelik şiddet açıklamaları",
-      "summary": "Cumhurbaşkanı Erdoğan, kadına yönelik şiddetin insanlık suçu olduğunu belirterek, bu tür şiddetin hiçbir gerekçesi olamayacağını vurguladı; ayrıca Eskişehir ve Malatya helikopter kazalarına ilişkin araştırmaların kapsamlı yapılacağını söyledi.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Üst düzey bir liderin şiddetle ilgili açıklamaları toplumsal farkındalığı artırır.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:50+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/gundem/cumhurbaskani-erdogan-eskisehir-ve-malatyadaki-helikopter-kazalari-arastirilacak-haberi-933342"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_1",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Türk Eximbank'a 740 milyon dolarlık sendikasyon",
-      "source": "Bloomberg HT",
-      "link": "https://www.bloomberght.com/turk-eximbank-a-740-milyon-dolarlik-sendikasyon-3795635",
-      "pubDate": "2026-11-25T12:19:28+00:00",
-      "image": "https://geoim.bloomberght.com/l/2026/11/25/ver1795609264/3795635/jpg/1280x720",
-      "other_sources": [
-        {
-          "source": "Ekonomim",
-          "link": "https://www.ekonomim.com/ekonomi/turk-eximbanktan-740-milyon-dolarlik-basarili-sendikasyon-islemi-haberi-933340",
-          "pubDate": "2026-11-25T12:16:00+00:00"
-        },
-        {
-          "source": "Anadolu Ajansı",
-          "link": "https://www.aa.com.tr/tr/ekonomi/turk-eximbank-740-milyon-dolarlik-sendikasyon-kredisi-sagladi/4137447",
-          "pubDate": "2026-11-25T12:40:29+00:00"
-        }
-      ],
-      "event_count": 3,
-      "summary": "Türk Eximbank, ABD doları, euro ve Çin yuanı cinsinden toplam 740 milyon dolarlık çoklu vadeli sendikasyon kredisi sağladı; bir kısmı sürdürülebilirlik temalı olarak yapılandırıldı.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Sürdürülebilir finansman ihracatçılar için yeni kaynak yaratıyor.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:02+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bloomberght.com/turk-eximbank-a-740-milyon-dolarlik-sendikasyon-3795635"
+          "https://www.aa.com.tr/tr/dunya/ingiltere-merkez-bankasi-enerji-fiyatlarina-bagli-daha-dusuk-enflasyon-zirvesi-bekliyor/4137741"
         ]
       }
     },
@@ -500,24 +173,449 @@
       "id": "ekonomi_54",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "Altın piyasasında deprem! 15 ayın en sert kırılması: Ons fiyatı 3.500 doların altına düştü",
+      "title": "Yatırım Finansman’dan sermaye piyasalarında ödüllü yeni nesil dönüşüm: YaFi",
       "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/finans/haberler/altin/altin-piyasasinda-deprem-ons-fiyati-3500-dolarin-altina-dustu-haberi-933339",
-      "pubDate": "2026-11-25T12:13:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/altin-piyasasinda-deprem-ons-fiyati-3500-dolarin-altina-dustu-gygw_cover.jpg",
-      "summary": "Altın ons fiyatı 15 ay içinde ilk kez 3.500 doların altına düşerek 3.489,82 dolara geriledi.",
-      "score": 7,
-      "tone": "negatif",
-      "why_important": "Altın fiyatındaki düşüş yatırım ve ekonomik göstergeler açısından önem taşır.",
+      "link": "https://www.ekonomim.com/sirketler/yatirim-finansmandan-sermaye-piyasalarinda-odullu-yeni-nesil-donusum-yafi-haberi-933378",
+      "pubDate": "2026-11-25T14:43:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/yatirim-finansmandan-sermaye-piyasalarinda-odullu-yeni-nesil-donusum-yafi-zmbr_cover.gif",
+      "summary": "Yatırım Finansman, 50. yıl dönümünde yapay zekâ destekli analiz araçları ve kişiselleştirilmiş planlarla yeni nesil mobil yatırım uygulaması YaFi'yi piyasaya sürdü.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "FinTech inovasyonu yatırım süreçlerini sadeleştiriyor.",
       "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:14+00:00",
+        "generated_at": "2026-11-25T15:56:16+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/finans/haberler/altin/altin-piyasasinda-deprem-ons-fiyati-3500-dolarin-altina-dustu-haberi-933339"
+          "https://www.ekonomim.com/sirketler/yatirim-finansmandan-sermaye-piyasalarinda-odullu-yeni-nesil-donusum-yafi-haberi-933378"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_55",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Kepez Belediyesi'ne yönelik rüşvet operasyonu: 24 şüpheli adliyeye sevk edildi",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/gundem/kepez-belediyesine-yonelik-rusvet-operasyonu-24-supheli-adliyeye-sevk-edildi-haberi-933377",
+      "pubDate": "2026-11-25T14:36:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/22/kepez-belediyesine-rusvet-operasyonu-20-kisi-gozaltinda-a3yk_cover.jpg",
+      "summary": "Antalya Kepez Belediyesi'nde rüşvet ve ihaleye fesat karıştırma iddialarıyla 24 şüpheli gözaltına alındı ve adliyeye sevk edildi.",
+      "score": 8,
+      "tone": "negatif",
+      "why_important": "Yerel yönetimde yolsuzluk iddiaları kamu güvenini etkileyebilir.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:27+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/gundem/kepez-belediyesine-yonelik-rusvet-operasyonu-24-supheli-adliyeye-sevk-edildi-haberi-933377"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_85",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Elektrikli Otomobilleri 4 Dakikada Şarj Edebilecek Yeni Batarya Teknolojisi Geliştirildi!",
+      "source": "Webtekno",
+      "link": "https://www.webtekno.com/elektrikli-otomobil-4-dakikada-sarj-yeni-batarya-grafit-h229454.html",
+      "pubDate": "2026-11-25T14:51:54+00:00",
+      "image": "https://imgrosetta.webtekno.com/file/698641/698641-640xauto.jpg",
+      "summary": "Rice Üniversitesi araştırmacıları, 0,2 saniyede sentetik grafit üreten bir malzeme geliştirerek bataryaların 4 dakikada şarj olmasını mümkün kıldı.",
+      "score": 8,
+      "tone": "pozitif",
+      "why_important": "Bu teknoloji elektrikli araçların şarj süresini dramatik şekilde azaltabilir.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:52+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.webtekno.com/elektrikli-otomobil-4-dakikada-sarj-yeni-batarya-grafit-h229454.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_53",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Shein müşterileri yanılttığı iddiaları nedeniyle 100 milyon dolar ödeyecek",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/dunya/shein-musterileri-yanilttigi-iddialari-nedeniyle-100-milyon-dolar-odeyecek-haberi-933379",
+      "pubDate": "2026-11-25T14:46:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/shein-musterileri-yanilttigi-iddialari-nedeniyle-100-milyon-dolar-odeyecek-eqxg_cover.jpg",
+      "summary": "Shein, ABD FTC'nin tüketicileri yanıltıcı uygulamalarla suçlamalarını çözmek için 100 milyon dolar ödemeyi kabul etti; bu tutar mağdur tüketicilere iade edilecek.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Tüketici hakları ve uluslararası ticaret düzenlemeleri açısından kritik.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:04+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/dunya/shein-musterileri-yanilttigi-iddialari-nedeniyle-100-milyon-dolar-odeyecek-haberi-933379"
+        ]
+      }
+    },
+    {
+      "id": "gundem_126",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "ABD'den AB üyeleri ve Çin dahil 14 ülkeye ek vergi hamlesi",
+      "source": "Hürriyet",
+      "link": "https://www.hurriyet.com.tr/dunya/abdden-ab-uyeleri-ve-cin-dahil-14-ulkeye-ek-vergi-hamlesi-43391011",
+      "pubDate": "2026-11-25T14:35:45+00:00",
+      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6b06f23d9a30875a0457a547.jpg",
+      "summary": "ABD, AB üyeleri ve Çin dahil 14 ülkeye %15‑%35 arasında ek gümrük vergisi uygulama planı açıkladı.",
+      "score": 8,
+      "tone": "negatif",
+      "why_important": "Ticaret ilişkileri ve küresel ekonomik dengeler etkilenebilir.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:39+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.hurriyet.com.tr/dunya/abdden-ab-uyeleri-ve-cin-dahil-14-ulkeye-ek-vergi-hamlesi-43391011"
+        ]
+      }
+    },
+    {
+      "id": "bilim_3",
+      "cat": "Bilim",
+      "catId": "bilim",
+      "title": "Libya ordusu komutanı Halife Hafter'in Türkiye ziyareti neden önemli?",
+      "source": "BBC Türkçe",
+      "link": "https://www.bbc.com/turkce/articles/c6dj1xey8e81o?at_medium=RSS&at_campaign=rss",
+      "pubDate": "2026-11-25T14:31:37+00:00",
+      "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/593f/live/c2f807c0-e8dc-11f1-a094-5fdc692f3e33.jpg",
+      "summary": "Libya Ordusu Genel Komutanı Halife Hafter ve üç oğlu, Ankara'ya resmi bir ziyaret gerçekleştirerek Türkiye- Libya güvenlik ve enerji işbirliği görüşmelerini yürüttü.",
+      "score": 8,
+      "tone": "nötr",
+      "why_important": "Ziyaret, iki ülke arasındaki stratejik ilişkilerin derinleşmesine işaret ediyor.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:51+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bbc.com/turkce/articles/c6dj1xey8e81o?at_medium=RSS&at_campaign=rss"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_44",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Honor, OPPO ve iPhone'a dokunarak dosya atıyor",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/honor-dokunarak-paylasim-oppo-vivo-xiaomi-iphone",
+      "pubDate": "2026-11-25T15:52:01+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/honor-magic9-pro-max-kapak-2511.webp",
+      "summary": "Honor, OPPO, vivo, Xiaomi ve Apple cihazları arasında dokunarak dosya gönderme özelliği ek uygulama olmadan çalışıyor; iPhone kullanıcıları ise Honor Connect uygulamasına ihtiyaç duyuyor.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Cihazlar arası veri paylaşımı kolaylaşıyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:54:27+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://shiftdelete.net/honor-dokunarak-paylasim-oppo-vivo-xiaomi-iphone"
+        ]
+      }
+    },
+    {
+      "id": "gundem_53",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "İran'da, enerji sıkıntısının aşılması için hanelere tüketimi yüzde 20 azaltma çağrısı yapıldı",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/iranda-enerji-sikintisinin-asilmasi-icin-hanelere-tuketimi-yuzde-20-azaltma-cagrisi-yapildi/4137742",
+      "pubDate": "2026-11-25T15:40:54+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_4263a84f7d6cd4bd890eac2cd4c1fc2d.jpg",
+      "summary": "İran yetkilileri, hanehalkı enerji tüketimini %20 azaltma çağrısı yaparak doğal gaz tasarrufunun ülkenin enerji sıkıntısını hafifleteceğini belirtti.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Enerji tasarrufu ülke çapında ekonomik ve sosyal istikrarı etkiler.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:54:39+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/iranda-enerji-sikintisinin-asilmasi-icin-hanelere-tuketimi-yuzde-20-azaltma-cagrisi-yapildi/4137742"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_106",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Webrazzi Sessions: AI'da neler yaşandı?",
+      "source": "Webrazzi",
+      "link": "https://webrazzi.com/2026/11/25/webrazzi-sessions-ai-da-neler-yasandi/",
+      "pubDate": "2026-11-25T15:24:00+00:00",
+      "image": "https://cdn.webrazzi.com/uploads/2026/11/webrazzi-922.png",
+      "summary": "Webrazzi Sessions: AI etkinliği, yapay zekanın iş dünyasındaki etkilerini farklı bakış açılarıyla 600 katılımcıya sundu.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Yapay zekanın şirket stratejilerine etkisini anlamak sektörel kararlar için kritik.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:04+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://webrazzi.com/2026/11/25/webrazzi-sessions-ai-da-neler-yasandi/"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_45",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Samsung'un yeni Galaxy Watch'u IMEI'de göründü",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/galaxy-watch-2027-sm-l616-imei",
+      "pubDate": "2026-11-25T15:18:44+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/galaxy-watch9-ultra2-seri-kapak-2511.webp",
+      "summary": "Samsung'un SM-L616U kodlu yeni Galaxy Watch modeli, GSMA IMEI veritabanında ve ticaret kayıtlarında görülerek 2027'de yeni bir saat çıkmayacağı iddiasına karşıt bir kanıt sağladı.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Yeni bir akıllı saat modelinin piyasaya çıkışı teknoloji tüketicilerini etkiler.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:16+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://shiftdelete.net/galaxy-watch-2027-sm-l616-imei"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_1",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Volkswagen ID. Cross R-Line tanıtıldı: 226 beygire kadar güç",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/volkswagen-id-cross-r-line-tanitildi-226-beygire-kadar-guc--213379",
+      "pubDate": "2026-11-25T15:07:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213379/1200x675volkswagen-id-cross-r-line-tanitildi-226-beygire-kadar-guc.jpg",
+      "summary": "Volkswagen, 226 beygir gücüne kadar çıkabilen ID. Cross R-Line elektrikli SUV'yi tanıttı; 52 kWh batarya ile 428 km menzil sağlıyor.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Elektrikli araç piyasasındaki rekabet ve teknolojik gelişmeler tüketicileri ilgilendiriyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:28+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.donanimhaber.com/volkswagen-id-cross-r-line-tanitildi-226-beygire-kadar-guc--213379"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_51",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Bayer'den kanser ilacı için milyar dolarlık anlaşma",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/saglik/bayerden-kanser-ilaci-icin-milyar-dolarlik-anlasma-haberi-933381",
+      "pubDate": "2026-11-25T14:49:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/bayerden-kanser-ilaci-icin-milyar-dolarlik-anlasma-hnrl_cover.jpg",
+      "summary": "Hansoh Pharmaceutical, Bayer'in bir yan kuruluşu ile HS-20122 kanser ilacı için küresel lisans anlaşması imzalayarak potansiyel değeri 3,25 milyar dolar olan bir iş birliğine başladı.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Anlaşma, kanser tedavisinde yeni bir ilaç geliştirilmesini ve büyük bir pazar potansiyelini işaret ediyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:52+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/saglik/bayerden-kanser-ilaci-icin-milyar-dolarlik-anlasma-haberi-933381"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_52",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "NATO doğu kanadını güçlendiriyor: Polonya’ya erken ihbar uçağı konuşlandırılacak",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/sektorler/savunma-sanayi/nato-dogu-kanadini-guclendiriyor-polonyaya-erken-ihbar-ucagi-konuslandirilacak-s1-haberi-933380",
+      "pubDate": "2026-11-25T14:48:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/24/natodan-dogu-kanadinda-kritik-hamle-litvanyada-700-dronlu-nehir-gecis-tatbikati-16lw_cover.gif",
+      "summary": "NATO, 20 Kasım'da hava sahası ihlali sonrası Polonya'ya bir AWACS uçağı tahsis ederek doğu kanadındaki erken ihbar ve hava gözetleme kapasitesini artırmayı planlıyor.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Bölgesel güvenlik ve savunma stratejileri etkileniyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:04+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/sektorler/savunma-sanayi/nato-dogu-kanadini-guclendiriyor-polonyaya-erken-ihbar-ucagi-konuslandirilacak-s1-haberi-933380"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_3",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Aralık ayında izleyici ile buluşacak en dikkat çekici 10 film",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/aralik-ayinda-cikacak-en-dikkat-cekici-10-film--213377",
+      "pubDate": "2026-11-25T14:45:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213377/1200x675aralik-ayinda-cikacak-en-dikkat-cekici-10-film.jpg",
+      "summary": "Aralık ayında sinema ve dijital platformlarda Dune 3, Avengers Doomsday, Brad Pitt'li David Fincher filmi ve yerli komedi 2 Aile Arasında gibi çeşitli türlerde 10 film gösterilecek.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Ay içinde geniş film seçeneği izleyicilere sunuluyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:16+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.donanimhaber.com/aralik-ayinda-cikacak-en-dikkat-cekici-10-film--213377"
+        ]
+      }
+    },
+    {
+      "id": "gundem_66",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Almanya'da KRV polisi, ABD'li Palantir yerine yerli yazılım kullanacak",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/almanyada-krv-polisi-abdli-palantir-yerine-yerli-yazilim-kullanacak/4137681",
+      "pubDate": "2026-11-25T14:37:40+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_31deec60757d9e11ae5e0dd9d876a73f.jpg",
+      "summary": "Almanya KRV polisi, veri analizi için ABD'li Palantir yerine Münih merkezli Celonis'in geliştirdiği yerli yazılımı tercih etti ve maliyet avantajı sağladı.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Yerel teknoloji kullanımının güvenlik ve maliyet üzerindeki etkileri inceleniyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:27+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/almanyada-krv-polisi-abdli-palantir-yerine-yerli-yazilim-kullanacak/4137681"
+        ]
+      }
+    },
+    {
+      "id": "dunya_4",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "MEB'in yapay zeka çalışmalarına ödül",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/egitim/mebin-yapay-zeka-calismalarina-odul-964458.html",
+      "pubDate": "2026-11-25T14:36:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1474000/milli-egitim-bakanligi-1475104.jpg",
+      "summary": "MEB, Gartner'ın Eye on Innovation Awards kapsamında yapay zeka odaklı eğitim projeleriyle finalist seçildi.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Eğitimde yapay zekanın kurumsal etkisi ölçülüyor.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:39+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/egitim/mebin-yapay-zeka-calismalarina-odul-964458.html"
+        ]
+      }
+    },
+    {
+      "id": "gundem_61",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "MEB'in yapay zeka çalışmalarına \"Gartner Eye on Innovation\" ödülü",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/gundem/mebin-yapay-zeka-calismalarina-gartner-eye-on-innovation-odulu/4137675",
+      "pubDate": "2026-11-25T14:34:12+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_f679185c7a1a75aebcce41d151362728.jpg",
+      "summary": "MEB, Gartner tarafından düzenlenen Eye on Innovation Awards kapsamında eğitimde yenilikçi yapay zeka projeleriyle finalist seçildi.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Eğitimde yapay zekanın resmi destek alması sektörel dönüşümü hızlandırabilir.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:51+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/gundem/mebin-yapay-zeka-calismalarina-gartner-eye-on-innovation-odulu/4137675"
+        ]
+      }
+    },
+    {
+      "id": "gundem_69",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "İsrail, hapishanelerdeki ihlalleri anlatan Filistinli gazeteciyi Mayıs 2027'ye kadar suçlamasız cezaevinde tutacak",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/israil-hapishanelerdeki-ihlalleri-anlatan-filistinli-gazeteciyi-mayis-2027ye-kadar-suclamasiz-cezaevinde-tutacak/4137668",
+      "pubDate": "2026-11-25T14:29:49+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_384d26604cdff754e99e9749473a715f.jpg",
+      "summary": "İsrail ordusu, hapishanelerdeki ihlalleri raporlayan Filistinli gazeteci Samer Huveyra'yı, bir askeri yargıcın kefaletle serbest bırakma kararına rağmen, Mayıs 2027'ye kadar suçlamasız tutuklu tutma talimatı verdi. Huveyra, daha önce 9 ay gözaltında bulunmuş ve Ocak 2026'da serbest bırakılmıştı.",
+      "score": 7,
+      "tone": "nötr",
+      "why_important": "Gazetecilerin tutuklanması basın özgürlüğü ve insan hakları açısından kritik bir konudur.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:03+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/israil-hapishanelerdeki-ihlalleri-anlatan-filistinli-gazeteciyi-mayis-2027ye-kadar-suclamasiz-cezaevinde-tutacak/4137668"
         ]
       }
     },
@@ -532,9 +630,6 @@
       "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/d5fb/live/22a91890-e8c3-11f1-99a1-253766e7ad8b.jpg",
       "summary": "Irak Başbakanı Ali el‑Zeydi, Diyala, Kerkük, Selahaddin ve Ninova vilayetlerindeki petrol sahalarını merkezi kontrol altına alacağını duyurdu; bu karar, Irak Kürdistan Bölgesel Yönetimi (IKBY) ile Erbil‑Bağdat arasındaki gerilimi artırdı.",
       "score": 7,
-      "tone": "negatif",
-      "why_important": "Petrol sahalarının kontrolü, ülkenin ekonomik ve siyasi istikrarını etkileyebilir.",
-      "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
@@ -544,110 +639,13 @@
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cmzx9wg64dxlo?at_medium=RSS&at_campaign=rss"
         ]
-      }
+      },
+      "tone": "negatif",
+      "why_important": "Petrol sahalarının kontrolü, ülkenin ekonomik ve siyasi istikrarını etkileyebilir.",
+      "bias_score": 2
     },
     {
-      "id": "ekonomi_56",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Hızlı tren ağında hedef: 18 şehir daha YHT ile buluşacak",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/ekonomi/hizli-tren-aginda-hedef-18-sehir-daha-yht-ile-bulusacak-haberi-933338",
-      "pubDate": "2026-11-25T12:09:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/10/31/hizli-tren-hatti-uzatiliyor-3-il-daha-kapsama-alinacak-him0_cover.jpg",
-      "summary": "Ulaştırma ve Altyapı Bakanı, 2030’a kadar 18 yeni şehrin yüksek hızlı trenle bağlanacağını ve toplam hat uzunluğunun 31.439 km’ye ulaşacağını duyurdu.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Ulaştırma altyapısının genişlemesi ekonomik büyümeyi etkiler.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:40+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/ekonomi/hizli-tren-aginda-hedef-18-sehir-daha-yht-ile-bulusacak-haberi-933338"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_57",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "ABD, Çin, Rusya... En çok askeri harcama yapan ülkeler belli oldu. İşte Türkiye'nin yeri",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/foto-galeri/aktuel/abd-cin-rusya-en-cok-askeri-harcama-yapan-ulkeler-belli-oldu-iste-turkiyenin-yeri-galeri-933335",
-      "pubDate": "2026-11-25T12:04:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/abd-cin-rusya-en-cok-askeri-harcama-yapan-ulkeler-belli-oldu-iste-turkiyenin-yeri-mniz_cover.jpg",
-      "summary": "ABD, Çin ve Rusya en yüksek askeri harcama yapan ülkeler arasında yer alırken, Türkiye de 20 ülkenin listesinde konumunu aldı.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Küresel savunma bütçelerindeki artış uluslararası güvenlik dinamiklerini etkiler.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:52+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/foto-galeri/aktuel/abd-cin-rusya-en-cok-askeri-harcama-yapan-ulkeler-belli-oldu-iste-turkiyenin-yeri-galeri-933335"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_59",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Belirtiler diğer hastalıklarla karıştırılıyor! Covid-19, yeni TA.1 varyantıyla yeniden gündemde",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/saglik/belirtiler-diger-hastaliklarla-karistiriliyor-covid-19-yeni-ta1-varyantiyla-yeniden-gundemde-haberi-933336",
-      "pubDate": "2026-11-25T12:01:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/covid-jm92_cover.jpg",
-      "summary": "Covid-19'un TA.1 varyantı, grip ve bademcik iltihabı gibi kış hastalıklarıyla benzer belirtiler gösterdiği için uzmanlar altı temel semptoma dikkat edilmesini önerdi.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Yeni varyantın erken tespiti sağlık sistemi üzerindeki baskıyı azaltabilir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:05+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/saglik/belirtiler-diger-hastaliklarla-karistiriliyor-covid-19-yeni-ta1-varyantiyla-yeniden-gundemde-haberi-933336"
-        ]
-      }
-    },
-    {
-      "id": "gundem_148",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Cumhurbaşkanı Erdoğan’dan önemli açıklamalar",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/gundem/cumhurbaskani-erdogandan-onemli-aciklamalar-43390775",
-      "pubDate": "2026-11-25T11:58:43+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6b06cd679a30875a0457a367.jpg",
-      "summary": "Cumhurbaşkanı Erdoğan, Kadına Yönelik Şiddete Karşı Uluslararası Mücadele Günü etkinliğinde muhalefetin Terörsüz Türkiye sürecini geciktirmeye çalıştığını ve kadına yönelik şiddete sıfır tolerans politikasıyla iki helikopter kazası için soruşturma başlatıldığını belirtti.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "Ülkenin güvenlik ve toplumsal cinsiyet politikalarındaki gelişmeler hakkında bilgi verir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:16+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.hurriyet.com.tr/gundem/cumhurbaskani-erdogandan-onemli-aciklamalar-43390775"
-        ]
-      }
-    },
-    {
-      "id": "bilim_8",
+      "id": "bilim_9",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Danıştay, İmamoğlu'nun diploma iptali kararını neye dayandırdı?",
@@ -672,227 +670,85 @@
       "bias_score": 2
     },
     {
-      "id": "teknoloji_44",
+      "id": "teknoloji_0",
       "cat": "Teknoloji",
       "catId": "teknoloji",
-      "title": "Xiaomi'nin karı 3. çeyrekte yarıdan fazla eridi",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/xiaomi-3-ceyrek-kari-yuzde-57-dustu",
-      "pubDate": "2026-11-25T12:42:55+00:00",
-      "image": "https://ares.shiftdelete.net/2026/09/xiaomi-18-pro-serisi-kamera-ozellikleri-ve-ornekleri-duyuruldu-1-e1790062742666.webp",
-      "summary": "Xiaomi, 3. çeyrekte 107,2 milyar yuan gelir elde etti ancak önceki yıla göre %5,2 düşüş yaşadı; bellek maliyetlerindeki artış ve daha yüksek ortalama satış fiyatı nedeniyle daha az ama pahalı telefon sattı.",
+      "title": "Efsane Audi TT'nin elektrikli halefi geliyor: Böyle görünebilir",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/efsane-audi-tt-nin-elektrikli-halefi-geliyor-boyle-gorunebilir--213387",
+      "pubDate": "2026-11-25T15:32:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213387/1200x675efsane-audi-tt-nin-elektrikli-halefi-geliyor-boyle-gorunebilir.jpg",
+      "summary": "Audi, ikonik TT modelinin elektrikli bir spor otomobil versiyonunu 2027'de tanıtacak; araç Porsche ile ortak bir platformda, 'Radical Next' tasarım dili ve E‑Shift teknolojisiyle üretilecek ve 80 000 €'dan başlayan fiyatlarla satışa sunulacak.",
       "score": 7,
-      "tone": "nötr",
-      "why_important": "Şirketin kâr performansı teknoloji sektöründeki trendleri yansıtıyor.",
+      "tone": "pozitif",
+      "why_important": "Elektrikli spor otomobil pazarındaki yeni bir rekabetçi ürünün ortaya çıkışı sektörü etkileyebilir.",
       "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:01+00:00",
+        "generated_at": "2026-11-25T15:54:51+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://shiftdelete.net/xiaomi-3-ceyrek-kari-yuzde-57-dustu"
+          "https://www.donanimhaber.com/efsane-audi-tt-nin-elektrikli-halefi-geliyor-boyle-gorunebilir--213387"
         ]
       }
     },
     {
-      "id": "ekonomi_0",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "\"Fuar maliyetleri yüzde 40'a varan oranda arttı\"",
-      "source": "Bloomberg HT",
-      "link": "https://www.bloomberght.com/fuar-maliyetleri-yuzde-40a-varan-oranda-artti-3795638",
-      "pubDate": "2026-11-25T12:29:59+00:00",
-      "image": "https://geoim.bloomberght.com/l/2026/11/25/ver1795609894/3795638/jpg/1280x720",
-      "summary": "Fuarlardaki stant ve metrekare fiyatları yıllık %35‑40 artarken, yurt dışındaki fuarlarda fiyat artışı daha sınırlı kalmış; aynı zamanda fuar katılım talebi %30 azalmış.",
-      "score": 7,
-      "tone": "nötr",
-      "why_important": "İş dünyası ve etkinlik planlamacıları maliyet trendlerini bilmelidir.",
-      "bias_score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:38+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bloomberght.com/fuar-maliyetleri-yuzde-40a-varan-oranda-artti-3795638"
-        ]
-      }
-    },
-    {
-      "id": "gundem_83",
+      "id": "gundem_84",
       "cat": "Gündem",
       "catId": "gundem",
-      "title": "İmamoğlu, Saadet Partisi'nin 'fon' kampanyasına katıldı",
+      "title": "Zeytin çok, kapasite yok: Üreticilere 'Hasada ara verin' çağrısı",
       "source": "Diken",
-      "link": "https://www.diken.com.tr/imamoglu-saadet-partisinin-fon-kampanyasina-katildi/?utm_source=rss&utm_medium=rss&utm_campaign=imamoglu-saadet-partisinin-fon-kampanyasina-katildi",
-      "pubDate": "2026-11-25T12:47:46+00:00",
-      "image": "https://www.diken.com.tr/wp-content/uploads/2025/11/2025-11-24-ekrem-imamoglu-cizim-x.jpg",
-      "summary": "İmamoğlu, Saadet Partisi'nin fon kampanyasına katıldığını duyurdu; aynı anda İstanbul Büyükşehir Belediye Başkanı tutuklu durumda ve fon soruşturması devam ediyor.",
+      "link": "https://www.diken.com.tr/zeytin-cok-kapasite-yok-ureticilere-hasada-ara-verin-cagrisi/?utm_source=rss&utm_medium=rss&utm_campaign=zeytin-cok-kapasite-yok-ureticilere-hasada-ara-verin-cagrisi",
+      "pubDate": "2026-11-25T14:56:07+00:00",
+      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-25-zeytin2-AA.jpg",
+      "summary": "Manisa’da zeytin sıkım tesisleri kapasite yetersizliği nedeniyle üreticilerden hasada ara vermeleri istendi; mevcut üretim 850 bin ton zeytin ve 90 bin ton zeytinyağı hedefliyor.",
       "score": 7,
       "tone": "nötr",
-      "why_important": "İmamoğlu'nun açıklaması, siyasi ve yargı süreçlerine etkisi nedeniyle takip edilmeli.",
-      "bias_score": 4,
+      "why_important": "Üretim sıkıntısı kalite kaybına ve ekonomik kayıplara yol açabilir.",
+      "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T12:59:49+00:00",
+        "generated_at": "2026-11-25T15:55:40+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.diken.com.tr/imamoglu-saadet-partisinin-fon-kampanyasina-katildi/?utm_source=rss&utm_medium=rss&utm_campaign=imamoglu-saadet-partisinin-fon-kampanyasina-katildi"
+          "https://www.diken.com.tr/zeytin-cok-kapasite-yok-ureticilere-hasada-ara-verin-cagrisi/?utm_source=rss&utm_medium=rss&utm_campaign=zeytin-cok-kapasite-yok-ureticilere-hasada-ara-verin-cagrisi"
         ]
       }
     },
     {
-      "id": "gundem_55",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Erciyes'te yapay karlama çalışmaları başladı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/kultur/erciyeste-yapay-karlama-calismalari-basladi/4137459",
-      "pubDate": "2026-11-25T12:41:54+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_b81c093b01c52d3df9ccddadbc95d460.jpg",
-      "summary": "Kayseri Büyükşehir Belediyesi, Erciyes Kayak Merkezi'nde 2026-2027 sezonu için yapay kar üretimine başladı; sistem doğal kar eksikliğinde pistlerin daha uzun süre kullanılmasını ve sezonun zamanında açılmasını sağlıyor.",
-      "score": 6,
-      "tone": "nötr",
-      "why_important": "Yapay kar, kayak turizminin sürdürülebilirliğini artırabilir.",
-      "bias_score": 1,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:01+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/kultur/erciyeste-yapay-karlama-calismalari-basladi/4137459"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_108",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Yapay zeka ile ürün geliştirmenin yeni kuralları Webrazzi Sessions: AI'da tartışıldı",
-      "source": "Webrazzi",
-      "link": "https://webrazzi.com/2026/11/25/yapay-zeka-ile-urun-gelistirmenin-yeni-kurallari-webrazzi-sessions-ai-da-tartisildi/",
-      "pubDate": "2026-11-25T12:33:00+00:00",
-      "image": "https://cdn.webrazzi.com/uploads/2026/11/gozde-kapak-655.png",
-      "summary": "Webrazzi Sessions: AI etkinliğinde, yapay zekanın ürün geliştirme süreçlerine etkileri ve karar alma sorunlarını agentic yaklaşımla çözme stratejileri tartışıldı.",
-      "score": 6,
-      "tone": "nötr",
-      "why_important": "Yapay zekanın iş dünyasındaki uygulamaları sektörel değişim yaratıyor.",
-      "bias_score": 1,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:26+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://webrazzi.com/2026/11/25/yapay-zeka-ile-urun-gelistirmenin-yeni-kurallari-webrazzi-sessions-ai-da-tartisildi/"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_43",
+      "id": "ekonomi_47",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "Üç kuşak işletti, 99 yıl sonra kepenk indiriyor",
+      "title": "Borsa günü düşüşle tamamladı",
       "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/kuresel-ekonomi/uc-kusak-isletti-99-yil-sonra-kepenk-indiriyor-haberi-933350",
-      "pubDate": "2026-11-25T12:55:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/uc-kusak-isletti-99-yil-sonra-kepenk-indiriyor-injw_cover.jpg",
-      "summary": "Manhattan'da 99 yıldır hizmet veren Zingone Bros. Grocery, üç kuşak aile işletmesi olarak emeklilik nedeniyle kapatılıyor.",
-      "score": 6,
-      "tone": "nötr",
-      "why_important": "Uzun ömürlü bir aile işletmesinin kapanışı yerel ekonomi ve kültür açısından önemlidir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T12:59:37+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/kuresel-ekonomi/uc-kusak-isletti-99-yil-sonra-kepenk-indiriyor-haberi-933350"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_45",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Yanan Galaxy S21 için Samsung'a dava açıldı",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/galaxy-s21-batarya-yanik-samsung-dava",
-      "pubDate": "2026-11-25T12:30:22+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/samsung-galaxy-s21-dava-kapak-2511.webp",
-      "summary": "Florida'da bir kadın, Galaxy S21 bataryasının aşırı ısınması sonucu yanarak kendisini yaraladığı için Samsung'a dava açtı ve şirketin cihazı inceleme için geri vermediğini iddia ediyor.",
+      "link": "https://www.ekonomim.com/finans/haberler/borsa/borsa-istanbul-gunu-ekside-acti-haberi-933236",
+      "pubDate": "2026-11-25T15:41:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/07/bofanin-borsa-istanbuldaki-hamleleri-hangi-hisseleri-aldi-hangilerini-satti-7f6f_cover.jpg",
+      "other_sources": [
+        {
+          "source": "Anadolu Ajansı",
+          "link": "https://www.aa.com.tr/tr/ekonomi/borsa-gunu-dususle-tamamladi/4137729",
+          "pubDate": "2026-11-25T15:23:22+00:00"
+        }
+      ],
+      "event_count": 2,
+      "summary": "Borsa İstanbul'da BIST 100 endeksi, gün içinde %2,83 düşerek 10.655,74 puanda kapanış yaptı.",
       "score": 6,
       "tone": "negatif",
-      "why_important": "Tüketici güvenliği ve ürün sorumluluğu açısından önemlidir.",
-      "bias_score": 2,
+      "why_important": "Piyasa hareketleri yatırım kararlarını etkileyebilir.",
+      "bias_score": 1,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:38+00:00",
+        "generated_at": "2026-11-25T15:54:27+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://shiftdelete.net/galaxy-s21-batarya-yanik-samsung-dava"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_51",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Konya mantar üretiminde Türkiye'nin zirvesine oynuyor",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/sektorler/tarim/konya-mantar-uretiminde-turkiyenin-zirvesine-oynuyor-haberi-933343",
-      "pubDate": "2026-11-25T12:20:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/konya-mantar-uretiminde-turkiyenin-zirvesine-oynuyor-aki0_cover.jpg",
-      "summary": "Konya, yıllık 4.620 ton mantar üretimiyle Türkiye'nin beşinci büyük mantar üreticisi konumuna geldi ve belediye desteğiyle sektörü büyütüyor.",
-      "score": 6,
-      "tone": "nötr",
-      "why_important": "Tarım sektöründeki bölgesel büyüme ekonomiyi etkileyebilir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:02+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/sektorler/tarim/konya-mantar-uretiminde-turkiyenin-zirvesine-oynuyor-haberi-933343"
-        ]
-      }
-    },
-    {
-      "id": "gundem_59",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Kayseri'de öğrenciler deyimlerin anlamlarını tasarladıkları tişörtlerle öğreniyor",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/kultur/kayseride-ogrenciler-deyimlerin-anlamlarini-tasarladiklari-tisortlerle-ogreniyor/4137306",
-      "pubDate": "2026-11-25T12:19:13+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_a23d65c05d3dfe13d78133dbd2784ffd.jpg",
-      "summary": "Kayseri'deki ortaokul öğrencileri, \"101 Deyim 101 Öykü\" kitabındaki deyimleri tişörtlere çizerek öğreniyor.",
-      "score": 6,
-      "tone": "nötr",
-      "why_important": "Yaratıcı öğrenme yöntemleri eğitimde yenilikçi yaklaşımları gösterir.",
-      "bias_score": 2,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:14+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/kultur/kayseride-ogrenciler-deyimlerin-anlamlarini-tasarladiklari-tisortlerle-ogreniyor/4137306"
+          "https://www.ekonomim.com/finans/haberler/borsa/borsa-istanbul-gunu-ekside-acti-haberi-933236"
         ]
       }
     },
@@ -900,24 +756,99 @@
       "id": "teknoloji_46",
       "cat": "Teknoloji",
       "catId": "teknoloji",
-      "title": "Galaxy pil sağlığı hatası One UI 9.5 ile bitecek",
+      "title": "One UI 9.5 ile Galaxy'lere gelen yenilikler",
       "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/galaxy-pil-sagligi-one-ui-9-5-duzeltme",
-      "pubDate": "2026-11-25T12:11:54+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/galaxy-s26-serisi-pil-sagligi-2511.webp",
-      "summary": "Samsung, One UI 9.0 sonrası Galaxy telefonlarda görülen pil sağlığı düşüşünün One UI 9.5 güncellemesiyle giderileceğini belirtti, ancak sorunun gerçek pil yıpranması mı yoksa yazılım hatası mı olduğu henüz net değil.",
+      "link": "https://shiftdelete.net/one-ui-9-5-yenilikleri-video-inceleme",
+      "pubDate": "2026-11-25T15:07:45+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/oneui95-manset-ender-2511.webp",
+      "summary": "Samsung, Galaxy S26 serisi için One UI 9.5 beta sürümünde uygulama kilidi, kamera ayarları ve ilaç takibi gibi yeni özellikler sundu.",
       "score": 6,
       "tone": "nötr",
-      "why_important": "Pil performansı kullanıcı deneyimini doğrudan etkiler.",
+      "why_important": "Yeni yazılım özellikleri kullanıcı deneyimini ve cihaz güvenliğini artırabilir.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:28+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://shiftdelete.net/one-ui-9-5-yenilikleri-video-inceleme"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_47",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "BMW'ler ABD'de kırmızı ışıkta kendi duracak",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/bmw-highway-commuting-assistant-kirmizi-isik",
+      "pubDate": "2026-11-25T14:44:36+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/bmw-ix3-sehir-ici-surus-2511.webp",
+      "summary": "BMW, Aralık'ta ABD'deki OS X sistemli araçlara Highway & Commuting Assistant güncellemesi yaparak kırmızı ışıkta otomatik durma ve yeşil ışıkta yeniden hareket etme özelliği ekleyecek.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Sürücü güvenliği ve konforu artıran bir teknoloji güncellemesi.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:16+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://shiftdelete.net/bmw-highway-commuting-assistant-kirmizi-isik"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_2",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "30 Bin Lira Bütçeye En İyi Telefon Hangisi? Nothing Phone 3a vs Honor 600 vs Poco X8 Pro",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/30-bin-lira-butceye-en-iyi-telefon-hangisi--212932",
+      "pubDate": "2026-11-25T15:00:44+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/212932/1200x67530-bin-lira-butceye-en-iyi-telefon-hangisi.jpg",
+      "summary": "30 bin TL bütçeyle en mantıklı üç telefon (Nothing Phone 3A, Honor 600, Poco X8 Pro) karşılaştırıldı ve fiyat‑performans dengeleri incelendi.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Fiyat sınırlı alıcılar için en iyi seçeneği belirlemek önemlidir.",
       "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:28+00:00",
+        "generated_at": "2026-11-25T15:55:40+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://shiftdelete.net/galaxy-pil-sagligi-one-ui-9-5-duzeltme"
+          "https://www.donanimhaber.com/30-bin-lira-butceye-en-iyi-telefon-hangisi--212932"
+        ]
+      }
+    },
+    {
+      "id": "oyun_4",
+      "cat": "Ücretsiz Oyun",
+      "catId": "oyun",
+      "title": "Büyük Bir PS5 Oyunu Daha Önümüzdeki Aylarda Satıştan Kaldırılıyor",
+      "source": "Webtekno",
+      "link": "https://www.webtekno.com/buyuk-bir-ps5-oyunu-onumuzdeki-aylarda-satistan-kaldiriliyor-h229456.html",
+      "pubDate": "2026-11-25T14:52:03+00:00",
+      "image": "https://imgrosetta.webtekno.com/file/698644/698644-640xauto.jpg",
+      "summary": "Capcom, Exoprimal oyununu ve DLC'lerini 2027 Mart ayında dijital mağazalardan kaldıracak, sunucularını ise Eylül 2027'de tamamen kapatacak.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Oyunun kapanışı oyuncuların erişimini tamamen sonlandıracak.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:52+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.webtekno.com/buyuk-bir-ps5-oyunu-onumuzdeki-aylarda-satistan-kaldiriliyor-h229456.html"
         ]
       }
     },
@@ -925,149 +856,124 @@
       "id": "dunya_3",
       "cat": "Dünya",
       "catId": "dunya",
-      "title": "İspanya'da HÜRJET Programı ödüllendirildi",
+      "title": "İran ordusu: Hürmüz Boğazı'nda bir petrol tankeri deniz mayınına çarparak alev aldı",
       "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/savunma/ispanyada-hurjet-programi-odullendirildi-964442.html",
-      "pubDate": "2026-11-25T12:06:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/hurjet-odulaa-2506212.jpg",
-      "summary": "İspanyol‑Türk Ticaret ve Sanayi Odası, yerli tasarımlı HÜRJET uçaklarının İspanya’ya satışı ve iki ülke arasındaki savunma işbirliğini ödüllendirdi.",
+      "link": "https://www.trthaber.com/haber/dunya/iran-ordusu-hurmuz-bogazinda-bir-petrol-tankeri-deniz-mayinina-carparak-alev-aldi-964459.html",
+      "pubDate": "2026-11-25T14:46:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2498000/hurmuz-2498930.jpg",
+      "summary": "İran ordusu, Hürmüz Boğazı'nda bir petrol tankeri'nin deniz mayınına çarpıp alev alarak durduğunu ve uyarılara rağmen yasak bölgeye girdiğini bildirdi.",
       "score": 6,
-      "tone": "pozitif",
-      "why_important": "Savunma sanayindeki ihracat ve işbirliği ekonomik ve stratejik önem taşır.",
+      "tone": "nötr",
+      "why_important": "Bölgedeki deniz güvenliği ve enerji taşımacılığı risklerini gösteriyor.",
       "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:40+00:00",
+        "generated_at": "2026-11-25T15:56:04+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.trthaber.com/haber/savunma/ispanyada-hurjet-programi-odullendirildi-964442.html"
+          "https://www.trthaber.com/haber/dunya/iran-ordusu-hurmuz-bogazinda-bir-petrol-tankeri-deniz-mayinina-carparak-alev-aldi-964459.html"
         ]
       }
     },
     {
-      "id": "ekonomi_45",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Ünlülere yönelik uyuşturucu soruşturmasında 10 şüpheli adliyede ifade verecek! İşte o isimler...",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/gundem/unlulere-yonelik-uyusturucu-sorusturmasinda-10-supheli-adliyede-ifade-verecek-iste-o-isimler-haberi-933347",
-      "pubDate": "2026-11-25T12:46:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/unlulere-yonelik-uyusturucu-sorusturmasinda-10-supheli-adliyede-ifade-verecek-iste-o-isimler-8ozs_cover.jpg",
-      "summary": "Ünlülere yönelik uyuşturucu soruşturmasında 24 şüpheli adliyeye getirildi, bunların 10'u arasında tanınmış sanatçılar da bulunuyor.",
-      "score": 6,
-      "tone": "nötr",
-      "why_important": "Ünlü isimlerin de soruşturma kapsamında olması, kamuoyunun ilgisini çekiyor.",
-      "bias_score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T12:59:49+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/gundem/unlulere-yonelik-uyusturucu-sorusturmasinda-10-supheli-adliyede-ifade-verecek-iste-o-isimler-haberi-933347"
-        ]
-      }
-    },
-    {
-      "id": "ekonomi_58",
-      "cat": "Ekonomi",
-      "catId": "ekonomi",
-      "title": "Tennessee zaferi Demokratlara 36 yılın en güçlü tablosunu getirdi",
-      "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/dunya/tennessee-zaferi-demokratlara-36-yilin-en-guclu-tablosunu-getirdi-haberi-933334",
-      "pubDate": "2026-11-25T12:03:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/tennessee-zaferi-demokratlara-36-yilin-en-guclu-tablosunu-getirdi-jdsc_cover.jpg",
-      "summary": "Associated Press verilerine göre, Tennessee seçimleri sonrası Demokratlar Temsilciler Meclisi'nde 259 sandalyeye ulaşarak 1990'dan beri en yüksek temsili sayısına ulaştı.",
-      "score": 6,
-      "tone": "pozitif",
-      "why_important": "ABD'deki siyasi dengelerin değişimi politika yönelimlerini şekillendirir.",
-      "bias_score": 3,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:52+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.ekonomim.com/dunya/tennessee-zaferi-demokratlara-36-yilin-en-guclu-tablosunu-getirdi-haberi-933334"
-        ]
-      }
-    },
-    {
-      "id": "gundem_53",
+      "id": "gundem_67",
       "cat": "Gündem",
       "catId": "gundem",
-      "title": "9. Uluslararası Sinema ve Felsefe Sempozyumu, 4-5 Aralık'ta Ankara'da yapılacak",
+      "title": "Rusya: Avrupa'nın Ukrayna konulu müzakerelerde üstleneceği rolü anlamak istiyoruz",
       "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/kultur/9-uluslararasi-sinema-ve-felsefe-sempozyumu-4-5-aralikta-ankarada-yapilacak/4137492",
-      "pubDate": "2026-11-25T12:48:26+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_9ebed73128ef9aa028b75b989a4b2a5e.jpg",
-      "summary": "9. Uluslararası Sinema ve Felsefe Sempozyumu, Ankara'da yerli ve yabancı akademisyenler ile yönetmenlerin katılımıyla sinemanın felsefi boyutlarını tartışacak.",
-      "score": 5,
+      "link": "https://www.aa.com.tr/tr/dunya/rusya-avrupanin-ukrayna-konulu-muzakerelerde-ustlenecegi-rolu-anlamak-istiyoruz/4137676",
+      "pubDate": "2026-11-25T14:34:34+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_48fa250f08d1ffa6c5a5f8f1ad354bcb.jpg",
+      "summary": "Rusya Dışişleri Bakanı Lavrov, Avrupa'nın Ukrayna müzakerelerindeki rolünü netleştirmek istediğini belirtti.",
+      "score": 6,
       "tone": "nötr",
-      "why_important": "Sinema ve felsefe kesişimindeki akademik diyalog kültürel düşünceyi zenginleştirir.",
-      "bias_score": 1,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T12:59:37+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/kultur/9-uluslararasi-sinema-ve-felsefe-sempozyumu-4-5-aralikta-ankarada-yapilacak/4137492"
-        ]
-      }
-    },
-    {
-      "id": "gundem_58",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Ankara'da \"İpliklerle dokunmuş hikayeler\" adlı etkinlik düzenlendi",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/kultur/ankarada-ipliklerle-dokunmus-hikayeler-adli-etkinlik-duzenlendi/4137356",
-      "pubDate": "2026-11-25T12:25:44+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_e221a0f311fc61c6bd555cc28d862ca4.jpg",
-      "summary": "Ankara'da, Gürcistan'ın Ankara Büyükelçisi eşinin düzenlediği \"İpliklerle dokunmuş hikayeler\" etkinliği, Türk halısı ve kilimleri gibi geleneksel sanat eserlerini sergileyerek diplomatik misyon şeflerinin eşlerini ağırladı.",
-      "score": 5,
-      "tone": "pozitif",
-      "why_important": "Kültürel diplomasi ve sanatın toplumsal bağlamda önemi vurgulanıyor.",
-      "bias_score": 1,
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:38+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/kultur/ankarada-ipliklerle-dokunmus-hikayeler-adli-etkinlik-duzenlendi/4137356"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_0",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Take-Two, GTA 6 PC projelerine savaş açtı: Oyun 5 FPS'e ulaştı",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/take-two-gta-6-pc-projelerine-savas-acti-oyun-5-fps-e-ulasti--213363",
-      "pubDate": "2026-11-25T12:44:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213363/1200x675take-two-gta-6-pc-projelerine-savas-acti-oyun-5-fps-e-ulasti.jpg",
-      "summary": "Take-Two, GTA 6'yı PC'ye uyarlamaya çalışan binlerce GitHub projesini telif ihlali gerekçesiyle kaldırdı; mevcut denemeler 2‑5 FPS performans gösteriyor.",
-      "score": 5,
-      "tone": "nötr",
-      "why_important": "Oyun geliştiricileri ve oyuncular için telif hakları ve teknik sınırlamalar önemli bir konu.",
+      "why_important": "Bölgesel güvenlik ve diplomatik dinamikler açısından kritik.",
       "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T12:59:49+00:00",
+        "generated_at": "2026-11-25T15:56:39+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.donanimhaber.com/take-two-gta-6-pc-projelerine-savas-acti-oyun-5-fps-e-ulasti--213363"
+          "https://www.aa.com.tr/tr/dunya/rusya-avrupanin-ukrayna-konulu-muzakerelerde-ustlenecegi-rolu-anlamak-istiyoruz/4137676"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_56",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Deutsche Bank ile Punjab National Bank arasında yeni finansman mutabakatı imzalandı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/ekonomi/deutsche-bank-ile-punjab-national-bank-arasinda-yeni-finansman-mutabakati-imzalandi-haberi-933376",
+      "pubDate": "2026-11-25T14:31:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/deutsche-bank-ile-punjab-national-bank-arasinda-yeni-finansman-mutabakati-imzalandi-tgcb_cover.jpg",
+      "summary": "Deutsche Bank ve Punjab National Bank, Hindistan'daki kurumsal satın almalar için kredi desteği sağlayacak yeni bir finansman mutabakatı imzaladı.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Bu anlaşma, Hindistan'daki büyük ölçekli yatırımların finansmanını kolaylaştırabilir.",
+      "bias_score": 2,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:56:51+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/ekonomi/deutsche-bank-ile-punjab-national-bank-arasinda-yeni-finansman-mutabakati-imzalandi-haberi-933376"
+        ]
+      }
+    },
+    {
+      "id": "gundem_55",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "İran Devrim Muhafızları: Hürmüz Boğazı'nda LNG taşıyan gemide mayına çarpma sonucu patlama meydana geldi",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/iran-devrim-muhafizlari-hurmuz-bogazinda-lng-tasiyan-gemide-mayina-carpma-sonucu-patlama-meydana-geldi/4137739",
+      "pubDate": "2026-11-25T15:38:14+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_2bdba689a5d822584ddfab17d83dce0d.jpg",
+      "summary": "İran Devrim Muhafızları, Hürmüz Boğazı'nda LNG taşıyan geminin mayına çarpması sonucu patlama yaşandığını duyurdu.",
+      "score": 6,
+      "tone": "negatif",
+      "why_important": "Bölgede enerji taşımacılığı ve güvenlik risklerini vurgular.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:54:39+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/iran-devrim-muhafizlari-hurmuz-bogazinda-lng-tasiyan-gemide-mayina-carpma-sonucu-patlama-meydana-geldi/4137739"
+        ]
+      }
+    },
+    {
+      "id": "gundem_57",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "Fransa'da namazla alay eden ve Nazi selamı yapan memur görevinden geçici olarak uzaklaştırıldı",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/dunya/fransada-namazla-alay-eden-ve-nazi-selami-yapan-memur-gorevinden-gecici-olarak-uzaklastirildi/4137728",
+      "pubDate": "2026-11-25T15:22:47+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_76c6f015dadc8c79162789b2b9b0cef3.jpg",
+      "summary": "Fransa'da bir gümrük birliği memuru, namaz taklidi ve Nazi selamı yaptığı için geçici olarak görevden uzaklaştırıldı.",
+      "score": 6,
+      "tone": "negatif",
+      "why_important": "Memuriyet içinde dini ve ırk temelli taciz olayları toplumsal gerilimi ve kurum güvenilirliğini etkiler.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:04+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.aa.com.tr/tr/dunya/fransada-namazla-alay-eden-ve-nazi-selami-yapan-memur-gorevinden-gecici-olarak-uzaklastirildi/4137728"
         ]
       }
     },
@@ -1075,24 +981,88 @@
       "id": "ekonomi_48",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "TARİŞ’te yönetim değişmedi, denetim kayyımı atandı",
+      "title": "Zeytinyağı fabrikalarında yoğunluk alarmı: Üreticilere 'hasada ara verin' çağrısı",
       "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/sehirler/tariste-yonetim-degismedi-denetim-kayyimi-atandi-haberi-933344",
-      "pubDate": "2026-11-25T12:36:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/tariste-yonetim-degismedi-denetim-kayyimi-atandi-sth2_cover.jpg",
-      "summary": "TARİŞ'te yönetim değişmedi; sadece olağan dışı işlemler için denetim kayyımı atandı ve 57 Milyon TL avanın büyük kısmı tahsil edildi.",
+      "link": "https://www.ekonomim.com/sektorler/tarim/zeytinyagi-fabrikalarinda-yogunluk-alarmi-ureticilere-hasada-ara-verin-cagrisi-haberi-933386",
+      "pubDate": "2026-11-25T15:17:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/zeytinyagi-fabrikalarinda-yogunluk-alarmi-ureticilere-hasada-ara-verin-cagrisi-ty2g_cover.jpg",
+      "summary": "Manisa'da artan zeytin rekoltesi ve makineli hasadın yaygınlaşması, zeytinyağı fabrikalarında yoğunluk yaratarak üreticilere hasadı geçici olarak durdurma çağrısı yapıldı.",
+      "score": 6,
+      "tone": "nötr",
+      "why_important": "Zeytinyağı üretimindeki sıkıntılar gıda fiyatlarını ve arzı etkileyebilir.",
+      "bias_score": 3,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:16+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/sektorler/tarim/zeytinyagi-fabrikalarinda-yogunluk-alarmi-ureticilere-hasada-ara-verin-cagrisi-haberi-933386"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_50",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Son dakika Beşiktaş’ı Batum’a götüren uçak iniş yapamadı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/spor/son-dakika-besiktasi-batuma-goturen-ucak-inis-yapamadi-haberi-933383",
+      "pubDate": "2026-11-25T14:59:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/son-dakika-besiktasi-batuma-goturen-ucak-inis-yapamadi-zjyy_cover.jpg",
+      "other_sources": [
+        {
+          "source": "Hürriyet",
+          "link": "https://www.hurriyet.com.tr/sporarena/besiktasa-hava-muhalefeti-engeli-ucak-batuma-inemedi-43391054",
+          "pubDate": "2026-11-25T15:11:00+00:00"
+        },
+        {
+          "source": "Anadolu Ajansı",
+          "link": "https://www.aa.com.tr/tr/spor/besiktas-kafilesini-tasiyan-ucak-olumsuz-hava-kosullari-nedeniyle-batuma-inemedi/4137720",
+          "pubDate": "2026-11-25T15:12:05+00:00"
+        }
+      ],
+      "event_count": 3,
+      "event_title": "Beşiktaş Batum flight issue",
+      "summary": "Beşiktaş’ı Batum’a taşıyan uçak, olumsuz hava koşulları nedeniyle iniş yapamadı ve yolcular Rize’ye yönlendirildi.",
       "score": 5,
       "tone": "nötr",
-      "why_important": "Kooperatifin mali durumu ve denetim süreci şeffaflık açısından önemli.",
+      "why_important": "Ulaşım kesintileri seyahat planlarını etkileyebilir.",
+      "bias_score": 1,
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:55:40+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/spor/son-dakika-besiktasi-batuma-goturen-ucak-inis-yapamadi-haberi-933383"
+        ]
+      }
+    },
+    {
+      "id": "gundem_56",
+      "cat": "Gündem",
+      "catId": "gundem",
+      "title": "İstanbul Ticaret Üniversitesi Yayınları yeni döneminde \"3T\" mottosuyla eserler yayınlıyor",
+      "source": "Anadolu Ajansı",
+      "link": "https://www.aa.com.tr/tr/kultur/istanbul-ticaret-universitesi-yayinlari-yeni-doneminde-3t-mottosuyla-eserler-yayinliyor/4137736",
+      "pubDate": "2026-11-25T15:35:03+00:00",
+      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_8f3e78c0ccebb6214d66985da1b16c94.jpg",
+      "summary": "İstanbul Ticaret Üniversitesi Yayınları, üniversitenin 25. kuruluş yıl dönümünde 'tefekkür, teknoloji ve ticaret' (3T) temasıyla yeni bir yayın programı başlattığını duyurdu.",
+      "score": 5,
+      "tone": "nötr",
+      "why_important": "Üniversitenin akademik ve kültürel üretim stratejisi hakkında bilgi verir.",
       "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:13+00:00",
+        "generated_at": "2026-11-25T15:54:51+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/sehirler/tariste-yonetim-degismedi-denetim-kayyimi-atandi-haberi-933344"
+          "https://www.aa.com.tr/tr/kultur/istanbul-ticaret-universitesi-yayinlari-yeni-doneminde-3t-mottosuyla-eserler-yayinliyor/4137736"
         ]
       }
     },
@@ -1103,7 +1073,7 @@
       "title": "Son dakika deprem mi oldu? Az önce deprem nerede oldu? İstanbul, Ankara, İzmir ve il il AFAD son depremler 25 Kasım 2026",
       "source": "NTV",
       "link": "https://www.ntv.com.tr/turkiye/son-dakika-deprem-mi-oldu-az-once-deprem-nerede-oldu-istanbul-ankara-izmir-ve-il-il-afad-son-depremler-25-kasim-2026-1752436",
-      "pubDate": "2026-11-25T12:30:00+00:00",
+      "pubDate": "2026-11-25T15:30:00+00:00",
       "image": "https://images.ntv.com.tr/images/477a4d82-9d42-44a3-8135-f2a9ec017f8a.jpg",
       "other_sources": [
         {
@@ -1130,27 +1100,27 @@
       "bias_score": 2
     },
     {
-      "id": "gundem_57",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Aras Kargo'nun ertelenen CEV Kadınlar Challenge Kupası maçlarının tarihi belli oldu",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/spor/aras-kargonun-ertelenen-cev-kadinlar-challenge-kupasi-maclarinin-tarihi-belli-oldu/4137351",
-      "pubDate": "2026-11-25T12:24:51+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_7de0712b9e4baaad8a8a2ae2d1beb1f0.jpg",
-      "summary": "Aras Kargo Kulübü ile Yunan ekibi ZAON arasındaki CEV Kadınlar Challenge Kupası maçları, ilk ve rövanş maçları Atina'daki Zirineio Spor Salonu'nda oynanacak; İzmir temsilcisi, takımdaki dizanteri vakaları nedeniyle oyuncuların tedavi gördüğünü bildirdi.",
+      "id": "ekonomi_49",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "New York borsası düşüşle açıldı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/finans/haberler/borsa/new-york-borsasi-dususle-acildi-haberi-933384",
+      "pubDate": "2026-11-25T15:12:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/10/16/new-york-borsasi-dususle-kapandi-0pki_cover.jpg",
+      "summary": "New York borsası, ABD'de ekim ayı enflasyonunun hızlanması ve teknoloji hisselerindeki satış baskısı nedeniyle düşüşle açıldı.",
       "score": 5,
-      "tone": "nötr",
-      "why_important": "Spor etkinliğinin tarih ve yerinin netleşmesi taraftarları bilgilendirir.",
+      "tone": "negatif",
+      "why_important": "ABD enflasyon verileri küresel piyasalara yön verir.",
       "bias_score": 2,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:00:50+00:00",
+        "generated_at": "2026-11-25T15:55:16+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.aa.com.tr/tr/spor/aras-kargonun-ertelenen-cev-kadinlar-challenge-kupasi-maclarinin-tarihi-belli-oldu/4137351"
+          "https://www.ekonomim.com/finans/haberler/borsa/new-york-borsasi-dususle-acildi-haberi-933384"
         ]
       }
     },
@@ -1158,69 +1128,184 @@
       "id": "teknoloji_86",
       "cat": "Teknoloji",
       "catId": "teknoloji",
-      "title": "Apple'ın Katlanabilir Telefonunu Almayı Düşünenlere Honor'dan Tavsiye: Biraz Daha Bekleyin!",
+      "title": "En İyi eSIM Uygulamaları",
       "source": "Webtekno",
-      "link": "https://www.webtekno.com/honor-katlanma-izi-olmayan-genis-katlanabilir-telefon-h229438.html",
-      "pubDate": "2026-11-25T12:00:01+00:00",
-      "image": "https://imgrosetta.webtekno.com/file/698596/698596-640xauto.jpg",
-      "summary": "Honor, 2027 Mart'ında tanıtacağı yeni katlanabilir telefonun ekranında hiç katlanma izi olmayacağını iddia ederek, Apple'ın katlanabilir modelleriyle rekabet etmeyi hedefliyor.",
+      "link": "https://www.webtekno.com/en-iyi-e-sim-uygulamalari-h229399.html",
+      "pubDate": "2026-11-25T14:36:59+00:00",
+      "image": "https://imgrosetta.webtekno.com/file/698507/698507-640xauto.jpg",
+      "summary": "2026 yılında kullanılabilecek en iyi eSIM uygulamaları listelendi; rehber, seyahat ve internet ihtiyacına göre seçim yapmayı öneriyor.",
       "score": 5,
-      "tone": "nötr",
-      "why_important": "Katlanabilir telefon pazarındaki yenilikler tüketicilerin seçimlerini etkileyebilir.",
+      "tone": "pozitif",
+      "why_important": "eSIM, seyahatlerde internet erişimini kolaylaştırıyor.",
       "bias_score": 3,
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:05+00:00",
+        "generated_at": "2026-11-25T15:56:27+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.webtekno.com/honor-katlanma-izi-olmayan-genis-katlanabilir-telefon-h229438.html"
+          "https://www.webtekno.com/en-iyi-e-sim-uygulamalari-h229399.html"
         ]
       }
     },
     {
-      "id": "gundem_159",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "36 yaşında ölen ünlü oyuncunun her şeyi tek evladına kaldı",
-      "source": "Hürriyet",
-      "link": "https://www.hurriyet.com.tr/kelebek/televizyon/36-yasinda-olen-unlu-oyuncunun-her-seyi-tek-evladina-kaldi-43390546",
-      "pubDate": "2026-11-25T12:19:30+00:00",
-      "image": "https://image.hurimg.com/i/hurriyet/90/620x350/6b06af9d3516f14679cccbc5.jpg",
-      "summary": "36 yaşında hayatını kaybeden ünlü oyuncu, 6 milyon doların üzerindeki servetini tek çocuğu olan 11 yaşındaki kızına bıraktı; mahkeme, eski nişanlısı Wladimir Klitschko'yu geçici vasi olarak atadı.",
-      "score": 4,
-      "tone": "nötr",
-      "why_important": "Miras ve velayet konuları kamuoyunun ilgisini çeker.",
-      "bias_score": 5,
+      "id": "teknoloji_4",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Yapay zeka veri merkezleri için 1.000 derecelik enerji depolama",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/yapay-zeka-veri-merkezlerinin-elektrik-sorununa-sasirtici-cozum--213378",
+      "pubDate": "2026-11-25T14:26:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213378/1200x675yapay-zeka-veri-merkezlerinin-elektrik-sorununa-sasirtici-cozum.jpg",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:01:02+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.hurriyet.com.tr/kelebek/televizyon/36-yasinda-olen-unlu-oyuncunun-her-seyi-tek-evladina-kaldi-43390546"
+          "https://www.donanimhaber.com/yapay-zeka-veri-merkezlerinin-elektrik-sorununa-sasirtici-cozum--213378"
         ]
       }
     },
     {
-      "id": "gundem_86",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "AKOM İstanbul'da kar yağışı için tarih verdi",
-      "source": "Diken",
-      "link": "https://www.diken.com.tr/akom-istanbulda-kar-yagisi-icin-tarih-verdi/?utm_source=rss&utm_medium=rss&utm_campaign=akom-istanbulda-kar-yagisi-icin-tarih-verdi",
-      "pubDate": "2026-11-25T11:57:34+00:00",
-      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-25-kar-istanbul-kapak-metin-ozdemir-pexels.jpg",
+      "id": "dunya_5",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Soykırımcı İsrail, kasım ayı başından bu yana 16 çocuk ve öğrenciyi öldürdü",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/soykirimci-israil-kasim-ayi-basindan-bu-yana-16-cocuk-ve-ogrenciyi-oldurdu-964457.html",
+      "pubDate": "2026-11-25T14:26:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/gaza-a-2506280.jpg",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.diken.com.tr/akom-istanbulda-kar-yagisi-icin-tarih-verdi/?utm_source=rss&utm_medium=rss&utm_campaign=akom-istanbulda-kar-yagisi-icin-tarih-verdi"
+          "https://www.trthaber.com/haber/dunya/soykirimci-israil-kasim-ayi-basindan-bu-yana-16-cocuk-ve-ogrenciyi-oldurdu-964457.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_57",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Goldman Sachs'tan yatırımcılara uyarı: Hisse almak için henüz erken",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/finans/haberler/borsa/goldman-sachstan-yatirimcilara-uyari-hisse-almak-icin-henuz-erken-haberi-933375",
+      "pubDate": "2026-11-25T14:24:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/goldman-sachstan-yatirimcilara-uyari-hisse-almak-icin-henuz-erken-d0lj_cover.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/finans/haberler/borsa/goldman-sachstan-yatirimcilara-uyari-hisse-almak-icin-henuz-erken-haberi-933375"
+        ]
+      }
+    },
+    {
+      "id": "dunya_6",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Altın fiyatlarında son durum",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/ekonomi/altin-fiyatlarinda-son-durum-964456.html",
+      "pubDate": "2026-11-25T14:21:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2188000/ceyrek-altin-a-2188788.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/ekonomi/altin-fiyatlarinda-son-durum-964456.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_58",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "ABD 14 ülkeye uygulayacağı yeni gümrük oranlarını açıkladı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/kuresel-ekonomi/abd-14-ulkeye-uygulayacagi-yeni-gumruk-oranlarini-acikladi-haberi-933374",
+      "pubDate": "2026-11-25T14:19:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/abd-14-ulkeye-uygulayacagi-yeni-gumruk-oranlarini-acikladi-0pgu_cover.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/kuresel-ekonomi/abd-14-ulkeye-uygulayacagi-yeni-gumruk-oranlarini-acikladi-haberi-933374"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_1",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Petrol ve yük gemilerine siber saldırıların ardında İran şüphesi",
+      "source": "Bloomberg HT",
+      "link": "https://www.bloomberght.com/petrol-ve-yuk-gemilerine-siber-saldirilarin-ardinda-iran-suphesi-3795660",
+      "pubDate": "2026-11-25T14:17:33+00:00",
+      "image": "https://geoim.bloomberght.com/l/2026/11/25/ver1795616698/3795660/jpg/1280x720",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bloomberght.com/petrol-ve-yuk-gemilerine-siber-saldirilarin-ardinda-iran-suphesi-3795660"
+        ]
+      }
+    },
+    {
+      "id": "dunya_7",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "TürkiyeLibya Deniz Yetki Anlaşması'nda son aşama tamamlandı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/gundem/turkiye-libya-deniz-yetki-anlasmasinda-son-asama-tamamlandi-964455.html",
+      "pubDate": "2026-11-25T14:13:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2496000/libya-deniz-2497296.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/gundem/turkiye-libya-deniz-yetki-anlasmasinda-son-asama-tamamlandi-964455.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_59",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Solomon Adaları Çin'in Pasifik'teki etkisini sınırlayacak anlaşmayı imzaladı",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/dunya/solomon-adalari-cinin-pasifikteki-etkisini-sinirlayacak-anlasmayi-imzaladi-haberi-933370",
+      "pubDate": "2026-11-25T14:10:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/solomon-adalari-cinin-pasifikteki-etkisini-sinirlayacak-anlasmayi-imzaladi-m3nu_cover.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/dunya/solomon-adalari-cinin-pasifikteki-etkisini-sinirlayacak-anlasmayi-imzaladi-haberi-933370"
         ]
       }
     },
@@ -1228,19 +1313,459 @@
       "id": "ekonomi_60",
       "cat": "Ekonomi",
       "catId": "ekonomi",
-      "title": "Dron ve füzelere karşı yeni kalkan: İsviçre’den GM-200 MM/A hamlesi",
+      "title": "Societe Generale: Şahin Fed fiyatlamaları küresel piyasalarda doları yukarı taşıyor",
       "source": "Ekonomim",
-      "link": "https://www.ekonomim.com/sektorler/savunma-sanayi/dron-ve-fuzelere-karsi-yeni-kalkan-isvicreden-gm-200-mma-hamlesi-s1-haberi-933333",
-      "pubDate": "2026-11-25T11:56:00+00:00",
-      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/dron-ve-fuzelere-karsi-yeni-kalkan-isvicreden-gm-200-mma-hamlesi-c4eh_cover.gif",
+      "link": "https://www.ekonomim.com/kuresel-ekonomi/societe-generale-sahin-fed-fiyatlamalari-kuresel-piyasalarda-dolari-yukari-tasiyor-haberi-933371",
+      "pubDate": "2026-11-25T14:10:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/societe-generale-sahin-fed-fiyatlamalari-kuresel-piyasalarda-dolari-yukari-tasiyor-t6dy_cover.jpg",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
-          "https://www.ekonomim.com/sektorler/savunma-sanayi/dron-ve-fuzelere-karsi-yeni-kalkan-isvicreden-gm-200-mma-hamlesi-s1-haberi-933333"
+          "https://www.ekonomim.com/kuresel-ekonomi/societe-generale-sahin-fed-fiyatlamalari-kuresel-piyasalarda-dolari-yukari-tasiyor-haberi-933371"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_61",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "ABD ekonomisi üçüncü çeyrekte yüzde 4,3 büyüdü",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/kuresel-ekonomi/abd-ekonomisi-ucuncu-ceyrekte-yuzde-43-buyudu-haberi-933373",
+      "pubDate": "2026-11-25T14:10:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/21/abdden-iran-petrol-ticaretinde-rol-oynayan-4-kisiye-yaptirim-qkfg_cover.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/kuresel-ekonomi/abd-ekonomisi-ucuncu-ceyrekte-yuzde-43-buyudu-haberi-933373"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_5",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Amazon’dan otomobil alma dönemi Avrupa’ya taşınıyor",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/amazon-dan-otomobil-alma-donemi-avrupa-ya-tasiniyor--213366",
+      "pubDate": "2026-11-25T14:05:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213366/1200x675amazon-dan-otomobil-alma-donemi-avrupa-ya-tasiniyor.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.donanimhaber.com/amazon-dan-otomobil-alma-donemi-avrupa-ya-tasiniyor--213366"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_62",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Ağrısız da olsa idrarda kan önemli hastalıkların belirtisi olabilir",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/saglik/agrisiz-da-olsa-idrarda-kan-onemli-hastaliklarin-belirtisi-olabilir-haberi-933372",
+      "pubDate": "2026-11-25T14:05:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/idrarkan-jcz7_cover.jpeg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/saglik/agrisiz-da-olsa-idrarda-kan-onemli-hastaliklarin-belirtisi-olabilir-haberi-933372"
+        ]
+      }
+    },
+    {
+      "id": "dunya_9",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Katil İsrail'in Gazze'ye saldırılarında hayatını kaybeden Filistinlilerin sayısı 6'ya yükseldi",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/katil-israilin-gazzeye-saldirilarinda-hayatini-kaybeden-filistinlilerin-sayisi-6ya-yukseldi-964453.html",
+      "pubDate": "2026-11-25T14:05:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2414000/han-yunus-gazze-aa-2415805.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/katil-israilin-gazzeye-saldirilarinda-hayatini-kaybeden-filistinlilerin-sayisi-6ya-yukseldi-964453.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_87",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Bir Yayıncının PS5'i GTA 6 Oynarken Yandı: Birden Fazla Vaka Bildirilmiş Durumda!",
+      "source": "Webtekno",
+      "link": "https://www.webtekno.com/bir-yayincinin-ps5-gta-6-oynarken-yandi-h229453.html",
+      "pubDate": "2026-11-25T14:00:20+00:00",
+      "image": "https://imgrosetta.webtekno.com/file/698635/698635-640xauto.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.webtekno.com/bir-yayincinin-ps5-gta-6-oynarken-yandi-h229453.html"
+        ]
+      }
+    },
+    {
+      "id": "ekonomi_63",
+      "cat": "Ekonomi",
+      "catId": "ekonomi",
+      "title": "Mersin Marina’ya uluslararası arenada gümüş ödül",
+      "source": "Ekonomim",
+      "link": "https://www.ekonomim.com/sehirler/mersin-marinaya-uluslararasi-arenada-gumus-odul-haberi-933368",
+      "pubDate": "2026-11-25T14:00:00+00:00",
+      "image": "https://img.ekonomim.com/storage/files/images/2026/11/25/mersin-marinaya-uluslararasi-arenada-gumus-odul-zzpu_cover.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.ekonomim.com/sehirler/mersin-marinaya-uluslararasi-arenada-gumus-odul-haberi-933368"
+        ]
+      }
+    },
+    {
+      "id": "dunya_8",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Bakan Göktaş: Kadına şiddetle mücadeleyi bir insan hakları mücadelesi olarak görüyoruz",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/gundem/bakan-goktas-kadina-siddetle-mucadeleyi-bir-insan-haklari-mucadelesi-olarak-goruyoruz-964454.html",
+      "pubDate": "2026-11-25T13:57:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/mahinur-ozdemir-goktasaa-2506262.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/gundem/bakan-goktas-kadina-siddetle-mucadeleyi-bir-insan-haklari-mucadelesi-olarak-goruyoruz-964454.html"
+        ]
+      }
+    },
+    {
+      "id": "dunya_10",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Rusya'da rafinerilerdeki onarımlar nedeniyle akaryakıt piyasasında sıkıntı yaşanıyor",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/ekonomi/rusyada-rafinerilerdeki-onarimlar-nedeniyle-akaryakit-piyasasinda-sikinti-yasaniyor-964452.html",
+      "pubDate": "2026-11-25T13:51:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2448000/petrol-2449522.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/ekonomi/rusyada-rafinerilerdeki-onarimlar-nedeniyle-akaryakit-piyasasinda-sikinti-yasaniyor-964452.html"
+        ]
+      }
+    },
+    {
+      "id": "dunya_11",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Cumhurbaşkanı Erdoğan, Maraşel Hafter'i kabul etti",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/gundem/cumhurbaskani-erdogan-marasel-hafteri-kabul-etti-964451.html",
+      "pubDate": "2026-11-25T13:51:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/erdogan-halife-hafter-2506249.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/gundem/cumhurbaskani-erdogan-marasel-hafteri-kabul-etti-964451.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_6",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "5 dolarlık Raspberry Pi ile Nvidia ekran kartının 80 GB belleği açıldı",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/raspberry-pi-ile-nvidia-ekran-kartinin-80-gb-bellegi-acildi--213361",
+      "pubDate": "2026-11-25T13:43:14+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213361/1200x675raspberry-pi-ile-nvidia-ekran-kartinin-80-gb-bellegi-acildi.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.donanimhaber.com/raspberry-pi-ile-nvidia-ekran-kartinin-80-gb-bellegi-acildi--213361"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_48",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Elektrikli Porsche 718 Boxster'ın ilk detayları",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/elektrikli-porsche-718-boxster-2027",
+      "pubDate": "2026-11-25T13:36:30+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/porsche-718-boxster-elektrikli-prototip-2511.webp",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://shiftdelete.net/elektrikli-porsche-718-boxster-2027"
+        ]
+      }
+    },
+    {
+      "id": "bilim_7",
+      "cat": "Bilim",
+      "catId": "bilim",
+      "title": "İngiltere'de gençler ve yetişkinlere cinsellik araştırması ne sonuçlar verdi?",
+      "source": "BBC Türkçe",
+      "link": "https://www.bbc.com/turkce/articles/c6lykxd4knmeo?at_medium=RSS&at_campaign=rss",
+      "pubDate": "2026-11-25T13:34:46+00:00",
+      "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/1c04/live/270d0cc0-e8b4-11f1-99a1-253766e7ad8b.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bbc.com/turkce/articles/c6lykxd4knmeo?at_medium=RSS&at_campaign=rss"
+        ]
+      }
+    },
+    {
+      "id": "dunya_13",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "İstanbul Havalimanı Avrupa'nın en yoğun havalimanı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/ekonomi/istanbul-havalimani-avrupanin-en-yogun-havalimani-964449.html",
+      "pubDate": "2026-11-25T13:30:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2492000/istanbul-havalimani-aa-2493196.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/ekonomi/istanbul-havalimani-avrupanin-en-yogun-havalimani-964449.html"
+        ]
+      }
+    },
+    {
+      "id": "dunya_14",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "5'inci kattan düşen 22 yaşındaki kadının eşi tutuklandı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/turkiye/5inci-kattan-dusen-22-yasindaki-kadinin-esi-tutuklandi-964448.html",
+      "pubDate": "2026-11-25T13:27:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1550000/kelepce-getty-7-1550620.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/turkiye/5inci-kattan-dusen-22-yasindaki-kadinin-esi-tutuklandi-964448.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_7",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "iPhone 18e'nin yeni tasarımı sızdırıldı: Kamera değişiyor",
+      "source": "DonanımHaber",
+      "link": "https://www.donanimhaber.com/iphone-18e-nin-yeni-tasarimi-sizdirildi-kamera-degisiyor--213359",
+      "pubDate": "2026-11-25T13:26:00+00:00",
+      "image": "https://www.donanimhaber.com/images/images/haber/213359/1200x675iphone-18e-nin-yeni-tasarimi-sizdirildi-kamera-degisiyor.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.donanimhaber.com/iphone-18e-nin-yeni-tasarimi-sizdirildi-kamera-degisiyor--213359"
+        ]
+      }
+    },
+    {
+      "id": "dunya_12",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Shakhtar Donetsk  Fenerbahçe maçı TRT 1'de",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/spor/shakhtar-donetsk-fenerbahce-maci-trt-1de-964450.html",
+      "pubDate": "2026-11-25T13:25:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/fenerbahceaa-2506248.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/spor/shakhtar-donetsk-fenerbahce-maci-trt-1de-964450.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_88",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Teknoloji Devlerinden 2027 İçin Şok Karar: Samsung ve Apple Bile Telefon Üretimini Kısıyor (Bir Marka Hariç!)",
+      "source": "Webtekno",
+      "link": "https://www.webtekno.com/akilli-telefon-ureticileri-2027-uretim-hedeflerini-dusuruyor-h229450.html",
+      "pubDate": "2026-11-25T13:19:29+00:00",
+      "image": "https://imgrosetta.webtekno.com/file/698623/698623-640xauto.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.webtekno.com/akilli-telefon-ureticileri-2027-uretim-hedeflerini-dusuruyor-h229450.html"
+        ]
+      }
+    },
+    {
+      "id": "dunya_15",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Malezya, Google'a zararlı içeriklere karşı yeterli önlem almadığı gerekçesiyle dava açtı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/malezya-googlea-zararli-iceriklere-karsi-yeterli-onlem-almadigi-gerekcesiyle-dava-acti-964447.html",
+      "pubDate": "2026-11-25T13:16:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2076000/google-reu-2076406.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/malezya-googlea-zararli-iceriklere-karsi-yeterli-onlem-almadigi-gerekcesiyle-dava-acti-964447.html"
+        ]
+      }
+    },
+    {
+      "id": "teknoloji_49",
+      "cat": "Teknoloji",
+      "catId": "teknoloji",
+      "title": "Galaxy Z TriFold 2'nin kod adı ortaya çıktı",
+      "source": "ShiftDelete",
+      "link": "https://shiftdelete.net/galaxy-z-trifold-2-sinirli-cikis-kod-adi",
+      "pubDate": "2026-11-25T13:11:29+00:00",
+      "image": "https://ares.shiftdelete.net/static/sdnweb-haberbotu/hb/galaxy-z-trifold-resmi-2511.webp",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://shiftdelete.net/galaxy-z-trifold-2-sinirli-cikis-kod-adi"
+        ]
+      }
+    },
+    {
+      "id": "dunya_16",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Gazze Şeridi'nde 1000 barınma alanı kışın yağmur suları altında kalma riski taşıyor",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/gazze-seridinde-1000-barinma-alani-kisin-yagmur-sulari-altinda-kalma-riski-tasiyor-964446.html",
+      "pubDate": "2026-11-25T13:09:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2504000/gazze-a-2504629.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/gazze-seridinde-1000-barinma-alani-kisin-yagmur-sulari-altinda-kalma-riski-tasiyor-964446.html"
+        ]
+      }
+    },
+    {
+      "id": "dunya_17",
+      "cat": "Dünya",
+      "catId": "dunya",
+      "title": "Fransa'da grev nedeniyle ParisLondra tren seferlerinde aksamalar yaşandı",
+      "source": "TRT Haber",
+      "link": "https://www.trthaber.com/haber/dunya/fransada-grev-nedeniyle-paris-londra-tren-seferlerinde-aksamalar-yasandi-964445.html",
+      "pubDate": "2026-11-25T12:55:00+00:00",
+      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/france-afp-2506231.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.trthaber.com/haber/dunya/fransada-grev-nedeniyle-paris-londra-tren-seferlerinde-aksamalar-yasandi-964445.html"
+        ]
+      }
+    },
+    {
+      "id": "bilim_11",
+      "cat": "Bilim",
+      "catId": "bilim",
+      "title": "Fenerbahçe, Londra'da Shakhtar Donetsk deplasmanına çıkıyor",
+      "source": "BBC Türkçe",
+      "link": "https://www.bbc.com/turkce/articles/cw7vp739ee9do?at_medium=RSS&at_campaign=rss",
+      "pubDate": "2026-11-25T12:51:48+00:00",
+      "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/cd7a/live/c2b8e440-e8ce-11f1-99a1-253766e7ad8b.jpg",
+      "ai": {
+        "model": "openai/gpt-oss-120b",
+        "temperature": 0.2,
+        "prompt_version": "v1.3",
+        "generated_at": "2026-11-25T15:57:15+00:00",
+        "method": "summary+score+tone+why+bias",
+        "source_urls": [
+          "https://www.bbc.com/turkce/articles/cw7vp739ee9do?at_medium=RSS&at_campaign=rss"
         ]
       }
     },
@@ -1257,7 +1782,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://shiftdelete.net/vodafone-business-itu-siber-guvenlik-akademisi-ucretsiz-egitim"
@@ -1265,247 +1790,7 @@
       }
     },
     {
-      "id": "gundem_65",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "AA Finans 3. çeyrek Büyüme Beklenti Anketi sonuçlandı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/ekonomi/aa-finans-3-ceyrek-buyume-beklenti-anketi-sonuclandi/4137174",
-      "pubDate": "2026-11-25T11:42:08+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_1bfdd20ee6c6a0f0da35103b033c12b2.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/ekonomi/aa-finans-3-ceyrek-buyume-beklenti-anketi-sonuclandi/4137174"
-        ]
-      }
-    },
-    {
-      "id": "gundem_64",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "İstanbul'da kar yağışı için en kuvvetli ihtimal ocak-şubat dönemi",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/gundem/istanbulda-kar-yagisi-icin-en-kuvvetli-ihtimal-ocak-subat-donemi/4137173",
-      "pubDate": "2026-11-25T11:42:00+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_e5f063800ca0e855d8d2ce360dcb3536.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/gundem/istanbulda-kar-yagisi-icin-en-kuvvetli-ihtimal-ocak-subat-donemi/4137173"
-        ]
-      }
-    },
-    {
-      "id": "gundem_87",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "İlk kez bir anne kainat güzeli seçildi",
-      "source": "Diken",
-      "link": "https://www.diken.com.tr/ilk-kez-bir-anne-kainat-guzeli-secildi/?utm_source=rss&utm_medium=rss&utm_campaign=ilk-kez-bir-anne-kainat-guzeli-secildi",
-      "pubDate": "2026-11-25T11:40:07+00:00",
-      "image": "https://www.diken.com.tr/wp-content/uploads/2026/11/2026-11-15-jennifer-barreto-kapak-instagram.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.diken.com.tr/ilk-kez-bir-anne-kainat-guzeli-secildi/?utm_source=rss&utm_medium=rss&utm_campaign=ilk-kez-bir-anne-kainat-guzeli-secildi"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_3",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Tidal'den dijital müzik sektöründe ilk: Yapay zeka yasağı geliyor!",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/tidal-yapay-zekayla-yapilan-muzikleri-engelleyecek--213356",
-      "pubDate": "2026-11-25T11:40:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213356/1200x675tidal-yapay-zekayla-yapilan-muzikleri-engelleyecek.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.donanimhaber.com/tidal-yapay-zekayla-yapilan-muzikleri-engelleyecek--213356"
-        ]
-      }
-    },
-    {
-      "id": "gundem_68",
-      "cat": "Gündem",
-      "catId": "gundem",
-      "title": "Galatasaray'da derbi mesaisi başladı",
-      "source": "Anadolu Ajansı",
-      "link": "https://www.aa.com.tr/tr/spor/galatasarayda-derbi-mesaisi-basladi/4137169",
-      "pubDate": "2026-11-25T11:37:57+00:00",
-      "image": "https://web-cdnprod.aa.com.tr/uploads/Contents/2026/11/25/thumbs_b_c_bb62bdcf38164a69308a4de16a0dd716.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.aa.com.tr/tr/spor/galatasarayda-derbi-mesaisi-basladi/4137169"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_48",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Musk: Tüm Tesla modellerine Starlink geliyor",
-      "source": "ShiftDelete",
-      "link": "https://shiftdelete.net/tesla-tum-modellere-starlink-uydu-interneti-musk",
-      "pubDate": "2026-11-25T11:36:18+00:00",
-      "image": "https://ares.shiftdelete.net/static/sdnweb-rehber/2026/11/tesla-cybercab-starlink-kapak-2511.webp",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://shiftdelete.net/tesla-tum-modellere-starlink-uydu-interneti-musk"
-        ]
-      }
-    },
-    {
-      "id": "dunya_5",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Cumhurbaşkanı Erdoğan, güzel sanatlar lisesi öğrencileriyle buluştu",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/gundem/cumhurbaskani-erdogan-guzel-sanatlar-lisesi-ogrencileriyle-bulustu-964440.html",
-      "pubDate": "2026-11-25T11:35:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/erdogan-2506192.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/gundem/cumhurbaskani-erdogan-guzel-sanatlar-lisesi-ogrencileriyle-bulustu-964440.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_4",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Gazze'deki çocuk hastanesinde jeneratör arızası nedeniyle bazı hayati tıbbi hizmetler durdu",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/gazzedeki-cocuk-hastanesinde-jenerator-arizasi-nedeniyle-bazi-hayati-tibbi-hizmetler-durdu-964441.html",
-      "pubDate": "2026-11-25T11:28:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2486000/gazze-hastane-aa-2487968.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/gazzedeki-cocuk-hastanesinde-jenerator-arizasi-nedeniyle-bazi-hayati-tibbi-hizmetler-durdu-964441.html"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_87",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "En İyi Uydu Alıcısı Markaları - 2026",
-      "source": "Webtekno",
-      "link": "https://www.webtekno.com/en-iyi-uydu-alicisi-markalari-h229417.html",
-      "pubDate": "2026-11-25T11:25:39+00:00",
-      "image": "https://imgrosetta.webtekno.com/file/698593/698593-640xauto.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.webtekno.com/en-iyi-uydu-alicisi-markalari-h229417.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_6",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "TBMM Başkanı Kurtulmuş: Terörsüz Türkiye'yi inşa ediyoruz",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/gundem/tbmm-baskani-kurtulmus-terorsuz-turkiyeyi-insa-ediyoruz-964439.html",
-      "pubDate": "2026-11-25T11:20:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/numan-kurtulmusaa-2506176.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/gundem/tbmm-baskani-kurtulmus-terorsuz-turkiyeyi-insa-ediyoruz-964439.html"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_4",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "AB, İngiltere’yi Made in Europe kapsamına alıyor: Türkiye yine dışarıda",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/ab-ingiltere-yi-made-in-europe-kapsamina-aliyor--213357",
-      "pubDate": "2026-11-25T11:19:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213357/1200x675ab-ingiltere-yi-made-in-europe-kapsamina-aliyor.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.donanimhaber.com/ab-ingiltere-yi-made-in-europe-kapsamina-aliyor--213357"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_88",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "YouTube, İstediğiniz Zaman Değiştirebileceğiniz Yeni Uygulama İkonları Üzerinde Çalışıyor: İşte Tasarımlar!",
-      "source": "Webtekno",
-      "link": "https://www.webtekno.com/youtube-yeni-uygulama-ikonlari-tasarimlari-h229435.html",
-      "pubDate": "2026-11-25T11:14:45+00:00",
-      "image": "https://imgrosetta.webtekno.com/file/698584/698584-640xauto.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.webtekno.com/youtube-yeni-uygulama-ikonlari-tasarimlari-h229435.html"
-        ]
-      }
-    },
-    {
-      "id": "oyun_4",
+      "id": "oyun_5",
       "cat": "Ücretsiz Oyun",
       "catId": "oyun",
       "title": "Steam Türkiye'de En Çok Satan Oyunlar Açıklandı [17-24 Kasım 2026]",
@@ -1517,50 +1802,10 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.webtekno.com/steam-turkiye-en-cok-satan-oyunlar-17-24-kasim-2026-h229432.html"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_109",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Baki Er: &quot;Paribu'da yapay zeka dönüşümü ekiplerin çalışma biçimini değiştirdi.&quot;",
-      "source": "Webrazzi",
-      "link": "https://webrazzi.com/2026/11/25/baki-er-paribu-da-yapay-zeka-donusumu-ekiplerin-calisma-bicimini-degistirdi/",
-      "pubDate": "2026-11-25T11:14:00+00:00",
-      "image": "https://cdn.webrazzi.com/uploads/2026/11/adsiz-tasarim-11-581.png",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://webrazzi.com/2026/11/25/baki-er-paribu-da-yapay-zeka-donusumu-ekiplerin-calisma-bicimini-degistirdi/"
-        ]
-      }
-    },
-    {
-      "id": "dunya_7",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Sinop'ta fırtına etkili oldu: Sahildeki kulübeler devrildi",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/turkiye/sinopta-firtina-etkili-oldu-sahildeki-kulubeler-devrildi-964438.html",
-      "pubDate": "2026-11-25T11:11:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/sinop-firtinaaa-2506159.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/turkiye/sinopta-firtina-etkili-oldu-sahildeki-kulubeler-devrildi-964438.html"
         ]
       }
     },
@@ -1581,12 +1826,12 @@
         }
       ],
       "event_count": 2,
-      "event_title": "Casper Excalibur laptop seçim rehberi",
+      "event_title": "Casper laptop selection",
       "ai": {
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://shiftdelete.net/oyun-ve-is-icin-hangi-laptop-secilmeli-casper-excalibur-g915"
@@ -1594,7 +1839,7 @@
       }
     },
     {
-      "id": "bilim_3",
+      "id": "bilim_8",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Yeni Parti'de yeni yönetim kadrosu belirlendi",
@@ -1606,7 +1851,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cmrlg02zkp6xo?at_medium=RSS&at_campaign=rss"
@@ -1614,207 +1859,7 @@
       }
     },
     {
-      "id": "teknoloji_5",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Asya borsalarında yapay zeka paniği: SoftBank yüzde 15 düştü",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/asya-borsalarinda-yapay-zeka-panigi-softbank-yuzde-15-dustu--213360",
-      "pubDate": "2026-11-25T10:58:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213360/1200x675asya-borsalarinda-yapay-zeka-panigi-softbank-yuzde-15-dustu.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.donanimhaber.com/asya-borsalarinda-yapay-zeka-panigi-softbank-yuzde-15-dustu--213360"
-        ]
-      }
-    },
-    {
-      "id": "bilim_6",
-      "cat": "Bilim",
-      "catId": "bilim",
-      "title": "Libyalı Mareşal Halife Hafter ilk kez Ankara'da",
-      "source": "BBC Türkçe",
-      "link": "https://www.bbc.com/turkce/articles/c6dj1xey8e81o?at_medium=RSS&at_campaign=rss",
-      "pubDate": "2026-11-25T10:50:47+00:00",
-      "image": "https://ichef.bbci.co.uk/news/1200/branded_turkce/92f2/live/0baf75a0-e8bc-11f1-9e64-bddd508b9881.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.bbc.com/turkce/articles/c6dj1xey8e81o?at_medium=RSS&at_campaign=rss"
-        ]
-      }
-    },
-    {
-      "id": "dunya_9",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Bakan Uraloğlu: Kalkınma Yolu ile Hicaz Yolu birbirine rakip değil, birbirini destekliyor",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/gundem/bakan-uraloglu-kalkinma-yolu-ile-hicaz-yolu-birbirine-rakip-degil-birbirini-destekliyor-964436.html",
-      "pubDate": "2026-11-25T10:38:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/abdulkadir-uraloglu-aa-2506157.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/gundem/bakan-uraloglu-kalkinma-yolu-ile-hicaz-yolu-birbirine-rakip-degil-birbirini-destekliyor-964436.html"
-        ]
-      }
-    },
-    {
-      "id": "teknoloji_6",
-      "cat": "Teknoloji",
-      "catId": "teknoloji",
-      "title": "Red Dead Redemption'ın bir film ya da diziye uyarlanması gündemde",
-      "source": "DonanımHaber",
-      "link": "https://www.donanimhaber.com/red-dead-redemption-filmi-cekilebilir--213358",
-      "pubDate": "2026-11-25T10:37:00+00:00",
-      "image": "https://www.donanimhaber.com/images/images/haber/213358/1200x675red-dead-redemption-filmi-cekilebilir.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.donanimhaber.com/red-dead-redemption-filmi-cekilebilir--213358"
-        ]
-      }
-    },
-    {
-      "id": "dunya_10",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Yunan ordusunda kitlesel istifa alarmı",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/yunan-ordusunda-kitlesel-istifa-alarmi-964435.html",
-      "pubDate": "2026-11-25T10:32:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1672000/yunanistan-asker-afp-arsiv-1672185.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/yunan-ordusunda-kitlesel-istifa-alarmi-964435.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_11",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "İngiltere 75 yıl önceki nükleer testlere katılan askerlerin yaşadığı sağlık sorunlarını inceleyecek",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/ingiltere-75-yil-onceki-nukleer-testlere-katilan-askerlerin-yasadigi-saglik-sorunlarini-inceleyecek-964434.html",
-      "pubDate": "2026-11-25T10:26:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1810000/nukleer-silah-1811312.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/ingiltere-75-yil-onceki-nukleer-testlere-katilan-askerlerin-yasadigi-saglik-sorunlarini-inceleyecek-964434.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_12",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "ABD'de CIA ve DNI'ya yönelik siber güvenlik ihlalleri, dünyadaki benzer vakaları gündeme getirdi",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/dunya/abdde-cia-ve-dniya-yonelik-siber-guvenlik-ihlalleri-dunyadaki-benzer-vakalari-gundeme-getirdi-964433.html",
-      "pubDate": "2026-11-25T10:23:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/1974000/hacker-casus-yazilim-siber-guvenlik-getty-1974278.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/dunya/abdde-cia-ve-dniya-yonelik-siber-guvenlik-ihlalleri-dunyadaki-benzer-vakalari-gundeme-getirdi-964433.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_13",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "DAP'tan 15 ile 18,6 milyar liralık yatırım desteği",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/ekonomi/daptan-15-ile-186-milyar-liralik-yatirim-destegi-964432.html",
-      "pubDate": "2026-11-25T10:20:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2324000/dogu-anadolu-projesi-dap-bolge-kalkinma-idaresi-projesiaa-2324535.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/ekonomi/daptan-15-ile-186-milyar-liralik-yatirim-destegi-964432.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_14",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "'Filenin Sultanları'nın Milletler Ligi'ndeki rakipleri belli oldu",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/gundem/filenin-sultanlarinin-milletler-ligindeki-rakipleri-belli-oldu-964431.html",
-      "pubDate": "2026-11-25T10:16:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2486000/filenin-sultanlari-2487138.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/gundem/filenin-sultanlarinin-milletler-ligindeki-rakipleri-belli-oldu-964431.html"
-        ]
-      }
-    },
-    {
-      "id": "dunya_15",
-      "cat": "Dünya",
-      "catId": "dunya",
-      "title": "Şiddet mağduru kadınlara 7/24 kesintisiz destek: ŞÖNİM",
-      "source": "TRT Haber",
-      "link": "https://www.trthaber.com/haber/gundem/siddet-magduru-kadinlara-724-kesintisiz-destek-sonim-964430.html",
-      "pubDate": "2026-11-25T10:02:00+00:00",
-      "image": "https://trthaberstatic.cdn.wp.trt.com.tr/resimler/2506000/sonim-aa-2506156.jpg",
-      "ai": {
-        "model": "openai/gpt-oss-120b",
-        "temperature": 0.2,
-        "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
-        "method": "summary+score+tone+why+bias",
-        "source_urls": [
-          "https://www.trthaber.com/haber/gundem/siddet-magduru-kadinlara-724-kesintisiz-destek-sonim-964430.html"
-        ]
-      }
-    },
-    {
-      "id": "bilim_9",
+      "id": "bilim_10",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Numan Kurtulmuş:  İzleme Komisyonu 19 üyeden oluşacak",
@@ -1826,7 +1871,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cqlymzd4l1r5o?at_medium=RSS&at_campaign=rss"
@@ -1846,7 +1891,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/c63rg9vy987qo?at_medium=RSS&at_campaign=rss"
@@ -1854,7 +1899,7 @@
       }
     },
     {
-      "id": "oyun_5",
+      "id": "oyun_6",
       "cat": "Ücretsiz Oyun",
       "catId": "oyun",
       "title": "GTA 6 & Panini İş Birliği Duyuruldu: Oyun İçindeki Kartlar Fiziksel Olarak Üretilecek!",
@@ -1866,7 +1911,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.webtekno.com/gta-6-panini-is-birligi-duyuruldu-h229412.html"
@@ -1886,7 +1931,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://shiftdelete.net/steam-topluluk-pazari-yenilendi-izleme-listesi"
@@ -1894,7 +1939,7 @@
       }
     },
     {
-      "id": "bilim_10",
+      "id": "bilim_12",
       "cat": "Bilim",
       "catId": "bilim",
       "title": "Rusya'nın kendi verilerine göre Ukrayna'daki savaşta yaklaşık 500 bin kişi öldü",
@@ -1906,7 +1951,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.bbc.com/turkce/articles/cqrlg0z9zywwo?at_medium=RSS&at_campaign=rss"
@@ -1926,7 +1971,7 @@
         "model": "openai/gpt-oss-120b",
         "temperature": 0.2,
         "prompt_version": "v1.3",
-        "generated_at": "2026-11-25T13:02:29+00:00",
+        "generated_at": "2026-11-25T15:57:15+00:00",
         "method": "summary+score+tone+why+bias",
         "source_urls": [
           "https://www.ntv.com.tr/turkiye/son-dakika-muglada-deprem-mi-oldu-az-once-deprem-muglada-nerede-oldu-mugla-deprem-kandilli-ve-afad-son-depremler-listesi-24-kasim-2026-1752420"
@@ -1935,7 +1980,7 @@
     }
   ],
   "weather": {
-    "temp": 7.4,
+    "temp": 5.0,
     "desc": "Açık",
     "city": "Çorlu"
   },
@@ -1952,85 +1997,85 @@
     "gram_gumus": {},
     "has_altin": {},
     "y22_altin": {},
-    "market_open": true,
-    "updated_at": "16:02"
+    "market_open": false,
+    "updated_at": "18:57"
   },
   "crypto": [
     {
       "label": "Bitcoin",
-      "price": 2972831,
-      "change_pct": -2.750189555848314
+      "price": 2957462,
+      "change_pct": -2.226377857378345
     },
     {
       "label": "Ethereum",
-      "price": 83444,
-      "change_pct": -3.1363369636356717
+      "price": 83573,
+      "change_pct": -1.6045848113493615
     }
   ],
   "stocks": [
     {
       "label": "BIST 100",
-      "price": 10779.88,
-      "change_pct": -2.92
+      "price": 10655.74,
+      "change_pct": -4.04
     },
     {
       "label": "S&P 500",
-      "price": 7201.09,
-      "change_pct": -0.5
+      "price": 7012.57,
+      "change_pct": -2.62
     },
     {
       "label": "Nasdaq",
-      "price": 23733.53,
-      "change_pct": -1.48
+      "price": 22790.43,
+      "change_pct": -3.97
     },
     {
       "label": "THY",
-      "price": 319.0,
-      "change_pct": -0.47
+      "price": 311.5,
+      "change_pct": -2.81
     },
     {
       "label": "Aselsan",
-      "price": 317.0,
-      "change_pct": -1.71
+      "price": 313.75,
+      "change_pct": -2.71
     },
     {
       "label": "Garanti BBVA",
-      "price": 139.9,
-      "change_pct": -2.37
+      "price": 137.9,
+      "change_pct": -3.77
     },
     {
       "label": "BİM",
-      "price": 364.25,
-      "change_pct": -1.02
+      "price": 359.75,
+      "change_pct": -2.24
     },
     {
       "label": "Apple",
-      "price": 354.07,
-      "change_pct": 1.43
+      "price": 346.29,
+      "change_pct": -2.2
     },
     {
       "label": "Microsoft",
-      "price": 496.13,
-      "change_pct": 0.74
+      "price": 479.23,
+      "change_pct": -3.41
     },
     {
       "label": "Nvidia",
-      "price": 155.38,
-      "change_pct": -5.86
+      "price": 142.4,
+      "change_pct": -8.35
     }
   ],
   "alerts_sent": {
     "Bitcoin": "2026-11-25",
     "Ethereum": "2026-11-25",
     "Nvidia": "2026-11-25",
-    "Aselsan": "2026-11-23",
-    "Nasdaq": "2026-11-24",
-    "S&P 500": "2026-11-24",
-    "Microsoft": "2026-11-23",
+    "Aselsan": "2026-11-25",
+    "Nasdaq": "2026-11-25",
+    "S&P 500": "2026-11-25",
+    "Microsoft": "2026-11-25",
     "BIST 100": "2026-11-25",
     "Garanti BBVA": "2026-11-25",
-    "BİM": "2026-11-23",
-    "THY": "2026-11-24",
-    "Apple": "2026-11-23"
+    "BİM": "2026-11-25",
+    "THY": "2026-11-25",
+    "Apple": "2026-11-25"
   }
 }
