@@ -94,7 +94,10 @@ async function group(g) {
     const ttl = open ? 30000 : 6 * 3600 * 1000;
     if (C[g] && C[g].open === open && Date.now() - C[g].t < ttl) return C[g].body;
     let q, src = 'haremaltin', debug = '';
-    try { q = await gTruncgil(); src = 'truncgil'; debug = 'truncgil'; }
+    try { q = await gTruncgil(); src = 'truncgil'; debug = 'truncgil';
+      // Ons Gümüş truncgil'de yok: gold-api'den eksik olanları ekle.
+      try { const have = new Set(q.map(x => x.k)); (await gMetal()).forEach(x => { if (!have.has(x.k)) q.push(x); }); } catch (e3) { debug += ' | gold:' + e3.message; }
+    }
     catch (e) { debug = 'tg:' + e.message;
       try { q = await gMetal(); src = 'gold'; debug += ' | gold'; } catch (e2) { debug += ' | gold:' + e2.message; q = []; }
     }
