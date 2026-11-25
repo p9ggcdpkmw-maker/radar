@@ -2296,7 +2296,7 @@ $('#trTo').innerHTML=LANGS.filter(function(l){return l[0]!=='auto'}).map(functio
 $('#plVol').value=S.vol;$('#goldPrim').value=GPRIM;$('#gpVal').textContent='%'+GPRIM;fillVoices();
 $('#cityNow').textContent=CITY.n;fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();
 if(!wgDone){wgDone=true;widgets()}
-if(S.view!=='market'){renderRail();renderFav()}
+if(S.view!=='market')Promise.all([binLoad(),cgLoad(),fngLoad()]).then(function(){renderRail();renderFav()});
 setInterval(function(){if(!S.arch&&!document.hidden)loadData()},3e5);
 setInterval(function(){hello();checkStale()},6e4);
 setInterval(tickClock,10000);
