@@ -973,10 +973,16 @@ if(d.market){push('USD/TRY',d.market.usdtry);push('EUR/TRY',d.market.eurtry);pus
 (d.crypto||[]).forEach(function(c){push(c.label,c.price)});(d.stocks||[]).forEach(function(s){push(s.label,s.price)})})}
 function hist(k){return (HIST[k]||[]).map(function(p){return p.v})}
 var DL_DONE=false;
-function deepLink(){if(DL_DONE)return;var p=new URLSearchParams(location.search);
+// Derin link parametreleri yüklemede yakalanır: syncUrl() veri gelmeden URL'den news/match/sym'i siliyordu.
+var DL_Q=new URLSearchParams(location.search);
+function deepLink(){if(DL_DONE)return;var p=DL_Q;
 var nl=p.get('news'),mid=p.get('match'),sym=p.get('sym');
 if(!nl&&!mid&&!sym)return;DL_DONE=true;
-if(nl){var it=findNews(nl);if(it){setView('feed');openNews(it)}}
+if(nl){var it=findNews(nl);setView('feed');
+if(it)openNews(it);
+else{toast('Haber arşivde aranıyor…');loadArch(12).then(function(a){var f=null;
+(a||[]).slice().reverse().some(function(x){return ((x.data&&x.data.items)||[]).some(function(n){if(n.nid===nl||n.link===nl){f=n;return true}})});
+if(f)openNews(f);else toast('Haber artık akışta yok','warn')})}}
 else if(mid){var sp=p.get('sport'),dt=p.get('date');
 if(sp&&['football','basketball','volleyball'].indexOf(sp)>=0)SC.sport=sp;
 if(dt&&/^\d{8}$/.test(dt))SC.date=dt;
@@ -1009,7 +1015,7 @@ ARCH.sort(function(a,b){return String(a.date).localeCompare(String(b.date))});re
 }).catch(function(){ARCH=[];return ARCH}).then(function(r){archLoading=null;return r});
 return archLoading}
 /* ================= AKIŞ ================= */
-function findNews(l){for(var i=0;i<NEWS.length;i++)if(NEWS[i].link===l)return NEWS[i];return null}
+function findNews(l){for(var i=0;i<NEWS.length;i++)if(NEWS[i].nid===l||NEWS[i].link===l)return NEWS[i];return null}
 function filtered(){var a=NEWS;
 if(S.saved)a=a.filter(function(n){return S.savedSet.has(n.link)});
 else if(S.cat==='all'){if(S.prefs&&S.prefs.length)a=a.filter(function(n){return S.prefs.indexOf(n.catId)>=0})}

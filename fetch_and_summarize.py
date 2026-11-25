@@ -3,6 +3,7 @@ RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi
 """
 import json, os, re, sys, time
 import difflib
+import hashlib
 from datetime import datetime, timezone, timedelta
 from email.utils import format_datetime
 from urllib.parse import urlparse
@@ -219,6 +220,8 @@ def fetch_category(cat, cache):
                 items.append({
                     "id": f"{cat['id']}_{len(items)}", "cat": cat["label"], "catId": cat["id"],
                     "title": title, "source": source, "link": link,
+                    # nid: linkten türetilen sabit kimlik (id sıra numarası, her çalıştırmada değişir).
+                    "nid": hashlib.sha1(link.encode("utf-8")).hexdigest()[:10],
                     "pubDate": pub_dt.isoformat(), "image": img,
                     "rss_desc": entry.get("summary", "")
                 })
