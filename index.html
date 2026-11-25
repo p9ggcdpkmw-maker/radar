@@ -2332,7 +2332,7 @@ return{v:v,p:p,ons:o,usd:u,usdV:usd,direct:!!g,ha:ha}};
 rowHTML=function(r){var h=r.h&&r.h.length>1?r.h:[];var bd=r.liveNow?' <span class="up">CANLI</span>':'';
 var al=(r.al!=null?r.al:r.alis);
 var vr=(al!=null)?'<div class="mrv">'+price(al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
-var spB=(r.spreadPct!=null)?'<span class="pill fl" title="Alış-satış makası">makas %'+r.spreadPct.toFixed(2).replace(\'.\',\',\')+'</span>':'';
+var spB=(r.spreadPct!=null)?'<span class="pill fl" title="Alış-satış makası">makas %'+r.spreadPct.toFixed(2).replace('.',',')+'</span>':'';
 return '<div class="mr"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
 '<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>'+vr+
 '<div class="mrp">'+spB+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'};
