@@ -7,6 +7,13 @@ async function gj(u){try{const r=await fetch(u,{headers:{"user-agent":"RADAR"}})
 // KV list de günde 1000 ile sınırlı: sayıyı isolate belleğinde 60 sn tut.
 let PRES={t:0,n:0};
 async function presN(env){if(Date.now()-PRES.t<60000)return PRES.n;const l=await env.RADAR_KV.list({prefix:"pres:"});PRES={t:Date.now(),n:(l.keys||[]).length};return PRES.n}
+// Özet: üst sınır içinde son cümle sonunda kes; cümle sonu yoksa kelimede kes.
+function cutSent(s,n){s=String(s||"").replace(/\s+/g," ").trim();if(s.length<=n)return s;
+const part=s.slice(0,n),re=/[.!?…](\s|$)/g;let end=-1,m;while((m=re.exec(part)))end=m.index+1;
+return end>=60?part.slice(0,end):part.replace(/\s+\S*$/,"")+"…"}
+// Buton etiketi: emoji + kısa başlık, toplam ≤28 karakter.
+function btnLabel(em,t){t=String(t||"").replace(/\s+/g," ").trim();const max=28-em.length-1;
+return em+" "+(t.length>max?t.slice(0,max-1).trim()+"…":t)}
 function trlow(s){return String(s||"").toLocaleLowerCase("tr")}
 async function scan(env){
 const KV=env.RADAR_KV;
@@ -41,14 +48,15 @@ if(set.off)continue;
 const matched=[];
 newItems.forEach(it=>{const hay=trlow(it.title+" "+(it.summary||""));
 if(favs.some(f=>(f.t==="src"&&f.id===it.source)||(f.t==="kw"&&hay.indexOf(trlow(f.id))>=0)))
-matched.push({text:"📰 "+(it.source||"")+" · "+it.title+"\n"+String(it.summary||"").slice(0,140),url:SITE+"?v=feed&news="+encodeURIComponent(it.link)});});
+matched.push({text:"📰 "+(it.source||"")+" · "+it.title+"\n"+cutSent(it.summary,320),url:SITE+"?v=feed&news="+encodeURIComponent(it.nid||it.link),btn:btnLabel("📰",it.title),all:SITE+"?v=feed"});});
 events.forEach(e=>{const m=e.m;
 if(!favs.some(f=>f.t==="team"&&(f.id===m.home||f.id===m.away)))return;
 const score=(m.hs==null?"-":m.hs)+"-"+(m.as==null?"-":m.as);
 const url=SITE+"?v=scores&match="+encodeURIComponent(m.id)+"&sport="+e.sport+"&date="+today;
-if(e.k==="start")matched.push({text:"🔴 Başladı: "+m.home+" – "+m.away,url});
-else if(e.k==="goal")matched.push({text:"⚽ GOL! "+m.home+" "+score+" "+m.away+(m.clock?" ("+m.clock+")":""),url});
-else matched.push({text:"🏁 Bitti: "+m.home+" "+score+" "+m.away,url});});
+const all=SITE+"?v=scores";
+if(e.k==="start")matched.push({text:"🔴 Başladı: "+m.home+" – "+m.away,url,all,btn:btnLabel("🔴",m.home+" – "+m.away)});
+else if(e.k==="goal")matched.push({text:"⚽ GOL! "+m.home+" "+score+" "+m.away+(m.clock?" ("+m.clock+")":""),url,all,btn:btnLabel("⚽",m.home+" "+score+" "+m.away)});
+else matched.push({text:"🏁 Bitti: "+m.home+" "+score+" "+m.away,url,all,btn:btnLabel("🏁",m.home+" "+score+" "+m.away)});});
 if(!matched.length)continue;
 let q=[];try{q=JSON.parse(await KV.get("queue:"+chat)||"[]")}catch(e){}
 q=q.concat(matched).slice(-20);
@@ -60,7 +68,9 @@ const due=set.digest?(Date.now()-since>=30*60*1000):true;
 if(!due)continue;
 const batch=q.slice(0,5);
 const text=batch.map(b=>b.text).join("\n\n").slice(0,3800);
-const kb={inline_keyboard:batch.slice(0,3).map(b=>[{text:"📡 RADAR'da aç",url:b.url}])};
+// ≤3 öğe: her birine ayrı buton. >3: tek "Tümünü aç" (hepsi aynı türdeyse o sekmeye).
+const allU=batch.every(b=>b.all&&b.all===batch[0].all)?batch[0].all:SITE;
+const kb={inline_keyboard:batch.length>3?[[{text:"📡 Tümünü RADAR'da aç",url:allU}]]:batch.map(b=>[{text:b.btn||"📡 RADAR'da aç",url:b.url}])};
 await fetch("https://api.telegram.org/bot"+env.TG_TOKEN+"/sendMessage",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({chat_id:chat,text,disable_web_page_preview:true,reply_markup:kb})});
 await KV.put("queue:"+chat,JSON.stringify(q.slice(batch.length)));
 await KV.delete("qsince:"+chat);}
