@@ -232,15 +232,19 @@ def fetch_category(cat, cache):
     return deduped[:20]
 
 import time as _time
+import threading
 _last_fetch = 0
+_fetch_lock = threading.Lock()
 
 
 def fetch_text_and_image(url, timeout=15):
     global _last_fetch
-    now = _time.time()
-    if now - _last_fetch < 0.5:
-        _time.sleep(0.5 - (now - _last_fetch))
-    _last_fetch = _time.time()
+    # Lock içinde bekle: thread'ler istek başlangıçlarını en az 0.5 sn aralıkla sıralar.
+    with _fetch_lock:
+        now = _time.time()
+        if now - _last_fetch < 0.5:
+            _time.sleep(0.5 - (now - _last_fetch))
+        _last_fetch = _time.time()
     text, og_image = "", None
 
     try:
