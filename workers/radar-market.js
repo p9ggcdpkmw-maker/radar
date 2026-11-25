@@ -81,7 +81,7 @@ async function gTruncgil(){
     const alis = num(row.Buying), satis = num(row.Selling);
     if (!(alis>0 && satis>0)) return;
     const pct = row.Change ? parseFloat(String(row.Change).replace('%','').replace(',','.')) : 0;
-    const ALIAS = { GRA:'Gram Altın', HAS:'Has Altın', GUMUS:'Gram Gümüş', ONS:'Ons Altın' };
+    const ALIAS = { GRA:'Gram Altın', HAS:'Has Altın', GUMUS:'Gram Gümüş', ONS:'Ons Altın', YIA:'22 Ayar Bilezik' };
     const nm = ALIAS[k] || k;
     out.push({ k:nm, n:nm, v:satis, p:pct, alis:alis, satis:satis, spread:satis-alis, spreadPct:((satis-alis)/alis*100), grp:'metal', src:'truncgil', s:[] });
   });
