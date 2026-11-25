@@ -2280,7 +2280,7 @@ addEventListener('load',measure)}
 var PRES_ID=LS.g('radar_pres_id','');if(!PRES_ID){PRES_ID=Math.random().toString(36).slice(2,10);LS.s('radar_pres_id',PRES_ID)}
 function presRender(n){$$('.pres').forEach(function(e){if(!(n>0)){e.hidden=true;return}
 e.hidden=false;e.innerHTML='<i></i>'+(n>1?'<b>'+n+'</b>':'');e.title=n>1?(n+' kişi çevrimiçi'):'Çevrimiçi'})}
-function presBeat(){jpost(NOTIFY_URL+'/presence',{id:PRES_ID}).then(function(){return jget(NOTIFY_URL+'/presence',8000)}).then(function(d){presRender(d.n||0)}).catch(function(){presRender(0)})}
+function presBeat(){jpost(NOTIFY_URL+'/presence',{id:PRES_ID}).then(function(d){return d&&d.n!=null?d:jget(NOTIFY_URL+'/presence',8000)}).then(function(d){presRender(d.n||0)}).catch(function(){presRender(0)})}
 function init(){
 buildStations();
 applyTheme();hello();tickClock();renderPrefs();renderAbout();
@@ -2310,7 +2310,7 @@ document.readyState==='complete'?go():addEventListener('load',go);
 navigator.serviceWorker.addEventListener('controllerchange',function(){location.reload()});
 $('#swReload').addEventListener('click',function(){var w=swWait||(swReg&&swReg.waiting);if(w)w.postMessage('SKIP_WAITING');else location.reload()});
 setInterval(function(){if(swReg&&!document.hidden)swReg.update().catch(function(){})},1800000);}
-presBeat();setInterval(presBeat,120000);}
+presBeat();setInterval(presBeat,300000);}
 /* --- RADAR yama v9: Kapalicarsi canli alis/satis + okuma modu onarimi --- */
 wkLoad=function(){return jget(MKT_URL+'?g=fx,metal,st,idx',10000).then(function(d){
 MT.wk={};(d.quotes||[]).forEach(function(q){if(q&&q.k&&isFinite(q.v)&&q.v>0)MT.wk[(q.grp||'?')+':'+q.k]=q});

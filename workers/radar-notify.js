@@ -4,19 +4,23 @@ function cors(){return{"access-control-allow-origin":"*","access-control-allow-m
 const SITE="https://p9ggcdpkmw-maker.github.io/radar/";
 const SCURL="https://radar-scores.69sygknn4y.workers.dev/scores";
 async function gj(u){try{const r=await fetch(u,{headers:{"user-agent":"RADAR"}});if(!r.ok)return null;return await r.json()}catch(e){return null}}
+// KV list de günde 1000 ile sınırlı: sayıyı isolate belleğinde 60 sn tut.
+let PRES={t:0,n:0};
+async function presN(env){if(Date.now()-PRES.t<60000)return PRES.n;const l=await env.RADAR_KV.list({prefix:"pres:"});PRES={t:Date.now(),n:(l.keys||[]).length};return PRES.n}
 function trlow(s){return String(s||"").toLocaleLowerCase("tr")}
 async function scan(env){
 const KV=env.RADAR_KV;
-const firstN=!(await KV.get("seen:news")),firstS=!(await KV.get("seen:sc"));
+const rawN=await KV.get("seen:news"),rawS=await KV.get("seen:sc");
+const firstN=!rawN,firstS=!rawS;
 const news=await gj(SITE+"news.json?t="+Date.now());
 const today=new Date().toISOString().slice(0,10).replace(/-/g,"");
 const scF=await gj(SCURL+"?sport=football&date="+today);
 const scB=await gj(SCURL+"?sport=basketball&date="+today);
 const scV=await gj(SCURL+"?sport=volleyball&date="+today);
-let seenN=[];try{seenN=JSON.parse(await KV.get("seen:news")||"[]")}catch(e){}
+let seenN=[];try{seenN=JSON.parse(rawN||"[]")}catch(e){}
 const seenSet=new Set(seenN);
 const newItems=firstN?[]:(((news&&news.items)||[]).filter(it=>it&&it.link&&!seenSet.has(it.link)));
-let seenS={};try{seenS=JSON.parse(await KV.get("seen:sc")||"{}")}catch(e){}
+let seenS={};try{seenS=JSON.parse(rawS||"{}")}catch(e){}
 const events=[];
 const proc=(d,sport)=>{((d&&d.leagues)||[]).forEach(l=>(l.matches||[]).forEach(m=>{
 const sig=m.state+":"+(m.hs==null?"-":m.hs)+":"+(m.as==null?"-":m.as);
@@ -60,17 +64,20 @@ const kb={inline_keyboard:batch.slice(0,3).map(b=>[{text:"📡 RADAR'da aç",url
 await fetch("https://api.telegram.org/bot"+env.TG_TOKEN+"/sendMessage",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({chat_id:chat,text,disable_web_page_preview:true,reply_markup:kb})});
 await KV.put("queue:"+chat,JSON.stringify(q.slice(batch.length)));
 await KV.delete("qsince:"+chat);}
-await KV.put("seen:news",JSON.stringify(seenN.concat(newItems.map(i=>i.link)).slice(-400)));
+// KV free tier: günde 1000 yazma. Sadece değişince yaz. İlk çalıştırmada mevcut haberlerle tohumla (yoksa sonraki tur hepsini "yeni" sayar).
+const addN=firstN?((news&&news.items)||[]).filter(it=>it&&it.link):newItems;
+if(addN.length)await KV.put("seen:news",JSON.stringify(seenN.concat(addN.map(i=>i.link)).slice(-400)));
 const ks=Object.keys(seenS);if(ks.length>400){const t={};ks.slice(-400).forEach(k=>t[k]=seenS[k]);seenS=t}
-await KV.put("seen:sc",JSON.stringify(seenS));}
+const outS=JSON.stringify(seenS);if(outS!==rawS)await KV.put("seen:sc",outS);}
 export default{async scheduled(ev,env,ctx){ctx.waitUntil(scan(env))},async fetch(req,env){
 const url=new URL(req.url);
 if(req.method==="OPTIONS")return new Response(null,{status:204,headers:cors()});
 const KV=env.RADAR_KV;
 if(url.pathname==="/presence"&&req.method==="POST"){const d=await req.json().catch(()=>null);
 if(!d||!d.id)return json({error:"id yok"},400);
-await env.RADAR_KV.put("pres:"+String(d.id).slice(0,40),"1",{expirationTtl:300});return json({ok:true})}
-if(url.pathname==="/presence"){const l=await env.RADAR_KV.list({prefix:"pres:"});return json({n:(l.keys||[]).length})}
+// TTL, istemci aralığının (300 sn) 2 katından fazla: bir kaçan beat kullanıcıyı düşürmez.
+await env.RADAR_KV.put("pres:"+String(d.id).slice(0,40),"1",{expirationTtl:660});return json({ok:true,n:await presN(env)})}
+if(url.pathname==="/presence")return json({n:await presN(env)});
 if(url.pathname==="/scan"){await scan(env);return json({ok:true,scanned:true})}
 if(url.pathname==="/pair"&&req.method==="POST"){
 const d=await req.json().catch(()=>null);
