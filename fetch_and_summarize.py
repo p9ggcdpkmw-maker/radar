@@ -642,7 +642,8 @@ def main():
                 bd_date = (json.load(f).get("meta") or {}).get("bd_sent_date", "")
         except Exception:
             bd_date = ""
-        if bd_date != today:
+        # Günlük e-posta artık morning_briefing.py (08:00 TR) ile gidiyor; "günde 1 özet" sözü için burada gönderilmez.
+        if bd_date != today and os.environ.get("BOT_DAILY_EMAIL", "0") == "1":
             flat = [it for items in new_by_cat.values() for it in items]
             flat.sort(key=lambda x: x.get("score", 5), reverse=True)
             body = ("<h2>📰 RADAR Günlük Özet</h2><ul>" + "".join(
