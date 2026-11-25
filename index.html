@@ -1386,7 +1386,7 @@ if(!cm.hidden)cm.textContent='Tümünü göster ('+rows.length+')'}
 function renderMarket(){var pane=$('#mkPane');if(!pane)return;
 var ses=sessions(),wrap=$('.tblwrap',pane),sl=wrap?wrap.scrollLeft:0;
 $('#mkStatus').textContent='BIST '+(ses.bist.open?'açık':'kapalı')+' · ABD '+(ses.us.open?'açık':'kapalı')+' · kripto 7/24';
-var sc=$('#mkSrc');sc.className='srcc'+(MT.wkOK?' live':'');
+var sc=$('#mkSrc');sc.className='srcc'+(MT.ha&&MT.ha.src==='haremaltin'&&MT.ha.open?' live':'');
 sc.innerHTML='<span class="pd"></span>'+(MT.ha&&MT.ha.src==='haremaltin'?('Haremaltın · '+(MT.ha.open?'CANLI '+MT.ha.at:'kapanış '+MT.ha.at)):(MT.wkOK?'worker 30 sn':'bot'));
 setBinChip(!!(MT.ws&&MT.ws.readyState===1));
 syncMarketBars();
