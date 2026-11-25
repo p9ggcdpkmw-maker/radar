@@ -2296,7 +2296,7 @@ $('#trTo').innerHTML=LANGS.filter(function(l){return l[0]!=='auto'}).map(functio
 $('#plVol').value=S.vol;$('#goldPrim').value=GPRIM;$('#gpVal').textContent='%'+GPRIM;fillVoices();
 $('#cityNow').textContent=CITY.n;fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();
 if(!wgDone){wgDone=true;widgets()}
-if(S.view!=='market')Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad()]).then(function(){renderRail();renderFav()});
+if(S.view!=='market'){renderRail();renderFav()}
 setInterval(function(){if(!S.arch&&!document.hidden)loadData()},3e5);
 setInterval(function(){hello();checkStale()},6e4);
 setInterval(tickClock,10000);
@@ -2332,9 +2332,10 @@ return{v:v,p:p,ons:o,usd:u,usdV:usd,direct:!!g,ha:ha}};
 rowHTML=function(r){var h=r.h&&r.h.length>1?r.h:[];var bd=r.liveNow?' <span class="up">CANLI</span>':'';
 var al=(r.al!=null?r.al:r.alis);
 var vr=(al!=null)?'<div class="mrv">'+price(al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
+var spB=(r.spreadPct!=null)?'<span class="pill fl" title="Alış-satış makası">makas %'+r.spreadPct.toFixed(2).replace(\'.\',\',\')+'</span>':'';
 return '<div class="mr"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
 '<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>'+vr+
-'<div class="mrp">'+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'};
+'<div class="mrp">'+spB+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'};
 mFx=function(){var rows=[];
 [['USDTRY','USD/TRY'],['EURTRY','EUR/TRY'],['GBPTRY','GBP/TRY'],['CHFTRY','CHF/TRY'],['JPYTRY','JPY/TRY']].forEach(function(p){
 var q=findFx(p[0]);
@@ -2344,9 +2345,9 @@ else if(p[0]==='EURTRY'&&MK&&MK.eurtry)rows.push({n:p[1],s:'bot',v:MK.eurtry,p:n
 var gb=gramBase(),g=gb.v,sil=findMetal(['ONSGUMUS','XAGUSD','XAG','SILVER']);
 var HAopen=!!(MT.ha&&MT.ha.open),HAat=(MT.ha&&MT.ha.at)||'';
 var haByName={};wkAll().forEach(function(q){if(q.grp==='metal'&&q.alis!=null)haByName[normK(q.k)]=q});
-var goldRows=GOLD.map(function(x){var v,pp,src,al=null;
+var goldRows=GOLD.map(function(x){var v,pp,src,al=null,spr=null;
 var hq=haByName[normK(x[0])];
-if(hq){v=hq.satis;al=hq.alis;pp=hq.p;src='Kapalıçarşı · '+(HAopen?'CANLI '+HAat:'kapanış '+HAat)}
+if(hq){v=hq.satis;al=hq.alis;pp=hq.p;spr=hq.spreadPct;src='Kapalıçarşı · '+(HAopen?'CANLI '+HAat:'kapanış '+HAat)}
 else if(x[3]==='silver'){if(!sil)return null;v=sil.v;pp=sil.p;src='ons · worker'}
 else if(x[3]==='ons'){v=gb.ons?gb.ons.v:(g!=null?g*31.1035:null);pp=gb.ons?gb.ons.p:gb.p;src=x[2]+(gb.ons?' · worker':' · hesaplanmış')}
 else{if(g==null)return null;v=g*x[1];pp=gb.p;src=(MT.ha&&MT.ha.src==='hesap'?'hesaplanmış':'hesaplanmış')}
