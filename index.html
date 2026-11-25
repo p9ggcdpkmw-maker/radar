@@ -1551,8 +1551,7 @@ $$('#scStatusSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.
 var fo=$('#scFavOnly');if(fo)fo.classList.toggle('pri',SC.favOnly);
 var sel=$('#scLeague');if(sel){var opts='<option value="all">Lig: Tümü</option>'+((SC.data&&SC.data.leagues)||[]).map(function(l){return '<option value="'+esc(l.id)+'">'+esc(l.flag+' '+l.name)+'</option>'}).join('');if(sel.innerHTML!==opts)sel.innerHTML=opts;sel.value=SC.league}
 var src=$('#scSrc');if(src){var age=SC.ts?Math.round((Date.now()-SC.ts)/1000):null;src.className='srcc'+(SC.data&&!SC.err?' live':'');src.innerHTML='<span class="pd"></span>'+(SC.err?'hata':SC.data?(age<5?'az önce':age+' sn önce'):'—')}
-var rows=scMatches();renderScHero();renderScSum();var vbN=$('#scVbNote');if(vbN)vbN.hidden=SC.sport!=='volleyball'; var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.'; 
-var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.'; var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.';var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
+var rows=scMatches();renderScHero();renderScSum();var vbN=$('#scVbNote');if(vbN)vbN.hidden=SC.sport!=='volleyball'; var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.';var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
 if(SC.loading&&!SC.data){box.innerHTML=new Array(7).join('x').split('x').map(function(){return '<div class="skb" style="margin-bottom:8px"></div>'}).join('');return}
 if(SC.err&&!SC.data){box.innerHTML='<div class="empty"><b>📡</b><p>Skor verisi alınamadı: '+esc(SC.err)+'</p><button class="btn gh" data-scretry style="margin-top:10px">↻ Tekrar dene</button></div>';return}
 if(!rows.length){box.innerHTML='<div class="empty"><b>🏟️</b><p>'+(SC.status==='in'?'Şu an canlı maç yok.':SC.favOnly?'Favori takımlarının maçı yok.':'Bu günde bu filtreyle maç yok.')+'</p></div>';return}
@@ -2364,40 +2363,6 @@ sc.innerHTML='<span class="pd"></span>'+(hs==='kapalicarsi'?('Kapalıçarşı ·
 sc.title=(MT.ha&&MT.ha.debug)||''};
 var _ra0=renderAbout;renderAbout=function(){_ra0();var a=$('#about');if(!a)return;
 a.innerHTML=a.innerHTML.replace('Altın çeşitleri gram fiyattan <b>hesaplanır</b>; kuyumcu fiyatı farklıdır.','Altın &amp; gümüş çeşitleri <b>Kapalıçarşı</b> canlı verisinden gelir (alış/satış); erişilemezse spot/hesaplanmış etiketiyle gösterilir. Kuyumcu tahmini işçilik primiyle hesaplanır, gerçek kuyumcu fiyatı değildir.')};
-function readMode(){var box=$('#readBox');if(!cur||!box)return;
-if(!box.hidden){box.hidden=true;$('#nRead').textContent='📖 Okuma modu';return}
-box.hidden=false;$('#nRead').textContent='⏳ Yükleniyor…';box.textContent='';
-fetch(PROXY+encodeURIComponent(cur.link),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(html){
-var doc=new DOMParser().parseFromString(html,'text/html');
-$$('script,style,noscript,nav,footer,aside,form,iframe,button,[class*="related"],[class*="ilgili"],[class*="author"],[class*="yazar"],[class*="bio"],[class*="social"],[class*="sosyal"],[class*="share"],[class*="paylas"],[class*="comment"],[class*="yorum"],[class*="tags"],[class*="etiket"],[class*="breadcrumb"],[class*="sidebar"],[class*="widget"],[class*="newsletter"],[class*="bulten"],[class*="promo"],[class*="reklam"],[class*="advert"],[id*="related"],[id*="author"],[id*="comments"],[id*="sidebar"]',doc).forEach(function(n){n.remove()});
-var root=doc.querySelector('article')||doc.querySelector('[class*="content"]')||doc.querySelector('[class*="detail"]')||doc.querySelector('main')||doc.body;
-var brand=String(cur.source||'').toLocaleLowerCase('tr').split(' ')[0].replace(/[^a-zçğıöşü0-9]/gi,'');
-var BOIL=['okuyucuları ile paylaşır','okuyucularıyla paylaşır','takip etmekten','zevk alan','öğrendiklerini','yazarı','editörü','muhabiri','mezunu','bizi takip','takip edin','abone ol','bülten','google news','google haberler','telegram','twitter','instagram','facebook','youtube','tiktok','linkedin','whatsapp','sosyal medya','ilginizi çekebilir','ayrıca bakınız','önceki haber','sonraki haber','sıradaki haber','okumaya devam','tıklayın','tıklayarak','kaynak:','fotoğraf:','getty images','reuters'];
-var ps=$$('p',root).map(function(p){return (p.textContent||'').replace(/\s+/g,' ').trim()}).filter(function(t){
-if(t.length<60)return false;
-var low=t.toLocaleLowerCase('tr');
-if(BOIL.some(function(k){return low.indexOf(k)>=0}))return false;
-if(brand&&low.indexOf(brand)>=0&&t.length<260&&!/\d/.test(t))return false;
-return true}).slice(0,14);
-if(!ps.length)throw 0;
-box.innerHTML=ps.map(function(t){return '<p style="margin-bottom:12px">'+esc(t)+'</p>'}).join('')+
-'<div class="ma" style="margin:6px 0 0"><button class="btn gh" id="rdClean">🤖 AI ile daha da sadeleştir</button></div>';
-$('#rdClean').addEventListener('click',aiClean);
-$('#nRead').textContent='📖 Okuma modunu kapat';
-}).catch(function(){
-box.hidden=true;$('#nRead').textContent='📖 Okuma modu';toast('Okuma modu bu kaynak için açılamadı','warn')})}
-function aiClean(){var box=$('#readBox');if(!box||!cur)return;
-var key='radar_clean_'+cur.link;
-var draw=function(t){box.innerHTML=t.split(/\n{2,}/).map(function(p){return '<p style="margin-bottom:12px">'+esc(p.trim())+'</p>'}).filter(function(h){return h.length>12}).join('')+
-'<div class="ma" style="margin:6px 0 0"><button class="btn gh" id="rdClean">🤖 AI ile daha da sadeleştir</button></div>';
-$('#rdClean').addEventListener('click',aiClean)};
-var cached=LS.g(key,null);
-if(cached&&cached.text&&Date.now()-cached.at<7*864e5){draw(cached.text);toast('✨ Önbellekten sadeleştirildi');return}
-var b=$('#rdClean');b.disabled=true;b.textContent='⏳ Sadeleştiriliyor…';
-var raw=$$('p',box).map(function(p){return p.textContent}).filter(function(t){return t&&t.indexOf('AI ile')<0}).join('\n');
-jpost(CLEAN_URL,{text:raw},{ms:45000}).then(function(d){if(!d||!d.clean)throw 0;
-LS.s(key,{text:d.clean,at:Date.now()});draw(d.clean);toast('✨ Sadeleştirildi (7 gün önbellek)')}).catch(function(){
-b.disabled=false;b.textContent='🤖 AI ile daha da sadeleştir';toast('Sadeleştirme başarısız — worker/GROQ secret kontrol','warn')})}
 bindEvents();
 init();
 })();
