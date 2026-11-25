@@ -1,9 +1,9 @@
 /* RADAR Service Worker v6 — tek dosya index.html */
-const V = 'radar-v7';
+const V = 'radar-v9';
 const SHELL = [
   './', './index.html', './manifest.json',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png',
-  './apple-touch-icon.png', './favicon-32.png'
+  './apple-touch-icon.png', './favicon-32.png', './logo.png'
 ];
 const INDEX = './index.html';
 
