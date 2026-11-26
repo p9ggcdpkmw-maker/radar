@@ -26,8 +26,8 @@ var safeUrl=function(u){return /^https?:\/\//i.test(String(u||'').trim())?String
 var ago=function(d){var t=new Date(d).getTime();if(isNaN(t))return'—';var m=(Date.now()-t)/6e4;if(m<0)return'az önce';if(m<60)return Math.round(m)+' dk';if(m<1440)return Math.round(m/60)+' sa';return Math.round(m/1440)+' gün'};
 var hhmm=function(d){var t=new Date(d);return isNaN(t.getTime())?'--:--':t.toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})};
 var normK=function(s){return String(s||'').toLowerCase().replace(/ç/g,'c').replace(/ğ/g,'g').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ş/g,'s').replace(/ü/g,'u').replace(/[^a-z0-9]/g,'').toUpperCase()};
-var CATS={gundem:{l:'Gündem',c:'#64748B'},ekonomi:{l:'Ekonomi',c:'#F5A524'},teknoloji:{l:'Teknoloji',c:'#3B82F6'},bilim:{l:'Bilim',c:'#16C784'},dunya:{l:'Dünya',c:'#8B5CF6'},oyun:{l:'Ücretsiz Oyun',c:'#EC4899'},yasam:{l:'Yaşam',c:'#14B8A6'},sanat:{l:'Sanat',c:'#F97316'},doga:{l:'Doğa',c:'#84CC16'}};
-var ORDER=['all','gundem','ekonomi','teknoloji','bilim','dunya','yasam','oyun'];
+var CATS={gundem:{l:'Gündem',c:'#64748B'},ekonomi:{l:'Ekonomi',c:'#F5A524'},teknoloji:{l:'Teknoloji',c:'#3B82F6'},bilim:{l:'Bilim',c:'#16C784'},dunya:{l:'Dünya',c:'#8B5CF6'},oyun:{l:'Ücretsiz Oyun',c:'#EC4899'},yasam:{l:'Yaşam',c:'#14B8A6'},burc:{l:'♈ Burçlar',c:'#A855F7'},sanat:{l:'Sanat',c:'#F97316'},doga:{l:'Doğa',c:'#84CC16'}};
+var ORDER=['all','gundem','ekonomi','teknoloji','bilim','dunya','yasam','oyun','burc'];
 var WC={0:['Açık','☀️'],1:['Az bulutlu','🌤️'],2:['Parçalı bulutlu','⛅'],3:['Kapalı','☁️'],45:['Sisli','🌫️'],48:['Kırağı','🌫️'],51:['Hafif çisenti','🌦️'],53:['Çisenti','🌦️'],55:['Yoğun çisenti','🌧️'],61:['Hafif yağmur','🌦️'],63:['Yağmur','🌧️'],65:['Şiddetli yağmur','⛈️'],66:['Dondurucu yağmur','🌧️'],67:['Dondurucu yağmur','🌧️'],71:['Hafif kar','🌨️'],73:['Kar','🌨️'],75:['Yoğun kar','❄️'],77:['Kar taneleri','❄️'],80:['Sağanak','🌦️'],81:['Sağanak','🌧️'],82:['Şiddetli sağanak','⛈️'],85:['Kar sağanağı','🌨️'],86:['Kar sağanağı','🌨️'],95:['Gök gürültülü','⛈️'],96:['Dolu','⛈️'],99:['Şiddetli dolu','⛈️']};
 var wx=function(c){return WC[c]||['Bilinmiyor','🌡️']};
 var GOLD=[['Gram Altın',1,'24 ayar · 1 g','calc'],['Çeyrek Altın',1.603,'22 ayar · saf karşılığı','calc'],['Yarım Altın',3.206,'22 ayar · saf karşılığı','calc'],['Tam Altın',6.412,'22 ayar · saf karşılığı','calc'],['Cumhuriyet Altını',6.611,'22 ayar · saf karşılığı','calc'],['Ata Altın',6.611,'22 ayar · saf karşılığı','calc'],['Ons Altın',31.1035,'31,1035 g · saf','ons'],['Ons Gümüş',0,'ons · saf','silver'],['22 Ayar Bilezik',0.916,'1 g · 22 ayar','calc']];
@@ -55,7 +55,7 @@ brief:'genel',limit:24};
 if(['feed','market','radio','scores','saved','menu'].indexOf(S.view)<0)S.view='feed';
 S.later=new Set(LS.g('radar_later',[]));
 var GPRIM=Number(LS.g('radar_gold_prim',3));
-var NEWS=[],META=null,BRIEF={},MK=null,CR=[],ST=[],ARCH=null,archLoading=null,HIST={},booting=true;
+var HORO=null,NEWS=[],META=null,BRIEF={},MK=null,CR=[],ST=[],ARCH=null,archLoading=null,HIST={},booting=true;
 var cur=null,hls=null,sleepT=0,curSt=-1,mIdx=0,playTok=0,wd=0,attOk=null,attErr=null,radioBusy=false;
 var palIdx=0,palRows=[],cfFn=null,FXR=null,CVR=null,wgDone=false,speaking=null,lastErrT=0,tightOn=false;
 var STATIONS=[],OFF=new Set(LS.g('radar_radio_off',[])),EXTRA=[];
@@ -156,7 +156,7 @@ var DL_LIST=[];
 function errTR(e){var m=String((e&&e.message)||e||'');return /^HTTP \d+/.test(m)?'sunucu hatası ('+m+')':'bağlantı hatası'}
 function loadData(path){var p=path||S.arch||'news.json';
 return jget(p+'?t='+Date.now(),12000).then(function(d){
-NEWS=Array.isArray(d.items)?d.items:[];META=d.meta||null;BRIEF=d.briefings||{};
+NEWS=Array.isArray(d.items)?d.items:[];HORO=d.horoscope||null;META=d.meta||null;BRIEF=d.briefings||{};
 MK=d.market||null;CR=Array.isArray(d.crypto)?d.crypto:[];ST=Array.isArray(d.stocks)?d.stocks:[];
 rebuildHist();booting=false;S.limit=24;
 renderCats();renderFeed();renderBrief();renderRail();renderMarket();renderSaved();renderLater();renderEvents();renderUsage();checkStale();renderAbout();
@@ -209,7 +209,17 @@ function maybeMore(){requestAnimationFrame(function(){if(S.view!=='feed'||bootin
 var a=filtered();if(a.length<=S.limit)return;
 var r=$('#ioSentinel').getBoundingClientRect();
 if(r.top<innerHeight+600){S.limit+=24;renderFeed()}})}
-function renderFeed(){if(booting){$('#newsGrid').innerHTML=new Array(9).join('x').split('x').map(function(){return '<div class="sk"></div>'}).join('');return}
+// Burçlar: haber kartı değil, 12 burçluk ayrı ızgara; seçilen "burcum" en üstte.
+var SIGNS=[['koc','Koç','♈','21 Mar – 19 Nis'],['boga','Boğa','♉','20 Nis – 20 May'],['ikizler','İkizler','♊','21 May – 20 Haz'],['yengec','Yengeç','♋','21 Haz – 22 Tem'],['aslan','Aslan','♌','23 Tem – 22 Ağu'],['basak','Başak','♍','23 Ağu – 22 Eyl'],['terazi','Terazi','♎','23 Eyl – 22 Eki'],['akrep','Akrep','♏','23 Eki – 21 Kas'],['yay','Yay','♐','22 Kas – 21 Ara'],['oglak','Oğlak','♑','22 Ara – 19 Oca'],['kova','Kova','♒','20 Oca – 18 Şub'],['balik','Balık','♓','19 Şub – 20 Mar']];
+function renderHoro(){var txt={};((HORO&&HORO.signs)||[]).forEach(function(x){txt[x.k]=x});var me=LS.g('radar_burc','');
+var list=SIGNS.slice().sort(function(a,b){return (b[0]===me)-(a[0]===me)});
+if(!HORO||!HORO.signs||!HORO.signs.length)return '<div class="empty"><b>♈</b><p>Bugünün burç yorumları henüz hazır değil. Bot bir sonraki turda ekler.</p></div>';
+return '<div class="horo"><p class="hint horoh">'+esc(HORO.date_label||'')+(HORO.source?' · Kaynak: '+esc(HORO.source):'')+' · Kendi burcuna ☆ ile işaret koy, en üstte görünsün.</p>'+
+list.map(function(s){var x=txt[s[0]]||{},on=s[0]===me;return '<article class="hz'+(on?' me':'')+'"><div class="hzh"><span class="hzi">'+s[2]+'</span><div><b>'+s[1]+'</b><small>'+s[3]+'</small></div>'+
+'<button class="hzs" data-burc="'+s[0]+'" aria-label="Burcum olarak işaretle">'+(on?'★':'☆')+'</button></div><p>'+esc(x.text||'Yorum yok.')+'</p>'+
+(x.link?'<a class="hzl" href="'+esc(safeUrl(x.link))+'" target="_blank" rel="noopener">Kaynakta oku ↗</a>':'')+'</article>'}).join('')+'</div>'}
+function renderFeed(){if(S.cat==='burc'&&!S.saved&&!booting){$('#newsGrid').innerHTML=renderHoro();$('#feedCount').textContent='12 burç';$('#more').classList.remove('show');$('#brief').style.display='none';renderFilterBar();syncUrl();return}
+if(booting){$('#newsGrid').innerHTML=new Array(9).join('x').split('x').map(function(){return '<div class="sk"></div>'}).join('');return}
 var a=filtered();paintGrid($('#newsGrid'),a,S.limit);$('#feedCount').textContent=a.length+' haber';
 $('#more').classList.toggle('show',a.length>S.limit);$('#moreBtn').textContent='Daha fazla ('+(a.length-S.limit)+' kaldı)';
 $('#brief').style.display=(S.cat==='all'&&!S.arch&&S.view==='feed')?'':'none';
@@ -219,7 +229,7 @@ $('#savedSub').textContent=S.savedSet.size+' kayıt · '+a.length+' tanesi günc
 if(!S.savedSet.size){$('#savedGrid').innerHTML='<div class="empty"><b>📌</b><p>Henüz kayıt yok. Bir haberin altındaki 📌 düğmesine bas, burada birikir.</p></div>';return}
 paintGrid($('#savedGrid'),a,0)}
 function renderCats(){var co={};NEWS.forEach(function(n){co[n.catId]=(co[n.catId]||0)+1});
-$('#cats').innerHTML=ORDER.map(function(k){var c=k==='all'?{l:'Senin İçin',c:'var(--pri)'}:CATS[k],n=k==='all'?NEWS.length:(co[k]||0);
+$('#cats').innerHTML=ORDER.map(function(k){var c=k==='all'?{l:'Senin İçin',c:'var(--pri)'}:CATS[k],n=k==='all'?NEWS.length:k==='burc'?(HORO&&HORO.signs?HORO.signs.length:0):(co[k]||0);
 return '<div class="cat'+(S.cat===k&&!S.saved?' on':'')+'" role="button" tabindex="0" data-cat="'+k+'"><i style="background:'+c.c+'"></i>'+c.l+'<b>'+n+'</b></div>'}).join('');
 requestAnimationFrame(catArrows)}
 // Yatay şeritlerde (kategoriler, canlı maçlar) taşma varsa ‹ › okları göster.
@@ -1405,6 +1415,7 @@ document.addEventListener('click',function(e){
 var t=e.target,el;
 if(!t.closest('#pop')&&!t.closest('[data-ai]')&&!t.closest('#briefAI'))hidePop();
 if(el=t.closest('[data-fc]')){clearFilters(el.dataset.fc);return}
+if(el=t.closest('[data-burc]')){var bk=el.dataset.burc;LS.s('radar_burc',LS.g('radar_burc','')===bk?'':bk);renderFeed();return}
 if(el=t.closest('[data-cat]')){S.cat=el.dataset.cat;S.saved=false;S.limit=24;setView('feed');renderCats();renderFeed();return}
 if(el=t.closest('.pref[data-k]')){togglePref(el.dataset.k);return}
 if(el=t.closest('.pai[data-i]')){closePal();var pn=palRows[+el.dataset.i];if(pn)openNews(pn);return}
