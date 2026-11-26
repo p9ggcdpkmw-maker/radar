@@ -645,6 +645,17 @@ def main():
                 for it in flat[:10]) + "</ul>")
             bd_send("📰 RADAR Günlük Özet", body)
             bd_date = today
+    # Groq günlük kotası dolduysa günde en fazla bir Telegram uyarısı (bot 3 saatte bir çalışır).
+    try:
+        with open("news.json", "r", encoding="utf-8") as f:
+            groq_warned = (json.load(f).get("meta") or {}).get("groq_warned", "")
+    except Exception:
+        groq_warned = ""
+    if GROQ_KAPALI and groq_warned != today:
+        tg_send("⚠️ RADAR: Groq günlük kotası doldu. Bu turda özetler yedek modelle yazıldı "
+                f"(Gemini: {AI_STATS['gemini']} · Cloudflare: {AI_STATS['cf']} · özetsiz: {AI_STATS['bos']}). "
+                "Kota gece sıfırlanır; sorun sürerse cron'u seyrekleştir.")
+        groq_warned = today
     out = {
         "updated": datetime.now(timezone.utc).isoformat(),
         "meta": {
@@ -654,6 +665,7 @@ def main():
             "prompt_version": AI_PROMPT_VER,
             "item_count": len(all_items),
             "bd_sent_date": bd_date,
+            "groq_warned": groq_warned,
             "groq_calls": AI_STATS["groq"],
             "gemini_calls": AI_STATS["gemini"],
             "cf_calls": AI_STATS["cf"],
