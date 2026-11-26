@@ -114,7 +114,7 @@ async function teamIndex(sport){const h=TEAMS.get(sport);if(h&&Date.now()-h.ts<8
 const path=sport==="basketball"?"basketball":"soccer";const seen=new Set(),list=[];
 const res=await Promise.allSettled(CAT[sport].map(l=>grab("https://site.api.espn.com/apis/site/v2/sports/"+path+"/"+l[0]+"/teams",9000).then(d=>[l,d])));
 res.forEach(r=>{if(r.status!=="fulfilled"||!r.value[1])return;const l=r.value[0],d=r.value[1];
-const lg=(((d.sports||[])[0]||{}).leagues||[])[0]||{};(lg.teams||[]).forEach(x=>{const t=x.team||{};if(!t.id||seen.has(t.id))return;seen.add(t.id);
+const lg=(((d.sports||[])[0]||{}).leagues||[])[0]||{};(lg.teams||[]).forEach(x=>{const t=x.team||{};const k=l[0]+"|"+t.id;if(!t.id||seen.has(k))return;seen.add(k);
 list.push({id:String(t.id),name:trName(t.displayName||t.name||""),lg:l[0],flag:l[1],lname:l[2]})})});
 if(list.length)TEAMS.set(sport,{ts:Date.now(),list});return list}
 function scoreOf(x){if(x==null)return null;if(typeof x==="object")x=x.value!=null?x.value:x.displayValue;const n=+x;return isFinite(n)?n:null}
@@ -123,14 +123,19 @@ return{id:e.id,lg:lg.slug||fb,lname:lg.name||"",home:trName((h.team||{}).display
 async function teamSchedule(sport,q){const qn=normTR(q);if(qn.length<2)return{error:"en az 2 harf"};
 const list=await teamIndex(sport);const m=list.filter(t=>normTR(t.name).includes(qn));
 m.sort((x,y)=>(normTR(y.name)===qn)-(normTR(x.name)===qn)||(normTR(y.name).startsWith(qn))-(normTR(x.name).startsWith(qn))||x.name.length-y.name.length);
-if(!m.length)return{team:null,others:[],matches:[]};const t=m[0];
-const key="t|"+sport+"|"+t.lg+"|"+t.id;const hit=CACHE.get(key);if(hit&&Date.now()-hit.ts<600000)return Object.assign({},hit.body,{others:m.slice(1,6).map(x=>x.name)});
+if(!m.length)return{team:null,others:[],matches:[]};
+// Aynı takım birden çok ligde olabilir (Efes: EuroLeague + BSL); fikstürü boş olanı atla, en fazla 3 aday dene.
+let body=null;for(const t of m.slice(0,3)){body=await oneSchedule(sport,t);if(body.matches.length)break}
+const others=[...new Set(m.map(x=>x.name))].filter(n=>n!==body.team.name).slice(0,5);
+return Object.assign({},body,{others})}
+async function oneSchedule(sport,t){
+const key="t|"+sport+"|"+t.lg+"|"+t.id;const hit=CACHE.get(key);if(hit&&Date.now()-hit.ts<600000)return hit.body;
 const path=sport==="basketball"?"basketball":"soccer";const base="https://site.api.espn.com/apis/site/v2/sports/"+path+"/"+t.lg+"/teams/"+t.id+"/schedule";
 const [p,f]=await Promise.all([grab(base,9000),grab(base+"?fixture=true",9000)]);
 const seen=new Set(),all=[];[p,f].forEach(d=>((d||{}).events||[]).forEach(e=>{if(seen.has(e.id))return;seen.add(e.id);all.push(schedEv(e,t.lg))}));
 all.sort((x,y)=>new Date(x.start)-new Date(y.start));
 const past=all.filter(x=>x.state==="post").slice(-5),next=all.filter(x=>x.state!=="post").slice(0,5);
-const body={team:t,matches:past.concat(next)};CACHE.set(key,{ts:Date.now(),body});return Object.assign({},body,{others:m.slice(1,6).map(x=>x.name)})}
+const body={team:t,matches:past.concat(next)};CACHE.set(key,{ts:Date.now(),body});return body}
 export default{async fetch(req,env){const url=new URL(req.url);
 if(req.method==="OPTIONS")return new Response(null,{status:204,headers:{"access-control-allow-origin":"*","access-control-allow-methods":"GET,OPTIONS","access-control-allow-headers":"*"}});
 if(url.pathname==="/match"){const sport=url.searchParams.get("sport")==="basketball"?"basketball":"football";const lg=url.searchParams.get("lg")||"";const id=url.searchParams.get("id")||"";if(!lg||!id)return json({error:"lg ve id gerekli"},400);
