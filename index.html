@@ -397,6 +397,9 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .moc{position:relative;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;border-radius:var(--r4);border:1px solid var(--ln2);background:var(--sf);padding:26px;box-shadow:var(--sh2);animation:pop .24s cubic-bezier(.2,.9,.3,1.1)}
 .moc.sm{max-width:420px}
 @keyframes pop{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:none}}
+.lrow{display:block;width:100%;text-align:left;padding:11px 12px;margin-bottom:8px;border:1px solid var(--ln);border-radius:var(--r2);background:var(--sf2);color:var(--ink);cursor:pointer}
+.lrow small{display:block;font:800 10.5px var(--mono);color:var(--ink3);margin-bottom:3px}.lrow b{font:800 14px/1.35 var(--sans)}
+.lrow:hover{border-color:var(--pri)}
 .guide p{margin:0 0 12px;font-size:14.5px;line-height:1.55}.guide p b{font-family:var(--sans)}
 .mx{position:absolute;top:15px;right:15px;width:34px;height:34px;border-radius:50%;border:1px solid var(--ln2);background:var(--sf2);color:var(--ink2);cursor:pointer;z-index:2}
 .mk{font:900 10.5px var(--sans);letter-spacing:1.5px;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
@@ -733,6 +736,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div class="row"><span>Uyarı açık</span><button class="sw" id="swAlert" aria-label="Piyasa uyarısı"></button></div>
 <div class="row col"><span>Eşik <b id="thVal">%3</b></span><input type="range" id="thRange" min="1" max="10" step="0.5" aria-label="Uyarı eşiği"></div>
 <p class="hint">Canlı takip açıkken eşik aşılırsa bildirim gelir. Bot ayrıca %2'de ntfy gönderir.</p>
+<p class="hint">🔔 <b>Fiyat alarmı (Telegram):</b> bota <b>/alarm gram 6000</b> yaz; gram altın 6.000 ₺'yi geçince bir kez mesaj gelir. Liste: /alarmlar</p>
 <div class="cph mt">📡 ntfy kanalları</div>
 <div class="links" id="ntfyLinks">
 <a href="https://ntfy.sh/radar-teknoloji-x8f2" target="_blank" rel="noopener">Teknoloji</a>
@@ -839,10 +843,16 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <p><b>★ Favoriler</b> — Nabız'da kripto ve hisseleri, Saha'da takımları ★ ile işaretle. Favorilerin sağ sütunda ve "Takımlarım" filtresinde görünür.</p>
 <p><b>📲 Telegram bildirimi</b> — Kasa → "Telegram'a bağla" ile kod al, bota /start KOD yaz. Favori takımının golü, favori kaynağın haberi Telegram'a gelir. Komutlar için bota /yardim yaz.</p>
 <p><b>🔔 Piyasa uyarısı</b> — Konsol → Piyasa uyarısı: Nabız açıkken bir değer seçtiğin eşiği aşarsa tarayıcı bildirimi gelir.</p>
+<p><b>🎯 Fiyat alarmı</b> — Telegram botuna <b>/alarm gram 6000</b> ya da <b>/alarm dolar 52</b> yaz. Fiyat o seviyeyi geçince bir kez mesaj gelir (5 dk'da bir kontrol). /alarmlar ile listele, /alarmsil 1 ile sil.</p>
 <p><b>☀️ Sabah brifingi</b> — Konsol → RADAR Bülteni'ne e-postanı yaz: her sabah 08:00'de manşetler, piyasa, maçlar ve hava.</p>
 <p><b>🔎 Hızlı arama</b> — Ctrl+K (Mac'te ⌘K) ile tüm haberlerde ara. 📅 menüsünden geçmiş günlerin arşivine bak.</p>
 <p><b>📻 Dalga</b> — Canlı radyo. Çalmayan kanal için "Kanal testi"ni çalıştır, ölüleri tek tuşla gizle.</p>
 </div>
+</div></div>
+<div class="modal" id="mList" role="dialog" aria-modal="true" aria-labelledby="mListTitle"><div class="moc sm">
+<button class="mx" data-close aria-label="Kapat">✕</button>
+<h2 class="mt" id="mListTitle">Haberler</h2>
+<div id="mListBody"></div>
 </div></div>
 <div class="modal" id="mConfirm" role="dialog" aria-modal="true"><div class="moc sm">
 <h3 class="mt" id="cfTitle">Emin misin?</h3><p class="mbody" id="cfText"></p>
@@ -987,17 +997,32 @@ var DL_Q=new URLSearchParams(location.search);
 function deepLink(){if(DL_DONE)return;var p=DL_Q;
 var nl=p.get('news'),mid=p.get('match'),sym=p.get('sym');
 if(!nl&&!mid&&!sym)return;DL_DONE=true;
-if(nl){var it=findNews(nl);setView('feed');
-if(it)openNews(it);
-else{toast('Haber arşivde aranıyor…');loadArch(12).then(function(a){var f=null;
-(a||[]).slice().reverse().some(function(x){return ((x.data&&x.data.items)||[]).some(function(n){if(n.nid===nl||n.link===nl){f=n;return true}})});
-if(f)openNews(f);else toast('Haber artık akışta yok','warn')})}}
+if(nl){setView('feed');
+// Tek kimlik: haberi aç. Virgüllü (TG "Tümünü aç"): o haberlerin listesi.
+var ids=nl.indexOf('http')===0?[nl]:nl.split(',').filter(Boolean);
+dlResolve(ids).then(function(found){
+if(!found.length){toast('Haber artık akışta yok','warn');return}
+if(ids.length===1)openNews(found[0]);else openList(found,ids.length)})}
 else if(mid){var sp=p.get('sport'),dt=p.get('date');
 if(sp&&['football','basketball','volleyball'].indexOf(sp)>=0)SC.sport=sp;
 if(dt&&/^\d{8}$/.test(dt))SC.date=dt;
 setView('scores');scLoad(true).then(function(){scOpen(mid)})}
 else if(sym){setView('market');setTimeout(function(){if(MT.bin.some(function(x){return x.sym===sym}))openCoin(sym);else openStock(sym)},2500)}
 try{var u=new URL(location.href);u.searchParams.delete('news');u.searchParams.delete('match');u.searchParams.delete('sym');history.replaceState(null,'',u.toString())}catch(e){}}
+// Kimlikleri (nid/link) önce akışta, bulunamayanları son 12 günün arşivinde arar; sırayı korur.
+function dlResolve(ids){var res={},miss=[];
+ids.forEach(function(id){var it=findNews(id);if(it)res[id]=it;else miss.push(id)});
+var done=function(){return ids.map(function(id){return res[id]}).filter(Boolean)};
+if(!miss.length)return Promise.resolve(done());
+toast('Haber arşivde aranıyor…');
+return loadArch(12).then(function(a){(a||[]).slice().reverse().forEach(function(x){((x.data&&x.data.items)||[]).forEach(function(n){
+miss.forEach(function(id){if(!res[id]&&(n.nid===id||n.link===id))res[id]=n})})});return done()})}
+function openList(items,asked){var L=$('#mListBody');DL_LIST=items;
+$('#mListTitle').textContent='📲 Telegram\'dan gelen '+items.length+' haber';
+L.innerHTML=items.map(function(n,i){return '<button class="lrow" data-li="'+i+'"><small>'+esc(n.source||'')+'</small><b>'+esc(n.title||'')+'</b></button>'}).join('')+
+(items.length<asked?'<p class="hint">'+(asked-items.length)+' haber artık akışta ve arşivde yok.</p>':'');
+openM('#mList')}
+var DL_LIST=[];
 function loadData(path){var p=path||S.arch||'news.json';
 return jget(p+'?t='+Date.now(),12000).then(function(d){
 NEWS=Array.isArray(d.items)?d.items:[];META=d.meta||null;BRIEF=d.briefings||{};
@@ -2071,6 +2096,7 @@ $$('#cfSeg button').forEach(function(b){b.addEventListener('click',function(){MT
 $('#csSel').addEventListener('change',function(e){MT.cs=e.target.value;renderMarket()});
 $('#cMore').addEventListener('click',function(){MT.clim=10000;renderMarket()});
 $('#guideBtn').addEventListener('click',function(){openM('#mGuide')});
+$('#mListBody').addEventListener('click',function(e){var b=e.target.closest('[data-li]');if(!b)return;var n=DL_LIST[+b.dataset.li];closeM();if(n)openNews(n)});
 $('#nlSub').addEventListener('click',function(){
 var email=$('#nlEmail').value.trim();
 if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Geçerli email gir','warn');return}

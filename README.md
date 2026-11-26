@@ -66,6 +66,7 @@ Hava (7 gün + saatlik), hava kalitesi (AQI/PM2.5), gün doğumu-batışı, nama
 - **Kategori bildirimleri:** her turda kategoriler için Telegram + ntfy mesajı; **📈 Piyasa Alarmı** %2 harekette (ntfy + Telegram)
 - **ntfy güvenliği:** `NTFY_TOKEN` ile Bearer auth; token reddedilirse tokensiz dener (bildirim kopmaz)
 - **📲 Kişisel Telegram bildirimleri (`radar-notify`):** Kasa → "Telegram'a bağla" ile eşleş; favori takımın başladı/gol/bitti, favori kaynak/kelimenin haberi 5 dk'da bir taranır. Mesaj tam cümleyle biter, buton doğru haberi/maçı açar. Komutlar: `/favoriler /ozet /sessiz /durdur /devam /kopar /sil /yardim`
+- **🎯 Fiyat alarmı (Telegram):** `/alarm gram 6000`, `/alarm dolar 52` → fiyat eşiği geçince **bir kez** mesaj (5 dk'da bir kontrol, truncgil verisi; sessiz saatte bekler). `/alarmlar` listeler, `/alarmsil 2` / `/alarmsil hepsi` siler. Varlıklar: gram, ceyrek, yarim, tam, cumhuriyet, ata, bilezik, has, gumus, ons, dolar, euro, sterlin, bist
 - **☀️ Sabah brifingi (`morning_briefing.py`, 08:00 TR):** 5 manşet + piyasa + dün/bugün maçlar (★ `FAV_TEAMS` önce) + Çorlu hava; Telegram + Buttondown. 36 saatten eski veri girmez, AI kullanmaz
 - **📧 Email bülteni (Buttondown):** siteden herkese açık embed form (kullanıcı: `radarhaber`); günde 1 e-posta = sabah brifingi
 - **Telegram retry:** gönderim hatasında 2 deneme + 3 sn bekleme
@@ -184,7 +185,7 @@ Kota dolarsa cron'u `'0 */6 * * *'` yap.
 
 - [ ] **Render kurulumu:** `bot.py` 7/24 ayakta → `/stats` ve diğer komutlar PC kapalıyken de cevap versin
 - [x] **Service worker güncelleme banner'ı:** yeni sürüm düşünce "🔄 Yeni içerik var — Yenile" bildirimi
-- [ ] **Akıllı alarmlar:** mutlak eşik (ör. gram altın 6.000 ₺), favori tabanlı, tek bildirim
+- [x] **Akıllı alarmlar:** mutlak eşik (`/alarm gram 6000`), tek bildirim
 - [ ] **Yeni özellikler:** burç yorumları, "Yaşam" kategorisi, anonim maç yorumu
 - [ ] ntfy tarafında tek özet konu seçeneği (şu an kategori kategori)
 
