@@ -55,7 +55,7 @@ brief:'genel',limit:24};
 if(['feed','market','radio','scores','saved','menu'].indexOf(S.view)<0)S.view='feed';
 S.later=new Set(LS.g('radar_later',[]));
 var GPRIM=Number(LS.g('radar_gold_prim',3));
-var HORO=null,NEWS=[],META=null,BRIEF={},MK=null,CR=[],ST=[],ARCH=null,archLoading=null,HIST={},booting=true;
+var HORO=null,SRCS=[],NEWS=[],META=null,BRIEF={},MK=null,CR=[],ST=[],ARCH=null,archLoading=null,HIST={},booting=true;
 var cur=null,hls=null,sleepT=0,curSt=-1,mIdx=0,playTok=0,wd=0,attOk=null,attErr=null,radioBusy=false;
 var palIdx=0,palRows=[],cfFn=null,FXR=null,CVR=null,wgDone=false,speaking=null,lastErrT=0,tightOn=false;
 var STATIONS=[],OFF=new Set(LS.g('radar_radio_off',[])),EXTRA=[];
@@ -156,7 +156,7 @@ var DL_LIST=[];
 function errTR(e){var m=String((e&&e.message)||e||'');return /^HTTP \d+/.test(m)?'sunucu hatası ('+m+')':'bağlantı hatası'}
 function loadData(path){var p=path||S.arch||'news.json';
 return jget(p+'?t='+Date.now(),12000).then(function(d){
-NEWS=Array.isArray(d.items)?d.items:[];HORO=d.horoscope||null;META=d.meta||null;BRIEF=d.briefings||{};
+NEWS=Array.isArray(d.items)?d.items:[];HORO=d.horoscope||null;SRCS=Array.isArray(d.sources)?d.sources:[];renderSources();META=d.meta||null;BRIEF=d.briefings||{};
 MK=d.market||null;CR=Array.isArray(d.crypto)?d.crypto:[];ST=Array.isArray(d.stocks)?d.stocks:[];
 rebuildHist();booting=false;S.limit=24;
 renderCats();renderFeed();renderBrief();renderRail();renderMarket();renderSaved();renderLater();renderEvents();renderUsage();checkStale();renderAbout();
@@ -192,7 +192,7 @@ if(S.q){var q=S.q.toLocaleLowerCase('tr');a=a.filter(function(n){return [n.title
 return a.slice().sort(function(x,y){return (S.read.has(x.link)-S.read.has(y.link))||(y.score||0)-(x.score||0)||new Date(y.pubDate)-new Date(x.pubDate)})}
 function cardHTML(n,i){var c=CATS[n.catId]||{l:'Haber',c:'#64748B'},sc=n.score||5,scC=sc>=8?'var(--gold)':sc>=6?'var(--cy)':'var(--ink3)';
 var sum=n.summary||'Özet yok — kaynaktan okuyabilirsin.',bad=sum.indexOf('ulaşılamadı')>=0;
-var multi=n.other_sources&&n.other_sources.length?'<span class="multi">+'+n.other_sources.length+'</span>':'';
+var multi=n.other_sources&&n.other_sources.length?'<span class="multi" title="Bu haberi '+(n.other_sources.length+1)+' kaynak verdi">'+(n.other_sources.length+1)+' kaynak</span>':'';
 var img=n.image?'<img class="nci" loading="lazy" decoding="async" referrerpolicy="no-referrer" src="'+esc(n.image)+'" alt="" onerror="this.remove()">':'';
 return '<article class="nc'+(S.read.has(n.link)?' read':'')+'" style="--cc:'+c.c+';animation-delay:'+Math.min(i,12)*35+'ms" data-link="'+esc(n.link)+'" tabindex="0"><div class="ncb">'+
 '<div class="nct"><span class="dot"></span><span class="src">'+esc(n.source||'Kaynak')+'</span>'+multi+
@@ -973,17 +973,18 @@ $('#nLink').href=safeUrl(n.link);
 $('#readBox').hidden=true;$('#nRead').textContent='📖 Okuma modu';
 updateNSave();var fs=$('#nFollowSrc');if(fs){var fon=FV.has('src',n.source||'');fs.textContent=fon?'★ Takip ediliyor':'★ Kaynağı takip et';fs.classList.toggle('pri',fon)}
 timeline(n);stopSpeak();openM('#mNews');renderFeed()}
-function timeline(n){var box=$('#nTL'),rows=[{s:n.source,l:n.link,t:n.pubDate}];
-(n.other_sources||[]).forEach(function(o){if(o&&o.link)rows.push({s:o.source,l:o.link,t:o.pubDate})});
+function ownerOf(src){for(var i=0;i<SRCS.length;i++)if(SRCS[i].source===src)return SRCS[i].owner;return ''}
+function timeline(n){var box=$('#nTL'),rows=[{s:n.source,l:n.link,t:n.pubDate,h:n.title,o:n.owner||ownerOf(n.source)}];
+(n.other_sources||[]).forEach(function(o){if(o&&o.link)rows.push({s:o.source,l:o.link,t:o.pubDate,h:o.title||'',o:o.owner||ownerOf(o.source)})});
 if(rows.length<2){box.className='tl';box.innerHTML='';return}
 rows.sort(function(a,b){return new Date(a.t||0)-new Date(b.t||0)});
 var t0=new Date(rows[0].t||0).getTime();
-var h='<div class="tlh">🧵 Olay örgüsü · '+rows.length+' kaynak</div><div class="tls">'+(n.event_title?esc(n.event_title)+' — ':'')+'İlk kim verdi, diğerleri ne kadar sonra?</div>';
+var h='<div class="tlh">🔎 Bu haberi '+rows.length+' kaynak verdi</div><div class="tls">'+(n.event_title?esc(n.event_title)+' — ':'')+'Her kaynağın kendi başlığı; ilk kim verdi, diğerleri ne kadar sonra?</div>';
 rows.forEach(function(r,i){var d=new Date(r.t||0),ok=!isNaN(d.getTime()),tag;
 if(i===0)tag='<span class="tlg f">İLK</span>';
 else if(ok&&isFinite(t0)){var g=Math.max(0,Math.round((d.getTime()-t0)/6e4));tag='<span class="tlg">+'+(g<60?g+' dk':Math.round(g/60)+' sa')+'</span>'}
 else tag='<span class="tlg">—</span>';
-h+='<div class="tlr"><span class="tlt">'+(ok?hhmm(d):'--:--')+'</span><a class="tln" href="'+esc(safeUrl(r.l))+'" target="_blank" rel="noopener">'+esc(r.s||'Kaynak')+'</a>'+tag+'</div>'});
+h+='<div class="tlr"><span class="tlt">'+(ok?hhmm(d):'--:--')+'</span><a class="tln" href="'+esc(safeUrl(r.l))+'" target="_blank" rel="noopener">'+esc(r.s||'Kaynak')+'</a>'+(r.o?'<span class="own o-'+esc(r.o)+'">'+esc(r.o)+'</span>':'')+tag+'</div>'+(r.h?'<div class="tlq">“'+esc(r.h)+'”</div>':'')});
 box.className='tl show';box.innerHTML=h}
 function showAI(anchor,ai){var p=$('#pop');
 var srcs=(ai.source_urls||[]).map(function(u){return '<a href="'+esc(safeUrl(u))+'" target="_blank" rel="noopener" style="color:var(--pri)">kaynak</a>'}).join(', ');
@@ -1198,6 +1199,11 @@ if(!c.length){toast('En az bir kategori seçili olmalı','warn');return}
 S.prefs=c.length===base.length?null:c;
 S.prefs?LS.s('radar_prefs',S.prefs):LS.d('radar_prefs');
 renderPrefs();renderFeed()}
+// Kaynaklarımız: seçim kriteri + kaynak başına 7 günlük tıklama tuzağı oranı (bot ölçer).
+function renderSources(){var box=$('#srcList');if(!box)return;
+if(!SRCS.length){box.innerHTML='<p class="hint" style="margin:0">Kaynak istatistiği botun bir sonraki turunda oluşur.</p>';return}
+box.innerHTML='<p class="hint" style="margin:0 0 8px">RADAR yalnız tıklama tuzağı yapmayan kaynakları kullanır. Her başlık "kimdir, kaç yaşında", "işte…", "şok", BÜYÜK HARF ünlem gibi kalıplara göre taranır; tuzak başlıklar akışa hiç girmez. Etiket sahiplik türüdür (Kamu · Özel · Uluslararası), yorum değildir.</p>'+
+'<div class="srct">'+SRCS.map(function(r){var pc=Math.round((r.rate||0)*100);return '<div class="srcr'+(r.flag?' bad':'')+'"><b>'+esc(r.source)+'</b><span class="own o-'+esc(r.owner)+'">'+esc(r.owner)+'</span><span>'+r.n+' haber</span><span class="'+(pc?'w':'g')+'">'+(pc?'%'+pc+' tuzak'+(r.flag?' ⚠️':''):'✓ temiz')+'</span></div>'}).join('')+'</div><p class="hint" style="margin:8px 0 0">Son 7 gün · oran = kaynağın akıştan çıkarılan başlıkları. ⚠️ = %15 üstü, kaynak gözden geçirilir.</p>'}
 function renderAbout(){$('#about').innerHTML='<p><b>RADAR</b> · sunucusuz haber &amp; piyasa terminali.</p>'+
 '<p style="margin-top:8px">Model: <code>'+esc(META&&META.model||'—')+'</code><br>Haber: <code>'+NEWS.length+'</code> · Kripto çifti: <code>'+MT.bin.length+'</code><br>Üretim: <code>'+(META&&META.generated_at?new Date(META.generated_at).toLocaleString('tr-TR'):'—')+'</code></p>'+
 '<p style="margin-top:8px">Özetler AI ürünüdür, hata içerebilir; kaynak bağlantısı her zaman verilir. Kripto verisi Binance\'ten canlıdır. Hisseler ücretsiz kaynaklardan ~15 dk gecikmelidir. Altın fiyatları <b>truncgil</b>\'den gelir (alış/satış); has/gram altın uluslararası spot bazlıdır, Kapalıçarşı primi dahil değildir. Kuyumcu tahmini işçilik primiyle hesaplanır, gerçek kuyumcu fiyatı değildir. Piyasa saatleri resmî tatilleri içermez.</p>'}
