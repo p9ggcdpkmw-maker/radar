@@ -49,13 +49,14 @@ SOURCE_NAMES = {
 }
 
 CATEGORIES = [
-    {"id": "oyun", "label": "Ücretsiz Oyun", "feeds": ["https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml"], "keywords": ["ücretsiz", "bedava", "promosyon", "hediye", "oyun", "steam", "epic", "gog"]},
+    # Ücretsiz Oyun: RSS + anahtar kelime teknoloji haberi topluyordu; GamerPower API yalnız gerçek kampanyaları verir.
+    {"id": "oyun", "label": "Ücretsiz Oyun", "api": "gamerpower"},
     {"id": "teknoloji", "label": "Teknoloji", "feeds": ["https://www.donanimhaber.com/rss/tum/", "https://shiftdelete.net/feed", "https://www.webtekno.com/rss.xml", "https://webrazzi.com/feed/"]},
     {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
     {"id": "ekonomi", "label": "Ekonomi", "feeds": ["https://www.bloomberght.com/rss", "https://www.ekonomim.com/rss"]},
     {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
     {"id": "yasam", "label": "Yaşam", "feeds": ["https://www.ntv.com.tr/yasam.rss", "https://www.ntv.com.tr/saglik.rss", "https://www.trthaber.com/saglik_articles.rss"]},
-    {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.diken.com.tr/feed/", "https://www.hurriyet.com.tr/rss/anasayfa"]},
+    {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.diken.com.tr/feed/", "https://www.hurriyet.com.tr/rss/anasayfa", "https://www.mhahaber.com/rss"]},
 ]
 
 MAX_AGE_DAYS = 1.0
@@ -192,7 +193,58 @@ def extractive_summary(text, max_chars=280):
         out = out[:max_chars].rsplit(" ", 1)[0] + "…"
     return out
     
+# Ay + yönelme eki (ünlü uyumu): "3 Aralık'a", "5 Eylül'e"
+TR_AY = ["Ocak'a", "Şubat'a", "Mart'a", "Nisan'a", "Mayıs'a", "Haziran'a", "Temmuz'a", "Ağustos'a", "Eylül'e", "Ekim'e", "Kasım'a", "Aralık'a"]
+# Mağaza + bulunma eki: Steam "stim" okunur → 'de
+STORE_EK = {"Epic Games Store": "'da", "Steam": "'de", "GOG": "'da"}
+
+
+def fetch_gamerpower(cat):
+    """Steam / Epic / GOG ücretsiz oyun kampanyaları. Özet şablonla yazılır, AI kotası harcanmaz."""
+    items = []
+    try:
+        r = requests.get("https://www.gamerpower.com/api/filter?platform=steam.epic-games-store.gog&type=game",
+                         headers=HEADERS, timeout=15)
+        r.raise_for_status()
+        data = r.json() if isinstance(r.json(), list) else []
+    except Exception as e:
+        print(f"  ! GamerPower alınamadı: {e}", file=sys.stderr)
+        return items
+    now_utc = datetime.now(timezone.utc)
+    for g in data:
+        if g.get("status") != "Active" or not g.get("open_giveaway_url"):
+            continue
+        pf = g.get("platforms", "")
+        store = "Epic Games Store" if "Epic" in pf else "Steam" if "Steam" in pf else "GOG" if "GOG" in pf else pf
+        name = re.sub(r"\s*\((Epic Games|Steam|GOG)[^)]*\)", "", g.get("title", "")).replace(" Giveaway", "").strip()
+        ek = STORE_EK.get(store, "'da")
+        parts = []  # mağaza başlıkta; özet: bitiş + normal fiyat
+        try:
+            end = datetime.strptime(g.get("end_date", ""), "%Y-%m-%d %H:%M:%S")
+            parts.append(f"{end.day} {TR_AY[end.month - 1]} kadar ücretsiz")
+        except ValueError:
+            pass
+        if g.get("worth") and g["worth"] != "N/A":
+            parts.append(f"normal fiyatı {g['worth']}")
+        try:
+            pub = datetime.strptime(g.get("published_date", ""), "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+        except ValueError:
+            pub = now_utc
+        link = g["open_giveaway_url"]
+        items.append({
+            "id": f"oyun_{len(items)}", "cat": cat["label"], "catId": cat["id"],
+            "title": f"{name} — {store}{ek} ücretsiz", "source": store, "link": link,
+            "nid": hashlib.sha1(link.encode("utf-8")).hexdigest()[:10],
+            "pubDate": min(pub, now_utc).isoformat(), "image": g.get("image") or g.get("thumbnail"),
+            "summary": (" · ".join(parts) or "Bitiş tarihi belirtilmemiş") + ".", "score": 7, "tone": "pozitif", "why_important": "",
+        })
+    items.sort(key=lambda i: i["pubDate"], reverse=True)
+    return items[:20]
+
+
 def fetch_category(cat, cache):
+    if cat.get("api") == "gamerpower":
+        return fetch_gamerpower(cat)
     items = []
     now_utc = datetime.now(timezone.utc)
     for feed_url in cat["feeds"]:
@@ -203,9 +255,6 @@ def fetch_category(cat, cache):
             for entry in feed.entries:
                 title = entry.get("title", "")
                 source = source_name(feed_url)
-                if cat["id"] == "oyun":
-                    t_lower = tr_lower(title)
-                    if not any(kw in t_lower for kw in cat["keywords"]): continue
                 pub_dt = now_utc
                 if getattr(entry, "published_parsed", None):
                     pub_dt = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc)
@@ -501,7 +550,7 @@ def main():
             if c.get("tone"): it["tone"] = c["tone"]
             if c.get("why_important"): it["why_important"] = c["why_important"]
             if c.get("bias_score") is not None: it["bias_score"] = c["bias_score"]
-        else:
+        elif not it.get("summary"):  # şablon özetli (GamerPower) öğeler AI'a gitmez
             need_summary.append(it)
         if not it.get("image") and c: it["image"] = c.get("image")
         if not it.get("image"): need_image.append(it)
