@@ -380,29 +380,21 @@ def fetch_market(old_market=None):
     market_open = (now_ist.weekday() < 5 and 9.5 <= now_ist.hour + now_ist.minute / 60 <= 18)
     updated_at = now_ist.strftime("%H:%M")
     
-    HA_MAP = [("gram altin", "gram_altin"), ("ceyrek altin", "ceyrek_altin"),
-              ("yarim altin", "yarim_altin"), ("tam altin", "tam_altin"),
-              ("cumhuriyet", "cumhuriyet_altin"), ("ons", "ons_altin"),
-              ("gram gumus", "gram_gumus"), ("22 ayar", "y22_altin"), ("has altin", "has_altin")]
+    # Altın: sitenin Nabız sekmesiyle aynı kaynak (radar-market → truncgil); sağ sütun ve brifing tutarlı kalır.
+    MKT_MAP = {"Gram Altın": "gram_altin", "CEYREKALTIN": "ceyrek_altin", "YARIMALTIN": "yarim_altin",
+               "TAMALTIN": "tam_altin", "CUMHURIYETALTINI": "cumhuriyet_altin", "Ons Altın": "ons_altin",
+               "Gram Gümüş": "gram_gumus", "22 Ayar Bilezik": "y22_altin", "Has Altın": "has_altin"}
     metals = {}
     try:
-        r = requests.get("https://www.haremaltin.com/", headers={"User-Agent": "Mozilla/5.0"}, timeout=8)
+        r = requests.get("https://radar-market.69sygknn4y.workers.dev/market?g=metal", headers=HEADERS, timeout=15)
         r.raise_for_status()
-        html = r.text
-        norm = html.lower().replace("ı", "i").replace("İ", "i").replace("ü", "u").replace("ö", "o").replace("ş", "s").replace("ç", "c").replace("ğ", "g")
-        for label, key in HA_MAP:
-            m = re.search(r">\s*" + label.replace(" ", r"\s+") + r"\s*<", norm)
-            if not m: continue
-            seg = html[m.start():m.start() + 600]
-            nums = re.findall(r"\d{1,3}(?:\.\d{3})+,\d{2}|\d+,\d{2}|\d+\.\d{2}", seg)
-            if len(nums) < 2: continue
-            def num(t): return float(t.replace(".", "").replace(",", ".")) if "," in t else float(t)
-            alis, satis = num(nums[0]), num(nums[1])
-            if not (alis > 0 and satis > 0): continue
-            pm = re.search(r"%\s*(-?\d+[.,]\d+)", seg)
-            metals[key] = {"alis": alis, "satis": satis, "change_pct": float(pm.group(1).replace(",", ".")) if pm else 0.0}
+        for q in r.json().get("quotes") or []:
+            key = MKT_MAP.get(q.get("k"))
+            v = q.get("satis") or q.get("v")
+            if key and isinstance(v, (int, float)) and v > 0:
+                metals[key] = {"alis": q.get("alis") or v, "satis": v, "change_pct": q.get("p") or 0.0}
     except Exception as e:
-        print(f"  ! Haremaltın ana sayfa hatası: {e}", file=sys.stderr)
+        print(f"  ! radar-market altın hatası: {e}", file=sys.stderr)
         
     def mval(k):
         v = metals.get(k)
