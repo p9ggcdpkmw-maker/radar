@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="RADAR">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js" defer></script>
-<link rel="stylesheet" href="style.css?v=25">
+<link rel="stylesheet" href="style.css?v=26">
 </head>
 <body>
 <div class="grain"></div><div class="aur"><i></i><i></i><i></i></div>
@@ -64,7 +64,7 @@
 <div class="seg" id="briefTabs"><button class="on" data-b="genel">Özet</button><button data-b="teknoloji">Teknoloji</button><button data-b="gundem">Gündem</button><button data-b="ekonomi">Ekonomi</button></div>
 <p class="btx" id="briefText">Analiz hazırlanıyor…</p>
 </article>
-<div class="pulse" id="liveRow" hidden></div>
+<div class="cw" id="liveWrap"><button class="arr l" id="liveRowL" aria-label="Sola kaydır">‹</button><div class="pulse" id="liveRow" hidden></div><button class="arr r" id="liveRowR" aria-label="Sağa kaydır">›</button></div>
 <div class="fbar2" id="filterBar"><span id="filterChips" style="display:contents"></span><button class="fclear" id="filterClear">✕ Filtreleri temizle</button></div>
 <div class="fbar"><h3 class="st">Haber Akışı <em id="feedCount"></em></h3>
 <div class="seg sm" id="toneSeg"><button class="on" data-tone="all">Tümü</button><button data-tone="pozitif">Olumlu</button><button data-tone="nötr">Nötr</button><button data-tone="negatif">Olumsuz</button></div>
@@ -309,6 +309,6 @@
 <button id="toTop" aria-label="Yukarı çık" title="Yukarı çık">↑</button>
 <div id="swBar" hidden>🔄 Yeni içerik hazır <button class="btn pri" id="swReload" style="padding:6px 12px;font-size:11.5px">Yenile</button></div>
 <div class="pop" id="pop"></div><div class="toasts" id="toasts" aria-live="polite"></div>
-<script src="app.js?v=25"></script>
+<script src="app.js?v=26"></script>
 </body>
 </html>

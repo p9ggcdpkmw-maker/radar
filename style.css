@@ -87,6 +87,7 @@ body.nomotion *{animation-duration:.01ms!important;transition-duration:.01ms!imp
 .cats::-webkit-scrollbar{height:0}
 .arr{position:absolute;z-index:2;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:1px solid var(--ln2);background:var(--sf);color:var(--ink);font-size:17px;line-height:1;cursor:pointer;box-shadow:var(--sh1);display:none;align-items:center;justify-content:center}
 .arr.l{left:0}.arr.r{right:0}.arr.show{display:flex}
+#liveWrap{padding:0}#liveWrap .pulse{flex:1;min-width:0}
 .arr:hover{background:var(--pri);color:#fff;border-color:transparent}
 .cat{flex:0 0 auto;padding:9px 16px;border-radius:99px;border:1px solid var(--ln2);background:var(--sf);color:var(--ink2);font:800 13px var(--sans);transition:.15s;display:flex;align-items:center;gap:7px;user-select:none}
 .cat i{width:7px;height:7px;border-radius:50%}

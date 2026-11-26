@@ -222,9 +222,11 @@ function renderCats(){var co={};NEWS.forEach(function(n){co[n.catId]=(co[n.catId
 $('#cats').innerHTML=ORDER.map(function(k){var c=k==='all'?{l:'Senin İçin',c:'var(--pri)'}:CATS[k],n=k==='all'?NEWS.length:(co[k]||0);
 return '<div class="cat'+(S.cat===k&&!S.saved?' on':'')+'" role="button" tabindex="0" data-cat="'+k+'"><i style="background:'+c.c+'"></i>'+c.l+'<b>'+n+'</b></div>'}).join('');
 requestAnimationFrame(catArrows)}
-function catArrows(){var w=$('#cats');if(!w)return;var over=w.scrollWidth-w.clientWidth>6;
-$('#catsL').classList.toggle('show',over&&w.scrollLeft>4);
-$('#catsR').classList.toggle('show',over&&w.scrollLeft<w.scrollWidth-w.clientWidth-4)}
+// Yatay şeritlerde (kategoriler, canlı maçlar) taşma varsa ‹ › okları göster.
+function rowArrows(id){var w=$('#'+id);if(!w)return;var over=!w.hidden&&w.scrollWidth-w.clientWidth>6;
+$('#'+id+'L').classList.toggle('show',over&&w.scrollLeft>4);
+$('#'+id+'R').classList.toggle('show',over&&w.scrollLeft<w.scrollWidth-w.clientWidth-4)}
+function catArrows(){rowArrows('cats');rowArrows('liveRow')}
 function renderBrief(){$('#briefText').textContent=BRIEF[S.brief]||'Analiz hazırlanamadı.';
 $$('#briefTabs button').forEach(function(b){b.classList.toggle('on',b.dataset.b===S.brief)})}
 function fchip(label,val,key){return '<span class="fchip">'+label+': <b>'+esc(val)+'</b><span data-fc="'+key+'" role="button" tabindex="0" title="Bu filtreyi kaldır">✕</span></span>'}
@@ -733,7 +735,7 @@ html+='<div class="scgh" data-lc="'+esc(curL)+'" role="button" tabindex="0">'+es
 html+=scRow(r.m)});
 if(curL!==null)html+='</div>';
 box.innerHTML=html}
-function renderLiveRow(){var box=$('#liveRow');if(!box)return;
+function renderLiveRow(){var box=$('#liveRow');if(!box)return;requestAnimationFrame(function(){rowArrows('liveRow')});
 if(!SC.data||SC.err){box.hidden=true;box.innerHTML='';return}
 var live=[],tot=0;(SC.data.leagues||[]).forEach(function(l){(l.matches||[]).forEach(function(m){tot++;if(m.state==='in')live.push(m)})});
 if(!live.length){if(!tot){box.hidden=true;box.innerHTML='';return}
@@ -1233,6 +1235,9 @@ $('#moreBtn').addEventListener('click',function(){S.limit+=24;renderFeed()});
 $('#filterClear').addEventListener('click',function(){clearFilters('all')});
 $('#catsL').addEventListener('click',function(){$('#cats').scrollBy({left:-220,behavior:'smooth'})});
 $('#catsR').addEventListener('click',function(){$('#cats').scrollBy({left:220,behavior:'smooth'})});
+$('#liveRowL').addEventListener('click',function(){$('#liveRow').scrollBy({left:-260,behavior:'smooth'})});
+$('#liveRowR').addEventListener('click',function(){$('#liveRow').scrollBy({left:260,behavior:'smooth'})});
+$('#liveRow').addEventListener('scroll',function(){rowArrows('liveRow')},{passive:true});
 $('#cats').addEventListener('scroll',catArrows,{passive:true});
 $$('#mkTabs button').forEach(function(b){b.addEventListener('click',function(){MT.tab=b.dataset.m;MT.clim=100;renderMarket()})});
 $('#mkRefresh').addEventListener('click',function(){toast('Piyasa yenileniyor…');Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad(),cgMktLoad()]).then(renderMarket)});
