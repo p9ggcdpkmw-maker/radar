@@ -8,7 +8,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="RADAR">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js" defer></script>
 <style>
@@ -392,6 +392,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .moc{position:relative;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;border-radius:var(--r4);border:1px solid var(--ln2);background:var(--sf);padding:26px;box-shadow:var(--sh2);animation:pop .24s cubic-bezier(.2,.9,.3,1.1)}
 .moc.sm{max-width:420px}
 @keyframes pop{from{opacity:0;transform:scale(.95) translateY(12px)}to{opacity:1;transform:none}}
+.guide p{margin:0 0 12px;font-size:14.5px;line-height:1.55}.guide p b{font-family:var(--sans)}
 .mx{position:absolute;top:15px;right:15px;width:34px;height:34px;border-radius:50%;border:1px solid var(--ln2);background:var(--sf2);color:var(--ink2);cursor:pointer;z-index:2}
 .mk{font:900 10.5px var(--sans);letter-spacing:1.5px;text-transform:uppercase;color:var(--pri);margin-bottom:8px}
 .mt{font:800 23px/1.28 var(--serif);letter-spacing:-.4px;padding-right:40px;margin-bottom:11px}
@@ -710,6 +711,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <section class="view" id="v-menu">
 <h2 class="vt" style="margin-bottom:14px">RADAR Konsol</h2>
 <div class="mcols">
+<div class="cp"><div class="cph">📘 Özellik Rehberi</div><p class="hint">Okuma modu, AI sadeleştirme, favoriler, uyarılar ve diğer özellikler tek sayfada.</p><button class="btn gh w" id="guideBtn">Rehberi aç</button></div>
 <div class="cp"><div class="cph">🎨 Görünüm</div>
 <div class="row"><span>Tema</span><div class="seg sm" id="themeSeg"><button data-theme="auto">🖥️ Sistem</button><button data-theme="light">☀️ Açık</button><button data-theme="sepia">📜 Sepia</button><button data-theme="dark">🌙 Koyu</button></div></div>
 <div class="row"><span>Yoğunluk</span><div class="seg sm" id="densSeg"><button data-d="comf">Rahat</button><button data-d="comp">Sıkı</button></div></div>
@@ -823,6 +825,22 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div class="ma" style="margin-top:14px"><button class="btn gh" id="mtRemind">🔔 Hatırlat</button><button class="btn gh" id="mtIcs">📅 Takvime ekle</button><button class="btn gh" id="mtShare2">↗ Paylaş</button></div>
 <div class="ma" style="margin-top:16px"><button class="btn gh" id="mtFavH">★</button><button class="btn gh" id="mtFavA">★</button></div>
 </div></div>  
+<div class="modal" id="mGuide" role="dialog" aria-modal="true" aria-labelledby="gTitle"><div class="moc sm">
+<button class="mx" data-close aria-label="Kapat">✕</button>
+<h2 class="mt" id="gTitle">📘 Özellik Rehberi</h2>
+<div class="mbody guide">
+<p><b>📖 Okuma modu</b> — Habere tıkla, "Okuma modu"na bas: kaynak sayfa reklamsız, sade metin olarak açılır.</p>
+<p><b>🤖 AI ile sadeleştir</b> — Okuma modunun altındaki düğme metindeki abone ol / yazar bio'su gibi kalıpları temizler. Sonuç 7 gün tarayıcında saklanır.</p>
+<p><b>🔊 Sesli dinle</b> — Haber penceresindeki hoparlör başlığı, "neden önemli" notunu ve özeti okur.</p>
+<p><b>🕑 Sonra oku · 📌 Kaydet</b> — Kartlardaki düğmelerle haberi listeye al; hepsi Kasa'da durur.</p>
+<p><b>★ Favoriler</b> — Nabız'da kripto ve hisseleri, Saha'da takımları ★ ile işaretle. Favorilerin sağ sütunda ve "Takımlarım" filtresinde görünür.</p>
+<p><b>📲 Telegram bildirimi</b> — Kasa → "Telegram'a bağla" ile kod al, bota /start KOD yaz. Favori takımının golü, favori kaynağın haberi Telegram'a gelir. Komutlar için bota /yardim yaz.</p>
+<p><b>🔔 Piyasa uyarısı</b> — Konsol → Piyasa uyarısı: Nabız açıkken bir değer seçtiğin eşiği aşarsa tarayıcı bildirimi gelir.</p>
+<p><b>☀️ Sabah brifingi</b> — Konsol → RADAR Bülteni'ne e-postanı yaz: her sabah 08:00'de manşetler, piyasa, maçlar ve hava.</p>
+<p><b>🔎 Hızlı arama</b> — Ctrl+K (Mac'te ⌘K) ile tüm haberlerde ara. 📅 menüsünden geçmiş günlerin arşivine bak.</p>
+<p><b>📻 Dalga</b> — Canlı radyo. Çalmayan kanal için "Kanal testi"ni çalıştır, ölüleri tek tuşla gizle.</p>
+</div>
+</div></div>
 <div class="modal" id="mConfirm" role="dialog" aria-modal="true"><div class="moc sm">
 <h3 class="mt" id="cfTitle">Emin misin?</h3><p class="mbody" id="cfText"></p>
 <div class="ma"><button class="btn gh" data-close>Vazgeç</button><button class="btn dg" id="cfOk">Evet, sil</button></div>
@@ -2072,6 +2090,7 @@ $('#cq').addEventListener('input',function(e){MT.cq=e.target.value;MT.clim=100;r
 $$('#cfSeg button').forEach(function(b){b.addEventListener('click',function(){MT.cf=b.dataset.f;MT.clim=100;renderMarket()})});
 $('#csSel').addEventListener('change',function(e){MT.cs=e.target.value;renderMarket()});
 $('#cMore').addEventListener('click',function(){MT.clim=10000;renderMarket()});
+$('#guideBtn').addEventListener('click',function(){openM('#mGuide')});
 $('#nlSub').addEventListener('click',function(){
 var email=$('#nlEmail').value.trim();
 if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Geçerli email gir','warn');return}
