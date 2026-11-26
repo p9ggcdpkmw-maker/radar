@@ -128,7 +128,7 @@ def bd_send(subject, body):
     if not BTDN_TOKEN: return
     try:
         resp = requests.post("https://api.buttondown.com/v1/emails",
-                             json={"subject": subject, "body": body, "type": "regular"},
+                             json={"subject": subject, "body": body},
                              headers={"Authorization": f"Token {BTDN_TOKEN}"}, timeout=10)
         resp.raise_for_status()
     except Exception as e:
