@@ -269,6 +269,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .mrh{padding-top:8px;padding-bottom:8px;background:var(--sf2);font:800 10px var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--ink3)}
 .mrh .mrv,.mrh .mrp{font:inherit;letter-spacing:inherit}
 .mr.ha .kuy{font-style:normal}
+.mr[data-hist]{cursor:pointer}.mr[data-hist]:hover{background:var(--sf2)}
 .mr.ha .mrv.al{color:var(--ink2);font-weight:700}
 .heat{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;padding:12px;border:1px solid var(--ln);border-top:none;border-radius:0 0 var(--r3) var(--r3);background:var(--sf)}
 .ht{padding:11px;border-radius:var(--r2);border:1px solid var(--ln);color:#fff;min-height:80px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;transition:filter .15s}
@@ -1350,7 +1351,7 @@ return idx+stars+'<div class="gh2">Hisseler<span>'+rows.length+' / '+all.length+
 function rowHTML(r){var h=r.h&&r.h.length>1?r.h:[];
 var bd=r.liveNow?' <span class="up">CANLI</span>':'';
 var vr=(r.al!=null)?'<div class="mrv">'+price(r.al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
-return '<div class="mr"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
+return '<div class="mr"'+histAttr(r.n)+'><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
 '<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>'+vr+
 '<div class="mrp">'+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'}
 function mFx(){var rows=[];
@@ -1446,7 +1447,17 @@ return '<div class="hc'+(x[1].open?' open':'')+'"><b>'+x[0]+' · '+(x[1].open?'A
 $$('#mkTabs button').forEach(function(b){b.classList.toggle('on',b.dataset.m===MT.tab)});
 if(MT.tab==='heat')requestAnimationFrame(function(){treemap(heatCoins())});
 redrawSparks();renderFav();renderRail()}
-function fillDetail(r,kind){var isCoin=kind==='coin';
+// Arşivde ≥2 günlük kaydı olan satır (USD/TRY, EUR/TRY, Gram Altın) tıklanınca geçmiş grafiği açılır.
+function histAttr(k){return HIST[k]&&HIST[k].length>1?' data-hist="'+esc(k)+'" role="button" tabindex="0" title="Geçmişi göster"':''}
+function openHist(k){var H=HIST[k]||[];if(H.length<2)return;MT.detail=null;MT.detailKind=null;MT.detailKey=null;
+var a=H[0],z=H[H.length-1],ch=(z.v-a.v)/a.v*100,dm=function(t){var p=String(t).split('-');return p[2]+'.'+p[1]};
+$('#cKick').textContent='GEÇMİŞ · SON '+H.length+' GÜN';$('#cName').textContent=k;$('#cPrice').textContent=price(z.v)+' ₺';
+$('#cChg').innerHTML='<span class="pill '+cls(ch)+'">'+arw(ch)+' '+pct(ch)+'</span> <span style="color:var(--ink3)">'+dm(a.t)+' → '+dm(z.t)+'</span>';
+var cv=$('#cSpark');cv.style.display='block';$('#cFav').hidden=true;
+$('#cStats').innerHTML=H.slice().reverse().map(function(p){return '<div class="kv"><span>'+dm(p.t)+'</span><b>'+price(p.v)+' ₺</b></div>'}).join('')+
+'<div class="kv"><span>Kaynak</span><b style="font:600 10.5px/1.4 var(--sans);text-align:right;max-width:62%">Günlük arşiv (her gün botun son kaydı)</b></div>';
+openM('#mCoin');requestAnimationFrame(function(){spark(cv,H.map(function(p){return p.v}))})}
+function fillDetail(r,kind){var isCoin=kind==='coin';$('#cFav').hidden=false;
 var cs=isCoin?(r.quote==='TRY'?' ₺':' $'):(r.grp==='bist'?' ₺':' $');
 var live=isCoin?MT.live[r.sym]:null,v=live?live.v:r.v,p=live?live.p:r.p;
 $('#cKick').textContent=isCoin?('KRİPTO · '+r.quote):((r.grp==='bist'?'BORSA İSTANBUL':'ABD')+' · '+(r.src==='tv'?'TradingView':r.src==='yahoo'?'Yahoo':'bot'));
@@ -2270,6 +2281,7 @@ if(el.classList.contains('sv')){toggleSave(l);el.classList.toggle('on',S.savedSe
 else if(el.classList.contains('lk'))toggleLike(l,el);
 else if(el.classList.contains('lt')){toggleLater(l);el.classList.toggle('on',S.later.has(l));if(S.view==='saved')renderLater()}
 return}
+if(el=t.closest('[data-hist]')){openHist(el.dataset.hist);return}
 if(el=t.closest('.nc')){var nn=findNews(el.dataset.link);if(nn)openNews(nn);return}
 if(el=t.closest('[data-f]')){var nm=el.dataset.f;S.fav.has(nm)?S.fav.delete(nm):S.fav.add(nm);LS.s('radar_fav',Array.from(S.fav));renderRadio();return}
 if(el=t.closest('.rs')){play(+el.dataset.i);return}
@@ -2382,12 +2394,12 @@ rowHTML=function(r){var h=r.h&&r.h.length>1?r.h:[];var bd=r.liveNow?' <span clas
 var al=(r.al!=null?r.al:r.alis);
 var vr=(al!=null)?'<div class="mrv">'+price(al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
 var spB=(r.spreadPct!=null)?'<span class="pill fl" title="Alış-satış makası">makas %'+r.spreadPct.toFixed(2).replace('.',',')+'</span>':'';
-return '<div class="mr"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
+return '<div class="mr"'+histAttr(r.n)+'><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
 '<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>'+vr+
 '<div class="mrp">'+spB+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'};
 // Altın satırı: Alış | Satış | Fark sütunları; makas ve kuyumcu tahmini alt satırda.
 function haRow(r){var h=r.h&&r.h.length>1?r.h:[];
-return '<div class="mr ha"><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+(r.kuy?'<em class="kuy">'+(r.s?' · ':'')+esc(r.kuy)+'</em>':'')+'</span></div>'+
+return '<div class="mr ha"'+histAttr(r.n)+'><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+(r.kuy?'<em class="kuy">'+(r.s?' · ':'')+esc(r.kuy)+'</em>':'')+'</span></div>'+
 (h.length?'<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>':'<span class="mrs"></span>')+
 '<div class="mrv al">'+(r.al!=null?price(r.al):'—')+'</div><div class="mrv">'+price(r.v)+'</div>'+
 '<div class="mrp">'+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'}
