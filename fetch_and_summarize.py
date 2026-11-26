@@ -566,11 +566,31 @@ def main():
             if img and not it.get("image"): it["image"] = img
 
     MAX_AI_SUMMARIES = int(os.environ.get("MAX_AI_SUMMARIES", "40"))
+    # Kota: turda kategori başına en fazla MAX_AI_PER_CAT yeni haber AI'a gider (kaynak eklemek kotayı büyütmesin);
+    # kalanlar AI'sız (metnin ilk cümleleri) özetlenir, önbelleğe girer, bir daha kota harcamaz.
+    MAX_AI_PER_CAT = int(os.environ.get("MAX_AI_PER_CAT", "6"))
     if need_summary:
-        if len(need_summary) > MAX_AI_SUMMARIES:
-            need_summary.sort(key=lambda x: x.get("pubDate", ""), reverse=True)
-            print(f"  ! AI kota koruması: {len(need_summary)} haberden sadece en yeni {MAX_AI_SUMMARIES} tanesi özetlenecek.")
-            need_summary = need_summary[:MAX_AI_SUMMARIES]
+        need_summary.sort(key=lambda x: x.get("pubDate", ""), reverse=True)
+        per_cat, ai_q, rest = {}, [], []
+        for it in need_summary:
+            c = it.get("catId")
+            if per_cat.get(c, 0) < MAX_AI_PER_CAT and len(ai_q) < MAX_AI_SUMMARIES:
+                per_cat[c] = per_cat.get(c, 0) + 1
+                ai_q.append(it)
+            else:
+                rest.append(it)
+        now_iso = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        for it in rest:
+            raw = it.get("text") or BeautifulSoup(it.get("rss_desc", ""), "html.parser").get_text(" ")
+            fb = extractive_summary(raw)
+            if not fb:
+                continue
+            it.update({"summary": fb, "score": 4, "tone": "nötr", "why_important": "", "bias_score": None,
+                       "ai": {"model": "extractive", "temperature": AI_TEMPERATURE, "prompt_version": AI_PROMPT_VER,
+                              "generated_at": now_iso, "method": "extractive (AI kotası korunuyor)", "source_urls": [it["link"]]}})
+        if rest:
+            print(f"  ! AI kota koruması: {len(ai_q)} haber AI ile, {len(rest)} haber AI'sız özetlenecek (kategori başı {MAX_AI_PER_CAT}).")
+        need_summary = ai_q
         print(f"Özetleniyor ve Puanlanıyor ({len(need_summary)} haber)...")
         for i in range(0, len(need_summary), 3):
             chunk = need_summary[i:i+3]
