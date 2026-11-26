@@ -1,0 +1,8 @@
+# Cloudflare panosundaki ayarların aynısı. Secret'lar (ör. GROQ_API_KEY) deploy'da korunur.
+name = "radar-scores"
+main = "../radar-scores.js"
+compatibility_date = "2026-11-24"
+workers_dev = true
+
+[observability]
+enabled = true
