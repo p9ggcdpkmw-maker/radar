@@ -20,7 +20,25 @@ def skel(o, d=0):
     return repr(o)[:30]
 
 
+def page_text(url):
+    """'page:URL' — sayfanın düz metni (RSS ise ilk öğenin linkine gider). Burç gibi kaynakların yapısını görmek için."""
+    r = requests.get(url, headers=UA, timeout=15)
+    m = re.search(rb"<item[\s>].*?<link>(?:<!\[CDATA\[)?\s*(.*?)\s*(?:\]\]>)?</link>", r.content, re.S)
+    if m:
+        url = m.group(1).decode()
+        r = requests.get(url, headers=UA, timeout=15)
+    h = re.sub(r"(?is)<(script|style|noscript)[^>]*>.*?</\1>", " ", r.text)
+    t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h))
+    i = max(t.find("KOÇ"), 0)
+    return f"SAYFA HTTP {r.status_code} · {url} · KOÇ@{t.find('KOÇ')} BOĞA@{t.find('BOĞA')} BALIK@{t.find('BALIK')} · {t[i:i + 2500]}"
+
+
 def probe(url):
+    if url.startswith("page:"):
+        try:
+            return page_text(url[5:])
+        except Exception as e:
+            return f"ÖLÜ  {type(e).__name__}"
     try:
         r = requests.get(url, headers=UA, timeout=15)
         if r.content.lstrip()[:1] == b"{":  # JSON nesnesi: anahtar iskeletini yaz (API yapısını görmek için)

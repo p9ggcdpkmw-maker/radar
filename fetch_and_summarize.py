@@ -1,6 +1,7 @@
 """
 RADAR - Haber Motoru, Piyasa Takipçisi ve Akıllı Bildirim Sistemi
 """
+import html
 import json, os, re, sys, time
 import difflib
 import hashlib
@@ -250,6 +251,7 @@ def _ascii_tr(t):
     return tr_lower(t).translate(str.maketrans("çğıöşüâ", "cgiosua"))
 
 
+HORO_V = 3  # ayrıştırma değişince artır: aynı günün eski (hatalı) verisi yeniden kullanılmasın
 BURC_BASLIK = ["KOÇ", "BOĞA", "İKİZLER", "YENGEÇ", "ASLAN", "BAŞAK", "TERAZİ", "AKREP", "YAY", "OĞLAK", "KOVA", "BALIK"]
 
 
@@ -260,12 +262,25 @@ def split_burc(text):
     hits = [(m.start(), m.end(), BURC_KEYS[BURC_BASLIK.index(m.group(1))]) for m in pat.finditer(text)]
     out = {}
     for i, (a, b, k) in enumerate(hits):
-        if k in out:
-            continue
         seg = text[b:hits[i + 1][0] if i + 1 < len(hits) else len(text)].strip(" :-–")
         if len(seg) >= 40:
             out[k] = seg
     return out
+
+
+MILLIYET_BURC = "https://www.milliyet.com.tr/pembenar/astroloji/{}-burcu-gunluk-yorum/"
+
+
+def milliyet_burc(k):
+    """Milliyet burç sayfasından günlük yorum: 'Aylık Yorum Genel Özellikleri' ile '<Burç> Burcu Erkeği' arası."""
+    r = requests.get(MILLIYET_BURC.format(k), headers=HEADERS, timeout=15)
+    r.raise_for_status()
+    soup = BeautifulSoup(r.text, "html.parser")
+    for tag in soup(["script", "style", "noscript"]):
+        tag.decompose()
+    t = html.unescape(re.sub(r"\s+", " ", soup.get_text(" ")))
+    m = re.search(r"Aylık Yorum Genel Özellikleri (.+?) [^\s.]+(?: \([^)]*\))? Burcu Erkeği", t)
+    return m.group(1).strip() if m else ""
 
 
 def fetch_horoscope():
@@ -278,10 +293,20 @@ def fetch_horoscope():
             old = json.load(f).get("horoscope")
     except Exception:
         old = None
-    if old and old.get("date") == today.isoformat() and len(old.get("signs") or []) == 12:
+    if old and old.get("v") == HORO_V and old.get("date") == today.isoformat() and len(old.get("signs") or []) == 12:
         return old
-    for url, src in (("https://www.takvim.com.tr/rss/astroloji.xml", "Takvim"),
-                     ("https://www.sabah.com.tr/rss/astroloji.xml", "Sabah")):
+    signs = {}
+    for k in BURC_KEYS:  # 1) Milliyet: burç başına tam günlük yorum (12 istek, AI yok)
+        try:
+            t = milliyet_burc(k)
+            if len(t) >= 80:
+                signs[k] = {"k": k, "text": t if len(t) <= 4000 else t[:4000].rsplit(". ", 1)[0] + ".", "link": MILLIYET_BURC.format(k)}
+        except Exception as ex:
+            print(f"  ! Milliyet {k}: {ex}", file=sys.stderr)
+    if len(signs) == 12:
+        return {"v": HORO_V, "date": today.isoformat(), "date_label": label, "source": "Milliyet", "signs": [signs[k] for k in BURC_KEYS]}
+    print(f"  ! Burç kaynağı Milliyet: {len(signs)}/12 burç", file=sys.stderr)
+    for url, src in (("https://www.takvim.com.tr/rss/astroloji.xml", "Takvim"),):  # 2) Takvim: burç başına tek cümle
         try:
             r = requests.get(url, headers=HEADERS, timeout=15)
             r.raise_for_status()
@@ -301,7 +326,7 @@ def fetch_horoscope():
                         signs[k]["text"] = t if len(t) <= 4000 else t[:4000].rsplit(". ", 1)[0] + "."
             signs = {k: v for k, v in signs.items() if len(v["text"]) >= 40}
             if len(signs) == 12:
-                return {"date": today.isoformat(), "date_label": label, "source": src, "signs": [signs[k] for k in BURC_KEYS]}
+                return {"v": HORO_V, "date": today.isoformat(), "date_label": label, "source": src, "signs": [signs[k] for k in BURC_KEYS]}
             print(f"  ! Burç kaynağı {src}: {len(signs)}/12 burç", file=sys.stderr)
         except Exception as ex:
             print(f"  ! Burç kaynağı {src} alınamadı: {ex}", file=sys.stderr)
@@ -311,7 +336,7 @@ def fetch_horoscope():
                      '"terazi":"...","akrep":"...","yay":"...","oglak":"...","kova":"...","balik":"..."}')
         data = json.loads(clean_json_response(raw))
         if all(isinstance(data.get(k), str) and data[k].strip() for k in BURC_KEYS):
-            return {"date": today.isoformat(), "date_label": label, "source": "RADAR AI",
+            return {"v": HORO_V, "date": today.isoformat(), "date_label": label, "source": "RADAR AI",
                     "signs": [{"k": k, "text": data[k].strip()[:600]} for k in BURC_KEYS]}
     except Exception as ex:
         print(f"  ! Burç AI yedeği başarısız: {ex}", file=sys.stderr)
