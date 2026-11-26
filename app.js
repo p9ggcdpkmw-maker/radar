@@ -216,7 +216,7 @@ var list=SIGNS.slice().sort(function(a,b){return (b[0]===me)-(a[0]===me)});
 if(!HORO||!HORO.signs||!HORO.signs.length)return '<div class="empty"><b>♈</b><p>Bugünün burç yorumları henüz hazır değil. Bot bir sonraki turda ekler.</p></div>';
 return '<div class="horo"><p class="hint horoh">'+esc(HORO.date_label||'')+(HORO.source?' · Kaynak: '+esc(HORO.source):'')+' · Kendi burcuna ☆ ile işaret koy, en üstte görünsün.</p>'+
 list.map(function(s){var x=txt[s[0]]||{},on=s[0]===me;return '<article class="hz'+(on?' me':'')+'"><div class="hzh"><span class="hzi">'+s[2]+'</span><div><b>'+s[1]+'</b><small>'+s[3]+'</small></div>'+
-'<button class="hzs" data-burc="'+s[0]+'" aria-label="Burcum olarak işaretle">'+(on?'★':'☆')+'</button></div><p>'+esc(x.text||'Yorum yok.')+'</p>'+
+'<button class="hzs" data-burc="'+s[0]+'" aria-label="Burcum olarak işaretle">'+(on?'★':'☆')+'</button></div><p class="hzt" title="Tamamını aç/kapat">'+esc(x.text||'Yorum yok.')+'</p>'+
 (x.link?'<a class="hzl" href="'+esc(safeUrl(x.link))+'" target="_blank" rel="noopener">Kaynakta oku ↗</a>':'')+'</article>'}).join('')+'</div>'}
 function renderFeed(){if(S.cat==='burc'&&!S.saved&&!booting){$('#newsGrid').innerHTML=renderHoro();$('#feedCount').textContent='12 burç';$('#more').classList.remove('show');$('#brief').style.display='none';renderFilterBar();syncUrl();return}
 if(booting){$('#newsGrid').innerHTML=new Array(9).join('x').split('x').map(function(){return '<div class="sk"></div>'}).join('');return}
@@ -1430,6 +1430,7 @@ document.addEventListener('click',function(e){
 var t=e.target,el;
 if(!t.closest('#pop')&&!t.closest('[data-ai]')&&!t.closest('#briefAI'))hidePop();
 if(el=t.closest('[data-fc]')){clearFilters(el.dataset.fc);return}
+if(el=t.closest('.hzt')){el.classList.toggle('open');return}
 if(el=t.closest('[data-burc]')){var bk=el.dataset.burc;LS.s('radar_burc',LS.g('radar_burc','')===bk?'':bk);renderFeed();return}
 if(el=t.closest('[data-cat]')){S.cat=el.dataset.cat;S.saved=false;S.limit=24;setView('feed');renderCats();renderFeed();return}
 if(el=t.closest('.pref[data-k]')){togglePref(el.dataset.k);return}
