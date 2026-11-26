@@ -242,6 +242,59 @@ def fetch_gamerpower(cat):
     return items[:20]
 
 
+BURC_KEYS = ["koc", "boga", "ikizler", "yengec", "aslan", "basak", "terazi", "akrep", "yay", "oglak", "kova", "balik"]
+AY_ADI = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+
+
+def _ascii_tr(t):
+    return tr_lower(t).translate(str.maketrans("çğıöşüâ", "cgiosua"))
+
+
+def fetch_horoscope():
+    """Günlük burç yorumları: önce kaynak sitelerin burç başına RSS'i (AI'sız), olmazsa Groq ile tek çağrı.
+    Gün içinde bir kez çekilir; aynı günün verisi varsa news.json'dakini döndürür."""
+    today = datetime.now(timezone(timedelta(hours=3))).date()
+    label = f"{today.day} {AY_ADI[today.month - 1]} günlük burç yorumları"
+    try:
+        with open("news.json", encoding="utf-8") as f:
+            old = json.load(f).get("horoscope")
+    except Exception:
+        old = None
+    if old and old.get("date") == today.isoformat() and len(old.get("signs") or []) == 12:
+        return old
+    for url, src in (("https://www.takvim.com.tr/rss/astroloji.xml", "Takvim"),
+                     ("https://www.sabah.com.tr/rss/astroloji.xml", "Sabah")):
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=15)
+            r.raise_for_status()
+            signs = {}
+            for e in feedparser.parse(r.content).entries:
+                key = re.sub(r"[^a-z]", "", _ascii_tr(e.get("title", "").split("(")[0]))
+                text = re.sub(r"\s+", " ", BeautifulSoup(e.get("summary", ""), "html.parser").get_text(" ")).strip()
+                if key in BURC_KEYS and len(text) < 40 and e.get("link"):
+                    # RSS yalnız "Devamı için tıklayınız" veriyor: yorumu burcun sayfasından çek (günde 12 istek).
+                    page, _ = fetch_text_and_image(e["link"])
+                    text = re.sub(r"\s+", " ", page or "").strip()
+                if key in BURC_KEYS and len(text) >= 40:
+                    signs[key] = {"k": key, "text": text if len(text) <= 600 else text[:600].rsplit(". ", 1)[0] + ".", "link": e.get("link", "")}
+            if len(signs) == 12:
+                return {"date": today.isoformat(), "date_label": label, "source": src, "signs": [signs[k] for k in BURC_KEYS]}
+            print(f"  ! Burç kaynağı {src}: {len(signs)}/12 burç", file=sys.stderr)
+        except Exception as ex:
+            print(f"  ! Burç kaynağı {src} alınamadı: {ex}", file=sys.stderr)
+    try:  # yedek: 12 burç tek AI çağrısında
+        raw = ask_ai("Bugün " + label + " için 12 burcun her birine 2-3 cümlelik, abartısız, pozitif ama gerçekçi Türkçe günlük yorum yaz. "
+                     'Çıktı KESİNLİKLE şu JSON: {"koc":"...","boga":"...","ikizler":"...","yengec":"...","aslan":"...","basak":"...",'
+                     '"terazi":"...","akrep":"...","yay":"...","oglak":"...","kova":"...","balik":"..."}')
+        data = json.loads(clean_json_response(raw))
+        if all(isinstance(data.get(k), str) and data[k].strip() for k in BURC_KEYS):
+            return {"date": today.isoformat(), "date_label": label, "source": "RADAR AI",
+                    "signs": [{"k": k, "text": data[k].strip()[:600]} for k in BURC_KEYS]}
+    except Exception as ex:
+        print(f"  ! Burç AI yedeği başarısız: {ex}", file=sys.stderr)
+    return old  # hiçbiri olmazsa dünkü veri (arayüz tarihini gösterir)
+
+
 def fetch_category(cat, cache):
     if cat.get("api") == "gamerpower":
         return fetch_gamerpower(cat)
@@ -742,6 +795,7 @@ def main():
         },
         "briefings": briefings,
         "briefings_generated_at": briefings_at,
+        "horoscope": fetch_horoscope(),
         "items": all_items,
         "weather": w_data, "market": m_data, "crypto": c_data, "stocks": s_data,
         "alerts_sent": alerts_sent,

@@ -19,7 +19,9 @@ def probe(url):
         t = re.search(rb"<(?:item|entry)[\s>].*?<title[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>", r.content, re.S)
         first = t.group(1).decode("utf-8", "replace").strip()[:70] if t else ""
         ok = "OK" if r.status_code == 200 and n > 0 else "ÖLÜ"
-        return f"{ok:4} HTTP {r.status_code} · {n:3} öğe · {first}"
+        d = re.search(rb"<(?:item|entry)[\s>].*?<description[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</description>", r.content, re.S)
+        desc = re.sub(r"<[^>]+>", "", d.group(1).decode("utf-8", "replace")).strip() if d else ""
+        return f"{ok:4} HTTP {r.status_code} · {n:3} öğe · {first} · açıklama {len(desc)} krk: {desc[:120]}"
     except Exception as e:
         return f"ÖLÜ  {type(e).__name__}"
 
