@@ -587,3 +587,5 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 .tmr em{font:900 12px var(--mono);font-style:normal;color:var(--acc,#2563eb);min-width:46px;text-align:center}
 .tmr.done em{color:var(--ink)}
 .tmo{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:11.5px;color:var(--ink3)}
+.hzt{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;cursor:pointer}
+.hzt.open{display:block}

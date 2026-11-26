@@ -276,7 +276,7 @@ def fetch_horoscope():
                     page, _ = fetch_text_and_image(e["link"])
                     text = re.sub(r"\s+", " ", page or "").strip()
                 if key in BURC_KEYS and len(text) >= 40:
-                    signs[key] = {"k": key, "text": text if len(text) <= 600 else text[:600].rsplit(". ", 1)[0] + ".", "link": e.get("link", "")}
+                    signs[key] = {"k": key, "text": text if len(text) <= 4000 else text[:4000].rsplit(". ", 1)[0] + ".",  # yorumun tamamı; AI yok, sadece sayfa metni "link": e.get("link", "")}
             if len(signs) == 12:
                 return {"date": today.isoformat(), "date_label": label, "source": src, "signs": [signs[k] for k in BURC_KEYS]}
             print(f"  ! Burç kaynağı {src}: {len(signs)}/12 burç", file=sys.stderr)
