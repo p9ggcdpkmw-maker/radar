@@ -162,8 +162,9 @@ await KV.put("alarm:"+chat,JSON.stringify(L));await KV.put("chat:"+chat,"1"); //
 await send("✅ Alarm kuruldu: "+A[1]+" şu an "+fmtN(now)+" "+A[2]+". "+fmtN(v)+" "+A[2]+(op===">"?" üstüne çıkınca":" altına inince")+" bir kez haber vereceğim (5 dk'da bir kontrol, truncgil verisi).");return new Response("ok")}
 if(text==="/favoriler"){const f=JSON.parse((await KV.get("favs:"+chat))||"[]");
 await send(f.length?"⭐ Favorilerin:\n"+f.map(x=>"• "+(x.label||x.id)).join("\n"):"Henüz favori yok. Sitede ★ ekle, sonra Kasa → 📲 Telegram'a bağla.");return new Response("ok")}
-if(text==="/durdur"){await KV.put("set:"+chat,JSON.stringify({off:true}));await send("⏸ Bildirimler durduruldu. Açmak için: /devam");return new Response("ok")}
-if(text==="/devam"){await KV.put("set:"+chat,JSON.stringify({off:false}));await send("▶ Bildirimler açık.");return new Response("ok")}
+// Sadece off alanı değişir; sessiz saat / özet ayarları korunur.
+if(text==="/durdur"||text==="/devam"){const s=JSON.parse((await KV.get("set:"+chat))||"{}");s.off=text==="/durdur";await KV.put("set:"+chat,JSON.stringify(s));
+await send(s.off?"⏸ Bildirimler durduruldu. Açmak için: /devam":"▶ Bildirimler açık.");return new Response("ok")}
 if(text==="/ozet"){const s=JSON.parse((await KV.get("set:"+chat))||"{}");s.digest=!s.digest;await KV.put("set:"+chat,JSON.stringify(s));
 await send(s.digest?"📬 Özet modu AÇIK: bildirimler 30 dk'da bir toplu gelir.":"⚡ Anında mod: olay olunca hemen gelir.");return new Response("ok")}
 if(text==="/sessiz"){const s=JSON.parse((await KV.get("set:"+chat))||"{}");s.quiet=!s.quiet;await KV.put("set:"+chat,JSON.stringify(s));
