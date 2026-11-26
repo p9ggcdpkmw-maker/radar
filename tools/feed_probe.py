@@ -12,6 +12,9 @@ UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0 Safa
 def probe(url):
     try:
         r = requests.get(url, headers=UA, timeout=15)
+        if r.content.lstrip()[:1] == b"[":  # JSON API (ör. GamerPower)
+            d = r.json()
+            return f"{'OK' if r.status_code == 200 and d else 'ÖLÜ':4} HTTP {r.status_code} · {len(d):3} öğe · {str(d[0].get('title', ''))[:70] if d else ''}"
         n = len(re.findall(rb"<(item|entry)[\s>]", r.content))
         t = re.search(rb"<(?:item|entry)[\s>].*?<title[^>]*>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?</title>", r.content, re.S)
         first = t.group(1).decode("utf-8", "replace").strip()[:70] if t else ""
