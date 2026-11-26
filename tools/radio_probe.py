@@ -1,4 +1,4 @@
-"""Dalga kanallarını test eder (BASE + CAND, index.html'den okunur).
+"""Dalga kanallarını test eder (BASE, varsa CAND; index.html'den okunur).
 
 Her URL'den ilk baytlar okunur; HTTP kodu, içerik türü ve m3u8 başlığı kontrol
 edilir. Sonuç: OK / ÖLÜ (DNS, bağlantı reddi, 404/410) / ŞÜPHELİ (403, zaman
@@ -15,6 +15,8 @@ def stations(html):
     out = []
     for var in ("BASE", "CAND"):
         i = html.find(f"var {var}=[")
+        if i < 0:
+            continue
         blk = html[i:html.find("];", i)]
         for m in re.finditer(r"\{n:'([^']+)'.*?urls:\[([^\]]*)\]", blk):
             out.append((var, m.group(1), re.findall(r"'(https?://[^']+)'", m.group(2))))

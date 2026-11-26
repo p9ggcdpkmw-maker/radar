@@ -685,9 +685,6 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 <div><button class="btn gh" id="rTest">▶ Testi çalıştır</button><button class="btn dg" id="rHide" hidden>✗ Çalışmayanları gizle</button><button class="btn gh" id="rShow" hidden>Gizlenenleri geri getir</button></div>
 <p class="hint">Test her linki önce worker proxy üzerinden, olmazsa doğrudan erişim denemesiyle yoklar. Radyo sekmesi ilk açılışta test kendiliğinden koşar.</p>
 </div>
-<div class="legal" id="candPanel"><b>🧪 Aday kanallar:</b> 8 ek aday var (Kral Pop, NTV Radyo, Virgin Radio, Number1 FM, Alem FM, Radyo D, Show Radyo, Slow Time). Test hepsini dener, <b>sadece çalışanları</b> kalıcı olarak listene ekler.
-<div><button class="btn gh" id="candTest">🧪 Adayları test et ve çalışanları ekle</button></div>
-<div id="candRes" class="hint"></div>
 </div>
 <p class="legal">⚖️ Yayınlar ilgili kurumların kamuya açık akışlarıdır. RADAR yalnızca arayüzdür; telif ve lisans hakları yayıncılara aittir.</p>
 </section>
@@ -898,20 +895,8 @@ var BASE=[
 {n:'Süper FM',d:'Türkçe pop',g:'Pop',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/SUPER_FM.mp3']},
 {n:'Metro FM',d:'Yabancı hitler',g:'Yabancı',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/METRO_FM.mp3']},
 {n:'Joy Türk',d:'Türkçe slow pop',g:'Slow',urls:['https://playerservices.streamtheworld.com/api/livestream-redirect/JOY_TURK.mp3']},
-{n:'Power FM',d:'Yabancı pop',g:'Yabancı',urls:['https://live.powerapp.com.tr/powerfm/mpeg/icecast.audio','https://powerfm.listenpowerapp.com/powerfm/mpeg/icecast.audio']},
-{n:'PowerTürk',d:'Türkçe pop',g:'Pop',urls:['https://live.powerapp.com.tr/powerturk/mpeg/icecast.audio','https://powerturk.listenpowerapp.com/powerturk/mpeg/icecast.audio']},
-{n:'Slow Türk',d:'Romantik ve yavaş',g:'Slow',urls:['https://slowturk.radyotvonline.net/slowturk/playlist.m3u8','https://radyo.duhnet.tv/slowturk']},
-{n:'Best FM',d:'Türkçe pop',g:'Pop',urls:['https://bestfm.radyotvonline.net/bestfm/playlist.m3u8','https://radyo.duhnet.tv/bestfm']},
-{n:'Radyo Fenomen',d:'Hit müzik',g:'Pop',urls:['https://fenomen.listenfenomen.com/fenomen/mpeg/icecast.audio']}];
-var CAND=[
-{n:'Kral Pop',d:'Türkçe pop hit',g:'Pop',urls:['https://kralpop.radyotvonline.net/kralpop/playlist.m3u8']},
-{n:'NTV Radyo',d:'Haber ve sohbet',g:'Haber',urls:['https://ntvradyo.radyotvonline.net/ntvradyo/playlist.m3u8']},
-{n:'Virgin Radio',d:'Rock ve alternatif',g:'Rock',urls:['https://virginradyo.radyotvonline.net/virginradyo/playlist.m3u8']},
-{n:'Number1 FM',d:'Yabancı hit',g:'Yabancı',urls:['https://number1fm.radyotvonline.net/number1fm/playlist.m3u8']},
-{n:'Alem FM',d:'Türkçe pop klasikleri',g:'Pop',urls:['https://alemfm.radyotvonline.net/alemfm/playlist.m3u8']},
-{n:'Radyo D',d:'Karışık yayın',g:'Pop',urls:['https://radyod.radyotvonline.net/radyod/playlist.m3u8']},
-{n:'Show Radyo',d:'Türkçe pop',g:'Pop',urls:['https://showradyo.radyotvonline.net/showradyo/playlist.m3u8']},
-{n:'Slow Time',d:'Slow ve akustik',g:'Slow',urls:['https://slowtime.radyotvonline.net/slowtime/playlist.m3u8']}];
+{n:'PowerTürk',d:'Türkçe pop',g:'Pop',urls:['https://live.powerapp.com.tr/powerturk/mpeg/icecast.audio']},
+{n:'Best FM',d:'Türkçe pop',g:'Pop',urls:['https://bestfm.radyotvonline.net/bestfm/playlist.m3u8','https://radyo.duhnet.tv/bestfm']}];
 var legacy=LS.raw('radar_theme');
 var S={view:LS.g('radar_view','feed'),cat:'all',tone:'all',q:'',saved:false,arch:'',
 theme:LS.g('radar_theme_mode',legacy==='dark'?'dark':legacy==='light'?'light':'auto'),
@@ -1914,17 +1899,6 @@ toast('🩺 Test bitti: '+ok+'/'+STATIONS.length+' kanal çalışıyor')}
 function hideBad(){STATIONS.forEach(function(s){if(MT.rtest[s.n]==='bad')OFF.add(s.n)});
 LS.s('radar_radio_off',Array.from(OFF));rebuildStations()}
 function showHidden(){OFF.clear();LS.s('radar_radio_off',[]);rebuildStations()}
-async function testCands(){var btn=$('#candTest'),res=$('#candRes');
-btn.disabled=true;var added=0,dead=0;
-for(var i=0;i<CAND.length;i++){var c=CAND[i];
-res.textContent='Deneniyor: '+c.n+' ('+(i+1)+'/'+CAND.length+')…';
-var good=await probe(c.urls[0]);
-if(good&&!STATIONS.some(function(s){return s.n===c.n})){STATIONS.push(c);EXTRA.push(c);added++}
-else if(!good)dead++}
-LS.s('radar_radio_extra',EXTRA);
-res.innerHTML='Bitti: <b>'+added+' kanal eklendi</b>, '+dead+' aday çalışmıyor (eklenmedi).'+(added?' Yeni kanallar listede ★ ile favorilenebilir.':'');
-btn.disabled=false;renderRadio();renderHealth();
-if(added)toast('🧪 '+added+' yeni çalışan kanal eklendi')}
 function pushRecent(n){var r=LS.g('radar_radio_recent',[]);r=[n].concat(r.filter(function(x){return x!==n})).slice(0,5);LS.s('radar_radio_recent',r);renderRecent()}
 function renderRecent(){var r=LS.g('radar_radio_recent',[]),box=$('#recentRow');if(!box)return;
 if(!r.length){box.innerHTML='';box.style.display='none';return}
@@ -2119,7 +2093,6 @@ $('#stSort').addEventListener('change',function(e){MT.stSort=e.target.value;rend
 $('#rTest').addEventListener('click',testAll);
 $('#rHide').addEventListener('click',hideBad);
 $('#rShow').addEventListener('click',showHidden);
-$('#candTest').addEventListener('click',testCands);
 $('#expSaved').addEventListener('click',exportSaved);
 $('#expSaved2').addEventListener('click',exportSaved);
 $('#expCsv').addEventListener('click',exportCSV);
