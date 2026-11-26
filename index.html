@@ -140,6 +140,7 @@ body.nomotion *{animation-duration:.01ms!important;transition-duration:.01ms!imp
 .seg.wide::-webkit-scrollbar{height:0}
 .pulse{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
 .pulse::-webkit-scrollbar{height:0}
+@media (hover:hover) and (pointer:fine){.pulse{scrollbar-width:thin}.pulse::-webkit-scrollbar{height:6px}.pulse::-webkit-scrollbar-thumb{background:var(--ln2);border-radius:9px}}
 .trend{flex:0 0 auto;display:flex;align-items:center;gap:7px;padding:7px 13px;border-radius:99px;border:1px solid color-mix(in srgb,var(--cy) 30%,var(--ln));background:color-mix(in srgb,var(--cy) 9%,var(--sf));color:var(--ink);font:800 12px var(--sans);transition:.15s;user-select:none}
 .trend:hover{background:var(--cy);color:#04121a;border-color:transparent}
 .trend.on{background:var(--cy);color:#04121a;border-color:transparent}
@@ -456,7 +457,9 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 :root{--pad:15px}
 .app,.app[data-rail="0"]{grid-template-columns:minmax(0,1fr)}
 .side{display:none}.tabbar{display:flex}
-.top{padding-top:9px;padding-bottom:8px}
+body.kb .tabbar,body.kb #player{display:none}
+.top{padding-top:calc(9px + env(safe-area-inset-top,0px));padding-bottom:8px;transition:transform .25s ease}
+.top.hid{transform:translateY(-100%)}
 .t1{display:flex;flex-wrap:nowrap;margin-bottom:7px}
 .mob{display:inline-flex}
 #archSelM{max-width:118px;height:34px;font-size:11px;padding:0 22px 0 9px;background-position:right 8px center}
@@ -464,7 +467,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .dsk{display:none!important}
 .hello{min-width:0}
 .hello h1{font-size:20px}
-.hello p{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hello p{font-size:11.5px;line-height:1.3}
 .top.tight{padding-top:9px;padding-bottom:8px}
 .top.tight .hello h1{font-size:18px}
 .top.tight .hello p{display:block}
@@ -1622,7 +1625,7 @@ if(!SC.data||SC.err){box.hidden=true;box.innerHTML='';return}
 var live=[],tot=0;(SC.data.leagues||[]).forEach(function(l){(l.matches||[]).forEach(function(m){tot++;if(m.state==='in')live.push(m)})});
 if(!live.length){if(!tot){box.hidden=true;box.innerHTML='';return}
 box.hidden=false;box.innerHTML='<div class="trend" data-gotoscores role="button" tabindex="0">🏟️ Bugün '+tot+' maç · sonuçlar ›</div>';return}
-box.hidden=false;box.innerHTML='<span style="font:900 10px var(--sans);letter-spacing:1.2px;color:var(--dn);align-self:center">🔴 CANLI</span>'+live.slice(0,8).map(function(m){return '<div class="trend live" data-live="'+esc(m.id)+'" role="button" tabindex="0">'+esc(m.home)+' <b>'+m.hs+'–'+m.as+'</b> '+esc(m.away)+' <b>'+esc(m.clock||'')+'</b></div>'}).join('')}
+box.hidden=false;box.innerHTML='<span style="font:900 10px var(--sans);letter-spacing:1.2px;color:var(--dn);align-self:center">🔴 CANLI</span>'+live.map(function(m){return '<div class="trend live" data-live="'+esc(m.id)+'" role="button" tabindex="0">'+esc(m.home)+' <b>'+m.hs+'–'+m.as+'</b> '+esc(m.away)+' <b>'+esc(scClock(m))+'</b></div>'}).join('')}
 function scOpen(id){var found=null;((SC.data&&SC.data.leagues)||[]).forEach(function(l){(l.matches||[]).forEach(function(m){if(m.id===id)found={l:l,m:m}})});if(!found)return;SC.detail=found;
 $('#mtKick').textContent=found.l.flag+' '+found.l.name;
 $('#mtName').textContent=found.m.home+' – '+found.m.away;
@@ -2323,15 +2326,23 @@ if(e.key==='t'){e.preventDefault();toggleLater(lk);var b4=$('.lt',ae);if(b4)b4.c
 if(e.key==='/'){e.preventDefault();openPal();return}
 if((e.key==='Enter'||e.key===' ')&&ae&&ae.getAttribute&&ae.getAttribute('role')==='button'){e.preventDefault();ae.click()}});
 addEventListener('scroll',function(){hidePop()},{passive:true,capture:true});
+// Masaüstünde dikey tekerlek, yatay şeritte (canlı maçlar vb.) yatay kaydırır.
+document.addEventListener('wheel',function(e){var p=e.target.closest&&e.target.closest('.pulse');if(!p||Math.abs(e.deltaX)>Math.abs(e.deltaY)||p.scrollWidth<=p.clientWidth)return;
+var max=p.scrollWidth-p.clientWidth;if((e.deltaY<0&&p.scrollLeft<=0)||(e.deltaY>0&&p.scrollLeft>=max-1))return;e.preventDefault();p.scrollLeft+=e.deltaY},{passive:false});
 addEventListener('scroll',function(){var y=scrollY||pageYOffset||0;
 if(innerWidth>900){if(!tightOn&&y>140)tightOn=true;else if(tightOn&&y<60)tightOn=false;
 $('#topbar').classList.toggle('tight',tightOn)}
-else if(tightOn){tightOn=false;$('#topbar').classList.remove('tight')}
+else{if(tightOn){tightOn=false;$('#topbar').classList.remove('tight')}
+// Mobil: üst panel ekranın ~%25'ini kaplıyordu; aşağı kaydırınca gizle, yukarı kaydırınca göster.
+var dy=y-(window._lastY||0);if(Math.abs(dy)>6){$('#topbar').classList.toggle('hid',dy>0&&y>120);window._lastY=y}}
 var tt=$('#toTop');if(tt)tt.classList.toggle('show',y>600)},{passive:true});
 addEventListener('resize',function(){catArrows();redrawSparks();measure();
 if(MT.tab==='heat'&&S.view==='market')treemap(heatCoins());
 if(innerWidth<=900&&tightOn){tightOn=false;$('#topbar').classList.remove('tight')}});
 addEventListener('orientationchange',function(){setTimeout(measure,200)});
+// iOS: klavye açıkken sabit alt panel kaydırınca ekranın ortasına çıkıyordu; yazı alanı odaktayken gizle.
+document.addEventListener('focusin',function(e){if(/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)&&e.target.type!=='range'&&e.target.type!=='checkbox')document.body.classList.add('kb')});
+document.addEventListener('focusout',function(){document.body.classList.remove('kb')});
 if(mq){var mh=function(){if(S.theme==='auto')applyTheme()};mq.addEventListener?mq.addEventListener('change',mh):mq.addListener(mh)}
 document.addEventListener('visibilitychange',function(){
 if(document.hidden){clearInterval(MT.timer);MT.timer=0}

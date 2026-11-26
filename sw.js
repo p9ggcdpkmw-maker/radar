@@ -1,5 +1,5 @@
 /* RADAR Service Worker v6 — tek dosya index.html */
-const V = 'radar-v20';
+const V = 'radar-v21';
 const SHELL = [
   './', './index.html', './manifest.json',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png',
