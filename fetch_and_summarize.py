@@ -250,6 +250,24 @@ def _ascii_tr(t):
     return tr_lower(t).translate(str.maketrans("çğıöşüâ", "cgiosua"))
 
 
+BURC_BASLIK = ["KOÇ", "BOĞA", "İKİZLER", "YENGEÇ", "ASLAN", "BAŞAK", "TERAZİ", "AKREP", "YAY", "OĞLAK", "KOVA", "BALIK"]
+
+
+def split_burc(text):
+    """'KOÇ ... BOĞA ...' biçimli tek metni burç anahtarlarına böler. Büyük harfli başlık şart."""
+    text = re.sub(r"\s+", " ", text).strip()
+    pat = re.compile(r"(?<![\wÇĞİÖŞÜçğıöşü])(" + "|".join(BURC_BASLIK) + r")(?![\wÇĞİÖŞÜçğıöşü])")
+    hits = [(m.start(), m.end(), BURC_KEYS[BURC_BASLIK.index(m.group(1))]) for m in pat.finditer(text)]
+    out = {}
+    for i, (a, b, k) in enumerate(hits):
+        if k in out:
+            continue
+        seg = text[b:hits[i + 1][0] if i + 1 < len(hits) else len(text)].strip(" :-–")
+        if len(seg) >= 40:
+            out[k] = seg
+    return out
+
+
 def fetch_horoscope():
     """Günlük burç yorumları: önce kaynak sitelerin burç başına RSS'i (AI'sız), olmazsa Groq ile tek çağrı.
     Gün içinde bir kez çekilir; aynı günün verisi varsa news.json'dakini döndürür."""
@@ -268,15 +286,20 @@ def fetch_horoscope():
             r = requests.get(url, headers=HEADERS, timeout=15)
             r.raise_for_status()
             signs = {}
+            first = None
             for e in feedparser.parse(r.content).entries:
                 key = re.sub(r"[^a-z]", "", _ascii_tr(e.get("title", "").split("(")[0]))
-                text = re.sub(r"\s+", " ", BeautifulSoup(e.get("summary", ""), "html.parser").get_text(" ")).strip()
-                if key in BURC_KEYS and len(text) < 40 and e.get("link"):
-                    # RSS yalnız "Devamı için tıklayınız" veriyor: yorumu burcun sayfasından çek (günde 12 istek).
-                    page, _ = fetch_text_and_image(e["link"])
-                    text = re.sub(r"\s+", " ", page or "").strip()
-                if key in BURC_KEYS and len(text) >= 40:
-                    signs[key] = {"k": key, "text": text if len(text) <= 4000 else text[:4000].rsplit(". ", 1)[0] + ".",  # yorumun tamamı; AI yok, sadece sayfa metni "link": e.get("link", "")}
+                if key in BURC_KEYS and e.get("link"):
+                    first = first or e["link"]
+                    signs[key] = {"k": key, "text": "", "link": e["link"]}
+            # RSS yalnız "Devamı için tıklayınız" veriyor; her burç sayfası 12 burcun tamamını
+            # "KOÇ ... BOĞA ..." başlıklarıyla içeriyor. Tek sayfa çek, başlıklara göre böl (AI yok).
+            if first:
+                page, _ = fetch_text_and_image(first)
+                for k, t in split_burc(page or "").items():
+                    if k in signs:
+                        signs[k]["text"] = t if len(t) <= 4000 else t[:4000].rsplit(". ", 1)[0] + "."
+            signs = {k: v for k, v in signs.items() if len(v["text"]) >= 40}
             if len(signs) == 12:
                 return {"date": today.isoformat(), "date_label": label, "source": src, "signs": [signs[k] for k in BURC_KEYS]}
             print(f"  ! Burç kaynağı {src}: {len(signs)}/12 burç", file=sys.stderr)
