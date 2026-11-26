@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="RADAR">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js" defer></script>
-<link rel="stylesheet" href="style.css?v=29">
+<link rel="stylesheet" href="style.css?v=30">
 </head>
 <body>
 <div class="grain"></div><div class="aur"><i></i><i></i><i></i></div>
@@ -127,10 +127,11 @@
 <button class="btn gh" id="scFavOnly" style="height:34px;padding:0 12px;font-size:11.5px">★ Takımlarım</button>
 </div>
 <p class="hint" id="scVbNote" hidden style="margin:0 0 8px">🏐 Voleybol kapsamı dardır: TheSportsDB uluslararası fikstürü. Canlı dakika ve diziliş verisi yok; skorlar çoğunlukla maç sonunda güncellenir.</p>
+<div id="scTeam"></div>
 <div id="scHero"></div>
 <div class="strip" id="scSum" style="margin:0 0 10px;grid-template-columns:repeat(3,minmax(0,1fr))"></div>
 <div id="scList"></div>
-<p class="hint" id="scHint">Skorlar ESPN'den gelir; canlı maçlar ~45 sn'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.</p>
+<p class="hint" id="scHint">Skorlar ESPN'den gelir; canlı maçlar ~45 sn'de bir yenilenir. ★ ile takım favorile, "Takımlarım" onların tüm tarihlerdeki maçlarını da gösterir; takım aramak da tarihten bağımsız çalışır. Geçmiş tarih = sonuç arşivi.</p>
 </section>
 <section class="view" id="v-radio">
 <h2 class="vt">RADAR Dalga</h2><p class="vs">Sekme değiştirsen de yayın devam eder. ★ ile favorilere ekle.</p>
@@ -309,6 +310,6 @@
 <button id="toTop" aria-label="Yukarı çık" title="Yukarı çık">↑</button>
 <div id="swBar" hidden>🔄 Yeni içerik hazır <button class="btn pri" id="swReload" style="padding:6px 12px;font-size:11.5px">Yenile</button></div>
 <div class="pop" id="pop"></div><div class="toasts" id="toasts" aria-live="polite"></div>
-<script src="app.js?v=29"></script>
+<script src="app.js?v=30"></script>
 </body>
 </html>
