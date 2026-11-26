@@ -43,7 +43,7 @@ SOURCE_NAMES = {
     "webtekno": "Webtekno", "shiftdelete": "ShiftDelete", "donanimhaber": "DonanımHaber",
     "webrazzi": "Webrazzi", "chip": "CHIP Online",
     "bbci": "BBC Türkçe", "bbc": "BBC", "ntv": "NTV", "sozcu": "Sözcü", "hurriyet": "Hürriyet",
-    "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber",
+    "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber", "hamileyim": "Hamileyim", "elle": "Elle",
     "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe",
     "t24": "T24", "diken": "Diken", "bloomberght": "Bloomberg HT", "ekonomim": "Ekonomim", "bigpara": "Bigpara"
 }
@@ -55,7 +55,7 @@ CATEGORIES = [
     {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
     {"id": "ekonomi", "label": "Ekonomi", "feeds": ["https://www.bloomberght.com/rss", "https://www.ekonomim.com/rss"]},
     {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
-    {"id": "yasam", "label": "Yaşam", "feeds": ["https://www.ntv.com.tr/yasam.rss", "https://www.ntv.com.tr/saglik.rss", "https://www.trthaber.com/saglik_articles.rss"]},
+    {"id": "yasam", "label": "Yaşam", "feeds": ["https://www.ntv.com.tr/yasam.rss", "https://www.ntv.com.tr/saglik.rss", "https://www.trthaber.com/saglik_articles.rss", "https://www.hamileyim.net/feed", "https://www.elle.com.tr/rss", "https://www.haberturk.com/rss/kategori/saglik.xml"]},
     {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.diken.com.tr/feed/", "https://www.hurriyet.com.tr/rss/anasayfa", "https://www.mhahaber.com/rss"]},
 ]
 
@@ -566,11 +566,31 @@ def main():
             if img and not it.get("image"): it["image"] = img
 
     MAX_AI_SUMMARIES = int(os.environ.get("MAX_AI_SUMMARIES", "40"))
+    # Kota: turda kategori başına en fazla MAX_AI_PER_CAT yeni haber AI'a gider (kaynak eklemek kotayı büyütmesin);
+    # kalanlar AI'sız (metnin ilk cümleleri) özetlenir, önbelleğe girer, bir daha kota harcamaz.
+    MAX_AI_PER_CAT = int(os.environ.get("MAX_AI_PER_CAT", "6"))
     if need_summary:
-        if len(need_summary) > MAX_AI_SUMMARIES:
-            need_summary.sort(key=lambda x: x.get("pubDate", ""), reverse=True)
-            print(f"  ! AI kota koruması: {len(need_summary)} haberden sadece en yeni {MAX_AI_SUMMARIES} tanesi özetlenecek.")
-            need_summary = need_summary[:MAX_AI_SUMMARIES]
+        need_summary.sort(key=lambda x: x.get("pubDate", ""), reverse=True)
+        per_cat, ai_q, rest = {}, [], []
+        for it in need_summary:
+            c = it.get("catId")
+            if per_cat.get(c, 0) < MAX_AI_PER_CAT and len(ai_q) < MAX_AI_SUMMARIES:
+                per_cat[c] = per_cat.get(c, 0) + 1
+                ai_q.append(it)
+            else:
+                rest.append(it)
+        now_iso = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        for it in rest:
+            raw = it.get("text") or BeautifulSoup(it.get("rss_desc", ""), "html.parser").get_text(" ")
+            fb = extractive_summary(raw)
+            if not fb:
+                continue
+            it.update({"summary": fb, "score": 4, "tone": "nötr", "why_important": "", "bias_score": None,
+                       "ai": {"model": "extractive", "temperature": AI_TEMPERATURE, "prompt_version": AI_PROMPT_VER,
+                              "generated_at": now_iso, "method": "extractive (AI kotası korunuyor)", "source_urls": [it["link"]]}})
+        if rest:
+            print(f"  ! AI kota koruması: {len(ai_q)} haber AI ile, {len(rest)} haber AI'sız özetlenecek (kategori başı {MAX_AI_PER_CAT}).")
+        need_summary = ai_q
         print(f"Özetleniyor ve Puanlanıyor ({len(need_summary)} haber)...")
         for i in range(0, len(need_summary), 3):
             chunk = need_summary[i:i+3]
