@@ -146,7 +146,12 @@ body.nomotion *{animation-duration:.01ms!important;transition-duration:.01ms!imp
 .nc{position:relative;display:flex;gap:15px;padding:17px 17px 15px 20px;border-radius:var(--r3);border:1px solid var(--ln);background:var(--sf);cursor:pointer;transition:transform .18s,box-shadow .18s,border-color .18s;overflow:hidden;box-shadow:var(--sh1);animation:up .35s ease both}
 .nc::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cc)}
 .nc:hover{transform:translateY(-3px);box-shadow:var(--sh2);border-color:var(--ln2)}
-.nc.read{opacity:.6}
+.nc.read{opacity:.5;filter:saturate(.25)}
+.nc.read:hover,.nc.read:focus-visible{opacity:.85}
+.nc.read .nch{font-weight:700;color:var(--ink2)}
+.rdk i{font-style:normal}
+@media (max-width:420px){.rdk i{display:none}}
+.rdk{font:800 10px var(--mono);color:var(--ink3);border:1px solid var(--ln2);border-radius:99px;padding:2px 7px}
 .ncb{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
 .nct{display:flex;align-items:center;gap:8px;font:800 11.5px var(--sans);color:var(--ink2)}
 .dot{width:9px;height:9px;border-radius:50%;background:var(--cc);flex:0 0 auto}

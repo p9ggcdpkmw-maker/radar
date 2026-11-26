@@ -199,7 +199,7 @@ return '<article class="nc'+(S.read.has(n.link)?' read':'')+'" style="--cc:'+c.c
 '<span class="score" style="color:'+scC+';border-color:'+scC+'">★ '+sc+'</span></div>'+
 '<h3 class="nch">'+esc(n.title||'')+'</h3><p class="ncs'+(bad?' bad':'')+'">'+esc(sum)+'</p>'+
 (n.why_important?'<div class="ncw">💡 '+esc(n.why_important)+'</div>':'')+
-'<div class="ncf"><span>'+ago(n.pubDate)+'</span>'+(n.ai&&n.ai.model?'<span class="badge bai" data-ai role="button" tabindex="0">✦ AI</span>':'')+biasBadge(n)+
+'<div class="ncf"><span>'+ago(n.pubDate)+'</span>'+(S.read.has(n.link)?'<span class="rdk" title="Okundu">✓<i> Okundu</i></span>':'')+(n.ai&&n.ai.model?'<span class="badge bai" data-ai role="button" tabindex="0">✦ AI</span>':'')+biasBadge(n)+
 '<span class="acts"><span class="act lt'+(S.later.has(n.link)?' on':'')+'" role="button" tabindex="0" aria-label="Sonra oku">🕑</span><span class="act sv'+(S.savedSet.has(n.link)?' on':'')+'" role="button" tabindex="0" aria-label="Kaydet">📌</span><span class="act lk'+(S.liked.has(n.link)?' liked':'')+'" role="button" tabindex="0" aria-label="Beğen">'+(S.liked.has(n.link)?'♥':'♡')+'</span></span></div>'+
 '</div>'+img+'</article>'}
 function paintGrid(host,arr,limit){
