@@ -2037,7 +2037,12 @@ b.innerHTML='📅 <b>Arşiv:</b> '+(m?m[1]:esc(S.arch))+' — dondurulmuş geçm
 $('#helloSub').textContent='Arşiv görüntüleniyor'}
 else{b.className='note';$('#helloSub').textContent='Bugün dünyada neler oluyor?'}
 booting=true;renderFeed();loadData()}
-function refreshAll(){toast('Yenileniyor…');loadData();
+// Ana ekrandan (uygulama modu) açıldığında tarayıcının yenile tuşu yok: yeni sürümü al, yoksa sayfayı baştan yükle.
+function isApp(){return (window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true}
+function refreshAll(){if(isApp()&&'serviceWorker' in navigator){toast('Güncelleniyor…');
+navigator.serviceWorker.getRegistration().then(function(reg){if(!reg)return location.reload();
+return reg.update().then(function(){if(reg.waiting)reg.waiting.postMessage('SKIP_WAITING');else location.reload()})}).catch(function(){location.reload()});return}
+toast('Yenileniyor…');loadData();
 if(S.view==='market')Promise.all([binLoad(),wkLoad(),cgLoad(),fngLoad()]).then(renderMarket)}
 function toggleMute(){S.muted=!S.muted;LS.s('radar_muted',S.muted);$('#audio').muted=S.muted;
 var m=S.muted?'🔇':'🔊';$('#btnMute').textContent=m;$('#btnMuteM').textContent=m;
