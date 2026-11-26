@@ -49,6 +49,57 @@ SOURCE_NAMES = {
     "t24": "T24", "diken": "Diken", "bloomberght": "Bloomberg HT", "ekonomim": "Ekonomim", "bigpara": "Bigpara"
 }
 
+# Kaynak karşılaştırma etiketi: sahiplik türü (yorum değil, kontrol edilebilir bilgi). Listede olmayan = Özel.
+SOURCE_OWNER = {"Anadolu Ajansı": "Kamu", "TRT Haber": "Kamu", "BBC Türkçe": "Uluslararası", "BBC": "Uluslararası", "DW Türkçe": "Uluslararası"}
+
+# Tıklama tuzağı: güçlü kalıp tek başına yeter, zayıflardan iki tane gerekir. Soru biçimli başlık tek başına tuzak sayılmaz
+# (BBC'nin "neden?" açıklayıcıları gibi). Arşivle ayarlandı: tools yok, gerekirse buradan genişlet.
+BAIT_STRONG = [r"\bkimdir\b", r"kaç yaşında", r"\bnereli\b", r"hangi kanalda", r"saat kaçta", r"canlı izle", r"inanamayacaksınız",
+               r"\bbakın\b", r"\bşok\b", r"\bflaş\b", r"ağızları açık", r"sosyal medyayı salladı", r"gündem oldu", r"görenler şaşkın",
+               r"herkes(i)? (şaşırttı|bunu)", r"^işte\b", r"\bişte (o|bu|detaylar|nedeni|sebebi|sonuçlar|liste)", r"yok artık",
+               r"pes dedirten", r"\bmi oldu\?", r"nerede oldu\?", r"\bil il\b", r"aktüel katalo", r"neler geliyor", r"hangi ürünler", r"nasıl (izlenir|başvurulur)", r"\.\.\.\s*$"]
+BAIT_WEAK = [r"!\s*$", r"merak edilen", r"!.*!"]
+BAIT_LIMIT = 0.15  # 7 günlük tuzak oranı bunu aşan kaynak "Kaynaklarımız"da işaretlenir (çıkarma kararı elle)
+
+
+def is_bait(title):
+    t = tr_lower(title or "")
+    if any(re.search(p, t) for p in BAIT_STRONG):
+        return True
+    caps = len(re.findall(r"\b[A-ZÇĞİÖŞÜ]{4,}\b", title or "")) >= 3
+    return sum(1 for p in BAIT_WEAK if re.search(p, t)) + caps >= 2
+
+
+def source_report(items):
+    """Kaynak başına 7 günlük haber / tuzak sayısı. Günlük sayım news.json'da tutulur (aynı gün = son tur)."""
+    today = datetime.now(timezone(timedelta(hours=3))).date().isoformat()
+    try:
+        with open("news.json", encoding="utf-8") as f:
+            hist = json.load(f).get("source_stats") or {}
+    except Exception:
+        hist = {}
+    day, seen = {}, set()
+    for it in items:
+        if it["link"] in seen:
+            continue
+        seen.add(it["link"])
+        d = day.setdefault(it["source"], [0, 0])
+        d[0] += 1
+        d[1] += 1 if it.get("_bait") else 0
+    hist[today] = day
+    hist = {k: hist[k] for k in sorted(hist)[-7:]}
+    tot = {}
+    for dd in hist.values():
+        for src, (n, b) in dd.items():
+            t = tot.setdefault(src, [0, 0])
+            t[0] += n
+            t[1] += b
+    rep = [{"source": src, "owner": SOURCE_OWNER.get(src, "Özel"), "n": n, "bait": b, "rate": round(b / n, 3) if n else 0,
+            "flag": bool(n >= 10 and b / n > BAIT_LIMIT)} for src, (n, b) in tot.items()]
+    rep.sort(key=lambda r: (r["rate"], -r["n"]))
+    return hist, rep
+
+
 CATEGORIES = [
     # Ücretsiz Oyun: RSS + anahtar kelime teknoloji haberi topluyordu; GamerPower API yalnız gerçek kampanyaları verir.
     {"id": "oyun", "label": "Ücretsiz Oyun", "api": "gamerpower"},
@@ -638,6 +689,14 @@ def main():
         print("HATA: Hiç haber çekilemedi. news.json korunuyor.", file=sys.stderr)
         sys.exit(1)
 
+    news_items = [it for it in all_items if it.get("catId") != "oyun"]
+    for it in news_items:
+        it["_bait"] = is_bait(it.get("title"))
+    source_stats, sources_rep = source_report(news_items)
+    nb = sum(1 for it in all_items if it.get("_bait"))
+    all_items = [it for it in all_items if not it.pop("_bait", False)]
+    print(f"Tıklama tuzağı: {nb} başlık çıkarıldı")
+
     print("Haberler kümeleniyor (Benzer başlıklar birleştiriliyor)...")
     all_items = cluster_items(all_items)
 
@@ -845,6 +904,7 @@ def main():
         "briefings_generated_at": briefings_at,
         "horoscope": fetch_horoscope(),
         "items": all_items,
+        "sources": sources_rep, "source_stats": source_stats,
         "weather": w_data, "market": m_data, "crypto": c_data, "stocks": s_data,
         "alerts_sent": alerts_sent,
     }
@@ -1083,9 +1143,11 @@ def cluster_items(all_items):
         others = c["members"][1:]
         if others:
             others.sort(key=lambda x: x.get("pubDate", ""))
-            it["other_sources"] = [{"source": o["source"], "link": o["link"], "pubDate": o.get("pubDate")} for o in others]
+            it["other_sources"] = [{"source": o["source"], "link": o["link"], "pubDate": o.get("pubDate"), "title": o.get("title", ""),
+                                   "owner": SOURCE_OWNER.get(o["source"], "Özel")} for o in others]
             it["event_count"] = len(c["members"])
             if c.get("event"): it["event_title"] = c["event"]
+        it["owner"] = SOURCE_OWNER.get(it["source"], "Özel")
         final.append(it)
     return final
 # ================= /RADAR EK PAKET v2 =================

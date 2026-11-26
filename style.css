@@ -587,3 +587,10 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 .tmr em{font:900 12px var(--mono);font-style:normal;color:var(--acc,#2563eb);min-width:46px;text-align:center}
 .tmr.done em{color:var(--ink)}
 .tmo{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:11.5px;color:var(--ink3)}
+/* Kaynak karşılaştırma + Kaynaklarımız */
+.own{font:800 9.5px var(--mono);letter-spacing:.4px;padding:2px 6px;border-radius:6px;background:var(--sf);border:1px solid var(--ln);color:var(--ink3);white-space:nowrap}
+.own.o-Kamu{color:#f59e0b;border-color:#f59e0b55}.own.o-Uluslararası{color:#38bdf8;border-color:#38bdf855}.own.o-Özel{color:#a78bfa;border-color:#a78bfa55}
+.tlq{margin:2px 0 8px 54px;font-size:12.5px;line-height:1.45;color:var(--ink2)}
+.srct{display:grid;gap:4px}
+.srcr{display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:6px 8px;border-radius:8px;background:var(--sf2);font-size:12px}
+.srcr span:nth-child(3){font:700 10.5px var(--mono);color:var(--ink3)}.srcr .g{color:#22c55e;font-weight:700}.srcr .w{color:#f59e0b;font-weight:700}.srcr.bad{outline:1px solid #ef444466}
