@@ -31,8 +31,6 @@ var ORDER=['all','gundem','ekonomi','teknoloji','bilim','dunya','yasam','oyun'];
 var WC={0:['Açık','☀️'],1:['Az bulutlu','🌤️'],2:['Parçalı bulutlu','⛅'],3:['Kapalı','☁️'],45:['Sisli','🌫️'],48:['Kırağı','🌫️'],51:['Hafif çisenti','🌦️'],53:['Çisenti','🌦️'],55:['Yoğun çisenti','🌧️'],61:['Hafif yağmur','🌦️'],63:['Yağmur','🌧️'],65:['Şiddetli yağmur','⛈️'],66:['Dondurucu yağmur','🌧️'],67:['Dondurucu yağmur','🌧️'],71:['Hafif kar','🌨️'],73:['Kar','🌨️'],75:['Yoğun kar','❄️'],77:['Kar taneleri','❄️'],80:['Sağanak','🌦️'],81:['Sağanak','🌧️'],82:['Şiddetli sağanak','⛈️'],85:['Kar sağanağı','🌨️'],86:['Kar sağanağı','🌨️'],95:['Gök gürültülü','⛈️'],96:['Dolu','⛈️'],99:['Şiddetli dolu','⛈️']};
 var wx=function(c){return WC[c]||['Bilinmiyor','🌡️']};
 var GOLD=[['Gram Altın',1,'24 ayar · 1 g','calc'],['Çeyrek Altın',1.603,'22 ayar · saf karşılığı','calc'],['Yarım Altın',3.206,'22 ayar · saf karşılığı','calc'],['Tam Altın',6.412,'22 ayar · saf karşılığı','calc'],['Cumhuriyet Altını',6.611,'22 ayar · saf karşılığı','calc'],['Ata Altın',6.611,'22 ayar · saf karşılığı','calc'],['Ons Altın',31.1035,'31,1035 g · saf','ons'],['Ons Gümüş',0,'ons · saf','silver'],['22 Ayar Bilezik',0.916,'1 g · 22 ayar','calc']];
-var STOP=new Set('bir ve bu da de için ile çok daha en ama gibi olan olarak kadar sonra önce yeni tüm her ne var yok mi mı mu mü ki ya veya ancak fakat çünkü eğer ise şey göre karşı büyük küçük son ilk kez yine hem sadece değil diye üzerine arasında yönelik'.split(' '));
-var NOISE=new Set('ocak şubat mart nisan mayıs haziran temmuz ağustos eylül ekim kasım aralık pazartesi salı çarşamba perşembe cuma cumartesi pazar bugün yarın dün dakika saat gün yıl hafta milyon milyar yüzde dolar euro lira adet tane video foto galeri liste canlı dakika güncel haber haberler açıklama açıkladı dedi'.split(' '));
 var LANGS=[['auto','Otomatik'],['tr','Türkçe'],['en','İngilizce'],['de','Almanca'],['fr','Fransızca'],['es','İspanyolca'],['ar','Arapça'],['ru','Rusça']];
 var BIST_SET=new Set('THYAO ASELS GARAN BIMAS KCHOL SASA PETKM EREGL TUPRS AKBNK YKBNK ISCTR FROTO TCELL HALKB VAKBN KOZAL KOZAA IPEKE EKGYO ARCLK TOASO SAHOL SISE ENKAI TAVHL PGSUS DOHOL ULKER MGROS CCOLA AEFES OTKAR KORDS ALARK GLYHO TKFEN ZOREN ODAS ENJSA AKSEN AYDEM GWIND SMRTG KONTR ASTOR ALFAS EUPWR HEKTS GUBRF BAGFS KLSER CANTE BERA DOAS MAVI TTRAK AKSA CIMSA BRISA ANHYT SOKE'.split(' '));
 var US_SET=new Set('AAPL MSFT NVDA TSLA AMZN GOOGL GOOG META AMD INTC NFLX AVGO ORCL CRM ADBE QCOM TXN IBM GE BA JPM V MA WMT DIS PFE KO PEP XOM CVX PLTR COIN UBER ABNB SHOP SQ PYPL BABA NKE MCD CSCO T MU LRCX AMAT ASML TSM ARM SMCI DELL HPQ GS MS BAC WFC C BLK SCHW UNH JNJ LLY MRK ABBV COST HD LOW SBUX CAT DE MMM HON VZ TMUS CMCSA PDD JD NIO RIVN LCID SOFI HOOD MARA RIOT MSTR'.split(' '));
@@ -49,7 +47,7 @@ var S={view:LS.g('radar_view','feed'),cat:'all',tone:'all',q:'',saved:false,arch
 theme:LS.g('radar_theme_mode',legacy==='dark'?'dark':legacy==='light'?'light':'auto'),
 dens:LS.g('radar_dens','comf'),fs:Number(LS.g('radar_fs',100)),
 noimg:LS.raw('radar_hide_images')==='true',nomotion:LS.g('radar_nomotion',false),
-h12:LS.raw('radar_age_12h')==='true',autoRead:LS.raw('radar_auto_read')==='true',biasOff:LS.raw('radar_bias_filter')==='true',
+h12:LS.raw('radar_age_12h')==='true',biasOff:LS.raw('radar_bias_filter')==='true',
 prefs:LS.g('radar_prefs',null),alert:LS.g('radar_alert_on',false),th:Number(LS.g('radar_alert_th',3)),
 muted:LS.g('radar_muted',false),vol:Number(LS.raw('radar_radio_volume')||0.8),
 read:new Set(LS.g('radar_read',[])),liked:new Set(LS.g('radar_liked',[])),savedSet:new Set(LS.g('radar_saved',[])),fav:new Set(LS.g('radar_fav',[])),
@@ -73,7 +71,7 @@ window.onerror=function(msg){var n=Date.now();if(n-lastErrT>30000){lastErrT=n;tr
 function toast(m,k){var t=document.createElement('div');t.className='toast'+(k?' '+k:'');t.innerHTML=m;$('#toasts').appendChild(t);
 setTimeout(function(){t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translateX(18px)';setTimeout(function(){t.remove()},320)},3000)}
 function openM(id){$(id).classList.add('on');document.body.classList.add('lock')}
-function closeM(){var coin=$('#mCoin').classList.contains('on');
+function closeM(){var coin=$('#mCoin').classList.contains('on');clearTimeout(window._rdT);if(window._rdDirty){window._rdDirty=false;setTimeout(renderFeed,0)}
 $$('.modal.on').forEach(function(m){m.classList.remove('on')});document.body.classList.remove('lock');stopSpeak();hidePop();
 if(coin){MT.detail=null;if(S.view==='market')wsSet(null)}}
 function ask(t,x,fn){$('#cfTitle').textContent=t;$('#cfText').textContent=x;cfFn=fn;openM('#mConfirm')}
@@ -96,7 +94,7 @@ $$('#themeSeg button,#themeSegSide button').forEach(function(b){b.classList.togg
 $$('#densSeg button,#densSegSide button').forEach(function(b){b.classList.toggle('on',b.dataset.d===S.dens)});
 ['fontRange','fontRange2'].forEach(function(id){var e=$('#'+id);if(e)e.value=S.fs});
 $('#fsVal').textContent=S.fs+'%';$('#fsVal2').textContent=S.fs+'%';
-var m={swImg:S.noimg,swImgSide:!S.noimg,swMotion:S.nomotion,swMotionSide:!S.nomotion,sw12:S.h12,swRead:S.autoRead,swBias:S.biasOff,swAlert:S.alert};
+var m={swImg:S.noimg,swImgSide:!S.noimg,swMotion:S.nomotion,swMotionSide:!S.nomotion,sw12:S.h12,swBias:S.biasOff,swAlert:S.alert};
 Object.keys(m).forEach(function(id){var e=$('#'+id);if(e)e.classList.toggle('on',!!m[id])});
 $('#thRange').value=S.th;$('#thVal').textContent='%'+S.th}
 function setTheme(t){S.theme=t;LS.s('radar_theme_mode',t);applyTheme()}
@@ -161,7 +159,7 @@ return jget(p+'?t='+Date.now(),12000).then(function(d){
 NEWS=Array.isArray(d.items)?d.items:[];META=d.meta||null;BRIEF=d.briefings||{};
 MK=d.market||null;CR=Array.isArray(d.crypto)?d.crypto:[];ST=Array.isArray(d.stocks)?d.stocks:[];
 rebuildHist();booting=false;S.limit=24;
-renderCats();renderFeed();renderBrief();renderTrends();renderRail();renderMarket();renderSaved();renderLater();renderEvents();renderUsage();checkStale();renderAbout();
+renderCats();renderFeed();renderBrief();renderRail();renderMarket();renderSaved();renderLater();renderEvents();renderUsage();checkStale();renderAbout();
 $('#sideMeta').textContent=(META&&META.model?String(META.model).split('/').pop():'—')+' · '+NEWS.length+' haber';
 deepLink();
 }).catch(function(e){booting=false;
@@ -191,7 +189,7 @@ if(S.tone!=='all')a=a.filter(function(n){return n.tone===S.tone});
 if(S.biasOff)a=a.filter(function(n){return !(Number(n.bias_score)>=7)});
 if(S.h12){var t=Date.now()-432e5;a=a.filter(function(n){return new Date(n.pubDate).getTime()>t})}
 if(S.q){var q=S.q.toLocaleLowerCase('tr');a=a.filter(function(n){return [n.title,n.summary,n.source,n.cat].some(function(x){return x&&String(x).toLocaleLowerCase('tr').indexOf(q)>=0})})}
-return a.slice().sort(function(x,y){return (y.score||0)-(x.score||0)||new Date(y.pubDate)-new Date(x.pubDate)})}
+return a.slice().sort(function(x,y){return (S.read.has(x.link)-S.read.has(y.link))||(y.score||0)-(x.score||0)||new Date(y.pubDate)-new Date(x.pubDate)})}
 function cardHTML(n,i){var c=CATS[n.catId]||{l:'Haber',c:'#64748B'},sc=n.score||5,scC=sc>=8?'var(--gold)':sc>=6?'var(--cy)':'var(--ink3)';
 var sum=n.summary||'Özet yok — kaynaktan okuyabilirsin.',bad=sum.indexOf('ulaşılamadı')>=0;
 var multi=n.other_sources&&n.other_sources.length?'<span class="multi">+'+n.other_sources.length+'</span>':'';
@@ -229,18 +227,6 @@ $('#catsL').classList.toggle('show',over&&w.scrollLeft>4);
 $('#catsR').classList.toggle('show',over&&w.scrollLeft<w.scrollWidth-w.clientWidth-4)}
 function renderBrief(){$('#briefText').textContent=BRIEF[S.brief]||'Analiz hazırlanamadı.';
 $$('#briefTabs button').forEach(function(b){b.classList.toggle('on',b.dataset.b===S.brief)})}
-function renderTrends(){var uni={},bi={};
-NEWS.forEach(function(n){
-var toks=String((n.title||'')+' '+(n.summary||'')).toLocaleLowerCase('tr').replace(/[^a-zçğıöşüâîû\s]/gi,' ').split(/\s+/)
-.filter(function(w){return w.length>3&&!STOP.has(w)&&!NOISE.has(w)&&!/^\d+$/.test(w)&&!/^(19|20)\d\d$/.test(w)});
-var seen={};toks.forEach(function(w){if(!seen[w]){seen[w]=1;uni[w]=(uni[w]||0)+1}});
-for(var i=0;i<toks.length-1;i++){var p=toks[i]+' '+toks[i+1];bi[p]=(bi[p]||0)+1}});
-var pairs=Object.keys(bi).map(function(k){return[k,bi[k]]}).filter(function(x){return x[1]>=2}).sort(function(a,b){return b[1]-a[1]}).slice(0,4);
-var used={};pairs.forEach(function(p){p[0].split(' ').forEach(function(w){used[w]=1})});
-var singles=Object.keys(uni).map(function(k){return[k,uni[k]]}).filter(function(x){return !used[x[0]]&&x[1]>=2}).sort(function(a,b){return b[1]-a[1]}).slice(0,6-pairs.length);
-var out=pairs.concat(singles).slice(0,6);
-var html=out.map(function(x){return '<div class="trend'+(S.q===x[0]?' on':'')+'" role="button" tabindex="0" data-q="'+esc(x[0])+'">#'+esc(x[0].replace(/ /g,''))+'<b>'+x[1]+'</b></div>'}).join('');
-$('#trendRow').innerHTML=html;$('#railTrend').innerHTML=html||'<p class="hint">Yeterli tekrar eden konu yok.</p>'}
 function fchip(label,val,key){return '<span class="fchip">'+label+': <b>'+esc(val)+'</b><span data-fc="'+key+'" role="button" tabindex="0" title="Bu filtreyi kaldır">✕</span></span>'}
 function renderFilterBar(){var b=$('#filterBar'),c=$('#filterChips');if(!b||!c)return;var p=[];
 if(S.q)p.push(fchip('Arama',S.q,'q'));
@@ -260,7 +246,7 @@ else if(k==='bias'){S.biasOff=false;LS.set('radar_bias_filter',false)}
 else if(k==='all'){S.q='';S.tone='all';S.cat='all';S.saved=false;S.h12=false;S.biasOff=false;
 LS.set('radar_age_12h',false);LS.set('radar_bias_filter',false);$('#paIn').value='';
 $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x.dataset.tone==='all')});renderCats()}
-syncCtl();S.limit=24;renderTrends();renderFeed()}
+syncCtl();S.limit=24;renderFeed()}
 function toggleSave(l){trackUsage('Kaydet');S.savedSet.has(l)?S.savedSet.delete(l):S.savedSet.add(l);LS.s('radar_saved',Array.from(S.savedSet));renderSaved();renderUsage()}
 function toggleLater(l){trackUsage('Sonra oku');S.later.has(l)?S.later.delete(l):S.later.add(l);LS.s('radar_later',Array.from(S.later));renderLater();renderUsage()}
 function trackUsage(action){var u=LS.g('radar_usage',{});u[action]=(u[action]||0)+1;LS.s('radar_usage',u)}
@@ -945,7 +931,8 @@ function updateNSave(){if(!cur)return;var on=S.savedSet.has(cur.link),b=$('#nSav
 b.className='btn '+(on?'pri':'gh');b.textContent=on?'📌 Kaydedildi':'📌 Kaydet'}
 function openNews(n){cur=n;
 trackUsage('Haber açıldı')                     
-if(S.autoRead){S.read.add(n.link);LS.s('radar_read',Array.from(S.read))}
+// Haber penceresinde 3 sn kalınca okundu say; kart pencere kapanınca akışın sonuna iner.
+clearTimeout(window._rdT);window._rdT=setTimeout(function(){if(cur===n&&$('#mNews').classList.contains('on')&&!S.read.has(n.link)){S.read.add(n.link);LS.s('radar_read',Array.from(S.read));window._rdDirty=true}},3000);
 if(S.later.has(n.link)){S.later.delete(n.link);LS.s('radar_later',Array.from(S.later));renderLater()}
 var c=CATS[n.catId]||{l:'Haber',c:'var(--pri)'};
 $('#nKicker').textContent=c.l;$('#nKicker').style.color=c.c;$('#nTitle').textContent=n.title||'';
@@ -1231,7 +1218,6 @@ bindSw('swImgSide',function(){return !S.noimg},function(v){S.noimg=!v;LS.set('ra
 bindSw('swMotion',function(){return S.nomotion},function(v){S.nomotion=v;LS.s('radar_nomotion',v)});
 bindSw('swMotionSide',function(){return !S.nomotion},function(v){S.nomotion=!v;LS.s('radar_nomotion',!v)});
 bindSw('sw12',function(){return S.h12},function(v){S.h12=v;LS.set('radar_age_12h',v)});
-bindSw('swRead',function(){return S.autoRead},function(v){S.autoRead=v;LS.set('radar_auto_read',v)});
 bindSw('swBias',function(){return S.biasOff},function(v){S.biasOff=v;LS.set('radar_bias_filter',v)});
 bindSw('swAlert',function(){return S.alert},function(v){S.alert=v;LS.s('radar_alert_on',v);MT.alr={};
 if(v&&'Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(function(){})});
@@ -1317,7 +1303,7 @@ $('#nFollowSrc').textContent=on?'★ Takip ediliyor':'★ Kaynağı takip et';$(
 document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target&&e.target.id==='fvKw'){var b=$('#fvKwAdd');if(b)b.click()}});
 $('#btnPalette').addEventListener('click',openPal);
 $('#palette').addEventListener('click',function(e){if(e.target===$('#palette'))closePal()});
-$('#paIn').addEventListener('input',function(e){palFill(e.target.value);S.q=e.target.value.trim();S.limit=24;renderTrends();renderFeed()});
+$('#paIn').addEventListener('input',function(e){palFill(e.target.value);S.q=e.target.value.trim();S.limit=24;renderFeed()});
 $('#paIn').addEventListener('keydown',function(e){
 if(e.key==='ArrowDown'){e.preventDefault();palMove(1)}
 else if(e.key==='ArrowUp'){e.preventDefault();palMove(-1)}
@@ -1404,10 +1390,6 @@ var t=e.target,el;
 if(!t.closest('#pop')&&!t.closest('[data-ai]')&&!t.closest('#briefAI'))hidePop();
 if(el=t.closest('[data-fc]')){clearFilters(el.dataset.fc);return}
 if(el=t.closest('[data-cat]')){S.cat=el.dataset.cat;S.saved=false;S.limit=24;setView('feed');renderCats();renderFeed();return}
-if(el=t.closest('.trend[data-q]')){var q=el.dataset.q;
-if(S.q===q){S.q='';$('#paIn').value=''}else{S.q=q;S.saved=false}
-S.limit=24;setView('feed');renderTrends();renderFeed();
-if(S.q)toast('#'+esc(q)+' filtrelendi');return}
 if(el=t.closest('.pref[data-k]')){togglePref(el.dataset.k);return}
 if(el=t.closest('.pai[data-i]')){closePal();var pn=palRows[+el.dataset.i];if(pn)openNews(pn);return}
 if(el=t.closest('[data-ai]')){var ac=el.closest('.nc');var ai=ac?((findNews(ac.dataset.link)||{}).ai):(cur?cur.ai:null);showAI(el,ai||{});return}

@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="RADAR">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js" defer></script>
-<link rel="stylesheet" href="style.css?v=24">
+<link rel="stylesheet" href="style.css?v=25">
 </head>
 <body>
 <div class="grain"></div><div class="aur"><i></i><i></i><i></i></div>
@@ -66,7 +66,6 @@
 </article>
 <div class="pulse" id="liveRow" hidden></div>
 <div class="fbar2" id="filterBar"><span id="filterChips" style="display:contents"></span><button class="fclear" id="filterClear">✕ Filtreleri temizle</button></div>
-<div class="pulse" id="trendRow"></div>
 <div class="fbar"><h3 class="st">Haber Akışı <em id="feedCount"></em></h3>
 <div class="seg sm" id="toneSeg"><button class="on" data-tone="all">Tümü</button><button data-tone="pozitif">Olumlu</button><button data-tone="nötr">Nötr</button><button data-tone="negatif">Olumsuz</button></div>
 </div>
@@ -174,7 +173,6 @@
 </div>
 <div class="cp"><div class="cph">📰 Filtreler</div>
 <div class="row"><span>Sadece son 12 saat</span><button class="sw" id="sw12" aria-label="Son 12 saat filtresi"></button></div>
-<div class="row"><span>Okununca işaretle</span><button class="sw" id="swRead" aria-label="Okununca işaretle"></button></div>
 <div class="row"><span>Sansasyoneli gizle</span><button class="sw" id="swBias" aria-label="Sansasyoneli gizle"></button></div>
 <div class="cph mt" id="prefsToggle" role="button" tabindex="0" style="cursor:pointer">🎯 İlgi alanları <em id="prefsState" style="margin-left:auto">kapalı</em></div><div class="prefs" id="prefs" hidden></div>
 </div>
@@ -220,7 +218,6 @@
 <div class="wg"><div class="wgh">📈 Nabız <button class="mini" data-goto="market">tümü ›</button></div><div id="railMk"></div></div>
 <div class="wg"><div class="wgh">☀️ Çorlu</div><div id="railWx"><p class="hint">Hava verisi yükleniyor…</p></div></div>
 <div class="wg"><div class="wgh">📊 Duygu Trendi</div><div id="sentBody"><p class="hint">Arşivdeki ton dağılımını gün gün gösterir.</p></div><button class="btn gh w" id="sentGo">Son 7 günü analiz et</button></div>
-<div class="wg"><div class="wgh">🔥 Gündem</div><div id="railTrend"></div></div>
 </aside>
 </div>
 <nav class="tabbar" id="tabbar" aria-label="Alt gezinme">
@@ -312,6 +309,6 @@
 <button id="toTop" aria-label="Yukarı çık" title="Yukarı çık">↑</button>
 <div id="swBar" hidden>🔄 Yeni içerik hazır <button class="btn pri" id="swReload" style="padding:6px 12px;font-size:11.5px">Yenile</button></div>
 <div class="pop" id="pop"></div><div class="toasts" id="toasts" aria-live="polite"></div>
-<script src="app.js?v=24"></script>
+<script src="app.js?v=25"></script>
 </body>
 </html>
