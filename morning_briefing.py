@@ -202,10 +202,13 @@ def send(title, text, html):
             print(f"  ! Telegram: {str(e).replace(TG_TOKEN, '***')}", file=sys.stderr)
     if BTDN_TOKEN:
         try:
-            requests.post("https://api.buttondown.com/v1/emails",
-                          json={"subject": title, "body": html, "type": "regular"},
-                          headers={"Authorization": f"Token {BTDN_TOKEN}"}, timeout=15).raise_for_status()
-            print("Buttondown gönderildi.")
+            r = requests.post("https://api.buttondown.com/v1/emails",
+                              json={"subject": title, "body": html, "type": "regular"},
+                              headers={"Authorization": f"Token {BTDN_TOKEN}"}, timeout=15)
+            if r.ok:
+                print("Buttondown gönderildi.")
+            else:  # Hata gövdesi sebebi söyler (422 vb.); token içermez.
+                print(f"  ! Buttondown HTTP {r.status_code}: {r.text[:500]}", file=sys.stderr)
         except Exception as e:
             print(f"  ! Buttondown: {e}", file=sys.stderr)
 
