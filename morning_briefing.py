@@ -144,7 +144,7 @@ def generate_morning_briefing(now=None):
     tr_now = now.astimezone(TR)
     today, yday = tr_now.date(), (tr_now - timedelta(days=1)).date()
     title = f"☀️ RADAR Sabah Brifingi · {tr_now.strftime('%d.%m.%Y')}"
-    tg, html = [title], [f"<h2>{xesc(title)}</h2>"]
+    tg, html = [title], []  # Buttondown konuyu zaten başlık olarak basıyor
 
     def section(head, lines_tg, lines_html):
         if not lines_tg:
