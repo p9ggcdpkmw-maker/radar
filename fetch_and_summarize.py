@@ -43,7 +43,7 @@ SOURCE_NAMES = {
     "webtekno": "Webtekno", "shiftdelete": "ShiftDelete", "donanimhaber": "DonanımHaber",
     "webrazzi": "Webrazzi", "chip": "CHIP Online",
     "bbci": "BBC Türkçe", "bbc": "BBC", "ntv": "NTV", "sozcu": "Sözcü", "hurriyet": "Hürriyet",
-    "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber", "hamileyim": "Hamileyim", "elle": "Elle", "haberturk": "Habertürk",
+    "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber", "hamileyim": "Hamileyim", "elle": "Elle",
     "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe",
     "t24": "T24", "diken": "Diken", "bloomberght": "Bloomberg HT", "ekonomim": "Ekonomim", "bigpara": "Bigpara"
 }
