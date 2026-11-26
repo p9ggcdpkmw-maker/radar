@@ -1,0 +1,23 @@
+# Cloudflare panosundaki ayarların aynısı. Eksik binding deploy'da SİLİNİR; değiştirirken dikkat.
+name = "radar-notify"
+main = "../radar-notify.js"
+compatibility_date = "2026-11-24"
+workers_dev = true
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[[kv_namespaces]]
+binding = "RADAR_KV"
+id = "caf1485e7b0b43949124169f88293657"
+
+[[services]]
+binding = "MARKET"
+service = "radar-market"
+
+[[services]]
+binding = "SCORES"
+service = "radar-scores"
+
+[observability]
+enabled = true
