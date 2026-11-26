@@ -687,7 +687,7 @@ html[data-theme=light] .scdatein,html[data-theme=sepia] .scdatein{color-scheme:l
 </div>
 <p class="hint" id="scVbNote" hidden style="margin:0 0 8px">🏐 Voleybol kapsamı dardır: TheSportsDB uluslararası fikstürü. Canlı dakika ve diziliş verisi yok; skorlar çoğunlukla maç sonunda güncellenir.</p>
 <div id="scHero"></div>
-<div class="strip" id="scSum" style="margin:0 0 10px"></div>
+<div class="strip" id="scSum" style="margin:0 0 10px;grid-template-columns:repeat(3,minmax(0,1fr))"></div>
 <div id="scList"></div>
 <p class="hint" id="scHint">Skorlar ESPN'den gelir; canlı maçlar ~45 sn'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.</p>
 </section>
@@ -1615,8 +1615,8 @@ box.hidden=false;box.innerHTML='<span style="font:900 10px var(--sans);letter-sp
 function scOpen(id){var found=null;((SC.data&&SC.data.leagues)||[]).forEach(function(l){(l.matches||[]).forEach(function(m){if(m.id===id)found={l:l,m:m}})});if(!found)return;SC.detail=found;
 $('#mtKick').textContent=found.l.flag+' '+found.l.name;
 $('#mtName').textContent=found.m.home+' – '+found.m.away;
-$('#mtScore').textContent=(found.m.hs==null?'–':found.m.hs)+' : '+(found.m.as==null?'–':found.m.as);
-$('#mtState').innerHTML='<span class="pill '+(found.m.state==='in'?'dn':found.m.state==='post'?'fl':'up')+'">'+esc(found.m.state==='in'?scClock(found.m):found.m.state==='post'?'MS':hhmm(found.m.start))+'</span> <span style="color:var(--ink3)">'+esc(found.m.detail||'')+'</span>';
+var pre=found.m.state==='pre';$('#mtScore').textContent=(pre||found.m.hs==null?'–':found.m.hs)+' : '+(pre||found.m.as==null?'–':found.m.as);
+$('#mtState').innerHTML='<span class="pill '+(found.m.state==='in'?'dn':found.m.state==='post'?'fl':'up')+'">'+esc(found.m.state==='in'?scClock(found.m):found.m.state==='post'?'MS':hhmm(found.m.start))+'</span> <span style="color:var(--ink3)">'+esc(pre?'':scDet(found.m.detail))+'</span>';
 $('#mtInfo').innerHTML='<div class="kv"><span>Başlangıç</span><b>'+new Date(found.m.start).toLocaleString('tr-TR')+'</b></div>'+(found.m.venue?'<div class="kv"><span>Stadyum</span><b>'+esc(found.m.venue)+'</b></div>':'')+'<div class="kv"><span>Lig</span><b>'+esc(found.l.name)+'</b></div>';
 $('#mtFavH').textContent=(SC.fav.has(found.m.home)?'★ ':'☆ ')+found.m.home;
 $('#mtFavA').textContent=(SC.fav.has(found.m.away)?'★ ':'☆ ')+found.m.away;
@@ -1655,7 +1655,7 @@ var yb=5+(rows.length>1?(r/(rows.length-1))*36:0);
 out.push({x:x,y:side==='away'?yb:95-yb,w:84/(size+1),p:xi[i]})}}
 return out}
 function renderMtLine(lu){var box=$('#mtLine');if(!box)return;
-if(!lu||(!lu.home&&!lu.away)){box.innerHTML='<div class="mth3">📋 Kadro</div><p class="hint">Kadro verisi bu maç için yok veya henüz açıklanmadı.'+(SC.dbgKeys?' <span style="opacity:.55">[anahtarlar: '+esc(SC.dbgKeys)+']</span>':'')+'</p>';return}
+if(!lu||(!lu.home&&!lu.away)){box.innerHTML='<div class="mth3">📋 Kadro</div><p class="hint">Kadro verisi bu maç için yok veya henüz açıklanmadı.'+'</p>';return}
 var html='<div class="mth3">📋 Kadro</div><div class="plg"><span><i class="home"></i>'+esc(mtLabel('home'))+'</span><span><i class="away"></i>'+esc(mtLabel('away'))+'</span></div><div class="pitch"><div class="half"></div><div class="circ"></div>';
 ['away','home'].forEach(function(sd){var L=lu[sd];if(!L)return;
 pitchDots(sd,L).forEach(function(d){html+='<div class="pdot '+sd+'" style="left:'+d.x.toFixed(1)+'%;top:'+d.y.toFixed(1)+'%;width:'+d.w.toFixed(1)+'%"><i>'+esc(d.p.n||'')+'</i><b>'+esc(String(d.p.nm||'').split(' ').pop())+'</b></div>'})});
@@ -1729,6 +1729,8 @@ var n=(miss[m.id]||0)+1;if(n>2){delete miss[m.id];return}miss[m.id]=n;
 var tl=null;(d.leagues=d.leagues||[]).forEach(function(l){if(l.id===pl.id)tl=l});
 if(!tl){tl={id:pl.id,flag:pl.flag,name:pl.name,matches:[]};d.leagues.push(tl)}tl.matches=tl.matches||[];tl.matches.push(m)})});
 SC.miss=miss;return d}
+// ESPN durum metni İngilizce gelir; bilinenleri çevir, bilinmeyeni olduğu gibi bırak.
+function scDet(d){d=String(d||'').trim();var T={'Scheduled':'Planlandı','FT':'Maç sonu','Final':'Maç sonu','Full Time':'Maç sonu','HT':'Devre arası','Halftime':'Devre arası','Postponed':'Ertelendi','Delayed':'Ertelendi','Canceled':'İptal','Cancelled':'İptal','Suspended':'Durduruldu','Abandoned':'Tatil edildi','AET':'Uzatmalar sonrası','FT-Pens':'Penaltılar sonrası','Final/OT':'Uzatmalar sonrası'};return T[d]||d}
 function scClock(m){var c=String(m.clock||''),dt=String(m.detail||'');
 if(/^(HT|Halftime|Half Time)$/i.test(dt))return 'İY';
 return (dt.indexOf('+')>=0&&c.indexOf('+')<0)?dt:(c||dt||'CANLI')}
