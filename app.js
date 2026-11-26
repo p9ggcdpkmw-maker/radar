@@ -323,7 +323,7 @@ function wkAll(){return Object.keys(MT.wk).map(function(k){return MT.wk[k]})}
 function findFx(n){var r=null;wkAll().forEach(function(q){if(q.grp==='fx'&&normK(q.k)===n)r=q});return r}
 function findMetal(cands){var r=null;wkAll().forEach(function(q){if(q.grp==='metal'&&cands.indexOf(normK(q.k))>=0)r=q});return r}
 function gramBase(){var g=findMetal(['GRAMALTIN','GRAMALTINTL','XAUTRY']),o=findMetal(['ONSALTIN','XAUUSD','XAU','GOLD','ALTINONS']),u=findFx('USDTRY');
-var ha=(g&&g.src==='haremaltin')?g:((MK&&MK.gram_altin&&MK.gram_altin.satis)?{alis:MK.gram_altin.alis,satis:MK.gram_altin.satis,p:MK.gram_altin.change_pct,src:'haremaltin'}:null);
+var ha=(g&&g.alis!=null)?g:((MK&&MK.gram_altin&&MK.gram_altin.satis)?{alis:MK.gram_altin.alis,satis:MK.gram_altin.satis,p:MK.gram_altin.change_pct}:null);
 var usd=u?u.v:(MK&&MK.usdtry);
 var v=g?g.v:(ha?ha.satis:(o&&usd?o.v/31.1035*usd:(MK&&MK.gold_gram_try)));
 var p=g?g.p:(ha?ha.p:(o&&u?(o.p||0)+(u.p||0):null));
@@ -342,9 +342,7 @@ return ST.map(function(s){return{k:s.label,disp:s.label,n:s.label,v:s.price,p:s.
 function idxRows(){return wkAll().filter(function(q){return q.grp==='idx'&&isFinite(q.v)&&q.v>0})}
 function wkLoad(){return jget(MKT_URL+'?g=fx,metal,st,idx',10000).then(function(d){
 MT.wk={};(d.quotes||[]).forEach(function(q){if(q&&q.k&&isFinite(q.v)&&q.v>0)MT.wk[(q.grp||'?')+':'+q.k]=q});
-MT.wkOK=true;MT.wkFail=0;
-MT.wkAsOf=typeof d.as_of==='number'?d.as_of:(Date.parse(d.as_of)||Date.now());
-MT.ha=d.ha||null;
+MT.wkOK=true;MT.wkFail=0;MT.wkAsOf=typeof d.as_of==='number'?d.as_of:(Date.parse(d.as_of)||Date.now());MT.ha=d.ha||null;
 }).catch(function(){MT.wkFail++;if(MT.wkFail>=3)MT.wkOK=false})}
 function binLoad(){return jget('https://api.binance.com/api/v3/ticker/24hr',15000).then(function(d){
 var ok=['TRY','USDT','FDUSD','USDC'];
@@ -474,12 +472,13 @@ return '<tr data-stk="'+esc(r.k)+'"><td class="l"><b style="font:800 12.5px var(
 '</tbody></table></div>':'<p class="hint" style="padding:14px">Filtreyle eşleşen hisse yok. Filtreleri gevşet.</p>';
 return idx+stars+'<div class="gh2">Hisseler<span>'+rows.length+' / '+all.length+'</span></div><div class="mkb">'+tbl+'</div>'+
 '<p class="hint">Liste işlem hacmine göre sıralıdır (TradingView ilk 50 + Yahoo + bot yedeği). BIST verisi ~15 dk gecikmeli olabilir. Satıra tıkla → detay. ★ favoriler üste çıkar.</p>'}
-function rowHTML(r){var h=r.h&&r.h.length>1?r.h:[];
-var bd=r.liveNow?' <span class="up">CANLI</span>':'';
-var vr=(r.al!=null)?'<div class="mrv">'+price(r.al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
+function rowHTML(r){var h=r.h&&r.h.length>1?r.h:[];var bd=r.liveNow?' <span class="up">CANLI</span>':'';
+var al=(r.al!=null?r.al:r.alis);
+var vr=(al!=null)?'<div class="mrv">'+price(al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
+var spB=(r.spreadPct!=null)?'<span class="pill fl" title="Alış-satış makası">makas %'+r.spreadPct.toFixed(2).replace('.',',')+'</span>':'';
 return '<div class="mr"'+histAttr(r.n)+'><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
 '<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>'+vr+
-'<div class="mrp">'+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'}
+'<div class="mrp">'+spB+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'}
 function mFx(){var rows=[];
 [['USDTRY','USD/TRY'],['EURTRY','EUR/TRY'],['GBPTRY','GBP/TRY'],['CHFTRY','CHF/TRY'],['JPYTRY','JPY/TRY']].forEach(function(p){
 var q=findFx(p[0]);
@@ -488,18 +487,21 @@ else if(p[0]==='USDTRY'&&MK&&MK.usdtry)rows.push({n:p[1],s:'bot',v:MK.usdtry,p:n
 else if(p[0]==='EURTRY'&&MK&&MK.eurtry)rows.push({n:p[1],s:'bot',v:MK.eurtry,p:null,h:hist(p[1])})});
 var gb=gramBase(),g=gb.v,sil=findMetal(['ONSGUMUS','XAGUSD','XAG','SILVER']);
 var HAopen=!!(MT.ha&&MT.ha.open),HAat=(MT.ha&&MT.ha.at)||'';
-var haByName={};wkAll().forEach(function(q){if(q.grp==='metal'&&q.src==='haremaltin')haByName[normK(q.k)]=q});
-var goldRows=GOLD.map(function(x){var v,pp,src,al=null;
+var haByName={};wkAll().forEach(function(q){if(q.grp==='metal'&&q.alis!=null)haByName[normK(q.k)]=q});
+var goldRows=GOLD.map(function(x){var v,pp,src,al=null,spr=null;
 var hq=haByName[normK(x[0])];
-if(hq){v=hq.satis;al=hq.alis;pp=hq.p;src='Haremaltın · '+(HAopen?'CANLI '+HAat:'kapanış '+HAat)}
-else if(x[3]==='silver'){if(!sil)return null;v=sil.v;pp=sil.p;src='ons · worker'}
-else if(x[3]==='ons'){v=gb.ons?gb.ons.v:(g!=null?g*31.1035:null);pp=gb.ons?gb.ons.p:gb.p;src=x[2]+(gb.ons?' · worker':' · hesaplanmış')}
-else{if(g==null)return null;v=g*x[1];pp=gb.p;src='spot · hesaplanmış'}
+if(hq){v=hq.satis;al=hq.alis;pp=hq.p;spr=hq.spreadPct;src='truncgil · '+(HAopen?'canlı '+HAat:'kapanış '+HAat)}
+else if(x[3]==='silver'){if(!sil)return null;v=sil.v;pp=sil.p;src='ons · $ · spot'}
+// Ons USD'dir: gold-api yoksa gram TL'den dolara çevir (eskiden TL×31 gösteriyordu).
+else if(x[3]==='ons'){v=gb.ons?gb.ons.v:((g!=null&&gb.usdV)?g*31.1035/gb.usdV:null);pp=gb.ons?gb.ons.p:gb.p;src='ons · $ · '+(gb.ons?'spot':'hesaplanmış')}
+else{if(g==null)return null;v=g*x[1];pp=gb.p;src='hesaplanmış'}
 if(v==null)return null;
-return{n:x[0],s:src+(x[3]==='calc'?' · kuyumcu ~'+nf(v*(1+GPRIM/100),0)+' ₺':''),v:v,al:al,p:pp,h:x[0]==='Gram Altın'?hist('Gram Altın'):[],liveNow:!!hq}}).filter(Boolean);
-return '<div class="gh2">Döviz<span>'+rows.length+' parite</span></div><div class="mkb">'+rows.map(rowHTML).join('')+'</div>'+
-'<div class="gh2" style="margin-top:14px">Altın &amp; Gümüş<span>'+goldRows.length+' çeşit</span></div><div class="mkb">'+goldRows.map(rowHTML).join('')+'</div>'+
-'<p class="hint">Altın &amp; gümüş çeşitleri <b>Haremaltın.com</b>\'dan canlı gelir (alış / satış). Piyasa kapalıyken son kapanış gösterilir. Kuyumcu tahmini %'+GPRIM+' işçilik ile hesaplanır; gerçek kuyumcu fiyatı değildir.</p>'}
+if(spr==null&&al>0&&v>=al)spr=(v-al)/al*100;
+var sub=[];if(hq)sub.push('makas %'+spr.toFixed(2).replace('.',','));else if(x[3]==='calc')sub.push(src);if(x[3]==='ons'||x[3]==='silver')sub.push(src);var kuy=x[3]==='calc'?'kuyumcu ~'+nf(v*(1+GPRIM/100),0)+' ₺':'';
+return{n:x[0],s:sub.join(' · '),kuy:kuy,v:v,al:al,p:pp,h:x[0]==='Gram Altın'?hist('Gram Altın'):[]}}).filter(Boolean);
+return '<div class="gh2">Döviz<span>'+rows.length+' parite</span></div><div class="mkb">'+mrHead(false,['Fiyat','Değişim'])+rows.map(rowHTML).join('')+'</div>'+
+'<div class="gh2" style="margin-top:14px">Altın &amp; Gümüş<span>'+goldRows.length+' çeşit</span></div><div class="mkb">'+mrHead(true,['Alış','Satış','Fark'])+goldRows.map(haRow).join('')+'</div>'+
+'<p class="hint">Altın alış / satış fiyatları <b>truncgil</b>\'den gelir. Has ve gram altın uluslararası spot fiyattan hesaplanır; <b>Kapalıçarşı primi dahil değildir</b> (zaman zaman %5\'i aşar), bu yüzden Haremaltın gibi sitelerden düşük görünebilir. Ons altın ve gümüş spot fiyattır. Kuyumcu tahmini %'+GPRIM+' işçilik ile hesaplanır; gerçek kuyumcu fiyatı değildir.</p>'}
 function mHeat(){var st=stPool().filter(function(r){return r.p!=null});
 return '<div class="gh2">Kripto ısı haritası<span>hacim = boyut · %24s = renk</span></div>'+
 '<div class="tree" id="treeBox"></div>'+
@@ -558,8 +560,10 @@ if(!cm.hidden)cm.textContent='Tümünü göster ('+rows.length+')'}
 function renderMarket(){var pane=$('#mkPane');if(!pane)return;
 var ses=sessions(),wrap=$('.tblwrap',pane),sl=wrap?wrap.scrollLeft:0;
 $('#mkStatus').textContent='BIST '+(ses.bist.open?'açık':'kapalı')+' · ABD '+(ses.us.open?'açık':'kapalı')+' · kripto 7/24';
-var sc=$('#mkSrc');sc.className='srcc'+(MT.ha&&MT.ha.src==='haremaltin'&&MT.ha.open?' live':'');
-sc.innerHTML='<span class="pd"></span>'+(MT.ha&&MT.ha.src==='haremaltin'?('Haremaltın · '+(MT.ha.open?'CANLI '+MT.ha.at:'kapanış '+MT.ha.at)):(MT.wkOK?'worker 30 sn':'bot'));
+var sc=$('#mkSrc'),hs=MT.ha&&MT.ha.src;
+sc.className='srcc'+(hs==='truncgil'&&MT.ha.open?' live':'');
+sc.innerHTML='<span class="pd"></span>'+(hs==='truncgil'?('altın: truncgil · '+(MT.ha.open?'canlı '+MT.ha.at:'kapanış '+MT.ha.at)):hs==='gold'?'altın: spot':hs==='hesap'?'altın: hesaplanmış':(MT.wkOK?'worker 30 sn':'bot'));
+sc.title=(MT.ha&&MT.ha.debug)||'';
 setBinChip(!!(MT.ws&&MT.ws.readyState===1));
 syncMarketBars();
 if(MT.tab==='genel')pane.innerHTML=mGen();
@@ -1518,24 +1522,7 @@ navigator.serviceWorker.addEventListener('controllerchange',function(){location.
 $('#swReload').addEventListener('click',function(){var w=swWait||(swReg&&swReg.waiting);if(w)w.postMessage('SKIP_WAITING');else location.reload()});
 setInterval(function(){if(swReg&&!document.hidden)swReg.update().catch(function(){})},1800000);}
 presBeat();setInterval(presBeat,300000);}
-/* --- RADAR yama v9: Kapalicarsi canli alis/satis + okuma modu onarimi --- */
-wkLoad=function(){return jget(MKT_URL+'?g=fx,metal,st,idx',10000).then(function(d){
-MT.wk={};(d.quotes||[]).forEach(function(q){if(q&&q.k&&isFinite(q.v)&&q.v>0)MT.wk[(q.grp||'?')+':'+q.k]=q});
-MT.wkOK=true;MT.wkFail=0;MT.wkAsOf=typeof d.as_of==='number'?d.as_of:(Date.parse(d.as_of)||Date.now());MT.ha=d.ha||null;
-}).catch(function(){MT.wkFail++;if(MT.wkFail>=3)MT.wkOK=false})};
-gramBase=function(){var g=findMetal(['GRAMALTIN','GRAMALTINTL','XAUTRY']),o=findMetal(['ONSALTIN','XAUUSD','XAU','GOLD','ALTINONS']),u=findFx('USDTRY');
-var ha=(g&&g.alis!=null)?g:((MK&&MK.gram_altin&&MK.gram_altin.satis)?{alis:MK.gram_altin.alis,satis:MK.gram_altin.satis,p:MK.gram_altin.change_pct}:null);
-var usd=u?u.v:(MK&&MK.usdtry);
-var v=g?g.v:(ha?ha.satis:(o&&usd?o.v/31.1035*usd:(MK&&MK.gold_gram_try)));
-var p=g?g.p:(ha?ha.p:(o&&u?(o.p||0)+(u.p||0):null));
-return{v:v,p:p,ons:o,usd:u,usdV:usd,direct:!!g,ha:ha}};
-rowHTML=function(r){var h=r.h&&r.h.length>1?r.h:[];var bd=r.liveNow?' <span class="up">CANLI</span>':'';
-var al=(r.al!=null?r.al:r.alis);
-var vr=(al!=null)?'<div class="mrv">'+price(al)+'<i style="font-style:normal;color:var(--ink3);font-size:11px"> / '+price(r.v)+'</i></div>':'<div class="mrv">'+price(r.v)+'</div>';
-var spB=(r.spreadPct!=null)?'<span class="pill fl" title="Alış-satış makası">makas %'+r.spreadPct.toFixed(2).replace('.',',')+'</span>':'';
-return '<div class="mr"'+histAttr(r.n)+'><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+bd+'</span></div>'+
-'<canvas class="mrs" data-spark=\''+JSON.stringify(h)+'\'></canvas>'+vr+
-'<div class="mrp">'+spB+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'};
+/* --- Altın tablosu yardımcıları (haRow, mrHead) --- */
 // Altın satırı: Alış | Satış | Fark sütunları; makas ve kuyumcu tahmini alt satırda.
 function haRow(r){var h=r.h&&r.h.length>1?r.h:[];
 return '<div class="mr ha"'+histAttr(r.n)+'><div class="mrn"><b>'+esc(r.n)+'</b><span>'+esc(r.s||'')+(r.kuy?'<em class="kuy">'+(r.s?' · ':'')+esc(r.kuy)+'</em>':'')+'</span></div>'+
@@ -1543,36 +1530,6 @@ return '<div class="mr ha"'+histAttr(r.n)+'><div class="mrn"><b>'+esc(r.n)+'</b>
 '<div class="mrv al">'+(r.al!=null?price(r.al):'—')+'</div><div class="mrv">'+price(r.v)+'</div>'+
 '<div class="mrp">'+(r.p!=null?'<span class="pill '+cls(r.p)+'">'+arw(r.p)+' '+pct(r.p)+'</span>':'<span class="pill fl">—</span>')+'</div></div>'}
 function mrHead(ha,cols){return '<div class="mr mrh'+(ha?' ha':'')+'"><span class="mrn"></span><span class="mrs"></span>'+cols.map(function(c,i){return '<span class="'+(i===cols.length-1?'mrp':'mrv')+'">'+c+'</span>'}).join('')+'</div>'}
-mFx=function(){var rows=[];
-[['USDTRY','USD/TRY'],['EURTRY','EUR/TRY'],['GBPTRY','GBP/TRY'],['CHFTRY','CHF/TRY'],['JPYTRY','JPY/TRY']].forEach(function(p){
-var q=findFx(p[0]);
-if(q)rows.push({n:p[1],s:'worker · 30 sn',v:q.v,p:q.p,h:q.s&&q.s.length>1?q.s:hist(p[1]),liveNow:MT.wkOK});
-else if(p[0]==='USDTRY'&&MK&&MK.usdtry)rows.push({n:p[1],s:'bot',v:MK.usdtry,p:null,h:hist(p[1])});
-else if(p[0]==='EURTRY'&&MK&&MK.eurtry)rows.push({n:p[1],s:'bot',v:MK.eurtry,p:null,h:hist(p[1])})});
-var gb=gramBase(),g=gb.v,sil=findMetal(['ONSGUMUS','XAGUSD','XAG','SILVER']);
-var HAopen=!!(MT.ha&&MT.ha.open),HAat=(MT.ha&&MT.ha.at)||'';
-var haByName={};wkAll().forEach(function(q){if(q.grp==='metal'&&q.alis!=null)haByName[normK(q.k)]=q});
-var goldRows=GOLD.map(function(x){var v,pp,src,al=null,spr=null;
-var hq=haByName[normK(x[0])];
-if(hq){v=hq.satis;al=hq.alis;pp=hq.p;spr=hq.spreadPct;src='truncgil · '+(HAopen?'canlı '+HAat:'kapanış '+HAat)}
-else if(x[3]==='silver'){if(!sil)return null;v=sil.v;pp=sil.p;src='ons · $ · spot'}
-// Ons USD'dir: gold-api yoksa gram TL'den dolara çevir (eskiden TL×31 gösteriyordu).
-else if(x[3]==='ons'){v=gb.ons?gb.ons.v:((g!=null&&gb.usdV)?g*31.1035/gb.usdV:null);pp=gb.ons?gb.ons.p:gb.p;src='ons · $ · '+(gb.ons?'spot':'hesaplanmış')}
-else{if(g==null)return null;v=g*x[1];pp=gb.p;src='hesaplanmış'}
-if(v==null)return null;
-if(spr==null&&al>0&&v>=al)spr=(v-al)/al*100;
-var sub=[];if(hq)sub.push('makas %'+spr.toFixed(2).replace('.',','));else if(x[3]==='calc')sub.push(src);if(x[3]==='ons'||x[3]==='silver')sub.push(src);var kuy=x[3]==='calc'?'kuyumcu ~'+nf(v*(1+GPRIM/100),0)+' ₺':'';
-return{n:x[0],s:sub.join(' · '),kuy:kuy,v:v,al:al,p:pp,h:x[0]==='Gram Altın'?hist('Gram Altın'):[]}}).filter(Boolean);
-return '<div class="gh2">Döviz<span>'+rows.length+' parite</span></div><div class="mkb">'+mrHead(false,['Fiyat','Değişim'])+rows.map(rowHTML).join('')+'</div>'+
-'<div class="gh2" style="margin-top:14px">Altın &amp; Gümüş<span>'+goldRows.length+' çeşit</span></div><div class="mkb">'+mrHead(true,['Alış','Satış','Fark'])+goldRows.map(haRow).join('')+'</div>'+
-'<p class="hint">Altın alış / satış fiyatları <b>truncgil</b>\'den gelir. Has ve gram altın uluslararası spot fiyattan hesaplanır; <b>Kapalıçarşı primi dahil değildir</b> (zaman zaman %5\'i aşar), bu yüzden Haremaltın gibi sitelerden düşük görünebilir. Ons altın ve gümüş spot fiyattır. Kuyumcu tahmini %'+GPRIM+' işçilik ile hesaplanır; gerçek kuyumcu fiyatı değildir.</p>'};
-var _rm0=renderMarket;renderMarket=function(){_rm0();var sc=$('#mkSrc');if(!sc)return;
-var hs=MT.ha&&MT.ha.src;
-sc.className='srcc'+(hs==='truncgil'&&MT.ha.open?' live':'');
-sc.innerHTML='<span class="pd"></span>'+(hs==='truncgil'?('altın: truncgil · '+(MT.ha.open?'canlı '+MT.ha.at:'kapanış '+MT.ha.at)):hs==='gold'?'altın: spot':hs==='hesap'?'altın: hesaplanmış':(MT.wkOK?'worker 30 sn':'bot'));
-sc.title=(MT.ha&&MT.ha.debug)||''};
-var _ra0=renderAbout;renderAbout=function(){_ra0();var a=$('#about');if(!a)return;
-a.innerHTML=a.innerHTML.replace('Altın çeşitleri gram fiyattan <b>hesaplanır</b>; kuyumcu fiyatı farklıdır.','Altın &amp; gümüş çeşitleri <b>Kapalıçarşı</b> canlı verisinden gelir (alış/satış); erişilemezse spot/hesaplanmış etiketiyle gösterilir. Kuyumcu tahmini işçilik primiyle hesaplanır, gerçek kuyumcu fiyatı değildir.')};
 bindEvents();
 init();
 })();
