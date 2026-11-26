@@ -203,8 +203,10 @@ def send(title, text, html):
     if BTDN_TOKEN:
         try:
             r = requests.post("https://api.buttondown.com/v1/emails",
-                              json={"subject": title, "body": html},
-                              headers={"Authorization": f"Token {BTDN_TOKEN}"}, timeout=15)
+                              # Varsayılan 'draft'; abonelere gitmesi için about_to_send gerekir.
+                              json={"subject": title, "body": html, "status": "about_to_send"},
+                              headers={"Authorization": f"Token {BTDN_TOKEN}",
+                                       "X-Buttondown-Live-Dangerously": "true"}, timeout=15)
             if r.ok:
                 d = r.json() if "json" in r.headers.get("content-type", "") else {}
                 print(f"Buttondown: HTTP {r.status_code}, status={d.get('status')}, id={d.get('id')}")
