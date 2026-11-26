@@ -1,4 +1,4 @@
-name: Dalga Kanal Testi
+name: Dalga Kanal + RSS Kaynak Testi
 
 on:
   workflow_dispatch: {}
@@ -17,3 +17,5 @@ jobs:
           python-version: '3.11'
       - run: pip install requests==2.32.3
       - run: python tools/radio_probe.py
+      - name: RSS kaynak testi
+        run: python tools/feed_probe.py https://www.ntv.com.tr/yasam.rss https://www.ntv.com.tr/saglik.rss https://www.hurriyet.com.tr/rss/kelebek https://www.hurriyet.com.tr/rss/saglik https://www.trthaber.com/saglik_articles.rss https://www.sozcu.com.tr/rss/saglik.xml https://www.cnnturk.com/feed/rss/saglik/news https://www.cnnturk.com/feed/rss/yasam/news
