@@ -87,7 +87,7 @@ Hava (7 gün + saatlik), hava kalitesi (AQI/PM2.5), gün doğumu-batışı, nama
               GitHub Pages (statik barındırma)
                            ▲
 ┌─ Tarayıcı ───────────────┴────────────────────────────────┐
-│ index.html (tek dosya: HTML+CSS+JS)                       │
+│ index.html + style.css + app.js                           │
 │   ├─ Binance WebSocket  → kripto tikleri (doğrudan)       │
 │   ├─ radar-market worker→ hisse/endeks/döviz/metal (30 sn)│
 │   ├─ Open-Meteo/Aladhan → yaşam widget'ları (şehir-aware) │
@@ -152,7 +152,7 @@ Kota dolarsa cron'u `'0 */6 * * *'` yap.
 
 | Dosya | Görev |
 |---|---|
-| `index.html` | Tüm arayüz (tek dosya: HTML+CSS+JS) |
+| `index.html` / `style.css` / `app.js` | Arayüz: HTML iskeleti, stiller, uygulama kodu (dosya adlarında `?v=` sürümü; değişince `sw.js` sürümüyle birlikte artırılır) |
 | `fetch_and_summarize.py` | Haber motoru, AI, kümeleme, RSS, bildirimler |
 | `morning_briefing.py` | Sabah brifingi (AI'sız; Telegram + Buttondown) |
 | `workers/` | 4 Cloudflare worker'ın kaynak kodu |
@@ -201,4 +201,4 @@ Kota dolarsa cron'u `'0 */6 * * *'` yap.
 
 ---
 
-*Tek kişilik bir "haber + piyasa terminali" hobisi olarak başladı; hâlâ tek dosya arayüz, hâlâ 0 ₺ sunucu. 📡*
+*Tek kişilik bir "haber + piyasa terminali" hobisi olarak başladı; hâlâ derleme adımı yok, hâlâ 0 ₺ sunucu. 📡*
