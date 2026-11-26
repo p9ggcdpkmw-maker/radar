@@ -43,7 +43,7 @@ SOURCE_NAMES = {
     "webtekno": "Webtekno", "shiftdelete": "ShiftDelete", "donanimhaber": "DonanımHaber",
     "webrazzi": "Webrazzi", "chip": "CHIP Online",
     "bbci": "BBC Türkçe", "bbc": "BBC", "ntv": "NTV", "sozcu": "Sözcü", "hurriyet": "Hürriyet",
-    "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber",
+    "milliyet": "Milliyet", "cnnturk": "CNN Türk", "mhahaber": "MHA Haber", "hamileyim": "Hamileyim", "elle": "Elle", "haberturk": "Habertürk",
     "aa": "Anadolu Ajansı", "trthaber": "TRT Haber", "haberturk": "Habertürk", "dw": "DW Türkçe",
     "t24": "T24", "diken": "Diken", "bloomberght": "Bloomberg HT", "ekonomim": "Ekonomim", "bigpara": "Bigpara"
 }
@@ -55,7 +55,7 @@ CATEGORIES = [
     {"id": "bilim", "label": "Bilim", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
     {"id": "ekonomi", "label": "Ekonomi", "feeds": ["https://www.bloomberght.com/rss", "https://www.ekonomim.com/rss"]},
     {"id": "dunya", "label": "Dünya", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://feeds.bbci.co.uk/turkce/rss.xml"]},
-    {"id": "yasam", "label": "Yaşam", "feeds": ["https://www.ntv.com.tr/yasam.rss", "https://www.ntv.com.tr/saglik.rss", "https://www.trthaber.com/saglik_articles.rss"]},
+    {"id": "yasam", "label": "Yaşam", "feeds": ["https://www.ntv.com.tr/yasam.rss", "https://www.ntv.com.tr/saglik.rss", "https://www.trthaber.com/saglik_articles.rss", "https://www.hamileyim.net/feed", "https://www.elle.com.tr/rss", "https://www.haberturk.com/rss/kategori/saglik.xml"]},
     {"id": "gundem", "label": "Gündem", "feeds": ["https://www.ntv.com.tr/son-dakika.rss", "https://www.trthaber.com/sondakika.rss", "https://www.aa.com.tr/tr/rss/default?cat=guncel", "https://www.diken.com.tr/feed/", "https://www.hurriyet.com.tr/rss/anasayfa", "https://www.mhahaber.com/rss"]},
 ]
 
