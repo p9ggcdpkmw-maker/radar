@@ -62,7 +62,6 @@ Hava (7 gün + saatlik), hava kalitesi (AQI/PM2.5), gün doğumu-batışı, nama
 - PWA: ana ekrana kurulum + **offline** (service worker: ağ öncelikli, çevrimdışı fallback, yeni sürüm bandı)
 
 ### 📬 Bot, bildirimler & bülten
-- **Telegram botu (`bot.py`):** `/news` `/markets` `/weather` `/games` `/corlu` `/stats` `/categories` `/about` — veriyi **canlı siteden** çeker (yerel dosya yedek)
 - **Kategori bildirimleri:** her turda kategoriler için Telegram + ntfy mesajı; **📈 Piyasa Alarmı** %2 harekette (ntfy + Telegram)
 - **ntfy güvenliği:** `NTFY_TOKEN` ile Bearer auth; token reddedilirse tokensiz dener (bildirim kopmaz)
 - **📲 Kişisel Telegram bildirimleri (`radar-notify`):** Kasa → "Telegram'a bağla" ile eşleş; favori takımın başladı/gol/bitti, favori kaynak/kelimenin haberi 5 dk'da bir taranır. Mesaj tam cümleyle biter, buton doğru haberi/maçı açar. Komutlar: `/favoriler /ozet /sessiz /durdur /devam /kopar /sil /yardim`
@@ -94,9 +93,9 @@ Hava (7 gün + saatlik), hava kalitesi (AQI/PM2.5), gün doğumu-batışı, nama
 │   ├─ Open-Meteo/Aladhan → yaşam widget'ları (şehir-aware) │
 │   └─ news.json + archive → haber, arşiv, sparkline geçmişi│
 └───────────────────────────────────────────────────────────┘
-┌─ bot.py (Telegram polling) ──┐   Cloudflare Workers (kodları workers/ klasöründe):
-│ 10 komut · canlı site verisi │   radar-market  → döviz/altın/hisse/endeks
-└──────────────────────────────┘   radar-scores  → skorlar, maç detayı, /clean (AI sadeleştir)
+Cloudflare Workers (kodları workers/ klasöründe):
+                                   radar-market  → döviz/altın/hisse/endeks
+                                   radar-scores  → skorlar, maç detayı, /clean (AI sadeleştir)
                                    radar-notify  → kişisel TG bildirimleri, presence (KV + cron 5 dk)
                                    radar-hls-proxy → radyo/okuma modu CORS proxy
 ```
@@ -143,7 +142,6 @@ RSS çekiminde 0.5 sn rate-limit (ban koruması).
    - `radar-notify`: KV binding `RADAR_KV`, secret `TG_TOKEN`, cron `*/5 * * * *`, Telegram webhook → `.../tg`
    - Adresleri `index.html` içindeki `MKT_URL`, `SCORES_URL`, `NOTIFY_URL`, `PROXY` satırlarına yaz
 5. **Actions → RADAR Haber Botu → Run workflow** → 2-3 dk sonra site dolu.
-6. Telegram botu için: `bot.py`'yi token'la çalıştır (PC) veya **Render**'a kur (aşağıda).
 
 > Ücretsiz Groq kotası: 8.000 token/dk · 200.000 token/gün. Bot 3 saatte bir ~15-25 bin token harcar → rahat sığar. 
 Kota dolarsa cron'u `'0 */6 * * *'` yap.
@@ -157,7 +155,6 @@ Kota dolarsa cron'u `'0 */6 * * *'` yap.
 | `index.html` | Tüm arayüz (tek dosya: HTML+CSS+JS) |
 | `fetch_and_summarize.py` | Haber motoru, AI, kümeleme, RSS, bildirimler |
 | `morning_briefing.py` | Sabah brifingi (AI'sız; Telegram + Buttondown) |
-| `bot.py` | Telegram komut botu (10 komut, canlı site verisi) |
 | `workers/` | 4 Cloudflare worker'ın kaynak kodu |
 | `tools/radio_probe.py` | Radyo kanallarını HTTP/DNS düzeyinde test eder |
 | `logo.png`, `icon-*.png` | Logo ve PWA ikonları |
@@ -183,7 +180,6 @@ Kota dolarsa cron'u `'0 */6 * * *'` yap.
 
 ## 🧭 Sırada (yol haritası)
 
-- [ ] **Render kurulumu:** `bot.py` 7/24 ayakta → `/stats` ve diğer komutlar PC kapalıyken de cevap versin
 - [x] **Service worker güncelleme banner'ı:** yeni sürüm düşünce "🔄 Yeni içerik var — Yenile" bildirimi
 - [x] **Akıllı alarmlar:** mutlak eşik (`/alarm gram 6000`), tek bildirim
 - [ ] **Yeni özellikler:** burç yorumları, "Yaşam" kategorisi, anonim maç yorumu
