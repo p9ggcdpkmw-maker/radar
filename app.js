@@ -1284,6 +1284,17 @@ S.read.clear();S.liked.clear();S.savedSet.clear();S.later.clear();LS.d('radar_re
 renderFeed();renderSaved();renderLater();toast('Geçmiş temizlendi')})});
 $('#trSwap').addEventListener('click',function(){var f=$('#trFrom'),t=$('#trTo');if(f.value==='auto'){toast('Otomatik algılama çevrilemez','warn');return}var a=f.value;f.value=t.value;t.value=a});
 $('#trGo').addEventListener('click',doTranslate);
+// Sesle çeviri: tarayıcının kendi ses tanıması (Chrome, Edge, Safari 14.5+). Desteklemeyen tarayıcıda düğme gizli kalır.
+(function(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition,b=$('#trMic'),rec=null;if(!SR||!b)return;b.hidden=false;
+var LOC={tr:'tr-TR',en:'en-US',de:'de-DE',fr:'fr-FR',es:'es-ES',ar:'ar-SA',ru:'ru-RU'};
+b.addEventListener('click',function(){if(rec){rec.stop();return}
+var f=$('#trFrom').value;rec=new SR();rec.lang=LOC[f]||'tr-TR';rec.interimResults=true;rec.continuous=false;
+b.textContent='⏺ Dinliyor…';b.classList.add('on');
+rec.onresult=function(e){var t='',fin=false;for(var i=0;i<e.results.length;i++){t+=e.results[i][0].transcript;if(e.results[i].isFinal)fin=true}
+$('#trIn').value=t.slice(0,500);if(fin)doTranslate()};
+rec.onerror=function(e){toast(e.error==='not-allowed'||e.error==='service-not-allowed'?'Mikrofon izni verilmedi':e.error==='no-speech'?'Ses algılanamadı, tekrar dene':'Ses tanıma çalışmadı','warn')};
+rec.onend=function(){rec=null;b.textContent='🎙️ Konuş';b.classList.remove('on')};
+try{rec.start()}catch(e){rec.onend()}})})();
 $('#sentGo').addEventListener('click',sentiment);
 $('#scRefresh').addEventListener('click',function(){scLoad(true)});
 $('#scPrev').addEventListener('click',function(){scShift(-1)});
