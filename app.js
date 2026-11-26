@@ -735,16 +735,30 @@ $$('#scStatusSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.
 var fo=$('#scFavOnly');if(fo)fo.classList.toggle('pri',SC.favOnly);
 var sel=$('#scLeague');if(sel){var opts='<option value="all">Lig: Tümü</option>'+((SC.data&&SC.data.leagues)||[]).map(function(l){return '<option value="'+esc(l.id)+'">'+esc(l.flag+' '+l.name)+'</option>'}).join('');if(sel.innerHTML!==opts)sel.innerHTML=opts;sel.value=SC.league}
 var src=$('#scSrc');if(src){var age=SC.ts?Math.round((Date.now()-SC.ts)/1000):null;src.className='srcc'+(SC.data&&!SC.err?' live':'');src.innerHTML='<span class="pd"></span>'+(SC.err?'hata':SC.data?(age<5?'az önce':age+' sn önce'):'—')}
-var rows=scMatches();renderScHero();renderScSum();var vbN=$('#scVbNote');if(vbN)vbN.hidden=SC.sport!=='volleyball'; var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" sadece onları gösterir. Geçmiş tarih = sonuç arşivi.';var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
+var rows=scMatches();renderScTeam();renderScHero();renderScSum();var vbN=$('#scVbNote');if(vbN)vbN.hidden=SC.sport!=='volleyball'; var sh=$('#scHint');if(sh)sh.textContent=SC.sport==='volleyball'?'Voleybol TheSportsDB\'den gelir; canlı dakika ve diziliş yok, skorlar maç sonunda düşer. ★ ile takım favorile. Geçmiş tarih = sonuç arşivi.':'Skorlar ESPN\'den gelir; canlı maçlar ~45 sn\'de bir yenilenir. ★ ile takım favorile, "Takımlarım" onların tüm tarihlerdeki maçlarını da gösterir; takım aramak da tarihten bağımsız çalışır. Geçmiş tarih = sonuç arşivi.';var st=$('#scStatus');if(st)st.textContent=(SC.data?((SC.data.leagues||[]).length+' lig · '+rows.length+' maç'):'—')+(SC.err?' · veri alınamadı':'');
 if(SC.loading&&!SC.data){box.innerHTML=new Array(7).join('x').split('x').map(function(){return '<div class="skb" style="margin-bottom:8px"></div>'}).join('');return}
 if(SC.err&&!SC.data){box.innerHTML='<div class="empty"><b>📡</b><p>Skor verisi alınamadı: '+esc(SC.err)+'</p><button class="btn gh" data-scretry style="margin-top:10px">↻ Tekrar dene</button></div>';return}
-if(!rows.length){box.innerHTML='<div class="empty"><b>🏟️</b><p>'+(SC.status==='in'?'Şu an canlı maç yok.':SC.favOnly?'Favori takımlarının maçı yok.':'Bu günde bu filtreyle maç yok.')+'</p></div>';return}
+if(!rows.length){box.innerHTML='<div class="empty"><b>🏟️</b><p>'+(SC.status==='in'?'Şu an canlı maç yok.':SC.favOnly?'Bu tarihte favori takımının maçı yok — yukarıda tüm tarihler.':SC.q.trim().length>=3?'Bu tarihte maçı yok — yukarıda tüm tarihler.':'Bu günde bu filtreyle maç yok.')+'</p></div>';return}
 var html='',curL=null;
 rows.forEach(function(r){if(r.l.id!==curL){if(curL!==null)html+='</div>';curL=r.l.id;var col=SC.collapsed[curL];
 html+='<div class="scgh" data-lc="'+esc(curL)+'" role="button" tabindex="0">'+esc(r.l.flag)+' '+esc(r.l.name)+'<span>'+r.l.matches.length+' maç</span><i>'+(col?'˄':'˅')+'</i></div><div class="scgrp"'+(col?' hidden':'')+'>'}
 html+=scRow(r.m)});
 if(curL!==null)html+='</div>';
 box.innerHTML=html}
+// Takım paneli: arama (≥3 harf) veya "Takımlarım" açıkken seçili tarihten bağımsız son sonuç + sıradaki maçlar (worker /team).
+var TEAM_URL=SCORES_URL.replace('/scores','/team');SC.tm={};SC.qT='';
+function scTeamGet(n){var k=SC.sport+'|'+n.toLocaleLowerCase('tr');var h=SC.tm[k];if(h&&(h.p||Date.now()-h.ts<600000))return h;h=SC.tm[k]={ts:Date.now(),d:null,p:true};
+jget(TEAM_URL+'?sport='+SC.sport+'&q='+encodeURIComponent(n),15000).then(function(d){h.d=d}).catch(function(){h.d=null}).then(function(){h.p=false;h.ts=Date.now();renderScTeam()});return h}
+function renderScTeam(){var box=$('#scTeam');if(!box)return;var q=(SC.qT||'').trim(),names=[];
+if(SC.sport!=='volleyball'){if(q.length>=3)names=[q];else if(SC.favOnly)names=Array.from(SC.fav).slice(0,8)}
+box.innerHTML=names.map(function(n){var h=scTeamGet(n),d=h.d;
+if(h.p)return '<div class="tmc"><div class="skb"></div></div>';
+if(!d||!d.team)return q?'<div class="tmc"><p class="hint" style="margin:0">“'+esc(n)+'” adında takım bulunamadı.</p></div>':'';
+var ms=d.matches||[];if(!q){var po=ms.filter(function(m){return m.state==='post'});ms=po.slice(-1).concat(ms.filter(function(m){return m.state!=='post'}).slice(0,2))}
+var rows=ms.map(function(m){var dt=new Date(m.start),res=m.state==='post'?(m.hs+' - '+m.as):m.state==='in'?'CANLI':hhmm(m.start);
+return '<div class="tmr'+(m.state==='post'?' done':'')+'" data-scjump="'+scKey(dt)+'" role="button" tabindex="0" title="O günün maçlarına git"><span>'+esc(dt.toLocaleDateString('tr-TR',{day:'2-digit',month:'short'}))+'</span><b>'+esc(m.home)+'</b><em>'+esc(res)+'</em><b>'+esc(m.away)+'</b></div>'}).join('')||'<p class="hint" style="margin:0">Fikstür yok.</p>';
+var oth=q&&d.others&&d.others.length?'<div class="tmo">Bunu mu aradın: '+d.others.map(function(o){return '<button class="chip" data-scq="'+esc(o)+'">'+esc(o)+'</button>'}).join('')+'</div>':'';
+return '<div class="tmc"><div class="tmh">📅 <b>'+esc(d.team.name)+'</b><span>'+esc(d.team.flag+' '+d.team.lname)+' · tüm tarihler</span></div>'+rows+oth+'</div>'}).join('')}
 function renderLiveRow(){var box=$('#liveRow');if(!box)return;requestAnimationFrame(function(){rowArrows('liveRow')});
 if(!SC.data||SC.err){box.hidden=true;box.innerHTML='';return}
 var live=[],tot=0;(SC.data.leagues||[]).forEach(function(l){(l.matches||[]).forEach(function(m){tot++;if(m.state==='in')live.push(m)})});
@@ -1313,7 +1327,8 @@ $('#scToday').addEventListener('click',function(){SC.date=scKey(new Date());scLo
 $('#scDate').addEventListener('change',function(e){SC.date=scFromInput(e.target.value);scLoad(true)});
 $$('#scSport button').forEach(function(b){b.addEventListener('click',function(){SC.sport=b.dataset.s;LS.s('radar_sc_sport',SC.sport);SC.league='all';SC.data=null;scLoad(true)})});
 $$('#scStatusSeg button').forEach(function(b){b.addEventListener('click',function(){SC.status=b.dataset.t;renderScores()})});
-$('#scQ').addEventListener('input',function(e){SC.q=e.target.value;renderScores()});
+$('#scQ').addEventListener('input',function(e){SC.q=e.target.value;renderScores();clearTimeout(SC.qTm);SC.qTm=setTimeout(function(){SC.qT=SC.q;renderScTeam()},500)});
+$('#scTeam').addEventListener('click',function(e){var t=e.target.closest('[data-scjump],[data-scq]');if(!t)return;if(t.dataset.scq){var i=$('#scQ');i.value=SC.q=SC.qT=t.dataset.scq;renderScores();return}SC.date=t.dataset.scjump;scLoad(true);var l=$('#scList');if(l)l.scrollIntoView({behavior:'smooth',block:'start'})});
 $('#scLeague').addEventListener('change',function(e){SC.league=e.target.value;renderScores()});
 $('#scFavOnly').addEventListener('click',function(){SC.favOnly=!SC.favOnly;renderScores()});
 $('#mtFavH').addEventListener('click',function(){if(SC.detail)scToggleFav(SC.detail.m.home)});

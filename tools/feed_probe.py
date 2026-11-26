@@ -9,9 +9,22 @@ import requests
 UA = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0 Safari/537.36"}
 
 
+def skel(o, d=0):
+    """JSON'un kısa iskeleti: anahtarlar, listelerin uzunluğu + ilk öğesi, kısa değer örnekleri."""
+    if d > 10:
+        return "…"
+    if isinstance(o, dict):
+        return "{" + ", ".join(f"{k}:{skel(v, d + 1)}" for k, v in list(o.items())[:14]) + "}"
+    if isinstance(o, list):
+        return f"[{len(o)}x {skel(o[0], d + 1)}]" if o else "[]"
+    return repr(o)[:30]
+
+
 def probe(url):
     try:
         r = requests.get(url, headers=UA, timeout=15)
+        if r.content.lstrip()[:1] == b"{":  # JSON nesnesi: anahtar iskeletini yaz (API yapısını görmek için)
+            return f"JSON HTTP {r.status_code} · {skel(r.json())[:4000]}"
         if r.content.lstrip()[:1] == b"[":  # JSON API (ör. GamerPower)
             d = r.json()
             return f"{'OK' if r.status_code == 200 and d else 'ÖLÜ':4} HTTP {r.status_code} · {len(d):3} öğe · {str(d[0].get('title', ''))[:70] if d else ''}"
