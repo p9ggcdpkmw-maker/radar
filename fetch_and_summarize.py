@@ -218,10 +218,10 @@ def fetch_gamerpower(cat):
         store = "Epic Games Store" if "Epic" in pf else "Steam" if "Steam" in pf else "GOG" if "GOG" in pf else pf
         name = re.sub(r"\s*\((Epic Games|Steam|GOG)[^)]*\)", "", g.get("title", "")).replace(" Giveaway", "").strip()
         ek = STORE_EK.get(store, "'da")
-        parts = [f"{store}{ek} ücretsiz"]
+        parts = []  # mağaza başlıkta; özet: bitiş + normal fiyat
         try:
             end = datetime.strptime(g.get("end_date", ""), "%Y-%m-%d %H:%M:%S")
-            parts.append(f"{end.day} {TR_AY[end.month - 1]} kadar")
+            parts.append(f"{end.day} {TR_AY[end.month - 1]} kadar ücretsiz")
         except ValueError:
             pass
         if g.get("worth") and g["worth"] != "N/A":
@@ -236,7 +236,7 @@ def fetch_gamerpower(cat):
             "title": f"{name} — {store}{ek} ücretsiz", "source": store, "link": link,
             "nid": hashlib.sha1(link.encode("utf-8")).hexdigest()[:10],
             "pubDate": min(pub, now_utc).isoformat(), "image": g.get("image") or g.get("thumbnail"),
-            "summary": " · ".join(parts) + ".", "score": 7, "tone": "pozitif", "why_important": "",
+            "summary": (" · ".join(parts) or "Bitiş tarihi belirtilmemiş") + ".", "score": 7, "tone": "pozitif", "why_important": "",
         })
     items.sort(key=lambda i: i["pubDate"], reverse=True)
     return items[:20]
