@@ -45,10 +45,14 @@ async function gIdx() {
   if (!rows.length && ym.status === 'fulfilled') { const m = ym.value; rows = ['bist:BIST 100','us:S&P 500','us:Dow Jones','us:Nasdaq'].map(k => m[k]).filter(Boolean).map(q => ({ k: q.k, n: q.k, v: q.v, p: q.p, grp: 'idx', src: 'yahoo', s: q.s, vol: 0, mcap: 0 })); }
   if (!rows.length) throw new Error('endeks yok'); return rows;
 }
+// gold-api ara sıra yanıt vermiyor: son başarılı değer 6 saate kadar kullanılır.
+let LASTG = { t: 0, out: [] };
 async function gMetal() {
   const [g, s] = await Promise.allSettled([j('https://api.gold-api.com/price/XAU'), j('https://api.gold-api.com/price/XAG')]); const out = [];
   if (g.status === 'fulfilled' && isFinite(g.value.price)) out.push({ k: 'Ons Altın', n: 'Ons Altın', v: g.value.price, p: null, grp: 'metal', src: 'gold', s: [] });
   if (s.status === 'fulfilled' && isFinite(s.value.price)) out.push({ k: 'Ons Gümüş', n: 'Ons Gümüş', v: s.value.price, p: null, grp: 'metal', src: 'gold', s: [] });
+  if (out.length === 2) LASTG = { t: Date.now(), out: out };
+  else if (Date.now() - LASTG.t < 6 * 3600 * 1000) LASTG.out.forEach(x => { if (!out.some(o => o.k === x.k)) out.push(x); });
   if (!out.length) throw new Error('metal yok'); return out;
 }
 async function gFx() {
