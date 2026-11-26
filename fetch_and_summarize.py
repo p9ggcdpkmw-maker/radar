@@ -250,6 +250,7 @@ def _ascii_tr(t):
     return tr_lower(t).translate(str.maketrans("çğıöşüâ", "cgiosua"))
 
 
+HORO_V = 2  # ayrıştırma değişince artır: aynı günün eski (hatalı) verisi yeniden kullanılmasın
 BURC_BASLIK = ["KOÇ", "BOĞA", "İKİZLER", "YENGEÇ", "ASLAN", "BAŞAK", "TERAZİ", "AKREP", "YAY", "OĞLAK", "KOVA", "BALIK"]
 
 
@@ -278,7 +279,7 @@ def fetch_horoscope():
             old = json.load(f).get("horoscope")
     except Exception:
         old = None
-    if old and old.get("date") == today.isoformat() and len(old.get("signs") or []) == 12:
+    if old and old.get("v") == HORO_V and old.get("date") == today.isoformat() and len(old.get("signs") or []) == 12:
         return old
     for url, src in (("https://www.takvim.com.tr/rss/astroloji.xml", "Takvim"),
                      ("https://www.sabah.com.tr/rss/astroloji.xml", "Sabah")):
@@ -301,7 +302,7 @@ def fetch_horoscope():
                         signs[k]["text"] = t if len(t) <= 4000 else t[:4000].rsplit(". ", 1)[0] + "."
             signs = {k: v for k, v in signs.items() if len(v["text"]) >= 40}
             if len(signs) == 12:
-                return {"date": today.isoformat(), "date_label": label, "source": src, "signs": [signs[k] for k in BURC_KEYS]}
+                return {"v": HORO_V, "date": today.isoformat(), "date_label": label, "source": src, "signs": [signs[k] for k in BURC_KEYS]}
             print(f"  ! Burç kaynağı {src}: {len(signs)}/12 burç", file=sys.stderr)
         except Exception as ex:
             print(f"  ! Burç kaynağı {src} alınamadı: {ex}", file=sys.stderr)
@@ -311,7 +312,7 @@ def fetch_horoscope():
                      '"terazi":"...","akrep":"...","yay":"...","oglak":"...","kova":"...","balik":"..."}')
         data = json.loads(clean_json_response(raw))
         if all(isinstance(data.get(k), str) and data[k].strip() for k in BURC_KEYS):
-            return {"date": today.isoformat(), "date_label": label, "source": "RADAR AI",
+            return {"v": HORO_V, "date": today.isoformat(), "date_label": label, "source": "RADAR AI",
                     "signs": [{"k": k, "text": data[k].strip()[:600]} for k in BURC_KEYS]}
     except Exception as ex:
         print(f"  ! Burç AI yedeği başarısız: {ex}", file=sys.stderr)
