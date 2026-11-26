@@ -107,7 +107,7 @@ body.nomotion *{animation-duration:.01ms!important;transition-duration:.01ms!imp
 .cat:hover{color:var(--ink);border-color:var(--pri)}
 .cat.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .cat b{font:800 10.5px var(--mono);opacity:.65}
-.view{display:none;animation:up .3s ease both}
+.view{display:none;animation:up .3s ease both;padding-bottom:64px}
 .view.on{display:block}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .vt{font-size:25px;font-weight:900;letter-spacing:-.9px}
@@ -135,6 +135,7 @@ body.nomotion *{animation-duration:.01ms!important;transition-duration:.01ms!imp
 .seg button:hover{color:var(--ink)}
 .seg button.on{background:linear-gradient(100deg,var(--pri),var(--pri2));color:#fff}
 .seg.sm button{padding:5px 10px;font-size:11px}
+@media (max-width:420px){.row:has(#themeSeg){flex-direction:column;align-items:flex-start;gap:8px}#themeSeg{flex-wrap:nowrap}#themeSeg button{padding:5px 9px}}
 .seg.wide{display:flex;width:100%;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;margin-bottom:13px}
 .seg.wide::-webkit-scrollbar{height:0}
 .pulse{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
@@ -191,8 +192,8 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .sk{border-radius:var(--r3);height:180px;border:1px solid var(--ln);background:linear-gradient(100deg,var(--sf) 30%,var(--sf2) 50%,var(--sf) 70%);background-size:220% 100%;animation:sh 1.3s linear infinite}
 @keyframes sh{to{background-position:-120% 0}}
 .skb{min-height:66px;border-radius:var(--r1);background:linear-gradient(100deg,var(--sf2) 30%,var(--ov) 50%,var(--sf2) 70%);background-size:220% 100%;animation:sh 1.3s linear infinite}
-.empty{grid-column:1/-1;text-align:center;padding:44px 20px;border:1px dashed var(--ln2);border-radius:var(--r3);color:var(--ink2)}
-.empty b{display:block;font-size:34px;margin-bottom:10px}
+.empty{grid-column:1/-1;text-align:center;padding:26px 18px;border:1px dashed var(--ln2);border-radius:var(--r3);color:var(--ink2)}
+.empty b{display:block;font-size:28px;margin-bottom:8px}
 .empty p{font:600 13.5px/1.6 var(--sans);max-width:340px;margin:0 auto}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 17px;border-radius:var(--r2);border:1px solid var(--ln2);background:var(--sf);color:var(--ink);font:800 13px var(--sans);cursor:pointer;transition:.15s;text-decoration:none}
 .btn:hover{transform:translateY(-1px);border-color:var(--pri)}
@@ -356,7 +357,8 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 @keyframes eqa{to{height:20px}}
 #plVol{flex:1;min-width:56px;max-width:140px;accent-color:var(--pri)}
 .plx{width:32px;height:32px;border-radius:50%;border:1px solid var(--ln2);background:var(--sf2);color:var(--ink2);cursor:pointer;flex:0 0 auto}
-.mcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(295px,1fr));gap:13px;align-items:stretch}
+.mcols{columns:3 295px;column-gap:13px}
+.mcols>.cp{break-inside:avoid;display:inline-block;width:100%;margin-bottom:13px}
 .cp{border:1px solid var(--ln);border-radius:var(--r3);background:var(--sf);padding:16px;box-shadow:var(--sh1)}
 .cph{font:900 11.5px var(--sans);letter-spacing:1.3px;text-transform:uppercase;color:var(--ink3);margin-bottom:11px;display:flex;align-items:center;gap:8px}
 .cph em{font-style:normal;font:800 9.5px var(--mono);color:var(--cy);letter-spacing:0}
@@ -461,7 +463,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .dsk{display:none!important}
 .hello{min-width:0}
 .hello h1{font-size:20px}
-.hello p{font-size:11.5px}
+.hello p{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top.tight{padding-top:9px;padding-bottom:8px}
 .top.tight .hello h1{font-size:18px}
 .top.tight .hello p{display:block}
@@ -477,7 +479,7 @@ html[data-theme=dark] .bai{color:#C4B5FD}
 .moc{padding:19px;border-radius:var(--r3);max-height:86vh}.mt{font-size:19px}
 .player{padding:8px 12px;gap:9px}.eq,#plSleep{display:none}.pli{flex:1}#plVol{max-width:74px}
 .toasts{left:12px;right:12px;align-items:stretch}.toast{max-width:none}
-.vt{font-size:21px}.mcols{grid-template-columns:1fr}.pal{padding:8vh 12px 12px}
+.vt{font-size:21px}.mcols{columns:1}.pal{padding:8vh 12px 12px}
 .tree{height:280px}
 .tbl td,.tbl th{padding:8px 9px;font-size:11.5px}
 .tbl{min-width:520px}.tbl.st7{min-width:640px}}
@@ -1025,6 +1027,8 @@ L.innerHTML=items.map(function(n,i){return '<button class="lrow" data-li="'+i+'"
 (items.length<asked?'<p class="hint">'+(asked-items.length)+' haber artık akışta ve arşivde yok.</p>':'');
 openM('#mList')}
 var DL_LIST=[];
+// Tarayıcı ağ hataları İngilizce gelir ('Failed to fetch'): kullanıcıya Türkçe göster.
+function errTR(e){var m=String((e&&e.message)||e||'');return /^HTTP \d+/.test(m)?'sunucu hatası ('+m+')':'bağlantı hatası'}
 function loadData(path){var p=path||S.arch||'news.json';
 return jget(p+'?t='+Date.now(),12000).then(function(d){
 NEWS=Array.isArray(d.items)?d.items:[];META=d.meta||null;BRIEF=d.briefings||{};
@@ -1034,7 +1038,7 @@ renderCats();renderFeed();renderBrief();renderTrends();renderRail();renderMarket
 $('#sideMeta').textContent=(META&&META.model?String(META.model).split('/').pop():'—')+' · '+NEWS.length+' haber';
 deepLink();
 }).catch(function(e){booting=false;
-$('#newsGrid').innerHTML='<div class="empty"><b>📡</b><p>Veri alınamadı: '+esc(e.message)+'. Bağlantını kontrol edip biraz sonra tekrar dene.</p></div>';
+$('#newsGrid').innerHTML='<div class="empty"><b>📡</b><p>Veri alınamadı: '+esc(errTR(e))+'. Bağlantını kontrol edip biraz sonra tekrar dene.</p></div>';
 toast('Veri alınamadı','err')})}
 function checkStale(){var n=$('#stale');if(S.arch){n.className='note';return}
 var g=META&&META.generated_at;if(!g){n.className='note';return}
@@ -1524,7 +1528,7 @@ var a=FV.all(),T={team:'🏟️ Takım',src:'📰 Kaynak',kw:'🔑 Kelime',coin:
 var h='<div class="cph">⭐ Takip edilenler <em>'+a.length+'</em></div>';
 if(!a.length)h+='<p class="hint">Henüz takip yok. Haber modalında "★ Kaynağı takip et", Saha\'da takım yıldızı, ya da aşağıya kelime ekle.</p>';
 else h+=a.map(function(x){return '<div class="kv"><span>'+(T[x.t]||x.t)+' · '+esc(x.label)+'</span><b><span data-fvdel="'+esc(x.t)+'|'+esc(x.id)+'" role="button" tabindex="0" style="color:var(--dn);cursor:pointer">✕</span></b></div>'}).join('');
-h+='<div class="cvr" style="margin-top:10px"><input id="fvKw" placeholder="Kelime/konu ekle: yapay zeka, faiz…"><button class="btn gh" id="fvKwAdd">🔑 Ekle</button></div>';
+h+='<div class="cvr" style="margin-top:10px"><input id="fvKw" placeholder="Kelime ekle (ör. faiz)"><button class="btn gh" id="fvKwAdd">🔑 Ekle</button></div>';
 h+='<div class="cvr" style="margin-top:8px"><button class="btn pri" id="fvTgBind">📲 Telegram\'a bağla</button><button class="btn gh" id="fvTgSync">🔄 Favorileri senkronla</button></div>';
 h+='<p class="hint" id="fvTgState">'+(LS.g('radar_tg_code','')?'Kod: <b>'+esc(LS.g('radar_tg_code',''))+'</b> · Telegram\'da /start\'a bastıysan bağlısın. Favori değişince 🔄 ile it (4 sn içinde otomatik da gider).':'Bağlı değil. Butona bas → Telegram açılır → /start ile onayla.')+'</p>';
 box.innerHTML=h}
@@ -1715,7 +1719,7 @@ SC.loading=true;SC.err=null;if(!SC.data)renderScores();
 return SC.loadP=jget(SCORES_URL+'?sport='+SC.sport+'&date='+SC.date+'&t='+Date.now(),15000).then(function(d){
 if(SC.data&&SC.dataKey===key)d=scKeep(SC.data,d);else SC.miss={};
 SC.data=d;SC.dataKey=key;SC.ts=Date.now();SC.loading=false;scFlash(d);renderScores();renderLiveRow();
-}).catch(function(e){SC.loading=false;SC.err=(e&&e.message)||'bağlantı hatası';renderScores();renderLiveRow();})}
+}).catch(function(e){SC.loading=false;SC.err=errTR(e);renderScores();renderLiveRow();})}
 // C1: ESPN gol/durum geçişinde maçı (veya ligi) bir-iki tur düşürebiliyor; satır kaybolmasın.
 // Önceki veride olup yenide olmayan maç 2 tura kadar korunur, sonra düşer.
 function scKeep(prev,d){var miss=SC.miss||{},seen={},nm={};
