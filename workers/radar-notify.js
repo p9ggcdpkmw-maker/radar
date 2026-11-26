@@ -3,7 +3,10 @@ function json(o,s){return new Response(JSON.stringify(o),{status:s||200,headers:
 function cors(){return{"access-control-allow-origin":"*","access-control-allow-methods":"POST,GET,OPTIONS","access-control-allow-headers":"*"}}
 const SITE="https://p9ggcdpkmw-maker.github.io/radar/";
 const SCURL="https://radar-scores.69sygknn4y.workers.dev/scores";
-async function gj(u){try{const r=await fetch(u,{headers:{"user-agent":"RADAR"}});if(!r.ok)return null;return await r.json()}catch(e){return null}}
+// Aynı hesaptaki worker'a workers.dev üzerinden fetch engelli (Cloudflare 1042): Service binding (MARKET, SCORES) varsa onu kullan.
+async function gj(u,env){try{const b=env&&(u.indexOf("radar-market")>=0?env.MARKET:u.indexOf("radar-scores")>=0?env.SCORES:null);
+const r=await (b?b.fetch(u,{headers:{"user-agent":"RADAR"}}):fetch(u,{headers:{"user-agent":"RADAR"}}));
+if(!r.ok){console.log("gj HTTP",r.status,u.split("?")[0]);return null}return await r.json()}catch(e){console.log("gj hata",u.split("?")[0],String(e));return null}}
 // KV list de günde 1000 ile sınırlı: sayıyı isolate belleğinde 60 sn tut.
 let PRES={t:0,n:0};
 async function presN(env){if(Date.now()-PRES.t<60000)return PRES.n;const l=await env.RADAR_KV.list({prefix:"pres:"});PRES={t:Date.now(),n:(l.keys||[]).length};return PRES.n}
@@ -27,7 +30,7 @@ function ascii(s){return trlow(s).replace(/ç/g,"c").replace(/ğ/g,"g").replace(
 // "6000", "6.000", "6.000,50", "50,7" → sayı
 function trNum(t){t=String(t||"").trim();if(t.indexOf(",")>=0)t=t.replace(/\./g,"").replace(",",".");else if(/^\d{1,3}(\.\d{3})+$/.test(t))t=t.replace(/\./g,"");const v=parseFloat(t);return isFinite(v)&&v>0?v:null}
 function fmtN(v){return Number(v).toLocaleString("tr-TR",{maximumFractionDigits:v<100?2:0})}
-async function quotes(){const d=await gj(MKT);const m={};((d&&d.quotes)||[]).forEach(q=>{if(q&&q.k&&isFinite(q.v)&&q.v>0)m[q.k]=q.v});return m}
+async function quotes(env){const d=await gj(MKT,env);const m={};((d&&d.quotes)||[]).forEach(q=>{if(q&&q.k&&isFinite(q.v)&&q.v>0)m[q.k]=q.v});return m}
 async function getAlarms(KV,chat){try{return JSON.parse(await KV.get("alarm:"+chat)||"[]")}catch(e){return[]}}
 async function scan(env){
 const KV=env.RADAR_KV;
@@ -35,9 +38,9 @@ const rawN=await KV.get("seen:news"),rawS=await KV.get("seen:sc");
 const firstN=!rawN,firstS=!rawS;
 const news=await gj(SITE+"news.json?t="+Date.now());
 const today=new Date().toISOString().slice(0,10).replace(/-/g,"");
-const scF=await gj(SCURL+"?sport=football&date="+today);
-const scB=await gj(SCURL+"?sport=basketball&date="+today);
-const scV=await gj(SCURL+"?sport=volleyball&date="+today);
+const scF=await gj(SCURL+"?sport=football&date="+today,env);
+const scB=await gj(SCURL+"?sport=basketball&date="+today,env);
+const scV=await gj(SCURL+"?sport=volleyball&date="+today,env);
 let seenN=[];try{seenN=JSON.parse(rawN||"[]")}catch(e){}
 const seenSet=new Set(seenN);
 const newItems=firstN?[]:(((news&&news.items)||[]).filter(it=>it&&it.link&&!seenSet.has(it.link)));
@@ -62,7 +65,7 @@ let set={};try{set=JSON.parse(await KV.get("set:"+chat)||"{}")}catch(e){}
 if(set.off)continue;
 const quiet=set.quiet&&(hour>=23||hour<8);
 const alarms=await getAlarms(KV,chat);
-if(alarms.some(a=>!a.fired)&&!quiet){if(!Q)Q=await quotes();
+if(alarms.some(a=>!a.fired)&&!quiet){if(!Q)Q=await quotes(env);
 const hits=alarms.filter(a=>!a.fired&&Q[a.k]!=null&&(a.op===">"?Q[a.k]>=a.v:Q[a.k]<=a.v));
 if(hits.length){hits.forEach(a=>{a.fired=Date.now();a.at=Q[a.k]});
 // Tek bildirim: tetiklenen alarm işaretlenir, bir daha gönderilmez (KV yazma yalnız tetiklenince).
@@ -153,7 +156,7 @@ await send("🗑 Silindi: "+g.n+" "+fmtN(g.v)+" "+g.u);return new Response("ok")
 if(text.indexOf("/alarm")===0){const parts=text.trim().split(/\s+/),key=ascii(parts[1]||""),A=ASSETS[key],v=trNum(parts[2]);
 if(!A||!v){await send("Kullanım: /alarm <varlık> <fiyat>\nÖrnek: /alarm gram 6000 · /alarm dolar 52 · /alarm ceyrek 9500\nVarlıklar: gram, ceyrek, yarim, tam, cumhuriyet, ata, bilezik, has, gumus, ons, dolar, euro, sterlin, bist");return new Response("ok")}
 const L=await getAlarms(KV,chat);if(L.filter(a=>!a.fired).length>=10){await send("En fazla 10 bekleyen alarm. Liste: /alarmlar");return new Response("ok")}
-const Q=await quotes(),now=Q[A[0]];if(now==null){await send("⚠️ "+A[1]+" fiyatı şu an alınamadı, birazdan tekrar dene.");return new Response("ok")}
+const Q=await quotes(env),now=Q[A[0]];if(now==null){await send("⚠️ "+A[1]+" fiyatı şu an alınamadı, birazdan tekrar dene.");return new Response("ok")}
 const op=v>now?">":"<";L.push({k:A[0],n:A[1],u:A[2],op,v,ts:Date.now()});
 await KV.put("alarm:"+chat,JSON.stringify(L));await KV.put("chat:"+chat,"1"); // site eşleşmesi olmadan da taransın
 await send("✅ Alarm kuruldu: "+A[1]+" şu an "+fmtN(now)+" "+A[2]+". "+fmtN(v)+" "+A[2]+(op===">"?" üstüne çıkınca":" altına inince")+" bir kez haber vereceğim (5 dk'da bir kontrol, truncgil verisi).");return new Response("ok")}
