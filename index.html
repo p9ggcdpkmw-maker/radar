@@ -1673,7 +1673,7 @@ var h='<div class="mth3">🔮 Ön Bilgi</div>';
 if(pre.form.home||pre.form.away){h+='<div class="kv"><span>Form · '+esc(mtLabel('home'))+'</span><b>'+formBadges(pre.form.home)+'</b></div>';
 h+='<div class="kv"><span>Form · '+esc(mtLabel('away'))+'</span><b>'+formBadges(pre.form.away)+'</b></div>'}
 if(pre.h2h&&pre.h2h.length)h+='<div class="kv"><span>Son karşılaşmalar</span><b style="text-align:right">'+pre.h2h.map(function(g){return esc(g.h)+' '+(g.hs!=null?g.hs+'-'+g.as:'?')+' '+esc(g.a)}).join(' · ')+'</b></div>';
-if(pre.odds)h+='<div class="kv"><span>Tahmin</span><b>'+esc(pre.odds)+'</b></div>';
+if(pre.odds)h+='<div class="kv"><span>Bahis favorisi</span><b>'+esc(oddsTxt(pre.odds))+'</b></div>';
 box.innerHTML=h}
 function remindKey(){return SC.detail?(SC.detail.l.id+'|'+SC.detail.m.id):''}
 function renderMtActions(){var b=$('#mtRemind');if(!b||!SC.detail)return;
@@ -1731,6 +1731,11 @@ if(!tl){tl={id:pl.id,flag:pl.flag,name:pl.name,matches:[]};d.leagues.push(tl)}tl
 SC.miss=miss;return d}
 // ESPN durum metni İngilizce gelir; bilinenleri çevir, bilinmeyeni olduğu gibi bırak.
 function scDet(d){d=String(d||'').trim();var T={'Scheduled':'Planlandı','FT':'Maç sonu','Final':'Maç sonu','Full Time':'Maç sonu','HT':'Devre arası','Halftime':'Devre arası','Postponed':'Ertelendi','Delayed':'Ertelendi','Canceled':'İptal','Cancelled':'İptal','Suspended':'Durduruldu','Abandoned':'Tatil edildi','AET':'Uzatmalar sonrası','FT-Pens':'Penaltılar sonrası','Final/OT':'Uzatmalar sonrası'};return T[d]||d}
+// ESPN oranı 'BES -425' biçiminde (kısaltma + Amerikan oranı): eksi = o takım favori.
+function oddsTxt(o){var m=String(o||'').trim().match(/^([A-Za-z]{2,5})\s*([-+])\d/);if(!m||!SC.detail)return o;
+var up=function(t){return normK(t)},ab=up(m[1]),H=SC.detail.m.home,A=SC.detail.m.away;
+var who=up(H).indexOf(ab)===0?'h':up(A).indexOf(ab)===0?'a':null;if(!who)return o;
+var fav=(m[2]==='-')===(who==='h')?H:A;return fav}
 function scClock(m){var c=String(m.clock||''),dt=String(m.detail||'');
 if(/^(HT|Halftime|Half Time)$/i.test(dt))return 'İY';
 return (dt.indexOf('+')>=0&&c.indexOf('+')<0)?dt:(c||dt||'CANLI')}
