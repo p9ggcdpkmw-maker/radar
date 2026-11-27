@@ -67,7 +67,8 @@ var MT={tab:'genel',wk:{},wkOK:false,wkFail:0,wkAsOf:0,bin:[],binTS:0,binOK:fals
 cg:null,fng:null,cf:'TRY',cs:'vol',cq:'',clim:100,cfav:new Set(LS.g('radar_cfav',[])),
 stq:'',stSort:'vol',stMkt:'all',stDir:'all',stfav:new Set(LS.g('radar_stfav',[])),
 detail:null,detailKind:null,detailKey:null,alr:{},timer:0,rtest:{},playedOk:new Set(),toastOnce:{},radioAuto:false,testing:false};
-window.onerror=function(msg){var n=Date.now();if(n-lastErrT>30000){lastErrT=n;try{toast('⚠️ Script hatası: '+esc(String(msg).slice(0,90)),'err')}catch(e){}}return false};
+// "Script error." = başka alan adındaki script (hls.js CDN, Safari eklentisi); tarayıcı detayı gizler, gösterilecek bir şey yok.
+window.onerror=function(msg,src){if(/^Script error\.?$/i.test(String(msg))||(src&&src.indexOf(location.origin)!==0))return false;var n=Date.now();if(n-lastErrT>30000){lastErrT=n;try{toast('⚠️ Script hatası: '+esc(String(msg).slice(0,90)),'err')}catch(e){}}return false};
 function toast(m,k){var t=document.createElement('div');t.className='toast'+(k?' '+k:'');t.innerHTML=m;$('#toasts').appendChild(t);
 setTimeout(function(){t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translateX(18px)';setTimeout(function(){t.remove()},320)},3000)}
 function openM(id){$(id).classList.add('on');document.body.classList.add('lock')}
