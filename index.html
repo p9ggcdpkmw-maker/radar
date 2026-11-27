@@ -11,7 +11,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="RADAR">
 <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js" crossorigin="anonymous" defer></script>
-<link rel="stylesheet" href="style.css?v=37">
+<link rel="stylesheet" href="style.css?v=38">
 </head>
 <body>
 <div class="grain"></div><div class="aur"><i></i><i></i><i></i></div>
@@ -56,6 +56,7 @@
 </div>
 </header>
 <section class="view on" id="v-feed">
+<div class="maphint" id="mapHint" hidden><button class="mh1" data-openmap>🗺️ Yeni misin? <b>Site haritasına</b> göz at ›</button><button class="mh2" data-maphide aria-label="Gizle">✕</button></div>
 <div class="note" id="stale"></div>
 <div class="note arch" id="archBanner"></div>
 <div class="cw" id="catsWrap"><button class="arr l" id="catsL" aria-label="Sola kaydır">‹</button><div class="cats" id="cats"></div><button class="arr r" id="catsR" aria-label="Sağa kaydır">›</button></div>
@@ -164,7 +165,7 @@
 <section class="view" id="v-menu">
 <h2 class="vt" style="margin-bottom:14px">RADAR Konsol</h2>
 <div class="mcols">
-<div class="cp"><div class="cph">📘 Özellik Rehberi</div><p class="hint">Okuma modu, AI sadeleştirme, favoriler, uyarılar ve diğer özellikler tek sayfada.</p><button class="btn gh w" id="guideBtn">Rehberi aç</button></div>
+<div class="cp"><div class="cph">🗺️ Site Haritası</div><p class="hint">RADAR'daki her bölüm ve özellik tek sayfada. Yeni gelenlere bu linki gönder.</p><button class="btn gh w" id="guideBtn">Haritayı aç</button></div>
 <div class="cp"><div class="cph">🎨 Görünüm</div>
 <div class="row"><span>Tema</span><div class="seg sm" id="themeSeg"><button data-theme="auto">🖥️ Sistem</button><button data-theme="light">☀️ Açık</button><button data-theme="sepia">📜 Sepia</button><button data-theme="dark">🌙 Koyu</button></div></div>
 <div class="row"><span>Yoğunluk</span><div class="seg sm" id="densSeg"><button data-d="comf">Rahat</button><button data-d="comp">Sıkı</button></div></div>
@@ -281,8 +282,9 @@
 </div></div>  
 <div class="modal" id="mGuide" role="dialog" aria-modal="true" aria-labelledby="gTitle"><div class="moc sm">
 <button class="mx" data-close aria-label="Kapat">✕</button>
-<h2 class="mt" id="gTitle">📘 Özellik Rehberi</h2>
-<div class="mbody guide">
+<h2 class="mt" id="gTitle">🗺️ Site Haritası</h2>
+<div class="mbody guide"><p class="hint" style="margin:0 0 10px">RADAR'da her şey tek yerde, reklamsız. Bir karta dokun, oraya git.</p><div class="smap"><button class="smc" data-hgo="feed" data-hcat=""><i>📡</i><b>Tarama</b><span>Günün haberleri, AI özetleri, 60 saniyede gündem. Bir habere tıkla: kaç kaynak verdi, her biri nasıl başlık attı.</span></button><button class="smc" data-hgo="feed" data-hcat="burc"><i>♈</i><b>Burçlar</b><span>12 burcun günlük yorumu. ☆ ile kendi burcunu en üste al.</span></button><button class="smc" data-hgo="feed" data-hcat="oyun"><i>🎮</i><b>Ücretsiz Oyun</b><span>Steam, Epic, GOG'da şu an bedava olan oyunlar.</span></button><button class="smc" data-hgo="market" data-hcat=""><i>📈</i><b>Nabız</b><span>Dolar, euro, altın, kripto, borsa. 💰 Varlıklarım: elindekiler bugün kaç TL eder.</span></button><button class="smc" data-hgo="radio" data-hcat=""><i>📻</i><b>Dalga</b><span>Canlı radyo kanalları.</span></button><button class="smc" data-hgo="scores" data-hcat=""><i>🏟️</i><b>Saha</b><span>Canlı skorlar. Takımını ★ ile işaretle, tüm maçlarını gör.</span></button><button class="smc" data-hgo="saved" data-hcat=""><i>🗄️</i><b>Kasa</b><span>Kaydettiğin ve sonra okuyacağın haberler. Telegram bildirimine buradan bağlan.</span></button><button class="smc" data-hgo="menu" data-hcat=""><i>⚙️</i><b>Konsol</b><span>Sesli çeviri, sabah bülteni, kaynaklarımız, görünüm ayarları.</span></button></div><div class="ma" style="margin:10px 0 4px"><button class="btn gh" id="mapCopy">🔗 Haritanın linkini kopyala</button></div>
+<details class="smtips"><summary>💡 İpuçları ve gizli özellikler</summary>
 <p><b>📖 Okuma modu</b> — Habere tıkla, "Okuma modu"na bas: kaynak sayfa reklamsız, sade metin olarak açılır.</p>
 <p><b>🤖 AI ile sadeleştir</b> — Okuma modunun altındaki düğme metindeki abone ol / yazar bio'su gibi kalıpları temizler. Sonuç 7 gün tarayıcında saklanır.</p>
 <p><b>🔊 Sesli dinle</b> — Haber penceresindeki hoparlör başlığı, "neden önemli" notunu ve özeti okur.</p>
@@ -294,6 +296,7 @@
 <p><b>☀️ Sabah brifingi</b> — Konsol → RADAR Bülteni'ne e-postanı yaz: her sabah 08:00'de manşetler, piyasa, maçlar ve hava.</p>
 <p><b>🔎 Hızlı arama</b> — Ctrl+K (Mac'te ⌘K) ile tüm haberlerde ara. 📅 menüsünden geçmiş günlerin arşivine bak.</p>
 <p><b>📻 Dalga</b> — Canlı radyo. Çalmayan kanal için "Kanal testi"ni çalıştır, ölüleri tek tuşla gizle.</p>
+</details>
 </div>
 </div></div>
 <div class="modal" id="mList" role="dialog" aria-modal="true" aria-labelledby="mListTitle"><div class="moc sm">
@@ -313,6 +316,6 @@
 <button id="toTop" aria-label="Yukarı çık" title="Yukarı çık">↑</button>
 <div id="swBar" hidden>🔄 Yeni içerik hazır <button class="btn pri" id="swReload" style="padding:6px 12px;font-size:11.5px">Yenile</button></div>
 <div class="pop" id="pop"></div><div class="toasts" id="toasts" aria-live="polite"></div>
-<script src="app.js?v=37"></script>
+<script src="app.js?v=38"></script>
 </body>
 </html>

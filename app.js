@@ -72,6 +72,7 @@ window.onerror=function(msg,src){if(/^Script error\.?$/i.test(String(msg))||(src
 function toast(m,k){var t=document.createElement('div');t.className='toast'+(k?' '+k:'');t.innerHTML=m;$('#toasts').appendChild(t);
 setTimeout(function(){t.style.transition='opacity .3s,transform .3s';t.style.opacity='0';t.style.transform='translateX(18px)';setTimeout(function(){t.remove()},320)},3000)}
 function openM(id){$(id).classList.add('on');document.body.classList.add('lock')}
+function openMap(){LS.s('radar_mapseen',1);var mh=$('#mapHint');if(mh)mh.hidden=true;openM('#mGuide')}
 function closeM(){var coin=$('#mCoin').classList.contains('on');clearTimeout(window._rdT);if(window._rdDirty){window._rdDirty=false;setTimeout(renderFeed,0)}
 $$('.modal.on').forEach(function(m){m.classList.remove('on')});document.body.classList.remove('lock');stopSpeak();hidePop();
 if(coin){MT.detail=null;if(S.view==='market')wsSet(null)}}
@@ -1190,7 +1191,7 @@ $('#hello').textContent=g+' '+i}
 function tickClock(){$('#clockM').textContent=hhmm(new Date())}
 function fromURL(){try{var p=new URLSearchParams(location.search),v=p.get('v'),c=p.get('cat'),t=p.get('tone'),q=p.get('q');
 if(c&&(c==='all'||CATS[c]))S.cat=c;if(t&&['pozitif','nötr','negatif'].indexOf(t)>=0)S.tone=t;if(q)S.q=q;
-if(v&&['feed','market','radio','scores','saved','menu'].indexOf(v)>=0)S.view=v;
+if(v&&['feed','market','radio','scores','saved','menu'].indexOf(v)>=0)S.view=v;if(v==='harita')S.openMap=true;
 $$('#toneSeg button').forEach(function(b){b.classList.toggle('on',b.dataset.tone===S.tone)})}catch(e){}}
 function filterURL(){var p=new URLSearchParams();if(S.view!=='feed')p.set('v',S.view);if(S.cat!=='all')p.set('cat',S.cat);
 if(S.tone!=='all')p.set('tone',S.tone);if(S.q)p.set('q',S.q);var q=p.toString();return location.origin+location.pathname+(q?'?'+q:'')}
@@ -1306,7 +1307,14 @@ $('#cq').addEventListener('input',function(e){MT.cq=e.target.value;MT.clim=100;r
 $$('#cfSeg button').forEach(function(b){b.addEventListener('click',function(){MT.cf=b.dataset.f;MT.clim=100;renderMarket()})});
 $('#csSel').addEventListener('change',function(e){MT.cs=e.target.value;renderMarket()});
 $('#cMore').addEventListener('click',function(){MT.clim=10000;renderMarket()});
-$('#guideBtn').addEventListener('click',function(){openM('#mGuide')});
+// Site haritası: ?v=harita ile paylaşılabilir; ilk ziyarette akışın üstünde bir kez önerilir.
+$('#guideBtn').addEventListener('click',openMap);
+document.addEventListener('click',function(e){var t=e.target.closest('[data-hgo],[data-openmap],[data-maphide],#mapCopy');if(!t)return;
+if(t.id==='mapCopy'){var u=location.origin+location.pathname+'?v=harita';(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){toast('Link kopyalandı','ok')},function(){prompt('Linki kopyala:',u)});return}
+if(t.dataset.openmap!=null){openMap();return}
+if(t.dataset.maphide!=null){LS.s('radar_mapseen',1);$('#mapHint').hidden=true;return}
+closeM();if(t.dataset.hcat){S.cat=t.dataset.hcat;S.saved=false;S.limit=24}else if(t.dataset.hgo==='feed'){S.cat='all'}
+setView(t.dataset.hgo);if(t.dataset.hgo==='feed'){renderCats();renderFeed()}window.scrollTo(0,0)});
 $('#mListBody').addEventListener('click',function(e){var b=e.target.closest('[data-li]');if(!b)return;var n=DL_LIST[+b.dataset.li];closeM();if(n)openNews(n)});
 $('#nlSub').addEventListener('click',function(){
 var email=$('#nlEmail').value.trim();
@@ -1559,7 +1567,7 @@ applyTheme();hello();tickClock();renderPrefs();renderAbout();
 $('#trFrom').innerHTML=LANGS.map(function(l){return '<option value="'+l[0]+'">'+l[1]+'</option>'}).join('');
 $('#trTo').innerHTML=LANGS.filter(function(l){return l[0]!=='auto'}).map(function(l){return '<option value="'+l[0]+'"'+(l[0]==='en'?' selected':'')+'>'+l[1]+'</option>'}).join('');
 $('#plVol').value=S.vol;$('#goldPrim').value=GPRIM;$('#gpVal').textContent='%'+GPRIM;fillVoices();
-$('#cityNow').textContent=CITY.n;fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();
+$('#cityNow').textContent=CITY.n;fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();if(S.openMap)openMap();else if(!LS.g('radar_mapseen',0)){var mh=$('#mapHint');if(mh)mh.hidden=false}
 if(!wgDone){wgDone=true;widgets()}
 if(S.view!=='market')Promise.all([binLoad(),cgLoad(),fngLoad()]).then(function(){renderRail();renderFav()});
 // Varlık girilmişse altın alış fiyatı için worker'ı açılışta da çek (girilmemişse Nabız'a girilene kadar ertelenir).
