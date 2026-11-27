@@ -281,13 +281,36 @@ if(!S.later.size){$('#laterGrid').innerHTML='<div class="empty"><b>🕑</b><p>Li
 paintGrid($('#laterGrid'),a,0)}
 function toggleLike(l,el){var on=!S.liked.has(l);on?S.liked.add(l):S.liked.delete(l);
 LS.s('radar_liked',Array.from(S.liked));if(el){el.classList.toggle('liked',on);el.textContent=on?'♥':'♡'}}
+/* ================= VARLIKLARIM =================
+Girilen miktarlar yalnız bu tarayıcıda (localStorage). Değer = bozdurma: altında kuyumcu alış (truncgil),
+dövizde piyasa kuru (kaynak alış vermiyor; fark binde birkaç). Fiyatı olmayan kalem toplama katılmaz, not düşülür. */
+var VL=LS.g('radar_varlik',{g:0,c:0,u:0,e:0}),VLK=[['g','g gram','Gram altın',2],['c','çeyrek','Çeyrek',0],['u','$','Dolar',0],['e','€','Euro',0]];
+function vlHas(){return VLK.some(function(k){return +VL[k[0]]>0})}
+function vlPrices(){var hb={};wkAll().forEach(function(q){if(q.grp==='metal'&&q.alis>0)hb[normK(q.k)]=q});
+var gr=hb[normK('Gram Altın')],ce=hb[normK('Çeyrek Altın')],u=findFx('USDTRY'),e=findFx('EURTRY');
+return{g:gr?{v:gr.alis,p:gr.p}:null,c:ce?{v:ce.alis,p:ce.p}:null,
+u:u?{v:u.v,p:u.p}:(MK&&MK.usdtry?{v:MK.usdtry,p:null}:null),e:e?{v:e.v,p:e.p}:(MK&&MK.eurtry?{v:MK.eurtry,p:null}:null)}}
+function vlHTML(id){var P=vlPrices(),tot=0,chg=0,miss=[],parts=[],edit=VL._edit===id;
+if(edit)return '<div class="vlf">'+VLK.map(function(k){return '<label><span>'+k[2]+'</span><input class="inp" type="number" inputmode="decimal" min="0" step="any" data-vl="'+k[0]+'" value="'+(+VL[k[0]]||'')+'" placeholder="0"></label>'}).join('')+
+'<div class="vlb"><button class="btn pri" data-vlsave="'+id+'">Kaydet</button><button class="btn gh" data-vledit="">Vazgeç</button></div><p class="hint" style="margin:0">Yalnız bu cihazda saklanır, hiçbir yere gönderilmez.</p></div>';
+VLK.forEach(function(k){var q=+VL[k[0]]||0;if(!q)return;parts.push(nf(q,k[3]&&q%1?k[3]:0)+' '+k[1]);var pr=P[k[0]];if(!pr){miss.push(k[2]);return}
+var val=q*pr.v;tot+=val;if(pr.p!=null&&isFinite(pr.p))chg+=val-val/(1+pr.p/100)});
+if(!parts.length)return '<p class="hint" style="margin:0 0 8px">Altının ve dövizin bugün kaç TL ettiğini gör.</p><button class="btn gh" data-vledit="'+id+'">＋ Varlık ekle</button>';
+var c=Math.round(chg);
+return '<div class="vlt"><span>Bozdurursan</span><b>'+nf(tot,0)+' ₺</b>'+(c?'<i class="'+cls(c)+'">bugün '+(c>0?'+':'−')+nf(Math.abs(c),0)+' ₺</i>':'')+'</div>'+
+'<div class="vls">'+esc(parts.join(' · '))+'</div>'+(miss.length?'<p class="hint" style="margin:4px 0 0">⚠️ Fiyat yok, toplama katılmadı: '+esc(miss.join(', '))+'</p>':'')}
+function renderVL(){[['vlMain','m'],['vlRail','r']].forEach(function(x){var b=$('#'+x[0]);if(b)b.innerHTML=vlHTML(x[1])})}
+document.addEventListener('click',function(ev){var t=ev.target.closest('[data-vledit],[data-vlsave]');if(!t)return;
+if(t.dataset.vlsave!=null){var box=t.closest('.vlf');box.querySelectorAll('[data-vl]').forEach(function(i){var n=parseFloat(String(i.value).replace(',','.'));VL[i.dataset.vl]=isFinite(n)&&n>0?n:0});
+VL._edit='';LS.s('radar_varlik',{g:VL.g,c:VL.c,u:VL.u,e:VL.e});if(vlHas()&&!Object.keys(MT.wk).length)wkLoad().then(renderVL,renderVL);renderVL();toast('Varlıklar kaydedildi','ok');return}
+VL._edit=t.dataset.vledit;renderVL();var f=document.querySelector('.vlf input');if(f)f.focus()});
 /* ================= SAĞ RAY ================= */
 function renderRail(){var rows=[];
 var u=findFx('USDTRY');rows.push(['USD/TRY',u?u.v:(MK&&MK.usdtry),u?u.p:null,null]);
 var gbr=gramBase();rows.push(['Gram Altın',gbr.v,gbr.p,gbr.ha?gbr.ha.alis:null]);
 var b=MT.live.BTCTRY||MT.bin.filter(function(x){return x.sym==='BTCTRY'})[0];rows.push(['Bitcoin',b?b.v:(CR[0]&&CR[0].price),b?b.p:(CR[0]&&CR[0].change_pct),null]);
 var e=MT.live.ETHTRY||MT.bin.filter(function(x){return x.sym==='ETHTRY'})[0];rows.push(['Ethereum',e?e.v:(CR[1]&&CR[1].price),e?e.p:(CR[1]&&CR[1].change_pct),null]);
-$('#railMk').innerHTML=rows.map(function(r){return '<div class="kv"><span>'+r[0]+'</span><b>'+(r[3]!=null?fmtC(r[3])+' / ':'')+(r[1]!=null?fmtC(r[1]):'—')+(r[2]!=null?' <i class="'+cls(r[2])+'" style="font-style:normal;font-size:11px">'+pct(r[2])+'</i>':'')+'</b></div>'}).join('')}
+renderVL();$('#railMk').innerHTML=rows.map(function(r){return '<div class="kv"><span>'+r[0]+'</span><b>'+(r[3]!=null?fmtC(r[3])+' / ':'')+(r[1]!=null?fmtC(r[1]):'—')+(r[2]!=null?' <i class="'+cls(r[2])+'" style="font-style:normal;font-size:11px">'+pct(r[2])+'</i>':'')+'</b></div>'}).join('')}
 function favList(){var out=[];
 MT.bin.forEach(function(x){if(MT.cfav.has(x.sym))out.push({kind:'coin',r:x})});
 stPool().forEach(function(q){if(MT.stfav.has(q.k))out.push({kind:'stk',r:q})});
@@ -1532,6 +1555,8 @@ $('#plVol').value=S.vol;$('#goldPrim').value=GPRIM;$('#gpVal').textContent='%'+G
 $('#cityNow').textContent=CITY.n;fromURL();renderCats();renderFeed();setView(S.view);archInit();loadData();
 if(!wgDone){wgDone=true;widgets()}
 if(S.view!=='market')Promise.all([binLoad(),cgLoad(),fngLoad()]).then(function(){renderRail();renderFav()});
+// Varlık girilmişse altın alış fiyatı için worker'ı açılışta da çek (girilmemişse Nabız'a girilene kadar ertelenir).
+if(S.view!=='market'&&vlHas())wkLoad().then(renderVL,function(){});
 setInterval(function(){if(!S.arch&&!document.hidden)loadData()},3e5);
 setInterval(function(){hello();checkStale()},6e4);
 setInterval(tickClock,10000);
