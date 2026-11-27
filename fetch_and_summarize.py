@@ -499,13 +499,18 @@ def generate_daily_briefings(all_news):
     prompt = (
         "Sen RADAR adında bir haber asistanısın. Aşağıdaki haberleri okuyup 4 farklı alanda analiz yaz. "
         "Spekülasyon yapma, sadece verilen metinlere dayan. "
-        'Çıktıyı KESİNLİKLE şu JSON formatında ver: {"genel": "...", "teknoloji": "...", "ekonomi": "...", "gundem": "..."}\n'
+        '"maddeler" alanına günün en önemli 5 gelişmesini, her biri en fazla 15 kelimelik tek cümle olarak yaz. '
+        'Çıktıyı KESİNLİKLE şu JSON formatında ver: {"maddeler": ["...", "...", "...", "...", "..."], "genel": "...", "teknoloji": "...", "ekonomi": "...", "gundem": "..."}\n'
         "Haberler:\n" + haber_metni
     )
     try:
         raw = ask_ai(prompt)
         data = json.loads(clean_json_response(raw))
-        return {k: data.get(k, "Analiz yok.") for k in ["genel", "teknoloji", "ekonomi", "gundem"]}
+        out = {k: data.get(k, "Analiz yok.") for k in ["genel", "teknoloji", "ekonomi", "gundem"]}
+        m = [str(x).strip() for x in (data.get("maddeler") or []) if str(x).strip()][:6]
+        if len(m) >= 3:
+            out["maddeler"] = m  # 60 saniyede gündem (aynı çağrı, ek kota yok)
+        return out
     except Exception:
         return {}
 

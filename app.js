@@ -238,7 +238,13 @@ function rowArrows(id){var w=$('#'+id);if(!w)return;var over=!w.hidden&&w.scroll
 $('#'+id+'L').classList.toggle('show',over&&w.scrollLeft>4);
 $('#'+id+'R').classList.toggle('show',over&&w.scrollLeft<w.scrollWidth-w.clientWidth-4)}
 function catArrows(){rowArrows('cats');rowArrows('liveRow')}
-function renderBrief(){$('#briefText').textContent=BRIEF[S.brief]||'Analiz hazırlanamadı.';
+// 60 saniyede gündem: Özet sekmesi 5 madde; uzun paragraf "Devamını oku" ile. Maddeler yoksa (eski veri) en önemli 5 başlık.
+function briefItems(){var m=Array.isArray(BRIEF.maddeler)?BRIEF.maddeler:null;if(m&&m.length)return m;
+return NEWS.filter(function(n){return n.catId!=='oyun'}).slice().sort(function(a,b){return (b.score||0)-(a.score||0)}).slice(0,5).map(function(n){return n.title})}
+function renderBrief(){var bt=$('#briefText'),txt=BRIEF[S.brief]||'Analiz hazırlanamadı.';
+if(S.brief==='genel'){var it=briefItems();if(it.length){bt.innerHTML='<span class="b60h">⏱️ 60 saniyede gündem</span><ul class="b60">'+it.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>'+
+(S.briefOpen?'<span class="b60p">'+esc(txt)+'</span>':'')+'<button class="mini b60m" data-briefmore>'+(S.briefOpen?'Daha az ▲':'Devamını oku ▼')+'</button>'}else bt.textContent=txt}
+else bt.textContent=txt;
 $$('#briefTabs button').forEach(function(b){b.classList.toggle('on',b.dataset.b===S.brief)})}
 function fchip(label,val,key){return '<span class="fchip">'+label+': <b>'+esc(val)+'</b><span data-fc="'+key+'" role="button" tabindex="0" title="Bu filtreyi kaldır">✕</span></span>'}
 function renderFilterBar(){var b=$('#filterBar'),c=$('#filterChips');if(!b||!c)return;var p=[];
@@ -1281,8 +1287,9 @@ $('#toTop').addEventListener('click',function(){scrollTo({top:0,behavior:S.nomot
 $('#prefsToggle').addEventListener('click',function(){PREFS_OPEN=!PREFS_OPEN;LS.s('radar_prefs_open',PREFS_OPEN);renderPrefs()});
 $('#thRange').addEventListener('input',function(e){S.th=Number(e.target.value);$('#thVal').textContent='%'+S.th;LS.s('radar_alert_th',S.th);MT.alr={}});
 $$('#briefTabs button').forEach(function(b){b.addEventListener('click',function(){S.brief=b.dataset.b;stopSpeak();renderBrief()})});
+$('#briefText').addEventListener('click',function(e){if(e.target.closest('[data-briefmore]')){S.briefOpen=!S.briefOpen;renderBrief()}});
 $('#briefAI').addEventListener('click',function(e){e.stopPropagation();showAI($('#briefAI'),{model:META&&META.model,temperature:META&&META.temperature,prompt_version:META&&META.prompt_version,generated_at:META&&META.generated_at,method:'günlük analiz'})});
-$('#briefSpeak').addEventListener('click',function(){speak('Günün analizi. '+(BRIEF[S.brief]||''),$('#briefSpeak'),'brief')});
+$('#briefSpeak').addEventListener('click',function(){speak('Günün analizi. '+(S.brief==='genel'?briefItems().join('. ')+'. ':'')+(BRIEF[S.brief]||''),$('#briefSpeak'),'brief')});
 $$('#toneSeg button').forEach(function(b){b.addEventListener('click',function(){S.tone=b.dataset.tone;S.limit=24;
 $$('#toneSeg button').forEach(function(x){x.classList.toggle('on',x===b)});renderFeed()})});
 $('#moreBtn').addEventListener('click',function(){S.limit+=24;renderFeed()});
